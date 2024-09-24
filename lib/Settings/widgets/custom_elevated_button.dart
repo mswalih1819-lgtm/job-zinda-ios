@@ -13,6 +13,9 @@ class CustomElavatedTextButton extends StatelessWidget {
     this.padhorizondal,
     this.fontSize,
     this.bgcolor,
+    this.borderRadius,
+    this.textColor,
+    this.borderColor,
   });
 
   final void Function()? onPressed;
@@ -23,7 +26,10 @@ class CustomElavatedTextButton extends StatelessWidget {
   final double? padverticle;
   final double? padhorizondal;
   final Color? bgcolor;
+  final double? borderRadius;
+  final Color? borderColor;
 
+  final Color? textColor;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
@@ -37,7 +43,8 @@ class CustomElavatedTextButton extends StatelessWidget {
         maximumSize: Size(width ?? size.width - 40, height ?? 56),
         minimumSize: Size(width ?? size.width - 40, height ?? 56),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(48),
+          side: BorderSide(color: borderColor ?? PColors.seed),
+          borderRadius: BorderRadius.circular(borderRadius ?? 12),
         ),
       ),
       onPressed: onPressed,
@@ -46,6 +53,7 @@ class CustomElavatedTextButton extends StatelessWidget {
         textAlign: TextAlign.center,
         style: PTextStyles.titleMedium.copyWith(
           fontSize: fontSize ?? 16,
+          color: textColor,
           fontWeight: FontWeight.w600,
         ),
       ),

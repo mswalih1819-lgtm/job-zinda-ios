@@ -12,7 +12,9 @@ class SplashViewModel {
     // } else {
     //  await context.read<UserProfileViewModel>().getProfile();
     // ignore: use_build_context_synchronously
-    Navigator.pushReplacementNamed(context, PPages.welcomePageUi);
+ Future.delayed(Duration.zero, () {
+      Navigator.pushReplacementNamed(context, PPages.welcomePageUi);
+    });
     // }
   }
 }

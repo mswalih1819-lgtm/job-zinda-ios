@@ -8,33 +8,60 @@ class CustomIconElevatedButton extends StatelessWidget {
     super.key,
     this.onPressed,
     required this.text,
-    required this.svgIcon,
+    required this.icon,
     this.width,
+    this.height,
+    this.padverticle,
+    this.padhorizondal,
+    this.fontSize,
+    this.bgcolor,
+    this.borderRadius,
+    this.textColor,
+    this.borderColor,
   });
 
   final void Function()? onPressed;
   final String text;
-  final String svgIcon;
+  final Widget icon;
+
   final double? width;
+  final double? height;
+  final double? fontSize;
+  final double? padverticle;
+  final double? padhorizondal;
+  final Color? bgcolor;
+  final double? borderRadius;
+  final Color? borderColor;
+
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
     return ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: PColors.seed,
+     style: ElevatedButton.styleFrom(
+        backgroundColor: bgcolor ?? PColors.seed,
         foregroundColor: PColors.white,
-        fixedSize: Size(width ?? size.width - 32, 60),
+        padding: EdgeInsets.symmetric(
+            vertical: padverticle ?? 8, horizontal: padhorizondal ?? 16),
+        fixedSize: Size(width ?? size.width - 40, height ?? 56),
+        maximumSize: Size(width ?? size.width - 40, height ?? 56),
+        minimumSize: Size(width ?? size.width - 40, height ?? 56),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(48),
+          side: BorderSide(color: borderColor ?? PColors.seed),
+          borderRadius: BorderRadius.circular(borderRadius ?? 12),
         ),
       ),
       onPressed: onPressed,
-      icon: SvgPicture.asset(svgIcon),
-      label: Text(
+      icon: icon,
+      label:Text(
         text,
         textAlign: TextAlign.center,
-        style: PTextStyles.titleMedium,
+        style: PTextStyles.titleMedium.copyWith(
+          fontSize: fontSize ?? 16,
+          color: textColor,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

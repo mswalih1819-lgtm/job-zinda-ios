@@ -14,8 +14,7 @@ class SplashUi extends StatelessWidget {
       body: Center(
         // child: CustomAppLogo(),
         child: Image.asset(
-          '',
-          // PImages.transbusLogo,
+          PImages.logo,
           height: 150,
           width: 150,
         ),

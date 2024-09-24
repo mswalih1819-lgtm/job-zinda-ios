@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/Pfonts.dart';
 
 class PTextStyles {
@@ -54,6 +55,7 @@ class PTextStyles {
         fontFamily: PFonts.roboto,
         fontWeight: FontWeight.w500,
         fontSize: 14,
+        color: PColors.textFeildBorderColor
       );
 
   static TextStyle get labelLarge => TextStyle(

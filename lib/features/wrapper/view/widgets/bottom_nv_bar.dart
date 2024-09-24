@@ -1,0 +1,137 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:jora_customer/Settings/until/PSvgs.dart';
+import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/features/wrapper/view_model/view_model.dart';
+import 'package:provider/provider.dart';
+
+class BottomNavBar extends StatelessWidget {
+  const BottomNavBar({super.key});
+  final int _selectedIndex = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Selector<WrapperViewModel, String>(
+      selector: (p0, p1) => p1.viewStatus,
+      builder: (context, value, child) => BottomAppBar(
+        elevation: 1,
+        height: 96,
+        shadowColor: PColors.white,
+        color: PColors.black,
+        child: Container(
+          decoration: BoxDecoration(
+              color: PColors.black,
+              border: Border(
+                  top: BorderSide(color: PColors.white.withOpacity(0.3)))),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  bottombaritem(
+                      icon: PSvgs.home,
+                      label: "Home",
+                      fun: () {
+                        context
+                            .read<WrapperViewModel>()
+                            .updatePageView(WrapperViewStatus.home);
+                      },
+                      selected: value == WrapperViewStatus.home),
+                  bottombaritem(
+                      icon: PSvgs.search,
+                      label: "Search",
+                      fun: () {
+                        context
+                            .read<WrapperViewModel>()
+                            .updatePageView(WrapperViewStatus.search);
+                      },
+                      selected: value == WrapperViewStatus.search),
+                  bottombaritem(
+                      icon: PSvgs.upload,
+                      label: "Upload",
+                      fun: () {
+                        openBottomseet(context);
+                      },
+                      selected: value == WrapperViewStatus.upload),
+                  bottombaritem(
+                      icon: PSvgs.navigation,
+                      label: "Connection",
+                      fun: () {
+                        context
+                            .read<WrapperViewModel>()
+                            .updatePageView(WrapperViewStatus.connect);
+                      },
+                      selected: value == WrapperViewStatus.connect),
+                  bottombaritem(
+                      icon: PSvgs.profile,
+                      label: "Profile",
+                      fun: () {
+                        context
+                            .read<WrapperViewModel>()
+                            .updatePageView(WrapperViewStatus.profile);
+                      },
+                      selected: value == WrapperViewStatus.profile)
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  bottombaritem(
+      {required String label,
+      required String icon,
+      required Function()? fun,
+      required bool selected}) {
+    return GestureDetector(
+      onTap: fun,
+      child: Container(
+          child: Column(
+        children: [
+          SvgPicture.asset(
+            icon,
+            color: selected ? PColors.white : null,
+            height: label == 'Upload' ? 50 : 24,
+          ),
+          SizedBox(
+            height: 9,
+          ),
+          label == 'Upload'
+              ? Container()
+              : Container(
+                  color: selected ? PColors.white : PColors.black,
+                  height: 2,
+                  width: 40,
+                )
+          // Divider(w
+          //   color: selected ? PColors.white : PColors.black,
+          // )
+        ],
+      )),
+    );
+  }
+
+  openBottomseet(BuildContext context) {
+    // var model = context.read<SignUpViewModel>();
+    // print("ggg--${model.signupView}");
+    // if (model.signupView == SignupView.emplyeeSignup) {
+    //   context.read<WrapperViewModel>().updatePageView(WrapperViewStatus.upload);
+    //   showModalBottomSheet(
+    //     context: context,
+    //     builder: (context) => UploadPagesUi(),
+    //   );
+    // } else {
+    //   context
+    //       .read<WrapperViewModel>()
+    //       .updatePageView(WrapperViewStatus.employer_upload);
+    //   showModalBottomSheet(
+    //     context: context,
+    //     builder: (context) => EmployerUploadPagesUi(),
+    //   );
+    // }
+  }
+}
