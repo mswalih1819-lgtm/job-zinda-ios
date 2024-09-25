@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: PColors.seed,
         // fontFamily: PFonts.plusJakartaSansBold,
         colorScheme: ColorScheme.fromSeed(seedColor: PColors.seed),
+        iconTheme: IconThemeData(color: PColors.white),
         useMaterial3: true,
         appBarTheme: AppBarTheme(
           backgroundColor: PColors.seed,

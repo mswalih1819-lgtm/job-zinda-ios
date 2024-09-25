@@ -48,6 +48,7 @@ dependencies:
   shared_preferences: ^2.3.2
   dots_indicator: ^3.0.0
   flutter_rating: ^2.0.2
+  readmore: ^3.0.0
 
 dev_dependencies:
   flutter_test:

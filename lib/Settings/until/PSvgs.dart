@@ -16,5 +16,16 @@ class PSvgs {
   static String get comment => "assets/svgs/comment.svg";
   static String get call => "assets/svgs/call.svg";
 
+  static String get chat => "assets/svgs/chat.svg";
+  static String get heart => "assets/svgs/heart.svg";
+  static String get share => "assets/svgs/share.svg";
+  static String get add_status => "assets/svgs/add_status.svg";
+
+  static String get unfollow => "assets/svgs/unfollow.svg";
+  static String get share_profile => "assets/svgs/share_profile.svg";
+  static String get report => "assets/svgs/report.svg";
+
+
+
   // static String get sv => "assets/svgs/.svg";
 }

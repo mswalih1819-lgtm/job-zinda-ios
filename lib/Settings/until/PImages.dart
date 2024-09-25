@@ -13,6 +13,13 @@ class PImages {
   static String get google => "assets/images/google.png";
   static String get phone => "assets/images/phone.png";
 
+  static String get image1 => "assets/images/image1.png";
+  static String get image2 => "assets/images/image2.png";
+  static String get pro_pic1 => "assets/images/pro_pic1.png";
+  static String get pro_pic2 => "assets/images/pro_pic2.png";
+  static String get post_pic => "assets/images/post_pic.png";
+
+
 
  
   // static String get  => "assets/images/.jpg";
