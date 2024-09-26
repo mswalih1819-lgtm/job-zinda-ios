@@ -10,6 +10,10 @@ class PPages {
   static const String wrapperView = "/wrapperView";
   static const String helpSupportUi = "/helpSupportUi";
   static const String sendFeedbackUi = "/sendFeedbackUi";
+  static const String notificationsUi = "/notificationsUi";
+  static const String chatPageUi = "/chatPageUi";
+  static const String addPostUi = "/addPostUi";
+  static const String chatDetailsPageui = "/chatDetailsPageui";
 
 
   

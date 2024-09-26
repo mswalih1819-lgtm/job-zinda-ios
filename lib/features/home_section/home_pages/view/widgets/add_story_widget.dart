@@ -12,7 +12,7 @@ class AddstorywidgetUi extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-   return Container(
+    return Container(
       // width: size.width * 0.26,
       height: size.height * 0.2,
       margin: EdgeInsets.symmetric(horizontal: 4),
@@ -22,14 +22,18 @@ class AddstorywidgetUi extends StatelessWidget {
           Column(
             children: [
               Container(
-                height: size.height * .19,
-                width: size.width * 0.26,
-                margin: EdgeInsets.all(0),decoration: BoxDecoration(
-                color: PColors.black2,
-                  
-                  borderRadius: BorderRadius.circular(8),),
-                child: Center(child: SvgPicture.asset(PSvgs.add_status,height: 50,))
-              ),
+                  height: size.height * .19,
+                  width: size.width * 0.26,
+                  margin: EdgeInsets.all(0),
+                  decoration: BoxDecoration(
+                    color: PColors.black2,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Center(
+                      child: SvgPicture.asset(
+                    PSvgs.add_status,
+                    height: 40,
+                  ))),
               SizedBox(
                 height: 35,
               ),
@@ -51,12 +55,11 @@ class AddstorywidgetUi extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
               ),
-              child:SvgPicture.asset(PSvgs.profile),
+              child: SvgPicture.asset(PSvgs.profile),
             ),
           )
         ],
       ),
     );
   }
-  
 }

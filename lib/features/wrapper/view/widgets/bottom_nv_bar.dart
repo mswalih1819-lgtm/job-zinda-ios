@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/features/upload_pages/view/ui.dart';
 import 'package:jora_customer/features/wrapper/view_model/view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -116,22 +117,12 @@ class BottomNavBar extends StatelessWidget {
   }
 
   openBottomseet(BuildContext context) {
-    // var model = context.read<SignUpViewModel>();
-    // print("ggg--${model.signupView}");
-    // if (model.signupView == SignupView.emplyeeSignup) {
-    //   context.read<WrapperViewModel>().updatePageView(WrapperViewStatus.upload);
-    //   showModalBottomSheet(
-    //     context: context,
-    //     builder: (context) => UploadPagesUi(),
-    //   );
-    // } else {
-    //   context
-    //       .read<WrapperViewModel>()
-    //       .updatePageView(WrapperViewStatus.employer_upload);
-    //   showModalBottomSheet(
-    //     context: context,
-    //     builder: (context) => EmployerUploadPagesUi(),
-    //   );
-    // }
+    showModalBottomSheet(
+      shape: BeveledRectangleBorder(),
+      backgroundColor: PColors.black,
+        context: context,
+        builder: (context) => UploadPagesUi(),
+      );
+   
   }
 }

@@ -17,8 +17,14 @@ class PColors {
   static Color get red => const Color(0xffE53935);
   static Color get greyColor => const Color(0xffB3B5CC);
   static Color get black2 => const Color(0xff1A1A1A);
+  static Color get seed2 => const Color(0xff292929);
+
   static Color get whiteOff => const Color(0xffE6E6E6);
   static Color get yellow => const Color(0xffF8FFB1);
+  static Color get grad1 => const Color(0xff4CC9D5);
+  static Color get grad2 => const Color(0xff7FD176);
+
+
 
 
 

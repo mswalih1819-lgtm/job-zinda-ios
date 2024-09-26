@@ -125,7 +125,7 @@ class _CustomTextFeildState extends State<CustomTextFeild> {
           maxLines: widget.maxLine ?? 1,
           maxLength: widget.maxLength,
           style: TextStyle(
-            color: PColors.black,
+            color: widget.textColor?? PColors.white,
             fontSize: 16,
             fontFamily: PFonts.inter,
             fontWeight: FontWeight.w600,

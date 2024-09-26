@@ -24,11 +24,19 @@ class HomeAppbar extends StatelessWidget {
         const SizedBox(
           width: 20,
         ),
-        SvgPicture.asset(PSvgs.message),
+        GestureDetector(
+            onTap: () {
+              // Navigator.pushNamed(context, PPages.chatPageUi);
+            },
+            child: SvgPicture.asset(PSvgs.message)),
         const SizedBox(
           width: 20,
         ),
-        SvgPicture.asset(PSvgs.notification),
+        GestureDetector(
+            onTap: () {
+              // Navigator.pushNamed(context, PPages.notificationsUi);
+            },
+            child: SvgPicture.asset(PSvgs.notification)),
         const SizedBox(
           width: 20,
         ),

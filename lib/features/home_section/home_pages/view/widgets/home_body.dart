@@ -71,15 +71,15 @@ class HomeBodyUi extends StatelessWidget {
       children: [
         Row(
           children: [
-            SvgPicture.asset(PSvgs.heart),
+            SvgPicture.asset(PSvgs.heart,height: 20,),
             SizedBox(
               width: 8,
             ),
-            SvgPicture.asset(PSvgs.chat),
+            SvgPicture.asset(PSvgs.chat,height: 20,),
             SizedBox(
               width: 8,
             ),
-            SvgPicture.asset(PSvgs.share),
+            SvgPicture.asset(PSvgs.share,height: 20,),
           ],
         ),
         Row(

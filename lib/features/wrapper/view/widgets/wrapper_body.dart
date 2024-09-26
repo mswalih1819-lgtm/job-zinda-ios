@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:jora_customer/features/home_section/home_pages/view/ui.dart';
+import 'package:jora_customer/features/search_section/view/ui.dart';
 import 'package:jora_customer/features/wrapper/view_model/view_model.dart';
 import 'package:provider/provider.dart';
 class WrapperBody extends StatelessWidget {
@@ -19,7 +20,7 @@ class WrapperBody extends StatelessWidget {
           case WrapperViewStatus.home:
             return const HomePageUi();
           case WrapperViewStatus.search:
-            return  Container();
+            return  SearchSectionUi();
 
 
           case WrapperViewStatus.upload:

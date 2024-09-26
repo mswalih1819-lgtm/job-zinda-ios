@@ -13,8 +13,8 @@ class HomePageUi extends StatelessWidget {
     return Scaffold(
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(80), child: HomeAppbar()),
-      floatingActionButton: HomeFloatingActionButtonUi(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: HomeFloatingActionButtonUi(),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 10),

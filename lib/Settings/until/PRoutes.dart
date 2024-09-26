@@ -1,3 +1,5 @@
+import 'package:jora_customer/features/chat_section/chat_details_page/view/ui.dart';
+import 'package:jora_customer/features/chat_section/chat_pages/view/ui.dart';
 import 'package:jora_customer/features/help_support/view/ui.dart';
 import 'package:jora_customer/features/help_support/view/widgets/send_feedback_ui.dart';
 import 'package:jora_customer/features/home_section/home_pages/view/ui.dart';
@@ -6,6 +8,8 @@ import 'package:jora_customer/features/login_section/login_splash/view/widgets/l
 import 'package:jora_customer/features/login_section/login_welcome_screen/view/ui.dart';
 import 'package:jora_customer/features/login_section/otp_verify/view/ui.dart';
 import 'package:jora_customer/features/login_section/phone_number_ui/view/ui.dart';
+import 'package:jora_customer/features/notifications/notification_pages/view/ui.dart';
+import 'package:jora_customer/features/upload_pages/view/widgets/add_post.dart';
 import 'package:jora_customer/features/welcome/view/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
@@ -58,9 +62,26 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => HelpSupportUi(),
         );
-        case PPages.sendFeedbackUi:
+      case PPages.sendFeedbackUi:
         return MaterialPageRoute(
           builder: (context) => SendFeedbackUi(),
+        );
+
+      case PPages.notificationsUi:
+        return MaterialPageRoute(
+          builder: (context) => NotificationsUi(),
+        );
+      case PPages.chatPageUi:
+        return MaterialPageRoute(
+          builder: (context) => ChatPageUi(),
+        );
+      case PPages.addPostUi:
+        return MaterialPageRoute(
+          builder: (context) => AddPostUi(),
+        );
+         case PPages.chatDetailsPageui:
+        return MaterialPageRoute(
+          builder: (context) => ChatDetailsPageui(),
         );
 
       default:

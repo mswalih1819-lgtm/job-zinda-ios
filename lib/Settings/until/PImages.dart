@@ -17,7 +17,14 @@ class PImages {
   static String get image2 => "assets/images/image2.png";
   static String get pro_pic1 => "assets/images/pro_pic1.png";
   static String get pro_pic2 => "assets/images/pro_pic2.png";
+  static String get pro_pic3=> "assets/images/pro_pic3.png";
+
   static String get post_pic => "assets/images/post_pic.png";
+  static String get cover_pic1 => "assets/images/cover_pic1.png";
+  static String get cover_pic2 => "assets/images/cover_pic2.png";
+  static String get photo => "assets/images/photo.png";
+
+
 
 
 

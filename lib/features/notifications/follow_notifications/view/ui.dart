@@ -1,0 +1,20 @@
+import 'package:flutter/material.dart';
+import 'package:jora_customer/features/notifications/follow_notifications/view/widgets/follow_single_notification.dart';
+
+class FollowNotificationWidget extends StatelessWidget {
+  const FollowNotificationWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 13),
+      child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: 4,
+        itemBuilder: (context, index) => FollowSingleNotificationUi(),
+      ),
+    );
+  }
+
+}

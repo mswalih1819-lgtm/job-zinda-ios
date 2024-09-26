@@ -1,0 +1,39 @@
+import 'package:flutter/material.dart';
+import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/features/chat_section/all_chat_widget/view/ui.dart';
+import 'package:jora_customer/features/chat_section/chat_pages/view/widgets/chat_filter.dart';
+import 'package:jora_customer/features/chat_section/chat_pages/view_model/view_model.dart';
+import 'package:jora_customer/features/chat_section/unread_chat_widget/view/ui.dart';
+import 'package:provider/provider.dart';
+
+class PrimaryChatWidgetUi extends StatelessWidget {
+  const PrimaryChatWidgetUi({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ChatFilterUi(),
+        main()
+      ],
+    );
+  }
+
+  Widget main() {
+    return Selector<ChatViewModel, String>(
+      selector: (p0, p1) => p1.allUnreadView,
+      builder: (context, value, child) {
+        switch (value) {
+          case ChatViewStatus.all:
+            return AllChatWidgetUi();
+          case ChatViewStatus.unread:
+            return UnreadChatWidgetUi();
+
+          default:
+            return  AllChatWidgetUi();
+        }
+      },
+    );
+  }
+}

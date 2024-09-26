@@ -25,6 +25,25 @@ class PSvgs {
   static String get share_profile => "assets/svgs/share_profile.svg";
   static String get report => "assets/svgs/report.svg";
 
+  static String get like => "assets/svgs/like.svg";
+  static String get reply => "assets/svgs/reply.svg";
+  static String get delete => "assets/svgs/delete.svg";
+
+  static String get share_story => "assets/svgs/share_story.svg";
+  static String get share_post => "assets/svgs/share_post.svg";
+
+  static String get audio => "assets/svgs/audio.svg";
+  static String get video => "assets/svgs/video.svg";
+  static String get plus => "assets/svgs/plus.svg";
+  static String get emoji => "assets/svgs/emoji.svg";
+  static String get camera => "assets/svgs/camera.svg";
+
+
+
+
+
+
+
 
 
   // static String get sv => "assets/svgs/.svg";
