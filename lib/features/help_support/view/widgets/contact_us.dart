@@ -19,7 +19,7 @@ class ContactUsUi extends StatelessWidget {
             child: textWidget(text: "Contact us", color: PColors.whiteOff)),
         contentWidget(icon: PSvgs.call, title: "Call",onTap: (){}),
         contentWidget(icon: PSvgs.mail, title: "Email",onTap: (){}),
-        contentWidget(icon: PSvgs.comment, title: "Send Feedback",onTap: (){
+        contentWidget(icon: PSvgs.feedback, title: "Send Feedback",onTap: (){
 
           Navigator.pushNamed(context, PPages.sendFeedbackUi);
         }),

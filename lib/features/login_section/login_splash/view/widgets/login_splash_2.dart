@@ -12,7 +12,10 @@ class LoginSplash2Ui extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: false,
+        actions: [GestureDetector(
+          onTap: (){Navigator.pop(context);},
+          child: Icon(Icons.close,color: PColors.whiteOff.withOpacity(0.5),)),SizedBox(width: 20,)],
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 17),
@@ -68,7 +71,10 @@ class LoginSplash2Ui extends StatelessWidget {
           },
           bgcolor: PColors.white,
           textColor: PColors.black,
-        )
+        ),
+          SizedBox(
+              height: 10,
+            ),
       ],
     );
   }

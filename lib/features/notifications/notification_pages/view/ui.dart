@@ -14,7 +14,7 @@ class NotificationsUi extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: 17, horizontal: 0),
+          margin: EdgeInsets.symmetric(vertical: 17, ),
           child: Column(
             children: [
               NotificationFilterSection(),

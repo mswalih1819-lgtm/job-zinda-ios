@@ -54,7 +54,8 @@ class _SendFeedbackUiState extends State<SendFeedbackUi> {
                 ],
               ),
             ),
-            button()
+            button(),
+            SizedBox(height: 10,)
           ],
         ),
       ),
@@ -80,7 +81,7 @@ class _SendFeedbackUiState extends State<SendFeedbackUi> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        textWidget(text: "Optional"),
+        textWidget(text: "Optional",color: PColors.white.withOpacity(0.6)),
         SizedBox(
           height: 30,
         ),

@@ -44,10 +44,10 @@ class StorySingleWidgetUi extends StatelessWidget {
             ],
           ),
           Positioned(
-            top: (size.height * 0.19) - (50 / 2),
+            top: (size.height * 0.19) - (46 / 2),
             child: Container(
-              height: 50.0,
-              width: 50.0,
+              height: 46.0,
+              width: 46.0,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
               ),

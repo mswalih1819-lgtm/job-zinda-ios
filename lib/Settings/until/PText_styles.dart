@@ -53,11 +53,16 @@ class PTextStyles {
 
   static TextStyle get titleSmall => TextStyle(
         fontFamily: PFonts.roboto,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w400,
         fontSize: 14,
         color: PColors.textFeildBorderColor
       );
-
+ static TextStyle get hinttext => TextStyle(
+        fontFamily: PFonts.roboto,
+        fontWeight: FontWeight.w400,
+        fontSize: 14,
+        color: PColors.white.withOpacity(0.8)
+      );
   static TextStyle get labelLarge => TextStyle(
         fontFamily: PFonts.inter,
         fontWeight: FontWeight.w500,

@@ -1,5 +1,9 @@
-import 'package:jora_customer/features/chat_section/chat_details_page/view/ui.dart';
+import 'package:jora_customer/features/chat_details_page/view/ui.dart';
 import 'package:jora_customer/features/chat_section/chat_pages/view/ui.dart';
+import 'package:jora_customer/features/connect_pages/filter_freelancers/view/ui.dart';
+import 'package:jora_customer/features/edit_profile/view/ui.dart';
+import 'package:jora_customer/features/profile_analytics/view/ui.dart';
+import 'package:jora_customer/features/profile_view/view/ui.dart';
 import 'package:jora_customer/features/help_support/view/ui.dart';
 import 'package:jora_customer/features/help_support/view/widgets/send_feedback_ui.dart';
 import 'package:jora_customer/features/home_section/home_pages/view/ui.dart';
@@ -82,6 +86,22 @@ class Routes {
          case PPages.chatDetailsPageui:
         return MaterialPageRoute(
           builder: (context) => ChatDetailsPageui(),
+        );
+         case PPages.editProfileUi:
+        return MaterialPageRoute(
+          builder: (context) => EditProfileUi(),
+        );
+         case PPages.profileView:
+        return MaterialPageRoute(
+          builder: (context) => ProfileViewUi(),
+        );
+          case PPages.freelancerFilterPageUi:
+        return MaterialPageRoute(
+          builder: (context) => FreelancerFilterPageUi(),
+        );
+        case PPages.profileAnalyticsPageUi:
+        return MaterialPageRoute(
+          builder: (context) => ProfileAnalyticsPageUi(),
         );
 
       default:

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:jora_customer/features/connect_pages/map_section/view/ui.dart';
 import 'package:jora_customer/features/home_section/home_pages/view/ui.dart';
+import 'package:jora_customer/features/my_profile/view/ui.dart';
+import 'package:jora_customer/features/other_user_profile/view/ui.dart';
+import 'package:jora_customer/features/profile_view/view/ui.dart';
 import 'package:jora_customer/features/search_section/view/ui.dart';
 import 'package:jora_customer/features/wrapper/view_model/view_model.dart';
 import 'package:provider/provider.dart';
+
 class WrapperBody extends StatelessWidget {
   const WrapperBody({super.key});
 
@@ -20,18 +24,19 @@ class WrapperBody extends StatelessWidget {
           case WrapperViewStatus.home:
             return const HomePageUi();
           case WrapperViewStatus.search:
-            return  SearchSectionUi();
-
+            return SearchSectionUi();
 
           case WrapperViewStatus.upload:
-            return  Container();
-          case WrapperViewStatus.connect:
-             return  Container();
+            return Container();
+          // case WrapperViewStatus.connect:
+          //   return ConnectPagesUi();
 
           case WrapperViewStatus.profile:
-             return  Container();
-
-       
+            return MyProfileUi();
+          case WrapperViewStatus.otherProfile:
+            return OtherUserProfileUi();
+          case WrapperViewStatus.profile_view:
+            return ProfileViewUi();
           default:
             return const HomePageUi();
         }

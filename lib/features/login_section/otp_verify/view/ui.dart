@@ -39,7 +39,10 @@ class OtpPageUi extends StatelessWidget {
                 const OtpNumberFeild(),
               ],
             )),
-            OtpButtonsUi()
+            OtpButtonsUi(),
+              SizedBox(
+              height: 10,
+            ),
           ],
         ),
       ),

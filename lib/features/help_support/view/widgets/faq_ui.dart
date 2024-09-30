@@ -14,13 +14,16 @@ class FaqUi extends StatelessWidget {
         Container(
             margin: EdgeInsets.only(left: 17, bottom: 20, top: 20),
             child: textWidget(text: "FAQ’s", color: PColors.whiteOff)),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: 10,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return singleCard();
-          },
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: 10,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return singleCard();
+            },
+          ),
         )
       ],
     );
@@ -41,7 +44,7 @@ class FaqUi extends StatelessWidget {
               title: textWidget(
                   text:
                       "To manage notifications, go to Settings, select Notification Settings and customize your preferences.",
-                  color: PColors.whiteOff,
+                  color: PColors.whiteOff.withOpacity(0.5),
                   fontsize: 13),
             ),
             SizedBox(

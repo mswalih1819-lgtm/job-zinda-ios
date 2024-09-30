@@ -46,7 +46,10 @@ class PhoneNumberUi extends StatelessWidget {
                 ),
               ),
             ),
-            button(context)
+            button(context),
+              SizedBox(
+              height: 10,
+            ),
           ],
         ),
       ),

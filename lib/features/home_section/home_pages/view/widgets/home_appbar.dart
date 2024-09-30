@@ -26,7 +26,7 @@ class HomeAppbar extends StatelessWidget {
         ),
         GestureDetector(
             onTap: () {
-              // Navigator.pushNamed(context, PPages.chatPageUi);
+              Navigator.pushNamed(context, PPages.chatPageUi);
             },
             child: SvgPicture.asset(PSvgs.message)),
         const SizedBox(
@@ -34,7 +34,7 @@ class HomeAppbar extends StatelessWidget {
         ),
         GestureDetector(
             onTap: () {
-              // Navigator.pushNamed(context, PPages.notificationsUi);
+              Navigator.pushNamed(context, PPages.notificationsUi);
             },
             child: SvgPicture.asset(PSvgs.notification)),
         const SizedBox(

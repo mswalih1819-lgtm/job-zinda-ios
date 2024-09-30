@@ -14,6 +14,7 @@ class ChatBottomBarUi extends StatelessWidget {
       // EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
         height: 50,
+        margin: EdgeInsets.only(bottom: 14),
         width: MediaQuery.of(context).size.width,
         // color:PColors.seed2,
         child: Row(

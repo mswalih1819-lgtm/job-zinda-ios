@@ -13,7 +13,7 @@ class FollowSingleNotificationUi extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
           border: Border(
-              bottom: BorderSide(color: PColors.whiteOff.withOpacity(0.4)))),
+              bottom: BorderSide(color: PColors.whiteOff.withOpacity(0.5)))),
       child: Padding(
         padding: const EdgeInsets.only(bottom: 9.0),
         child: Row(
@@ -24,7 +24,7 @@ class FollowSingleNotificationUi extends StatelessWidget {
               backgroundImage: AssetImage(PImages.pro_pic3),
             ),
             SizedBox(
-              width: 10,
+              width: 13,
             ),
             Expanded(child: secondColumn()),
             Column(

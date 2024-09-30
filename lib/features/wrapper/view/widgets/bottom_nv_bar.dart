@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
-import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/features/upload_pages/view/ui.dart';
 import 'package:jora_customer/features/wrapper/view_model/view_model.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +56,7 @@ class BottomNavBar extends StatelessWidget {
                       },
                       selected: value == WrapperViewStatus.upload),
                   bottombaritem(
-                      icon: PSvgs.navigation,
+                      icon: PSvgs.connect,
                       label: "Connection",
                       fun: () {
                         context
@@ -73,7 +72,7 @@ class BottomNavBar extends StatelessWidget {
                             .read<WrapperViewModel>()
                             .updatePageView(WrapperViewStatus.profile);
                       },
-                      selected: value == WrapperViewStatus.profile)
+                      selected:value == WrapperViewStatus.profile_view|| value == WrapperViewStatus.profile||value==WrapperViewStatus.otherProfile)
                 ],
               ),
             ),
@@ -95,7 +94,7 @@ class BottomNavBar extends StatelessWidget {
         children: [
           SvgPicture.asset(
             icon,
-            color: selected ? PColors.white : null,
+            // color: selected ? PColors.white : null,
             height: label == 'Upload' ? 50 : 24,
           ),
           SizedBox(

@@ -6,6 +6,10 @@ class WrapperViewStatus {
   static const String profile = "Profile";
   static const String upload = "Upload";
   static const String connect = "Connection";
+  static const String otherProfile = "Other Profile";
+  static const String profile_view = "Profile view";
+
+
 
 
 

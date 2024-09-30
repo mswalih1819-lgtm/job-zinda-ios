@@ -3,7 +3,7 @@ class PImages {
   static String get example => "assets/images/example.png";
 
   static String get welcome1 => "assets/images/welcome1.png";
-  static String get welcome=> "assets/images/welcome.png";
+  static String get welcome => "assets/images/welcome.png";
 
   static String get welcome2 => "assets/images/welcome2.png";
   static String get welcome3 => "assets/images/welcome3.png";
@@ -17,17 +17,22 @@ class PImages {
   static String get image2 => "assets/images/image2.png";
   static String get pro_pic1 => "assets/images/pro_pic1.png";
   static String get pro_pic2 => "assets/images/pro_pic2.png";
-  static String get pro_pic3=> "assets/images/pro_pic3.png";
+  static String get pro_pic3 => "assets/images/pro_pic3.png";
 
   static String get post_pic => "assets/images/post_pic.png";
   static String get cover_pic1 => "assets/images/cover_pic1.png";
+  static String get cover_pic3 => "assets/images/cover_pic3.png";
+
   static String get cover_pic2 => "assets/images/cover_pic2.png";
   static String get photo => "assets/images/photo.png";
 
+  static String get gallery1 => "assets/images/gallery1.png";
+  static String get gallery2 => "assets/images/gallery2.png";
 
+  static String get chat_image1 => "assets/images/chat_image1.png";
+  static String get navigation => "assets/images/navigation.png";
 
+  static String get open_gift_box => "assets/images/open_gift_box.png";
 
-
- 
   // static String get  => "assets/images/.jpg";
 }

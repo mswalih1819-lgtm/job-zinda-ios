@@ -51,7 +51,7 @@ class ChatFilterUi extends StatelessWidget {
               textWidget(
                   text: str,
                   fontsize: 13,
-                  color: PColors.whiteOff.withOpacity(0.8),
+                  color:selected?PColors.white: PColors.whiteOff.withOpacity(0.8),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1),
               SizedBox(

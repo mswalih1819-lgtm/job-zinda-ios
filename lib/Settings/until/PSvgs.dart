@@ -11,8 +11,12 @@ class PSvgs {
   static String get profile => "assets/svgs/profile.svg";
   static String get navigation => "assets/svgs/navigation.svg";
   static String get upload => "assets/svgs/upload.svg";
+  static String get feedback => "assets/svgs/feedback.svg";
+  static String get audio_call => "assets/svgs/audio_call.svg";
 
   static String get mail => "assets/svgs/mail.svg";
+  static String get connect => "assets/svgs/connect.svg";
+
   static String get comment => "assets/svgs/comment.svg";
   static String get call => "assets/svgs/call.svg";
 
@@ -38,13 +42,13 @@ class PSvgs {
   static String get emoji => "assets/svgs/emoji.svg";
   static String get camera => "assets/svgs/camera.svg";
 
+  static String get camera_grad => "assets/svgs/camera_grad.svg";
+  static String get message_grad => "assets/svgs/message_grad.svg";
+  static String get edit_profile => "assets/svgs/edit_profile.svg";
+  static String get network => "assets/svgs/network.svg";
+  static String get filter => "assets/svgs/filter.svg";
 
-
-
-
-
-
-
-
+  static String get my_profile_analytics => "assets/svgs/my_profile_analytics.svg";
+  static String get other_user_analytics => "assets/svgs/other_user_analytics.svg";
   // static String get sv => "assets/svgs/.svg";
 }

@@ -39,7 +39,7 @@ class LoginWelcomeScreenUi extends StatelessWidget {
               width: double.infinity,
               borderRadius: 0,
               bgcolor: PColors.white,
-              text: 'continue with google',
+              text: 'Continue with Google',
               icon: Image.asset(PImages.google),
               textColor: PColors.black,
               onPressed: () {},

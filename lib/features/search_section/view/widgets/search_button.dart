@@ -10,8 +10,9 @@ class SearchButtonUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomTextFeild(
+      
       textColor: PColors.white,
-        borderRadius: 0,
+        borderRadius: 5,
         prefixIcon: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
@@ -27,6 +28,7 @@ class SearchButtonUi extends StatelessWidget {
           ),
         ),
         prefixfn: () {},
+        
         borderColor: PColors.seed2,
         hintText: "Type a skill, role, or name to search.",
         onSaved: (val) {},

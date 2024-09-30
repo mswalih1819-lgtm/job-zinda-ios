@@ -14,6 +14,11 @@ class PPages {
   static const String chatPageUi = "/chatPageUi";
   static const String addPostUi = "/addPostUi";
   static const String chatDetailsPageui = "/chatDetailsPageui";
+  static const String editProfileUi = "/editProfileUi";
+  static const String profileView = "/profileView";
+  static const String freelancerFilterPageUi = "/freelancerFilterPageUi";
+  static const String profileAnalyticsPageUi = "/profileAnalyticsPageUi";
+
 
 
   

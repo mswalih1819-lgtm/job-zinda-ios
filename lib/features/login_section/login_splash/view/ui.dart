@@ -47,7 +47,10 @@ class LoginSplashUi extends StatelessWidget {
               },
               bgcolor: PColors.white,
               textColor: PColors.black,
-            )
+            ),
+              SizedBox(
+              height: 10,
+            ),
           ],
         ),
       ),

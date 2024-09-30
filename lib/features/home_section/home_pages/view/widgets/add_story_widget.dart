@@ -30,10 +30,20 @@ class AddstorywidgetUi extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Center(
-                      child: SvgPicture.asset(
-                    PSvgs.add_status,
-                    height: 40,
-                  ))),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Center(
+                            child: SvgPicture.asset(
+                          PSvgs.add_status,
+                          height: 40,
+                        )),
+                        SizedBox(height: 5,),
+                        textWidget(text: "Add Story",color: PColors.whiteOff.withOpacity(0.4),fontsize: 12),
+                      ],
+                    ),
+                  )),
               SizedBox(
                 height: 35,
               ),
@@ -48,10 +58,10 @@ class AddstorywidgetUi extends StatelessWidget {
             ],
           ),
           Positioned(
-            top: (size.height * 0.19) - (50 / 2),
+            top: (size.height * 0.19) - (46 / 2),
             child: Container(
-              height: 50.0,
-              width: 50.0,
+              height: 46.0,
+              width: 46.0,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
               ),

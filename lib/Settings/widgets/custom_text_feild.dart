@@ -8,6 +8,8 @@ class CustomTextFeild extends StatefulWidget {
   final String? textHead;
   final String hintText;
   final Color filColor;
+  final Color? hintColor;
+
   final Color? textColor;
   final Color? borderColor;
   final int? maxLine;
@@ -39,6 +41,8 @@ class CustomTextFeild extends StatefulWidget {
     required this.onChanged,
     required this.validation,
     this.keyboardType,
+    this.hintColor,
+
     this.autofillHints,
     this.controller,
     required this.filColor,
@@ -80,7 +84,7 @@ class _CustomTextFeildState extends State<CustomTextFeild> {
       fillColor: widget.filColor,
       counterText: '',
       hintText: widget.hintText,
-      hintStyle: PTextStyles.titleSmall,
+      hintStyle:widget.hintColor!=null?PTextStyles.hinttext: PTextStyles.titleSmall,
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
           width: 1,
@@ -111,7 +115,7 @@ class _CustomTextFeildState extends State<CustomTextFeild> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (widget.textHead != null) textHead(),
-        if (widget.textHead != null) const SizedBox(height: 4),
+        if (widget.textHead != null) const SizedBox(height: 7),
         TextFormField(
           onTap: widget.onTap,
           focusNode: widget.focusNode,
@@ -143,7 +147,7 @@ class _CustomTextFeildState extends State<CustomTextFeild> {
     return Text(
       widget.textHead!,
       style: PTextStyles.titleSmall
-          .copyWith(color: widget.textColor ?? PColors.darkGrey),
+          .copyWith(color: PColors.whiteOff.withOpacity(0.6) ?? PColors.darkGrey),
     );
   }
 

@@ -5,7 +5,10 @@ import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/features/home_section/home_pages/view/widgets/home_bottom_sheet.dart';
+import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+
+import '../../../../wrapper/view_model/view_model.dart';
 
 class HomeBodyUi extends StatelessWidget {
   const HomeBodyUi({super.key});
@@ -40,6 +43,11 @@ class HomeBodyUi extends StatelessWidget {
 
   Widget userDataWidget(BuildContext context) {
     return ListTile(
+      onTap: () {
+        context
+            .read<WrapperViewModel>()
+            .updatePageView(WrapperViewStatus.otherProfile);
+      },
       contentPadding: EdgeInsets.zero,
       title: textWidget(text: "Jessica12", color: PColors.white),
       subtitle: textWidget(
@@ -71,15 +79,24 @@ class HomeBodyUi extends StatelessWidget {
       children: [
         Row(
           children: [
-            SvgPicture.asset(PSvgs.heart,height: 20,),
+            SvgPicture.asset(
+              PSvgs.heart,
+              height: 24,
+            ),
             SizedBox(
               width: 8,
             ),
-            SvgPicture.asset(PSvgs.chat,height: 20,),
+            SvgPicture.asset(
+              PSvgs.chat,
+              height: 24,
+            ),
             SizedBox(
               width: 8,
             ),
-            SvgPicture.asset(PSvgs.share,height: 20,),
+            SvgPicture.asset(
+              PSvgs.share,
+              height: 24,
+            ),
           ],
         ),
         Row(

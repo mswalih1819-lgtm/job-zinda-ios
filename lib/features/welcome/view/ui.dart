@@ -81,7 +81,10 @@ class WelcomePageUi extends StatelessWidget {
             // SizedBox(
             //   height: 50,
             // ),
-            getStartButton(context)
+            getStartButton(context),
+            SizedBox(
+              height: 10,
+            ),
           ],
         ),
       ),

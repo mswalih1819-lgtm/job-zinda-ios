@@ -40,7 +40,7 @@ class ChatHeadUi extends StatelessWidget {
         height: 40,
         fontSize: 15,
         bgcolor: selected ? PColors.white : PColors.black2,
-        textColor: selected ? PColors.black : PColors.whiteOff,
+        textColor: selected ? PColors.black : PColors.whiteOff.withOpacity(0.6),
         text: btn,
         onPressed: fun,
       ),

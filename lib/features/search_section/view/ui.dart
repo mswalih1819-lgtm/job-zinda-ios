@@ -38,7 +38,7 @@ class SearchSectionUi extends StatelessWidget {
       shrinkWrap: true,
       itemCount: list.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, crossAxisSpacing: 7, mainAxisSpacing: 7,childAspectRatio: .86),
+          crossAxisCount: 2, crossAxisSpacing: 7, mainAxisSpacing: 7,childAspectRatio: .82),
       itemBuilder: (context, index) => SearchSingleWidgetUi(
         map: list[index],
       ),

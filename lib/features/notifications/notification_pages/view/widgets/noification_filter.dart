@@ -13,7 +13,7 @@ class NotificationFilterSection extends StatelessWidget {
     return Selector<NotificationViewModel, String>(
       selector: (p0, p1) => p1.view,
       builder: (context, value, child) => Container(
-        // height: 50,
+        margin: EdgeInsets.only(left: 13,right: 6),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -64,19 +64,21 @@ class NotificationFilterSection extends StatelessWidget {
     return GestureDetector(
       onTap: fun,
       child: Container(
-          width: size.width / 4,
+          // width: size.width / 4,
           child: Column(
             children: [
               textWidget(
                   text: str,
                   fontsize: 13,
-                  color: PColors.whiteOff.withOpacity(0.8),
+                  color:selected?PColors.white: PColors.whiteOff.withOpacity(0.8),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1),
               SizedBox(
                 height: 5,
               ),
               Container(
+          width: size.width / 4.6,
+
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                       colors: selected
@@ -87,7 +89,7 @@ class NotificationFilterSection extends StatelessWidget {
                       stops: [0.0, 1.0],
                       tileMode: TileMode.clamp),
                 ),
-                margin: EdgeInsets.symmetric(vertical: 6, horizontal: 5),
+                // margin: EdgeInsets.symmetric(vertical: 6, horizontal: 5),
                 // width: size.width / 4,
                 height: 2,
               )

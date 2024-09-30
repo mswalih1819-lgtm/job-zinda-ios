@@ -23,6 +23,8 @@ class PColors {
   static Color get yellow => const Color(0xffF8FFB1);
   static Color get grad1 => const Color(0xff4CC9D5);
   static Color get grad2 => const Color(0xff7FD176);
+  static Color get imageBorderColor => const Color(0xff1C6D78);
+
 
 
 

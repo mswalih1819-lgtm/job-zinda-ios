@@ -19,21 +19,26 @@ class _UploadButtonUiState extends State<UploadButtonUi> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomIconElevatedButton(
-        bgcolor: PColors.seed2,
-        textColor: PColors.whiteOff.withOpacity(0.4),
-        text: "Upload media",
-        onPressed: () {
-          showBottomSheet(
-            shape: BeveledRectangleBorder(),
-            backgroundColor: PColors.seed2,
-            context: context,
-            builder: (context) => sheet(),
-          );
-        },
-        icon: Image.asset(
-          PImages.photo,
-        ));
+    return Container(
+      margin: EdgeInsets.only(bottom: 10,left: 12,right: 12),
+      child: CustomIconElevatedButton(
+          bgcolor:PColors.black2.withOpacity(0.9),
+          textColor: PColors.whiteOff.withOpacity(0.6),
+          text: "Upload media",
+          borderRadius: 1,
+          onPressed: () {
+            showBottomSheet(
+              shape: BeveledRectangleBorder(),
+              backgroundColor: PColors.seed2,
+              context: context,
+              builder: (context) => sheet(),
+            );
+          },
+          icon: Image.asset(
+            PImages.photo,
+         color:    PColors.whiteOff.withOpacity(0.9),
+          )),
+    );
   }
 
   Widget sheet() {

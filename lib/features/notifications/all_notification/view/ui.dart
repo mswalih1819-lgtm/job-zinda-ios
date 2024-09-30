@@ -8,10 +8,13 @@ class AllNotificationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-       FollowSingleNotificationUi(),ProfileViewSingleNotiWidget(),CommentsSingleNotificationwidget()
-      ],
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 13),
+      child: Column(
+        children: [
+         FollowSingleNotificationUi(),ProfileViewSingleNotiWidget(),CommentsSingleNotificationwidget()
+        ],
+      ),
     );
   }
 }

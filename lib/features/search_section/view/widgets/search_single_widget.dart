@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
-import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/features/search_section/view/widgets/search_image_widget_section.dart';
+import 'package:jora_customer/features/wrapper/view_model/view_model.dart';
+import 'package:provider/provider.dart';
 
 class SearchSingleWidgetUi extends StatelessWidget {
   Map map;
@@ -14,16 +15,23 @@ class SearchSingleWidgetUi extends StatelessWidget {
     // double coverHeight = size.height * 0.1;
     // double profileHeight = 68;
 
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10), color: PColors.seed2),
-      child: Column(
-        children: [
-          SearchImageWidgetSectionUi(
-            map: map,
-          ),
-          contentWidget()
-        ],
+    return GestureDetector(
+      onTap: () {
+        context
+            .read<WrapperViewModel>()
+            .updatePageView(WrapperViewStatus.otherProfile);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), color: PColors.seed2),
+        child: Column(
+          children: [
+            SearchImageWidgetSectionUi(
+              map: map,
+            ),
+            contentWidget()
+          ],
+        ),
       ),
     );
   }
@@ -32,23 +40,35 @@ class SearchSingleWidgetUi extends StatelessWidget {
     return Column(
       children: [
         textWidget(
-            text: "Jessica12", fontsize: 14, fontweight: FontWeight.w500,overflow: TextOverflow.ellipsis,maxLines: 1),
+            text: "Jessica12",
+            fontsize: 14,
+            fontweight: FontWeight.w500,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1),
         textWidget(
             text: "Photographer",
             fontsize: 12,
-            color: PColors.whiteOff.withOpacity(0.6),overflow: TextOverflow.ellipsis,maxLines: 1),
-            SizedBox(height: 10,),
+            color: PColors.whiteOff.withOpacity(0.6),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1),
+        SizedBox(
+          height: 10,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             columnWidget(title: "Followers", value: "500"),
             Container(
-              height: 30,
-              child: VerticalDivider(color: PColors.whiteOff.withOpacity(0.2),)),
+                height: 30,
+                child: VerticalDivider(
+                  color: PColors.whiteOff.withOpacity(0.2),
+                )),
             columnWidget(title: "Projects", value: "77"),
-          Container(
-              height: 30,
-              child: VerticalDivider(color: PColors.whiteOff.withOpacity(0.2),)),
+            Container(
+                height: 30,
+                child: VerticalDivider(
+                  color: PColors.whiteOff.withOpacity(0.2),
+                )),
             columnWidget(title: "Feedback", value: "4.5"),
           ],
         )
@@ -60,9 +80,16 @@ class SearchSingleWidgetUi extends StatelessWidget {
     return Flexible(
       child: Column(
         children: [
-          textWidget(text: value,fontsize: 12,fontweight: FontWeight.w500),
-          SizedBox(height: 4,),
-          textWidget(text: title,fontsize: 9,color: PColors.whiteOff.withOpacity(0.7),overflow: TextOverflow.ellipsis,maxLines: 1),
+          textWidget(text: value, fontsize: 10, fontweight: FontWeight.w500),
+          SizedBox(
+            height: 4,
+          ),
+          textWidget(
+              text: title,
+              fontsize: 8,
+              color: PColors.whiteOff.withOpacity(0.7),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1),
         ],
       ),
     );

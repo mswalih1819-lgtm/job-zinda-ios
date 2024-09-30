@@ -158,18 +158,43 @@ class _OnboardingScreensUiState extends State<OnboardingScreensUi> {
   }
 
   Widget dotsIndicator(Size size) {
-    return DotsIndicator(
-      position: page,
-      dotsCount: 3,
-      decorator: DotsDecorator(
-          spacing: const EdgeInsets.only(right: 4),
-          activeSize: Size(size.height / 7.2, 1),
-          shape: RoundedRectangleBorder(),
-          size: Size(size.height / 7.2, 1),
-          activeShape: RoundedRectangleBorder(),
-          // color: PColors.textGrey,
-          activeColor: PColors.white),
+    return Row(
+      children: [
+        Container(
+          width: size.height / 7.2,
+          height: 2,
+          decoration: BoxDecoration(color:page==0|| page==1||page==2? PColors.white:PColors.white.withOpacity(0.3)),
+        ),
+        SizedBox(
+          width: 4,
+        ),
+        Container(
+          width: size.height / 7.2,
+          height: 2,
+          decoration: BoxDecoration(color: page==1||page==2? PColors.white:PColors.white.withOpacity(0.3)),
+        ),
+        SizedBox(
+          width: 4,
+        ),
+        Container(
+          width: size.height / 7.2,
+          height: 2,
+          decoration: BoxDecoration(color:page==2? PColors.white:PColors.white.withOpacity(0.3)),
+        ),
+      ],
     );
+    // return DotsIndicator(
+    //   position: page,
+    //   dotsCount: 3,
+    //   decorator: DotsDecorator(
+    //       spacing: const EdgeInsets.only(right: 4),
+    //       activeSize: Size(size.height / 7.2, 1),
+    //       shape: RoundedRectangleBorder(),
+    //       size: Size(size.height / 7.2, 1),
+    //       activeShape: RoundedRectangleBorder(),
+    //       // color: PColors.textGrey,
+    //       activeColor: PColors.white),
+    // );
   }
 
   Widget getStartButton() {

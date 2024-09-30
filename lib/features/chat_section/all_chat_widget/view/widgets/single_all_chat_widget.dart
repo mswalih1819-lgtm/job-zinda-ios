@@ -12,7 +12,7 @@ class SingleChatWidgetUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.pushNamed(context, PPages.chatDetailsPageui);
       },
       child: Row(
@@ -26,7 +26,7 @@ class SingleChatWidgetUi extends StatelessWidget {
             ],
           ),
           SizedBox(
-            width: 6,
+            width: 9,
           ),
           Flexible(
             child: Column(
@@ -53,6 +53,9 @@ class SingleChatWidgetUi extends StatelessWidget {
                             fontsize: 12,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2)),
+                    SizedBox(
+                      width: 7,
+                    ),
                     map["status"]
                         ? Icon(
                             Icons.done,
@@ -60,11 +63,16 @@ class SingleChatWidgetUi extends StatelessWidget {
                           )
                         : Container(
                             decoration: BoxDecoration(
-                              color: PColors.white,
+                                color: PColors.white,
                                 borderRadius: BorderRadius.circular(12)),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 6.0,vertical: 2),
-                              child: textWidget(text: "23",color: PColors.black,fontsize: 12,fontweight: FontWeight.w500),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 6.0, vertical: 2),
+                              child: textWidget(
+                                  text: "23",
+                                  color: PColors.black,
+                                  fontsize: 12,
+                                  fontweight: FontWeight.w500),
                             ),
                           )
                   ],
