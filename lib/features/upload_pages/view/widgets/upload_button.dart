@@ -43,7 +43,9 @@ class _UploadButtonUiState extends State<UploadButtonUi> {
 
   Widget sheet() {
     return Container(
+      width: 360,
       height: 200,
+      
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(

@@ -9,34 +9,40 @@ class DropdownWidgetUi extends StatefulWidget {
 }
 
 class _DropdownWidgetUiState extends State<DropdownWidgetUi> {
-  String value="Anyone";
+  String value = "Anyone";
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      isDense: true,
-      dropdownColor: PColors.black2,
-      value: value,
-      // isExpanded: true,
-      style: TextStyle(color: PColors.whiteOff),
-      icon: Icon(
-        Icons.keyboard_arrow_down,
-        color: PColors.whiteOff,
-      ),
-      underline: SizedBox(),
-      items: <String>['Anyone', 'Nobody'].map((String value) {
-        return DropdownMenuItem<String>(
+    return Container(
+      width: 100.0,
+      child: ButtonTheme(
+        alignedDropdown: true,
+        child: DropdownButton<String>(
+          isDense: true,
+          dropdownColor: PColors.black2,
           value: value,
-          child: Text(
-            value,
-            style: TextStyle(color: PColors.whiteOff),
+          // isExpanded: true,
+          style: TextStyle(color: PColors.whiteOff),
+          icon: Icon(
+            Icons.keyboard_arrow_down,
+            color: PColors.whiteOff,
           ),
-        );
-      }).toList(),
-      onChanged: (val) {
-        setState(() {
-          value=val!;
-        });
-      },
+          underline: SizedBox(),
+          items: <String>['Anyone', 'Nobody'].map((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(
+                value,
+                style: TextStyle(color: PColors.whiteOff),
+              ),
+            );
+          }).toList(),
+          onChanged: (val) {
+            setState(() {
+              value = val!;
+            });
+          },
+        ),
+      ),
     );
   }
 }

@@ -34,14 +34,17 @@ class ResultSheetUi extends StatelessWidget {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(23), topRight: Radius.circular(23))),
           child: Padding(
-            padding: const EdgeInsets.all(27.0),
+            padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 16),
             child: SingleChildScrollView(
               controller: scrollController,
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 10,
+                  Container(
+                    width: 90,
+                    decoration: BoxDecoration(color: PColors.whiteOff.withOpacity(0.5,),borderRadius: BorderRadius.circular(3)),
+                    height: 6,
                   ),
+                  SizedBox(height: 30,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -70,7 +73,7 @@ class ResultSheetUi extends StatelessWidget {
                     ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 23,
                   ),
                   ListView.builder(
                       physics: NeverScrollableScrollPhysics(),

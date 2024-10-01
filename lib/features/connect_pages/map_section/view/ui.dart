@@ -6,6 +6,8 @@ import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/features/connect_pages/map_section/view/widgets/result_sheet.dart';
 import 'package:jora_customer/features/connect_pages/map_section/view/widgets/simple_map.dart';
+import 'package:jora_customer/features/connect_pages/map_section/view_model/view_model.dart';
+import 'package:provider/provider.dart';
 
 class ConnectPagesUi extends StatefulWidget {
   @override
@@ -107,27 +109,44 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
       body: Stack(
         children: [
           SimpleMap(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 10),
-            child: CustomTextFeild(
-                hintColor: PColors.white,
-                borderRadius: 4,
-                borderColor: PColors.seed2.withOpacity(0.4),
-                textColor: PColors.white,
-                prefixIcon: Icon(
-                  Icons.person,
-                  color: PColors.white,
-                ),
-                prefixfn: () {},
-                hintText: "Type a skill or role",
-                onSaved: (val) {},
-                onChanged: (val) {},
-                validation: (val) {},
-                filColor: PColors.seed2.withOpacity(0.6)),
-          ),
+          ChangeNotifierProvider(
+              create: (context) => MapViewModel(),
+              builder: (context, child) {
+                var model = context.read<MapViewModel>();
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 50, horizontal: 10),
+                  child: CustomTextFeild(
+                      suffixIcon: Visibility(
+                        child: Icon(
+                          Icons.close,
+                          size: 18,
+                          color: PColors.white,
+                        ),
+                        visible: model.onChanged,
+                      ),
+                      sufixfn: () {},
+                      hintColor: PColors.white,
+                      borderRadius: 4,
+                      borderColor: PColors.textFieldColor,
+                      textColor: PColors.white,
+                      prefixIcon: Icon(
+                        Icons.person,
+                        color: PColors.white,
+                      ),
+                      prefixfn: () {},
+                      hintText: "Type a skill or role",
+                      onSaved: (val) {},
+                      onChanged: (val) {
+                        model.updateTextfieldChange(true);
+                      },
+                      validation: (val) {},
+                      filColor: PColors.textFieldColor),
+                );
+              }),
           Positioned(
             // bottom: 20,
-            top: 110,
+            top: 115,
             left: 10,
             right: 10,
             child: Container(
@@ -192,7 +211,7 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
       margin: EdgeInsets.only(right: 6),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: selected ? PColors.black : Colors.blueGrey[200]),
+          color: selected ? PColors.black : PColors.kmColor.withOpacity(0.7)),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 10.0,
@@ -200,7 +219,7 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
         child: Center(
           child: textWidget(
               text: "${title}Km",
-              color: selected ? PColors.white : Colors.black.withOpacity(0.4)),
+              color: selected ? PColors.white : Colors.black.withOpacity(0.5)),
         ),
       ),
     );

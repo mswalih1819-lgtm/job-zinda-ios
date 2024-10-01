@@ -44,8 +44,8 @@ class GenderFilterUi extends StatelessWidget {
               decoration: BoxDecoration(
                   color: value.gender == list[index]
                       ? PColors.seed2
-                      : PColors.black2.withOpacity(0.78),
-                  borderRadius: BorderRadius.circular(8)),
+                      : PColors.black2.withOpacity(0.55),
+                  borderRadius: BorderRadius.circular(5)),
               child: Center(child: textWidget(text: "${list[index]}")),
             ),
           ),

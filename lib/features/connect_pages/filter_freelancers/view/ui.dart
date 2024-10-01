@@ -18,7 +18,7 @@ class FreelancerFilterPageUi extends StatelessWidget {
         borderRadius: 0,
         text: "Save",onPressed: (){},bgcolor: PColors.white,textColor: PColors.black,),
       
-      appBar: AppBar(title: Text("Filter"),),body: Container(
+      appBar: AppBar(title: Text("Filter",style: TextStyle(fontWeight: FontWeight.w400),),),body: Container(
       margin: EdgeInsets.symmetric(horizontal: 17),
       child: ChangeNotifierProvider(
         create: (context) => FreelancerFilterViewModel(),

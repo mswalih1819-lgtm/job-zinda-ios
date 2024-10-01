@@ -8,26 +8,23 @@ class EditProfileImageEdit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Row(
-                children: [
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundColor: PColors.white,
-                    child: CircleAvatar(
-                      radius: 38,
-                      backgroundImage: AssetImage(PImages.pro_pic3),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.add),
-                      textWidget(text: "Upload image")
-                    ],
-                  ),
-                ],
-              );
+    return Row(
+      children: [
+        CircleAvatar(
+          radius: 46,
+          backgroundColor: PColors.white,
+          child: CircleAvatar(
+            radius: 44,
+            backgroundImage: AssetImage(PImages.pro_pic3),
+          ),
+        ),
+        SizedBox(
+          width: 20,
+        ),
+        Row(
+          children: [Icon(Icons.add), textWidget(text: "Upload image")],
+        ),
+      ],
+    );
   }
 }

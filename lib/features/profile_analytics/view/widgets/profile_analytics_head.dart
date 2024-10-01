@@ -11,7 +11,7 @@ class ProfileAnalyticsHeadUi extends StatefulWidget {
 }
 
 class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
-  String? dropdownValue;
+  String dropdownValue='Last 7 days';
 
   @override
   Widget build(BuildContext context) {

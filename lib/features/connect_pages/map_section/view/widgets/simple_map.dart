@@ -41,9 +41,11 @@ class SimpleMap extends StatelessWidget {
             CircleMarker(
                 point: _center,
                 radius: 170, // Radius in meters
-                color: Colors.grey.withOpacity(0.1),
+                color: const Color.fromARGB(255, 170, 174, 176).withOpacity(
+                  0.1
+                ),
                 borderStrokeWidth: 2,
-                borderColor: Colors.grey),
+                borderColor: PColors.mapCircleborder),
           ],
         ),
         MarkerLayer(

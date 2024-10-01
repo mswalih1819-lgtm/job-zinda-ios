@@ -64,10 +64,10 @@ class ProfileViewUi extends StatelessWidget {
             children: [
               SizedBox(height: 40,),
               CircleAvatar(
-                radius: 44,
+                radius: 46,
                 backgroundColor: PColors.white,
                 child: CircleAvatar(
-                  radius:41,
+                  radius:44,
                   backgroundImage: AssetImage(PImages.pro_pic3),
                 ),
               ),

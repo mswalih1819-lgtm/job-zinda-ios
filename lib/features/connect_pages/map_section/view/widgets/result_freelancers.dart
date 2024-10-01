@@ -22,7 +22,7 @@ class ResultFreelancersSingleUi extends StatelessWidget {
             .updatePageView(WrapperViewStatus.otherProfile);
       },
       child: Container(
-        margin: EdgeInsets.only(bottom: 10),
+        margin: EdgeInsets.only(bottom: 20),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10), color: PColors.seed2),
         child: Padding(

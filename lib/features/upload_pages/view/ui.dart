@@ -14,29 +14,47 @@ class UploadPagesUi extends StatelessWidget {
       height: 180,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(children: [
-          SizedBox(height: 10,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-            GestureDetector(
-              onTap: (){
-                Navigator.pop(context);
-              },
-              child: Icon(Icons.close,size: 20,)),SizedBox(width: 10,)
-          ],),
-          ListTile(
-            onTap: (){
+        child: Column(
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.close,
+                      size: 20,
+                    )),
+                SizedBox(
+                  width: 10,
+                )
+              ],
+            ),
+            ListTile(
+              onTap: () {
                 Navigator.pop(context);
 
-              Navigator.pushNamed(context, PPages.addPostUi);
-            },
-            leading: SvgPicture.asset(PSvgs.share_post),
-            title: textWidget(text: "Share new post",color: PColors.white),),
-             ListTile(
-            leading: SvgPicture.asset(PSvgs.share_story,),
-            title: textWidget(text: "Share story",color: PColors.white,),)
-        ],),
+                Navigator.pushNamed(context, PPages.addPostUi);
+              },
+              leading: SvgPicture.asset(PSvgs.share_post),
+              title: textWidget(text: "Share new post", color: PColors.white),
+            ),
+            ListTile(
+              leading: SvgPicture.asset(
+                PSvgs.share_story,
+              ),
+              title: textWidget(
+                text: "Share story",
+                color: PColors.white,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -13,7 +13,7 @@ class ProfileImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double coverHeight = size.height * 0.21;
-    double profileHeight = 68;
+    double profileHeight = 75;
     return buildCoverImage(coverHeight, profileHeight, context);
   }
 
@@ -24,7 +24,7 @@ class ProfileImageWidget extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Container(
-          margin: EdgeInsets.only(bottom: profileHeight / 1.5),
+          margin: EdgeInsets.only(bottom: profileHeight / 1.4),
           child: Container(
               height: coverHeight,
               width: double.infinity,

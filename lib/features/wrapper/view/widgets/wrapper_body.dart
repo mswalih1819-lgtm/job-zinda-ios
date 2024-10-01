@@ -28,8 +28,8 @@ class WrapperBody extends StatelessWidget {
 
           case WrapperViewStatus.upload:
             return Container();
-          // case WrapperViewStatus.connect:
-          //   return ConnectPagesUi();
+          case WrapperViewStatus.connect:
+            return ConnectPagesUi();
 
           case WrapperViewStatus.profile:
             return MyProfileUi();

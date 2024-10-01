@@ -20,10 +20,15 @@ class PColors {
   static Color get seed2 => const Color(0xff292929);
 
   static Color get whiteOff => const Color(0xffE6E6E6);
+  static Color get mapCircleborder => const Color(0xffA6A6A6);
+
   static Color get yellow => const Color(0xffF8FFB1);
   static Color get grad1 => const Color(0xff4CC9D5);
   static Color get grad2 => const Color(0xff7FD176);
   static Color get imageBorderColor => const Color(0xff1C6D78);
+  static Color get textFieldColor => const Color(0xff808081);
+  static Color get kmColor => const Color(0xff7E7E7E);
+
 
 
 

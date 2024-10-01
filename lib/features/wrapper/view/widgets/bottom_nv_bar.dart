@@ -14,17 +14,19 @@ class BottomNavBar extends StatelessWidget {
     return Selector<WrapperViewModel, String>(
       selector: (p0, p1) => p1.viewStatus,
       builder: (context, value, child) => BottomAppBar(
-        elevation: 1,
+        padding: EdgeInsets.zero,
         height: 96,
+        clipBehavior: Clip.hardEdge,
         shadowColor: PColors.white,
         color: PColors.black,
         child: Container(
+          // height: 96,
           decoration: BoxDecoration(
               color: PColors.black,
               border: Border(
                   top: BorderSide(color: PColors.white.withOpacity(0.3)))),
           child: Padding(
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.all(17),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Row(
@@ -72,7 +74,9 @@ class BottomNavBar extends StatelessWidget {
                             .read<WrapperViewModel>()
                             .updatePageView(WrapperViewStatus.profile);
                       },
-                      selected:value == WrapperViewStatus.profile_view|| value == WrapperViewStatus.profile||value==WrapperViewStatus.otherProfile)
+                      selected: value == WrapperViewStatus.profile_view ||
+                          value == WrapperViewStatus.profile ||
+                          value == WrapperViewStatus.otherProfile)
                 ],
               ),
             ),
@@ -119,9 +123,8 @@ class BottomNavBar extends StatelessWidget {
     showModalBottomSheet(
       shape: BeveledRectangleBorder(),
       backgroundColor: PColors.black,
-        context: context,
-        builder: (context) => UploadPagesUi(),
-      );
-   
+      context: context,
+      builder: (context) => UploadPagesUi(),
+    );
   }
 }
