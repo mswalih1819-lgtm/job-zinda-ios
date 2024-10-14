@@ -10,24 +10,21 @@ class ChatPageUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: textWidget(text: "Chat"),
       ),
-      body: ChangeNotifierProvider(
-        create: (context) => ChatViewModel(),
-        builder: (context, child) => SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: 17, horizontal:16),
-            child: Column(
-              children: [
-               ChatHeadUi(),
-                SizedBox(
-                  height: 30,
-                ),
-               ChatBodyUi()
-              ],
-            ),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 17, horizontal: 16),
+          child: Column(
+            children: [
+              ChatHeadUi(),
+              SizedBox(
+                height: 30,
+              ),
+              ChatBodyUi()
+            ],
           ),
         ),
       ),

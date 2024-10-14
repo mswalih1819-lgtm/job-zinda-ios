@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
+import 'package:badges/badges.dart' as badges;
+import 'package:jora_customer/features/chat_section/chat_pages/view_model/view_model.dart';
+import 'package:provider/provider.dart';
 
 class HomeAppbar extends StatelessWidget {
   const HomeAppbar({super.key});
@@ -17,26 +21,71 @@ class HomeAppbar extends StatelessWidget {
       ),
       actions: [
         GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, PPages.helpSupportUi);
+          onTap: () {
+              // Navigator.pushNamed(context, PPages.subscriptionPageUi);
+              context.read<ChatViewModel>().updateView(ChatViewStatus.letsPlan);
+              Navigator.pushNamed(context, PPages.chatPageUi);
+
             },
-            child: SvgPicture.asset(PSvgs.help)),
-        const SizedBox(
-          width: 20,
+          child: badges.Badge(
+            badgeStyle: badges.BadgeStyle(badgeColor: PColors.badgeColor),
+
+            position: badges.BadgePosition.topEnd(top: -12, end: -4),
+
+            badgeContent: Text(''),
+            child: SvgPicture.asset(PSvgs.lets_plan),
+          ),
         ),
+        SizedBox(width: 16,),
+
         GestureDetector(
-            onTap: () {
+          onTap: () {
+              context.read<ChatViewModel>().updateView(ChatViewStatus.primary);
+
               Navigator.pushNamed(context, PPages.chatPageUi);
             },
-            child: SvgPicture.asset(PSvgs.message)),
-        const SizedBox(
-          width: 20,
+          child: badges.Badge(
+            badgeStyle: badges.BadgeStyle(badgeColor: PColors.badgeColor),
+
+            position: badges.BadgePosition.topEnd(top: -12, end: -4),
+            badgeContent: Text(''),
+            child: SvgPicture.asset(PSvgs.message),
+          ),
         ),
+        SizedBox(width:16,),
         GestureDetector(
-            onTap: () {
+           onTap: () {
               Navigator.pushNamed(context, PPages.notificationsUi);
             },
-            child: SvgPicture.asset(PSvgs.notification)),
+          child: badges.Badge(
+            badgeStyle: badges.BadgeStyle(badgeColor: PColors.badgeColor),
+            position: badges.BadgePosition.topEnd(top: -12, end: -4),
+
+            badgeContent: Text(''),
+            child: SvgPicture.asset(PSvgs.notification),
+          ),
+        ),
+        // GestureDetector(
+        //     onTap: () {
+        //       Navigator.pushNamed(context, PPages.helpSupportUi);
+        //     },
+        //     child: SvgPicture.asset(PSvgs.lets_plan)),
+        // const SizedBox(
+        //   width: 20,
+        // ),
+        // GestureDetector(
+        //     onTap: () {
+        //       Navigator.pushNamed(context, PPages.chatPageUi);
+        //     },
+        //     child: SvgPicture.asset(PSvgs.message)),
+        // const SizedBox(
+        //   width: 20,
+        // ),
+        // GestureDetector(
+        //     onTap: () {
+        //       Navigator.pushNamed(context, PPages.notificationsUi);
+        //     },
+        //     child: SvgPicture.asset(PSvgs.notification)),
         const SizedBox(
           width: 20,
         ),

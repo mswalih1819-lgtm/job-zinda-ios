@@ -27,6 +27,7 @@ class ProfileViewUi extends StatelessWidget {
         floatingActionButton: CustomElavatedTextButton(
           bgcolor: PColors.white,
           textColor: PColors.black,
+          borderRadius: 0,
           text: "Lets go",
           onPressed: () {},
         ),
@@ -44,7 +45,8 @@ class ProfileViewUi extends StatelessWidget {
                 color: PColors.whiteOff.withOpacity(0.3),
               ),
               SizedBox(height: 10,),
-              ProfileViewBodyUi()
+              ProfileViewBodyUi(),
+              SizedBox(height: 100,)
             ],
           ),
         ),

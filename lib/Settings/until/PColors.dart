@@ -29,6 +29,7 @@ class PColors {
   static Color get textFieldColor => const Color(0xff808081);
   static Color get kmColor => const Color(0xff7E7E7E);
 
+  static Color get badgeColor => const Color(0xff3EC7F0);
 
 
 

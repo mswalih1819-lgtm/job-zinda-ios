@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
+import 'package:jora_customer/Settings/until/PSvgs.dart';
+import 'package:jora_customer/features/wrapper/view_model/view_model.dart';
+import 'package:provider/provider.dart';
 
 class ProfileImageWidget extends StatelessWidget {
   Map map;
@@ -34,19 +37,42 @@ class ProfileImageWidget extends StatelessWidget {
               )),
         ),
         Positioned(
-            top: coverHeight - (profileHeight / 1.6),
-            right: 10,
-            child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, PPages.profileAnalyticsPageUi);
-                },
-                child: SvgPicture.asset(
-                  profile_analytics_icon,
-                  height: 30,
-                ))),
-        Positioned(
+            left: 20,
             top: coverHeight - (profileHeight / 1.4),
-            child: buildProfileImage(profileHeight))
+            child: buildProfileImage(profileHeight)),
+        Positioned(
+            top: coverHeight +10,
+            right: 10,
+            child: Selector<WrapperViewModel,String>(
+              selector: (p0, p1) => p1.viewStatus,
+              builder: (context, value, child) => Row(
+                children: [
+              
+                 
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, PPages.profileAnalyticsPageUi);
+                      },
+                      child: SvgPicture.asset(
+                        profile_analytics_icon,
+                        height: 30,
+                      )),
+
+                      SizedBox(width: 10,),
+                       WrapperViewStatus.profile==value?
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, PPages.helpSupportUi);
+                      },
+                      child: SvgPicture.asset(
+                        PSvgs.help,
+                        height: 30,
+                      )) 
+                  :Container(),
+                WrapperViewStatus.profile==value?   SizedBox(width: 10,):Container(),
+                ],
+              ),
+            )),
       ],
     );
   }

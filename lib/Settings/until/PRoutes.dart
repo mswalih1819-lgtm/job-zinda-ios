@@ -13,6 +13,7 @@ import 'package:jora_customer/features/login_section/login_welcome_screen/view/u
 import 'package:jora_customer/features/login_section/otp_verify/view/ui.dart';
 import 'package:jora_customer/features/login_section/phone_number_ui/view/ui.dart';
 import 'package:jora_customer/features/notifications/notification_pages/view/ui.dart';
+import 'package:jora_customer/features/subscription_page/view/ui.dart';
 import 'package:jora_customer/features/upload_pages/view/widgets/add_post.dart';
 import 'package:jora_customer/features/welcome/view/ui.dart';
 import 'package:flutter/material.dart';
@@ -83,25 +84,29 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => AddPostUi(),
         );
-         case PPages.chatDetailsPageui:
+      case PPages.chatDetailsPageui:
         return MaterialPageRoute(
           builder: (context) => ChatDetailsPageui(),
         );
-         case PPages.editProfileUi:
+      case PPages.editProfileUi:
         return MaterialPageRoute(
           builder: (context) => EditProfileUi(),
         );
-         case PPages.profileView:
+      case PPages.profileView:
         return MaterialPageRoute(
           builder: (context) => ProfileViewUi(),
         );
-          case PPages.freelancerFilterPageUi:
+      case PPages.freelancerFilterPageUi:
         return MaterialPageRoute(
           builder: (context) => FreelancerFilterPageUi(),
         );
-        case PPages.profileAnalyticsPageUi:
+      case PPages.profileAnalyticsPageUi:
         return MaterialPageRoute(
           builder: (context) => ProfileAnalyticsPageUi(),
+        );
+      case PPages.subscriptionPageUi:
+        return MaterialPageRoute(
+          builder: (context) => SubscriptionPageUi(),
         );
 
       default:

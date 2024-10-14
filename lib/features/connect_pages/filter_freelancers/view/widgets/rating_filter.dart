@@ -48,7 +48,12 @@ class RatingFilterUi extends StatelessWidget {
                       : PColors.black2.withOpacity(.55),
                   borderRadius: BorderRadius.circular(5)),
               child: Center(
-                  child: textWidget(text: "${list[index]}", fontsize: 13)),
+                  child: textWidget(
+                      text: "${list[index]}",
+                      fontsize: 13,
+                      color: value.rating == list[index]
+                          ? PColors.white
+                          : PColors.whiteOff.withOpacity(0.5))),
             ),
           ),
         ),

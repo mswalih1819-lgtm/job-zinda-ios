@@ -15,7 +15,7 @@ class BottomNavBar extends StatelessWidget {
       selector: (p0, p1) => p1.viewStatus,
       builder: (context, value, child) => BottomAppBar(
         padding: EdgeInsets.zero,
-        height: 96,
+        height: 110,
         clipBehavior: Clip.hardEdge,
         shadowColor: PColors.white,
         color: PColors.black,
@@ -94,27 +94,30 @@ class BottomNavBar extends StatelessWidget {
     return GestureDetector(
       onTap: fun,
       child: Container(
-          child: Column(
-        children: [
-          SvgPicture.asset(
-            icon,
-            // color: selected ? PColors.white : null,
-            height: label == 'Upload' ? 50 : 24,
-          ),
-          SizedBox(
-            height: 9,
-          ),
-          label == 'Upload'
-              ? Container()
-              : Container(
-                  color: selected ? PColors.white : PColors.black,
-                  height: 2,
-                  width: 40,
-                )
-          // Divider(w
-          //   color: selected ? PColors.white : PColors.black,
-          // )
-        ],
+          child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            SvgPicture.asset(
+              icon,
+              // color: selected ? PColors.white : null,
+              height: label == 'Upload' ? 50 : 24,
+            ),
+            SizedBox(
+              height: 9,
+            ),
+            label == 'Upload'
+                ? Container()
+                : Container(
+                    color: selected ? PColors.white : PColors.black,
+                    height: 2,
+                    width: 40,
+                  )
+            // Divider(w
+            //   color: selected ? PColors.white : PColors.black,
+            // )
+          ],
+        ),
       )),
     );
   }

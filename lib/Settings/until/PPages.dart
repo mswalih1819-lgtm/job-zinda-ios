@@ -18,6 +18,7 @@ class PPages {
   static const String profileView = "/profileView";
   static const String freelancerFilterPageUi = "/freelancerFilterPageUi";
   static const String profileAnalyticsPageUi = "/profileAnalyticsPageUi";
+  static const String subscriptionPageUi = "/subscriptionPageUi";
 
 
 

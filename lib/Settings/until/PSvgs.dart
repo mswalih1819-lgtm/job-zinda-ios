@@ -50,5 +50,7 @@ class PSvgs {
 
   static String get my_profile_analytics => "assets/svgs/my_profile_analytics.svg";
   static String get other_user_analytics => "assets/svgs/other_user_analytics.svg";
+  static String get lets_plan => "assets/svgs/lets_plan.svg";
+
   // static String get sv => "assets/svgs/.svg";
 }

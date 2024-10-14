@@ -2,9 +2,9 @@
 <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="jora_customer"
+        android:label="Jora"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <!-- <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="YOUR-KEY-HERE"/> -->
 

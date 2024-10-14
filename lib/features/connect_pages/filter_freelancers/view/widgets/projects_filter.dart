@@ -9,41 +9,51 @@ class ProjectsFilterUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size=MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 20,),
+        SizedBox(
+          height: 20,
+        ),
         textWidget(text: "Projects handled"),
-        SizedBox(height:10,),
-
-        projectsFilter(size,context),
+        SizedBox(
+          height: 10,
+        ),
+        projectsFilter(size, context),
       ],
     );
   }
 
-  Widget projectsFilter(Size size,BuildContext context) {
+  Widget projectsFilter(Size size, BuildContext context) {
     return Consumer<FreelancerFilterViewModel>(
-      builder: (context, value, child) =>Row(
+      builder: (context, value, child) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(
           list.length,
           (index) => GestureDetector(
-              onTap: () {
-                context
-                    .read<FreelancerFilterViewModel>()
-                    .updateProjects(list[index]);
-              },
+            onTap: () {
+              context
+                  .read<FreelancerFilterViewModel>()
+                  .updateProjects(list[index]);
+            },
             child: Container(
-              width: size.width/3.4,
+              width: size.width / 3.4,
               height: 37,
               decoration: BoxDecoration(
-                color: value.projects == list[index]
-                        ? PColors.seed2
-                        : PColors.black2.withOpacity(0.55), borderRadius: BorderRadius.circular(5)),
-              child: Center(child: textWidget(text: "${list[index]}",fontsize: 13)),
+                  color: value.projects == list[index]
+                      ? PColors.seed2
+                      : PColors.black2.withOpacity(0.55),
+                  borderRadius: BorderRadius.circular(5)),
+              child: Center(
+                  child: textWidget(
+                      text: "${list[index]}",
+                      fontsize: 13,
+                      color: value.projects == list[index]
+                          ? PColors.white
+                          : PColors.whiteOff.withOpacity(0.5))),
             ),
           ),
         ),

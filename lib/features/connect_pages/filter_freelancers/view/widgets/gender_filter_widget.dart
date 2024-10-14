@@ -46,7 +46,7 @@ class GenderFilterUi extends StatelessWidget {
                       ? PColors.seed2
                       : PColors.black2.withOpacity(0.55),
                   borderRadius: BorderRadius.circular(5)),
-              child: Center(child: textWidget(text: "${list[index]}")),
+              child: Center(child: textWidget(text: "${list[index]}",  color: value.gender == list[index]?PColors.white:PColors.whiteOff.withOpacity(0.5))),
             ),
           ),
         ),
