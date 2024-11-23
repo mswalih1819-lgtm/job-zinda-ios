@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart' as dio;
 import 'package:jora_customer/Data/Network/base_api_service.dart';
 import 'package:jora_customer/Data/app_exceptions.dart';
-import 'package:jora_customer/Settings/Extensions/local_storage_user.dart';
 import 'package:jora_customer/Settings/common/constants/app_url.dart';
 
 class NetworkApiService implements BaseApiService {

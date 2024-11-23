@@ -4,8 +4,9 @@ import 'package:dio/dio.dart' as dio;
 import 'package:dio/io.dart';
 import 'package:jora_customer/Data/Network/base_api_service.dart';
 import 'package:jora_customer/Data/app_exceptions.dart';
-import 'package:jora_customer/Settings/Extensions/local_storage_user.dart';
 import 'package:jora_customer/Settings/common/constants/app_url.dart';
+
+import '../../model/logged_in_user.dart';
 
 class NetworkApiServiceV2 implements BaseApiService {
   late dio.Dio adapter;

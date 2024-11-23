@@ -1,26 +1,26 @@
-import 'package:jora_customer/features/chat_details_page/view/ui.dart';
-import 'package:jora_customer/features/chat_section/chat_pages/view/ui.dart';
-import 'package:jora_customer/features/connect_pages/filter_freelancers/view/ui.dart';
-import 'package:jora_customer/features/edit_profile/view/ui.dart';
-import 'package:jora_customer/features/profile_analytics/view/ui.dart';
-import 'package:jora_customer/features/profile_view/view/ui.dart';
-import 'package:jora_customer/features/help_support/view/ui.dart';
-import 'package:jora_customer/features/help_support/view/widgets/send_feedback_ui.dart';
-import 'package:jora_customer/features/home_section/home_pages/view/ui.dart';
-import 'package:jora_customer/features/login_section/login_splash/view/ui.dart';
-import 'package:jora_customer/features/login_section/login_splash/view/widgets/login_splash_2.dart';
-import 'package:jora_customer/features/login_section/login_welcome_screen/view/ui.dart';
-import 'package:jora_customer/features/login_section/otp_verify/view/ui.dart';
-import 'package:jora_customer/features/login_section/phone_number_ui/view/ui.dart';
-import 'package:jora_customer/features/notifications/notification_pages/view/ui.dart';
-import 'package:jora_customer/features/subscription_page/view/ui.dart';
-import 'package:jora_customer/features/upload_pages/view/widgets/add_post.dart';
-import 'package:jora_customer/features/welcome/view/ui.dart';
+import 'package:jora_customer/view/chat_details_page/view/ui.dart';
+import 'package:jora_customer/view/chat_section/chat_pages/view/ui.dart';
+import 'package:jora_customer/view/connect_pages/filter_freelancers/view/ui.dart';
+import 'package:jora_customer/view/edit_profile/view/ui.dart';
+import 'package:jora_customer/view/profile_analytics/view/ui.dart';
+import 'package:jora_customer/view/profile_view/view/ui.dart';
+import 'package:jora_customer/view/help_support/view/ui.dart';
+import 'package:jora_customer/view/help_support/view/widgets/send_feedback_ui.dart';
+import 'package:jora_customer/view/home_section/home_pages/view/ui.dart';
+import 'package:jora_customer/view/login_section/login_splash/view/ui.dart';
+import 'package:jora_customer/view/login_section/login_splash/view/widgets/login_splash_2.dart';
+import 'package:jora_customer/view/login_section/login_welcome_screen/view/ui.dart';
+import 'package:jora_customer/view/login_section/otp_verify/view/ui.dart';
+import 'package:jora_customer/view/login_section/phone_number_ui/view/ui.dart';
+import 'package:jora_customer/view/notifications/notification_pages/view/ui.dart';
+import 'package:jora_customer/view/subscription_page/view/ui.dart';
+import 'package:jora_customer/view/upload_pages/view/widgets/add_post.dart';
+import 'package:jora_customer/view/welcome/view/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
-import 'package:jora_customer/features/splash/view/ui.dart';
-import 'package:jora_customer/features/welcome/view/widgets/onboarding_screen_ui.dart';
-import 'package:jora_customer/features/wrapper/view/ui.dart';
+import 'package:jora_customer/view/splash/view/ui.dart';
+import 'package:jora_customer/view/welcome/view/widgets/onboarding_screen_ui.dart';
+import 'package:jora_customer/view/wrapper/view/ui.dart';
 
 class Routes {
   static Route<dynamic>? genericRoute(RouteSettings settings) {
