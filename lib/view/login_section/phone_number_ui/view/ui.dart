@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
@@ -65,6 +66,12 @@ class PhoneNumberUi extends StatelessWidget {
         onSaved: (val) {},
         onChanged: (val) {},
         validation: (val) {},
+        validation: Validator.mobile,
+        keyboardType: TextInputType.number,
+        maxLength: 10,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly
+        ],
         filColor: PColors.seed);
   }
 

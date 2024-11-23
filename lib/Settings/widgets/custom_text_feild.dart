@@ -24,12 +24,11 @@ class CustomTextFeild extends StatefulWidget {
   final Function()? onTap;
   final Function(String? val) onSaved;
   final Function(String? val) onChanged;
-  final String? Function(String? val)? validation;
-  final TextInputType? keyboardType;
   final Iterable<String>? autofillHints;
   final TextEditingController? controller;
   final List<TextInputFormatter>? inputFormatters;
-
+  final String? Function(String? val)? validation;
+  final TextInputType? keyboardType;
   const CustomTextFeild({
     super.key,
     this.onTap,
@@ -42,7 +41,6 @@ class CustomTextFeild extends StatefulWidget {
     required this.validation,
     this.keyboardType,
     this.hintColor,
-
     this.autofillHints,
     this.controller,
     required this.filColor,
@@ -84,7 +82,9 @@ class _CustomTextFeildState extends State<CustomTextFeild> {
       fillColor: widget.filColor,
       counterText: '',
       hintText: widget.hintText,
-      hintStyle:widget.hintColor!=null?PTextStyles.hinttext: PTextStyles.titleSmall,
+      hintStyle: widget.hintColor != null
+          ? PTextStyles.hinttext
+          : PTextStyles.titleSmall,
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
           width: 1,
@@ -129,7 +129,7 @@ class _CustomTextFeildState extends State<CustomTextFeild> {
           maxLines: widget.maxLine ?? 1,
           maxLength: widget.maxLength,
           style: TextStyle(
-            color: widget.textColor?? PColors.white,
+            color: widget.textColor ?? PColors.white,
             fontSize: 16,
             fontFamily: PFonts.inter,
             fontWeight: FontWeight.w600,
@@ -146,8 +146,8 @@ class _CustomTextFeildState extends State<CustomTextFeild> {
   Widget textHead() {
     return Text(
       widget.textHead!,
-      style: PTextStyles.titleSmall
-          .copyWith(color: PColors.whiteOff.withOpacity(0.6) ?? PColors.darkGrey),
+      style: PTextStyles.titleSmall.copyWith(
+          color: PColors.whiteOff.withOpacity(0.6) ?? PColors.darkGrey),
     );
   }
 

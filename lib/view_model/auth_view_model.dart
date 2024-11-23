@@ -9,8 +9,8 @@ class AuthViewModel with ChangeNotifier {
   Future<void> login(
       {required String countryCode, required String phoneNumber}) async {
     EasyLoading.show();
-    Response response = await ApiService().post(Api.loginUrl,
-        {'countryCode': countryCode, 'mobileNumber': phoneNumber});
+    Response response = await ApiService().post(
+        Api.loginUrl, {'countryCode': '+91', 'mobileNumber': phoneNumber});
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {
