@@ -1,4 +1,4 @@
-package com.jora.customer
+package com.example.flutter_application_2
 
 import io.flutter.embedding.android.FlutterActivity
 
