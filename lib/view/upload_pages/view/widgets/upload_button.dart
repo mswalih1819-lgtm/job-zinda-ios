@@ -4,6 +4,10 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/widgets/custom_icon_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/view/upload_pages/view/widgets/add_post_screen.dart';
+import 'package:jora_customer/view_model/file_view_model.dart';
+import 'package:jora_customer/view_model/post_view_model.dart';
+import 'package:provider/provider.dart';
 
 class UploadButtonUi extends StatefulWidget {
   UploadButtonUi({super.key});
@@ -82,9 +86,11 @@ class _UploadButtonUiState extends State<UploadButtonUi> {
 
   Future getImage(ImageSource source) async {
     final XFile? image = await _picker.pickImage(source: source);
-
-    setState(() {
-      _image = image;
-    });
+    Navigator.pop(context);
+if(image!=null){
+String?url= await  context.read<FileUploadViewModel>().pickedImageUpload(image, 'Post');
+  context.read<PostViewModel>().selectedUrl  =url;
+}
+  
   }
 }

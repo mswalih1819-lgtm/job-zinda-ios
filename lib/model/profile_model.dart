@@ -1,0 +1,93 @@
+class ProfileModel {
+  Location? location;
+  String? sId;
+  bool? getNotifications;
+  String? name;
+  String? email;
+  String? countryCode;
+  String? mobileNumber;
+  String? profileImageUrl;
+  String? gender;
+  String? professionId;
+  String? profession;
+  String? bio;
+  int? followersCount;
+  int? projectsCount;
+  int? rating;
+  double? lat;
+  double? lng;
+  String? address;
+  String? zipcode;
+  bool? isVerified;
+  String? accountType;
+  List<Null>? fcmTokens;
+  String? createdAt;
+
+  ProfileModel(
+      {this.location,
+      this.sId,
+      this.getNotifications,
+      this.name,
+      this.email,
+      this.countryCode,
+      this.mobileNumber,
+      this.profileImageUrl,
+      this.gender,
+      this.professionId,
+      this.profession,
+      this.bio,
+      this.followersCount,
+      this.projectsCount,
+      this.rating,
+      this.lat,
+      this.lng,
+      this.address,
+      this.zipcode,
+      this.isVerified,
+      this.accountType,
+      this.fcmTokens,
+      this.createdAt});
+
+  ProfileModel.fromJson(Map<String, dynamic> json) {
+    location = json['location'] != null
+        ? new Location.fromJson(json['location'])
+        : null;
+    sId = json['_id'];
+    getNotifications = json['getNotifications'];
+    name = json['name'];
+    email = json['email'];
+    countryCode = json['countryCode'];
+    mobileNumber = json['mobileNumber'];
+    profileImageUrl = json['profileImageUrl'];
+    gender = json['gender'];
+    professionId = json['professionId'];
+    profession = json['profession'];
+    bio = json['bio'];
+    followersCount = json['followersCount'];
+    projectsCount = json['projectsCount'];
+    rating = json['rating'];
+    lat = json['lat'];
+    lng = json['lng'];
+    address = json['address'];
+    zipcode = json['zipcode'];
+    isVerified = json['isVerified'];
+    accountType = json['accountType'];
+    createdAt = json['createdAt'];
+  }
+
+
+}
+
+class Location {
+  String? type;
+  List<double>? coordinates;
+
+  Location({this.type, this.coordinates});
+
+  Location.fromJson(Map<String, dynamic> json) {
+    type = json['type'];
+    coordinates = json['coordinates'].cast<double>();
+  }
+
+
+}

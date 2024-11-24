@@ -5,14 +5,14 @@ import 'package:jora_customer/view/profile_analytics/view/widgets/feedback_secti
 import 'package:jora_customer/view/profile_analytics/view/widgets/growth_section.dart';
 import 'package:jora_customer/view/profile_analytics/view/widgets/profile_analytics_head.dart';
 
-class ProfileAnalyticsPageUi extends StatelessWidget {
+class ProfileAnalyticsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         title:
-            textWidget(text: 'Profile analytics', fontweight: FontWeight.w400),
+            textWidget(text: 'Profile Analytics', fontweight: FontWeight.w400),
         backgroundColor: Colors.black,
       ),
       body: Column(

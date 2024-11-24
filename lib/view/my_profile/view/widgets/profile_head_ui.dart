@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/profile_image_widget.dart';
 
 class ProfileHeadUi extends StatelessWidget {
-  Map map;
-  String profile_analytics_icon;
+ final Map? map;
+ final String icon;
+  final ProfileModel ? profileModel;
   ProfileHeadUi(
-      {super.key, required this.map, required this.profile_analytics_icon});
+      {super.key,  this.map, required this.icon , this.profileModel});
 
   @override
   Widget build(BuildContext context) {
@@ -15,32 +17,30 @@ class ProfileHeadUi extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ProfileImageWidget(
-          map: map,
-          profile_analytics_icon: profile_analytics_icon,
+        ProfileImageWidget(profileModel: profileModel,
+       icon: icon,
         ),
         Container(
             margin: EdgeInsets.symmetric(horizontal: 17, vertical: 10),
-            child: contentWidget())
+            child: contentWidget(profileModel))
       ],
     );
   }
 
-  Widget contentWidget() {
+  Widget contentWidget( ProfileModel? profile) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // SizedBox(h)
         textWidget(
-            text: "Jessica12",
+            text: profile?.name??'',
             fontsize: 18,
             fontweight: FontWeight.w500,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
             color: PColors.white),
         textWidget(
-            text: "Photographer",
+            text:profile?.profession??'',
             fontsize: 14,
             fontweight: FontWeight.w300,
             color: PColors.white,
@@ -49,7 +49,13 @@ class ProfileHeadUi extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
-        descriptionWidget(),
+       textWidget(
+        color: PColors.white,
+        textAlign: TextAlign.left,
+        fontweight: FontWeight.w300,
+        text:
+           profile?.bio??'',
+        fontsize: 13),
         SizedBox(
           height: 18,
         ),
@@ -57,9 +63,9 @@ class ProfileHeadUi extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            columnWidget(title: "Followers", value: "500"),
-            columnWidget(title: "Projects", value: "77"),
-            columnWidget(title: "Feedback", value: "4.5"),
+            columnWidget(title: 'Followers', value: '${profile?.followersCount??'0'}'),
+            columnWidget(title: 'Projects', value:  '${profile?.projectsCount??'0'}'),
+            columnWidget(title: 'Feedback', value: '${profile?.rating??'0'}'),
           ],
         )
       ],
@@ -86,13 +92,5 @@ class ProfileHeadUi extends StatelessWidget {
     );
   }
 
-  Widget descriptionWidget() {
-    return textWidget(
-        color: PColors.white,
-        textAlign: TextAlign.left,
-        fontweight: FontWeight.w300,
-        text:
-            "Dynamic and versatile actor with a passion for bringing characters to life on screen and stage. With a background in theater and film,",
-        fontsize: 13);
-  }
+
 }

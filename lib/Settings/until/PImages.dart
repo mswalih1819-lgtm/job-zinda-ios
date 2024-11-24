@@ -33,6 +33,8 @@ class PImages {
   static String get navigation => "assets/images/navigation.png";
 
   static String get open_gift_box => "assets/images/open_gift_box.png";
+  static String get profile =>'assets/images/profile.jpg' ;
+  static String get noImage =>'assets/images/no_image.jpg';
 
   // static String get  => "assets/images/.jpg";
 }

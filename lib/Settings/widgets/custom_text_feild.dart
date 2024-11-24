@@ -22,8 +22,8 @@ class CustomTextFeild extends StatefulWidget {
   final Function()? sufixfn;
   final Function()? prefixfn;
   final Function()? onTap;
-  final Function(String? val) onSaved;
-  final Function(String? val) onChanged;
+  final Function(String? val)? onSaved;
+  final Function(String? val)? onChanged;
   final Iterable<String>? autofillHints;
   final TextEditingController? controller;
   final List<TextInputFormatter>? inputFormatters;
@@ -36,9 +36,9 @@ class CustomTextFeild extends StatefulWidget {
     required this.hintText,
     this.suffixIcon,
     this.sufixfn,
-    required this.onSaved,
-    required this.onChanged,
-    required this.validation,
+     this.onSaved,
+     this.onChanged,
+     this.validation,
     this.keyboardType,
     this.hintColor,
     this.autofillHints,

@@ -5,6 +5,8 @@ import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 
+import '../../home_section/home_pages/view/widgets/add_story_screen.dart';
+
 class UploadPagesUi extends StatelessWidget {
   const UploadPagesUi({super.key});
 
@@ -44,7 +46,9 @@ class UploadPagesUi extends StatelessWidget {
               leading: SvgPicture.asset(PSvgs.share_post),
               title: textWidget(text: "Share new post", color: PColors.white),
             ),
-            ListTile(
+            ListTile(onTap: () {
+               Navigator.pushNamed(context, AddStoryScreen.route);
+            },
               leading: SvgPicture.asset(
                 PSvgs.share_story,
               ),

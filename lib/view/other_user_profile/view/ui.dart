@@ -17,7 +17,7 @@ class OtherUserProfileUi extends StatelessWidget {
             children: [
               ProfileHeadUi(
                 map: map,
-                profile_analytics_icon: PSvgs.other_user_analytics,
+            icon: PSvgs.other_user_analytics,
               ),
               SizedBox(
                 height: 5,

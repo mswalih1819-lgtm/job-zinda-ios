@@ -7,6 +7,7 @@ import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/custom_icon_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/view/chat_section/chat_pages/view/ui.dart';
 import 'package:jora_customer/view/profile_view/view/widgets/profile_view_body.dart';
 import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
@@ -78,18 +79,18 @@ class ProfileViewUi extends StatelessWidget {
                 backgroundColor: PColors.white,
                 child: CircleAvatar(
                   radius: 44,
-                  backgroundImage: AssetImage(PImages.pro_pic3),
+                  backgroundImage:NetworkImage(LoggedInUser.profilePic??''),
                 ),
               ),
               SizedBox(
                 height: 10,
               ),
-              textWidget(text: "John Abraham"),
+              textWidget(text: LoggedInUser.name??''),
               SizedBox(
                 height: 2,
               ),
               textWidget(
-                  text: "Usermail@gmail.com",
+                  text:LoggedInUser.email??'',
                   fontsize: 12,
                   color: PColors.white.withOpacity(0.6))
             ],

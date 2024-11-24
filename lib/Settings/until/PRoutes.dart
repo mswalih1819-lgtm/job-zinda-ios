@@ -1,24 +1,25 @@
 import 'package:jora_customer/view/chat_details_page/view/ui.dart';
 import 'package:jora_customer/view/chat_section/chat_pages/view/ui.dart';
 import 'package:jora_customer/view/connect_pages/filter_freelancers/view/ui.dart';
-import 'package:jora_customer/view/edit_profile/view/ui.dart';
-import 'package:jora_customer/view/profile_analytics/view/ui.dart';
+import 'package:jora_customer/view/edit_profile/view/edit_profile_screen.dart';
+import 'package:jora_customer/view/home_section/home_pages/view/widgets/add_story_screen.dart';
+import 'package:jora_customer/view/profile_analytics/view/profile_analytics_screen.dart';
 import 'package:jora_customer/view/profile_view/view/ui.dart';
 import 'package:jora_customer/view/help_support/view/ui.dart';
 import 'package:jora_customer/view/help_support/view/widgets/send_feedback_ui.dart';
-import 'package:jora_customer/view/home_section/home_pages/view/ui.dart';
+import 'package:jora_customer/view/home_section/home_pages/view/home_screen.dart';
 import 'package:jora_customer/view/login_section/login_splash/view/ui.dart';
 import 'package:jora_customer/view/login_section/login_splash/view/widgets/login_splash_2.dart';
 import 'package:jora_customer/view/login_section/login_welcome_screen/view/ui.dart';
 import 'package:jora_customer/view/login_section/otp_verify/view/ui.dart';
-import 'package:jora_customer/view/login_section/phone_number_ui/view/ui.dart';
+import 'package:jora_customer/view/login_section/phone_number_ui/view/login_screen.dart';
 import 'package:jora_customer/view/notifications/notification_pages/view/ui.dart';
 import 'package:jora_customer/view/subscription_page/view/ui.dart';
-import 'package:jora_customer/view/upload_pages/view/widgets/add_post.dart';
+import 'package:jora_customer/view/upload_pages/view/widgets/add_post_screen.dart';
 import 'package:jora_customer/view/welcome/view/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
-import 'package:jora_customer/view/splash/view/ui.dart';
+import 'package:jora_customer/view/splash/view/splash_screen.dart';
 import 'package:jora_customer/view/welcome/view/widgets/onboarding_screen_ui.dart';
 import 'package:jora_customer/view/wrapper/view/ui.dart';
 
@@ -27,7 +28,7 @@ class Routes {
     switch (settings.name) {
       case PPages.splash:
         return MaterialPageRoute(
-          builder: (context) => SplashUi(),
+          builder: (context) => SplashScreen(),
         );
 
       case PPages.welcomePageUi:
@@ -44,7 +45,7 @@ class Routes {
         );
       case PPages.phoneNumberUi:
         return MaterialPageRoute(
-          builder: (context) => PhoneNumberUi(),
+          builder: (context) => LoginScreen(),
         );
       case PPages.otpPageUi:
         return MaterialPageRoute(
@@ -82,7 +83,7 @@ class Routes {
         );
       case PPages.addPostUi:
         return MaterialPageRoute(
-          builder: (context) => AddPostUi(),
+          builder: (context) => AddPostScreen(),
         );
       case PPages.chatDetailsPageui:
         return MaterialPageRoute(
@@ -90,7 +91,7 @@ class Routes {
         );
       case PPages.editProfileUi:
         return MaterialPageRoute(
-          builder: (context) => EditProfileUi(),
+          builder: (context) => EditProfileScreen(),
         );
       case PPages.profileView:
         return MaterialPageRoute(
@@ -102,13 +103,14 @@ class Routes {
         );
       case PPages.profileAnalyticsPageUi:
         return MaterialPageRoute(
-          builder: (context) => ProfileAnalyticsPageUi(),
+          builder: (context) => ProfileAnalyticsScreen(),
         );
       case PPages.subscriptionPageUi:
         return MaterialPageRoute(
           builder: (context) => SubscriptionPageUi(),
         );
-
+case AddStoryScreen.route:
+return MaterialPageRoute(builder: (context) => AddStoryScreen(),);
       default:
         return null;
     }

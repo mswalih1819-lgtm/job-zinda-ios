@@ -5,11 +5,30 @@ import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
+import 'package:jora_customer/view/chat_section/chat_pages/view/ui.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/view/widgets/login_body.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/view/widgets/login_head.dart';
+import 'package:jora_customer/view_model/auth_view_model.dart';
+import 'package:provider/provider.dart';
 
-class PhoneNumberUi extends StatelessWidget {
-  const PhoneNumberUi({super.key});
+import '../../../../utils/validator.dart';
+
+class LoginScreen extends StatefulWidget {
+  LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _numberController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    _numberController.text = '9048657659';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,29 +77,34 @@ class PhoneNumberUi extends StatelessWidget {
   }
 
   Widget phonenUmberField() {
-    return CustomTextFeild(
-        keyboardType: TextInputType.phone,
-        borderColor: PColors.textFeildBorderColor,
-        borderRadius: 0,
-        hintText: "Phone number",
-        onSaved: (val) {},
-        onChanged: (val) {},
-        validation: (val) {},
-        validation: Validator.mobile,
-        keyboardType: TextInputType.number,
-        maxLength: 10,
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly
-        ],
-        filColor: PColors.seed);
+    return Form(
+      key: _formKey,
+      child: CustomTextFeild(
+          controller: _numberController,
+          keyboardType: TextInputType.phone,
+          borderColor: PColors.textFeildBorderColor,
+          borderRadius: 0,
+          hintText: 'Phone number',
+          validation: Validator.mobile,
+          maxLength: 10,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly
+          ],
+          filColor: PColors.seed),
+    );
   }
 
   Widget button(BuildContext context) {
     return CustomElavatedTextButton(
       width: double.infinity,
-      text: "Send code",
+      text: 'Send code',
       onPressed: () {
-        Navigator.pushNamed(context, PPages.otpPageUi);
+        if (_formKey.currentState?.validate() ?? false) {
+          context
+              .read<AuthViewModel>()
+              .login(phoneNumber: _numberController.text, context: context);
+        }
+        // Navigator.pushNamed(context, PPages.otpPageUi);
       },
       bgcolor: PColors.white,
       borderRadius: 0,

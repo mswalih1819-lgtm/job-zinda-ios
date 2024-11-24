@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
+import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
+import 'package:jora_customer/view_model/profile_analytics_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ProfileImageWidget extends StatelessWidget {
-  Map map;
-  String profile_analytics_icon;
+
+ final String icon;
+ final ProfileModel?profileModel;
   ProfileImageWidget(
-      {super.key, required this.map, required this.profile_analytics_icon});
+      {super.key,  required this.icon ,required this.profileModel});
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +35,21 @@ class ProfileImageWidget extends StatelessWidget {
           child: Container(
               height: coverHeight,
               width: double.infinity,
-              child: Image.asset(
-                map["cover"],
+              child: Image.network(profileModel?.profileImageUrl??'',
                 fit: BoxFit.fill,
               )),
         ),
         Positioned(
             left: 20,
             top: coverHeight - (profileHeight / 1.4),
-            child: buildProfileImage(profileHeight)),
+            child: CircleAvatar(
+      radius: profileHeight / 1.4,
+      backgroundColor: PColors.white,
+      child: CircleAvatar(
+        radius: profileHeight / 1.5,
+        backgroundImage: NetworkImage(profileModel?.profileImageUrl??''),
+      ),
+    )),
         Positioned(
             top: coverHeight + 10,
             right: 10,
@@ -48,12 +58,13 @@ class ProfileImageWidget extends StatelessWidget {
               builder: (context, value, child) => Row(
                 children: [
                   GestureDetector(
-                      onTap: () {
+                      onTap: ()async {
+                      await  context.read<ProfileAnalyticsViewModel>().fetchProfileAnalytics(filter: '7days');
                         Navigator.pushNamed(
                             context, PPages.profileAnalyticsPageUi);
                       },
                       child: SvgPicture.asset(
-                        profile_analytics_icon,
+                        icon,
                         height: 30,
                       )),
                   SizedBox(
@@ -81,14 +92,5 @@ class ProfileImageWidget extends StatelessWidget {
     );
   }
 
-  Widget buildProfileImage(double profileHeight) {
-    return CircleAvatar(
-      radius: profileHeight / 1.4,
-      backgroundColor: PColors.white,
-      child: CircleAvatar(
-        radius: profileHeight / 1.5,
-        backgroundImage: AssetImage(map["profile"]),
-      ),
-    );
-  }
+ 
 }

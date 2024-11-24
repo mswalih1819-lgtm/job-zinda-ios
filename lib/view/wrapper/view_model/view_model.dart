@@ -19,8 +19,6 @@ class WrapperViewModel extends ChangeNotifier {
   String viewStatus = WrapperViewStatus.home;
   updatePageView(String value) {
     viewStatus = value;
-
-    print("view----$viewStatus");
     notifyListeners();
   }
 }

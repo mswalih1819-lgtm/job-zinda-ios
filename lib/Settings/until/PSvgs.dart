@@ -48,7 +48,7 @@ class PSvgs {
   static String get network => "assets/svgs/network.svg";
   static String get filter => "assets/svgs/filter.svg";
 
-  static String get my_profile_analytics => "assets/svgs/my_profile_analytics.svg";
+  static String get myProfileAnalytics => "assets/svgs/my_profile_analytics.svg";
   static String get other_user_analytics => "assets/svgs/other_user_analytics.svg";
   static String get lets_plan => "assets/svgs/lets_plan.svg";
 

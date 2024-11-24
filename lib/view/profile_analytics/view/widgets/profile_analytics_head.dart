@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/model/analytics_model.dart';
+import 'package:jora_customer/model/logged_in_user.dart';
+import 'package:jora_customer/utils/date_formatter.dart';
+import 'package:jora_customer/view/wrapper/view/widgets/wrapper_body.dart';
+import 'package:jora_customer/view_model/profile_analytics_view_model.dart';
+import 'package:provider/provider.dart';
 
 class ProfileAnalyticsHeadUi extends StatefulWidget {
   ProfileAnalyticsHeadUi({super.key});
@@ -11,10 +17,21 @@ class ProfileAnalyticsHeadUi extends StatefulWidget {
 }
 
 class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
-  String dropdownValue='Last 7 days';
+  String dropdownValue = 'Last 7 days';
 
   @override
   Widget build(BuildContext context) {
+    ProfileAnalyticsViewModel profileAnalyticsViewModel =
+        context.watch<ProfileAnalyticsViewModel>();
+    AnalyticsModel? analyticsModel = profileAnalyticsViewModel.analyticsModel;
+    String today =
+        formatDateFromDate(dateTime: DateTime.now(), format: 'MMM dd');
+    String beforeOneMonth = formatDateFromDate(
+        dateTime: DateTime.now().subtract(Duration(days: 30)),
+        format: 'MMM dd');
+    String beforeOneWeek = formatDateFromDate(
+        dateTime: DateTime.now().subtract(Duration(days: 7)), format: 'MMM dd');
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -24,22 +41,21 @@ class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
             children: [
               dropdownWidget(),
               Text(
-                'Sep 14 - Sep 20',
+                '${dropdownValue == 'Last 7 days' ? beforeOneWeek : beforeOneMonth} - $today',
                 style: TextStyle(color: Colors.grey),
               ),
             ],
           ),
           SizedBox(height: 30),
-
-          // Profile and followers
           Row(
             children: [
               CircleAvatar(
                 radius: 30,
                 backgroundColor: PColors.white,
                 child: CircleAvatar(
-                    radius: 28, backgroundImage: AssetImage(PImages.pro_pic3)),
-                // Replace with your image
+                    radius: 28,
+                    backgroundImage:
+                        NetworkImage(LoggedInUser.profilePic ?? '')),
               ),
               SizedBox(width: 20),
               Column(
@@ -52,7 +68,7 @@ class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
                   Row(
                     children: [
                       Text(
-                        '1.5k ',
+                        '${analyticsModel?.totalFollowers ?? '0'} ',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 28,
@@ -71,7 +87,7 @@ class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
                         ),
                       ),
                       Text(
-                        '10.2%',
+                        ' ${analyticsModel?.followersGrowth ?? '0%'}',
                         style: TextStyle(color: Colors.green),
                       ),
                     ],
@@ -105,11 +121,22 @@ class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
           style: TextStyle(color: PColors.seed2),
           underline: Container(),
           onChanged: (String? newValue) {
-            setState(() {
-              dropdownValue = newValue!;
-            });
+            if (newValue != null) {
+              setState(() {
+                dropdownValue = newValue;
+              });
+              if (newValue == 'Last 7 days') {
+                context
+                    .read<ProfileAnalyticsViewModel>()
+                    .fetchProfileAnalytics(filter: '7days');
+              } else {
+                context
+                    .read<ProfileAnalyticsViewModel>()
+                    .fetchProfileAnalytics(filter: '1month');
+              }
+            }
           },
-          items: <String>['Last 7 days', 'Last 3 days']
+          items: <String>['Last 7 days', 'Last 1 month']
               .map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,

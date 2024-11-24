@@ -5,12 +5,8 @@ import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PRoutes.dart';
 import 'package:jora_customer/Settings/until/PText_styles.dart';
 import 'package:jora_customer/utils/providers.dart';
-import 'package:jora_customer/view/chat_section/chat_pages/view_model/view_model.dart';
-import 'package:jora_customer/view/notifications/notification_pages/view_model/view_model.dart';
-import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 import 'package:provider/provider.dart';
 
-import 'view_model/auth_view_model.dart';
 
 void main() {
   configLoading();
@@ -32,8 +28,8 @@ class MyApp extends StatelessWidget {
       title: 'Jora Customer',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        textTheme: TextTheme(
-          bodySmall: TextStyle(),
+        textTheme: const TextTheme(
+          bodySmall:  TextStyle(),
           bodyMedium: TextStyle(),
           bodyLarge: TextStyle(),
         ).apply(
@@ -41,7 +37,6 @@ class MyApp extends StatelessWidget {
           displayColor: PColors.white,
         ),
         scaffoldBackgroundColor: PColors.seed,
-        // fontFamily: PFonts.plusJakartaSansBold,
         colorScheme: ColorScheme.fromSeed(seedColor: PColors.seed),
         iconTheme: IconThemeData(color: PColors.white),
         useMaterial3: true,
@@ -69,24 +64,17 @@ class MyApp extends StatelessWidget {
 }
 
 void configLoading() {
-  EasyLoading.instance
-    ..loadingStyle = EasyLoadingStyle.custom
-    ..backgroundColor = Colors.white
-    ..maskColor = Colors.white
-    ..indicatorColor = Colors.black
-    ..userInteractions = false
-    ..dismissOnTap = false
-    ..textColor = Colors.transparent
-    ..contentPadding = const EdgeInsets.all(8)
-    ..textPadding = EdgeInsets.zero
-    ..indicatorType = EasyLoadingIndicatorType.circle
-    ..indicatorSize = 23
-    ..lineWidth = 2.2
-    ..radius = 20
-    ..boxShadow = <BoxShadow>[
-      const BoxShadow(
-          offset: Offset(2, 2),
-          blurRadius: 10,
-          color: Color.fromRGBO(0, 0, 0, .15))
-    ];
+EasyLoading.instance
+  ..displayDuration = const Duration(milliseconds: 2000)
+  ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+  ..loadingStyle = EasyLoadingStyle.dark
+  ..indicatorSize = 45.0
+  ..radius = 10.0
+  ..progressColor = Colors.yellow
+  ..backgroundColor = Colors.green
+  ..indicatorColor = Colors.yellow
+  ..textColor = Colors.yellow
+  ..maskColor = Colors.blue.withOpacity(0.5)
+  ..userInteractions = true
+  ..dismissOnTap = false;
 }

@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../model/analytics_model.dart';
+import '../../../../view_model/profile_analytics_view_model.dart';
 
 class GrowthSectionUi extends StatelessWidget {
   const GrowthSectionUi({super.key});
 
   @override
   Widget build(BuildContext context) {
+      ProfileAnalyticsViewModel profileAnalyticsViewModel = context.watch<ProfileAnalyticsViewModel>();
+    AnalyticsModel? analyticsModel =profileAnalyticsViewModel.analyticsModel;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -20,12 +26,12 @@ class GrowthSectionUi extends StatelessWidget {
             color: PColors.white,fontsize: 18,fontweight: FontWeight.w600
           ),
           SizedBox(height: 10),
-          itemWidget(title: 'Total new followers', value: '23'),
+          itemWidget(title: 'Total new followers', value: '${analyticsModel?.filteredFollowers??'0'}'),
           SizedBox(height: 10,),
-          itemWidget(title: 'Unfollows', value: '3'),
+          itemWidget(title: 'Unfollows', value: '${analyticsModel?.unFollowCount??'0'}'),
           SizedBox(height: 10,),
 
-          itemWidget(title: 'Profile view', value: '3'),
+          itemWidget(title: 'Profile view', value:'${analyticsModel?.totalProfileViews??'0'}'),
           SizedBox(height: 30),
         ],
       ),

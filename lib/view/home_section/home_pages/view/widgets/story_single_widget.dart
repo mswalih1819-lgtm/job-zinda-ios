@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/model/story_model.dart';
+
+import '../../../../../Settings/until/PImages.dart';
 
 class StorySingleWidgetUi extends StatelessWidget {
-  Map map;
-   StorySingleWidgetUi({required this.map});
+  final StoryModel story;
+  const StorySingleWidgetUi({super.key, required this.story});
 
   @override
   Widget build(BuildContext context) {
@@ -12,22 +15,22 @@ class StorySingleWidgetUi extends StatelessWidget {
     return Container(
       // width: size.width * 0.26,
       height: size.height * 0.2,
-      margin: EdgeInsets.symmetric(horizontal: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
       child: Stack(
         alignment: Alignment.center,
         children: [
           Column(
             children: [
-              Container(
-                height: size.height * .19,
-                width: size.width * 0.26,
-                margin: EdgeInsets.all(0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.asset(
-                    map["image"],
-                    fit: BoxFit.fill,
-                  ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  height: size.height * .19,
+                  width: size.width * 0.26,
+                  story.media?.first.content ?? '',
+                  errorBuilder: (context, error, stackTrace) =>
+                      Image.asset(PImages.noImage ,   height: size.height * .19,
+                  width: size.width * 0.26,   fit: BoxFit.fill,),
+                  fit: BoxFit.fill,
                 ),
               ),
               SizedBox(
@@ -35,23 +38,23 @@ class StorySingleWidgetUi extends StatelessWidget {
               ),
               Expanded(
                 child: textWidget(
-                  // text: "sdbsd sd sd s dbs bs bd b",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
-                  text: map["name"],
+                  text: story.userName==null||story.userName!.isEmpty?'User Name':story.userName, color: Colors.white
                 ),
               )
             ],
           ),
           Positioned(
             top: (size.height * 0.19) - (46 / 2),
-            child: Container(
-              height: 46.0,
-              width: 46.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              child: Image.asset(map["profile_image"]),
+            child: ClipRRect(borderRadius: BorderRadius.circular(60),
+              child: Image.network(story.userProfileImg ?? '',
+                  errorBuilder: (context, error, stackTrace) => Image.asset(
+                        PImages.profile,
+                        height: 46.0,
+                        width: 46.0,
+                        fit: BoxFit.fill,
+                      )),
             ),
           )
         ],

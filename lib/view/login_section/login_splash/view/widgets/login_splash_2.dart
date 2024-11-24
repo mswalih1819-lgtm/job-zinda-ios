@@ -16,7 +16,7 @@ class LoginSplash2Ui extends StatelessWidget {
         actions: [
           GestureDetector(
               onTap: () {
-                Navigator.pop(context);
+              Navigator.pushNamedAndRemoveUntil(context, PPages.wrapperView , (route) => false,) ;
               },
               child: Icon(
                 Icons.close,
@@ -64,7 +64,7 @@ class LoginSplash2Ui extends StatelessWidget {
           borderRadius: 0,
           text: "Not now",
           onPressed: () {
-            // Navigator.pushNamed(context, PPages.loginSplash2Ui);
+             Navigator.pushNamedAndRemoveUntil(context, PPages.wrapperView , (route) => false,) ;
           },
           bgcolor: PColors.black2,
           textColor: PColors.white,
@@ -77,7 +77,7 @@ class LoginSplash2Ui extends StatelessWidget {
           borderRadius: 0,
           text: "Sure",
           onPressed: () {
-            Navigator.pushNamed(context, PPages.wrapperView);
+            Navigator.pushNamedAndRemoveUntil(context, PPages.wrapperView , (route) => false,) ;
           },
           bgcolor: PColors.white,
           textColor: PColors.black,
