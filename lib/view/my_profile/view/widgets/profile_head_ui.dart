@@ -1,24 +1,28 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/profile_image_widget.dart';
 
 class ProfileHeadUi extends StatelessWidget {
- final Map? map;
- final String icon;
-  final ProfileModel ? profileModel;
-  ProfileHeadUi(
-      {super.key,  this.map, required this.icon , this.profileModel});
+  final Map? map;
+  final String icon;
+  final ProfileModel? profileModel;
+  ProfileHeadUi({super.key, this.map, required this.icon, this.profileModel});
 
   @override
   Widget build(BuildContext context) {
+    log(LoggedInUser.accessToken.toString());
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ProfileImageWidget(profileModel: profileModel,
-       icon: icon,
+        ProfileImageWidget(
+          profileModel: profileModel,
+          icon: icon,
         ),
         Container(
             margin: EdgeInsets.symmetric(horizontal: 17, vertical: 10),
@@ -27,20 +31,20 @@ class ProfileHeadUi extends StatelessWidget {
     );
   }
 
-  Widget contentWidget( ProfileModel? profile) {
+  Widget contentWidget(ProfileModel? profile) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         textWidget(
-            text: profile?.name??'',
+            text: profile?.name ?? '',
             fontsize: 18,
             fontweight: FontWeight.w500,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
             color: PColors.white),
         textWidget(
-            text:profile?.profession??'',
+            text: profile?.profession ?? '',
             fontsize: 14,
             fontweight: FontWeight.w300,
             color: PColors.white,
@@ -49,23 +53,25 @@ class ProfileHeadUi extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
-       textWidget(
-        color: PColors.white,
-        textAlign: TextAlign.left,
-        fontweight: FontWeight.w300,
-        text:
-           profile?.bio??'',
-        fontsize: 13),
+        textWidget(
+            color: PColors.white,
+            textAlign: TextAlign.left,
+            fontweight: FontWeight.w300,
+            text: profile?.bio ?? '',
+            fontsize: 13),
         SizedBox(
           height: 18,
         ),
-
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            columnWidget(title: 'Followers', value: '${profile?.followersCount??'0'}'),
-            columnWidget(title: 'Projects', value:  '${profile?.projectsCount??'0'}'),
-            columnWidget(title: 'Feedback', value: '${profile?.rating??'0'}'),
+            columnWidget(
+                title: 'Followers', value: '${profile?.followersCount ?? '0'}'),
+            columnWidget(
+                title: 'Projects', value: '${profile?.projectsCount ?? '0'}'),
+            columnWidget(
+                title: 'Feedback',
+                value: profile?.rating?.toStringAsFixed(1) ?? '0'),
           ],
         )
       ],
@@ -91,6 +97,4 @@ class ProfileHeadUi extends StatelessWidget {
       ),
     );
   }
-
-
 }

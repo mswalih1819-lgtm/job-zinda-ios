@@ -7,17 +7,18 @@ import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 import 'package:jora_customer/view_model/profile_analytics_view_model.dart';
+import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ProfileImageWidget extends StatelessWidget {
-
- final String icon;
- final ProfileModel?profileModel;
+  final String icon;
+  final ProfileModel? profileModel;
   ProfileImageWidget(
-      {super.key,  required this.icon ,required this.profileModel});
+      {super.key, required this.icon, required this.profileModel});
 
   @override
   Widget build(BuildContext context) {
+    context.watch<ProfileViewModel>();
     Size size = MediaQuery.of(context).size;
     double coverHeight = size.height * 0.21;
     double profileHeight = 75;
@@ -32,10 +33,11 @@ class ProfileImageWidget extends StatelessWidget {
       children: [
         Container(
           margin: EdgeInsets.only(bottom: profileHeight / 1.4),
-          child: Container(
+          child: SizedBox(
               height: coverHeight,
               width: double.infinity,
-              child: Image.network(profileModel?.profileImageUrl??'',
+              child: Image.network(
+                profileModel?.coverImage ?? '',
                 fit: BoxFit.fill,
               )),
         ),
@@ -43,13 +45,14 @@ class ProfileImageWidget extends StatelessWidget {
             left: 20,
             top: coverHeight - (profileHeight / 1.4),
             child: CircleAvatar(
-      radius: profileHeight / 1.4,
-      backgroundColor: PColors.white,
-      child: CircleAvatar(
-        radius: profileHeight / 1.5,
-        backgroundImage: NetworkImage(profileModel?.profileImageUrl??''),
-      ),
-    )),
+              radius: profileHeight / 1.4,
+              backgroundColor: PColors.white,
+              child: CircleAvatar(
+                radius: profileHeight / 1.5,
+                backgroundImage:
+                    NetworkImage(profileModel?.profileImageUrl ?? ''),
+              ),
+            )),
         Positioned(
             top: coverHeight + 10,
             right: 10,
@@ -58,8 +61,10 @@ class ProfileImageWidget extends StatelessWidget {
               builder: (context, value, child) => Row(
                 children: [
                   GestureDetector(
-                      onTap: ()async {
-                      await  context.read<ProfileAnalyticsViewModel>().fetchProfileAnalytics(filter: '7days');
+                      onTap: () async {
+                        await context
+                            .read<ProfileAnalyticsViewModel>()
+                            .fetchProfileAnalytics(filter: '7days');
                         Navigator.pushNamed(
                             context, PPages.profileAnalyticsPageUi);
                       },
@@ -91,6 +96,4 @@ class ProfileImageWidget extends StatelessWidget {
       ],
     );
   }
-
- 
 }

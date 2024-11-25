@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -13,11 +12,13 @@ class ProfileAnalyticsViewModel with ChangeNotifier {
   AnalyticsModel? analyticsModel;
   Future<void> fetchProfileAnalytics({required String filter}) async {
     EasyLoading.show();
-    Response response = await ApiService().get('${Api.fetchProfileAnalyticsUrl}?dateFilter=$filter');
+    Response response = await ApiService()
+        .get('${Api.fetchProfileAnalyticsUrl}?dateFilter=$filter');
+    log(response.data.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {
-        analyticsModel =AnalyticsModel.fromJson( data['data']['analytics']);
+        analyticsModel = AnalyticsModel.fromJson(data['data']['analytics']);
         notifyListeners();
       }
     }

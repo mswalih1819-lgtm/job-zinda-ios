@@ -7,9 +7,13 @@ import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
 import 'package:jora_customer/Settings/widgets/custom_textfeild_with_head.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/main.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/utils/validator.dart';
 import 'package:jora_customer/view/edit_profile/view/widgets/image_edit_section.dart';
+import 'package:jora_customer/view/profile_view/view/widgets/profile_view_body.dart';
+import 'package:jora_customer/view_model/profile_view_model.dart';
+import 'package:provider/provider.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -23,26 +27,31 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _emailController = TextEditingController();
 
   final TextEditingController _numberController = TextEditingController();
-  final _formKey = GlobalKey<FormState>() ;
-@override
+  final _formKey = GlobalKey<FormState>();
+  @override
   void initState() {
-    
-    _nameController.text =  LoggedInUser.name??'';
-    _emailController.text =  LoggedInUser.email??'';
-    _numberController.text = LoggedInUser.phoneNumber??'' ;
+    _nameController.text = LoggedInUser.name ?? '';
+    _emailController.text = LoggedInUser.email ?? '';
+    _numberController.text = LoggedInUser.phoneNumber ?? '';
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton:CustomElavatedTextButton(
+      floatingActionButton: CustomElavatedTextButton(
         text: 'Save',
         textColor: PColors.black,
         bgcolor: PColors.white,
         borderRadius: 0,
-        onPressed: (){
-          if(_formKey.currentState?.validate()??false){}
+        onPressed: () {
+          if (_formKey.currentState?.validate() ?? false) {
+            context.read<ProfileViewModel>().updateProfile(
+                name: _nameController.text,
+                email: _emailController.text,
+                context: context);
+          }
         },
       ),
       appBar: AppBar(
@@ -51,7 +60,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Form(key: _formKey,
+          child: Form(
+            key: _formKey,
             child: Column(
               children: [
                 SizedBox(
@@ -79,17 +89,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Widget emailTextField() {
-    return CustomTextFeild(controller: _emailController,
+    return CustomTextFeild(
+        controller: _emailController,
         borderColor: PColors.whiteOff.withOpacity(0.6),
         borderRadius: 0,
         filColor: PColors.black,
         textHead: 'Email ID',
-        validation:Validator.email,
+        validation: Validator.email,
         hintText: 'Email ID');
   }
 
   Widget nameTextField() {
-    return CustomTextFeild(controller: _nameController,
+    return CustomTextFeild(
+        controller: _nameController,
         borderRadius: 0,
         borderColor: PColors.whiteOff.withOpacity(0.6),
         filColor: PColors.black,
@@ -99,16 +111,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Widget mobileTextField() {
-    return CustomTextFeild(controller: _numberController,
-        borderColor: PColors.whiteOff.withOpacity(0.6),
-        borderRadius: 0,
-        filColor: PColors.black,
-        textHead: 'Mobile number',
-        validation: Validator.mobile,
-        hintText: 'Mobile number',
-          maxLength: 10,
-          inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.digitsOnly
-          ],);
+    return CustomTextFeild(
+      controller: _numberController,
+      borderColor: PColors.whiteOff.withOpacity(0.6),
+      borderRadius: 0,
+      filColor: PColors.black,
+      textHead: 'Mobile number',
+      validation: Validator.mobile,
+      hintText: 'Mobile number',
+      maxLength: 10,
+      readOnly: true,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly
+      ],
+    );
   }
 }

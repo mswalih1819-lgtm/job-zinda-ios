@@ -45,17 +45,22 @@ class ProfileViewModel with ChangeNotifier {
     EasyLoading.dismiss();
   }
 
-  Future<void> updateProfile({required String url}) async {
+  Future<void> updateProfile(
+      {required String name,
+      required String email,
+      required BuildContext context}) async {
     EasyLoading.show();
-    Response response =
-        await ApiService().put(Api.updateProfile, {'profileImageUrl': url});
+    Response response = await ApiService()
+        .put(Api.updateProfile, {'name': name, 'email': email});
     log(response.data.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {
+        Navigator.pop(context);
         if (data.containsKey('message')) {
           EasyLoading.showSuccess(data['message']);
           LoggedInUser.profile(data['data']['profileDetails']);
+
           notifyListeners();
         }
       }

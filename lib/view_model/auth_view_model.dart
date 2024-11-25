@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -13,8 +11,8 @@ class AuthViewModel with ChangeNotifier {
   Future<void> login(
       {required String phoneNumber, required BuildContext context}) async {
     EasyLoading.show();
-    Response response = await ApiService().post(
-        Api.loginUrl, {'countryCode': '91', 'mobileNumber': phoneNumber});
+    Response response = await ApiService()
+        .post(Api.loginUrl, {'countryCode': '91', 'mobileNumber': phoneNumber});
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       print(response.data);
