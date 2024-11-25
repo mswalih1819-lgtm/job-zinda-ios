@@ -12,14 +12,15 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ProfileViewModel profileViewModel =  context.read<ProfileViewModel>();
+    ProfileViewModel profileViewModel = context.watch<ProfileViewModel>();
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
             children: [
               ProfileHeadUi(
-              icon: PSvgs.myProfileAnalytics,profileModel: profileViewModel.profileModel,
+                icon: PSvgs.myProfileAnalytics,
+                profileModel: profileViewModel.profileModel,
               ),
               SizedBox(
                 height: 5,
@@ -35,6 +36,4 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
-
-
 }

@@ -32,7 +32,9 @@ class ProfileViewUi extends StatelessWidget {
           textColor: PColors.black,
           borderRadius: 0,
           text: "Lets go",
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, PPages.editProfileUi);
+          },
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -79,36 +81,33 @@ class ProfileViewUi extends StatelessWidget {
                 backgroundColor: PColors.white,
                 child: CircleAvatar(
                   radius: 44,
-                  backgroundImage:NetworkImage(LoggedInUser.profilePic??''),
+                  backgroundImage: NetworkImage(LoggedInUser.profilePic ?? ''),
                 ),
               ),
               SizedBox(
                 height: 10,
               ),
-              textWidget(text: LoggedInUser.name??''),
+              textWidget(text: LoggedInUser.name ?? ''),
               SizedBox(
                 height: 2,
               ),
               textWidget(
-                  text:LoggedInUser.email??'',
+                  text: LoggedInUser.email ?? '',
                   fontsize: 12,
                   color: PColors.white.withOpacity(0.6))
             ],
           ),
-          SizedBox(
-            width: 10,
-          ),
+          SizedBox(width: 10),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, PPages.editProfileUi);
+                    Navigator.pushReplacementNamed(
+                        context, PPages.editProfileUi);
                   },
                   child: SvgPicture.asset(PSvgs.edit_profile)),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
             ],
           ),
         ],

@@ -25,9 +25,7 @@ class HomeScreen extends StatelessWidget {
                 color: PColors.whiteOff.withOpacity(0.3),
               ),
               PostSection(),
-              SizedBox(
-                height: 100
-              )
+              SizedBox(height: 100)
             ],
           ),
         ),

@@ -11,17 +11,18 @@ class ProfileModel {
   String? professionId;
   String? profession;
   String? bio;
-  int? followersCount;
-  int? projectsCount;
-  int? rating;
-  double? lat;
-  double? lng;
+  num? followersCount;
+  num? projectsCount;
+  num? rating;
+  num? lat;
+  num? lng;
   String? address;
   String? zipcode;
   bool? isVerified;
   String? accountType;
   List<Null>? fcmTokens;
   String? createdAt;
+  String? coverImage;
 
   ProfileModel(
       {this.location,
@@ -46,7 +47,8 @@ class ProfileModel {
       this.isVerified,
       this.accountType,
       this.fcmTokens,
-      this.createdAt});
+      this.createdAt,
+      this.coverImage});
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     location = json['location'] != null
@@ -73,21 +75,18 @@ class ProfileModel {
     isVerified = json['isVerified'];
     accountType = json['accountType'];
     createdAt = json['createdAt'];
+    coverImage = json['coverImage'];
   }
-
-
 }
 
 class Location {
   String? type;
-  List<double>? coordinates;
+  List<num>? coordinates;
 
   Location({this.type, this.coordinates});
 
   Location.fromJson(Map<String, dynamic> json) {
     type = json['type'];
-    coordinates = json['coordinates'].cast<double>();
+    coordinates = json['coordinates'].cast<num>();
   }
-
-
 }

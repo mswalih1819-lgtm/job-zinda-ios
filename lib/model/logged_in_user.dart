@@ -7,12 +7,13 @@ class LoggedInUser {
   static String? countryCode;
   static String? phoneNumber;
   static String? profilePic;
+  static String? coverImage;
   static String? refferalCode;
   static int? coinBalance;
   static String? accessToken;
   static String? refreshToken;
-  static double?lat;
-  static double?long;
+  static double? lat;
+  static double? long;
   LoggedInUser.login(Map<String, dynamic> json) {
     id = json['user']['_id'];
     name = json['user']['name'];
@@ -20,15 +21,16 @@ class LoggedInUser {
     countryCode = json['user']['countryCode'];
     phoneNumber = json['user']['phoneNumber'];
     profilePic = json['user']['profileImageUrl'];
+    coverImage = json['user']['coverImage'];
     coinBalance = json['user']['coinBalance'];
     refferalCode = json['user']['referralCode'];
     accessToken = json['tokens']['access']['token'];
     refreshToken = json['tokens']['refresh']['token'];
     lat = json['user']['lat'];
-     long = json['user']['lng'];
+    long = json['user']['lng'];
     storeUserLocally();
   }
-    LoggedInUser.profile(Map<String, dynamic> json) {
+  LoggedInUser.profile(Map<String, dynamic> json) {
     id = json['_id'];
     name = json['name'];
     email = json['email'];
@@ -36,7 +38,7 @@ class LoggedInUser {
     phoneNumber = json['mobileNumber'];
     profilePic = json['profileImageUrl'];
     lat = json['lat'];
-     long = json['lng'];
+    long = json['lng'];
     storeUserLocally();
   }
   static void storeUserLocally() async {
@@ -49,23 +51,23 @@ class LoggedInUser {
     prefs.setString('phoneNumber', phoneNumber ?? '');
     prefs.setString('profilePic', profilePic ?? '');
     prefs.setString('refferalCode', refferalCode ?? '');
-    prefs.setInt('coinBalance', coinBalance ??0);
+    prefs.setInt('coinBalance', coinBalance ?? 0);
     prefs.setString('accessToken', accessToken ?? '');
     prefs.setString('refreshToken', refreshToken ?? '');
   }
 
   static Future<void> getUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    id = prefs.getString('id') ;
-    email = prefs.getString('email') ;
-    name = prefs.getString('name') ;
-    countryCode = prefs.getString('countryCode') ;
-    phoneNumber = prefs.getString('phoneNumber') ;
-    profilePic = prefs.getString('profilePic') ;
-    refferalCode = prefs.getString('refferalCode') ;
-    coinBalance = prefs.getInt('coinBalance') ;
-    accessToken = prefs.getString('accessToken') ;
-    refreshToken = prefs.getString('refreshToken') ;
+    id = prefs.getString('id');
+    email = prefs.getString('email');
+    name = prefs.getString('name');
+    countryCode = prefs.getString('countryCode');
+    phoneNumber = prefs.getString('phoneNumber');
+    profilePic = prefs.getString('profilePic');
+    refferalCode = prefs.getString('refferalCode');
+    coinBalance = prefs.getInt('coinBalance');
+    accessToken = prefs.getString('accessToken');
+    refreshToken = prefs.getString('refreshToken');
   }
 
   static Future<void> clearUserData() async {

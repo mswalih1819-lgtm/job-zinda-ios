@@ -29,9 +29,8 @@ class PostViewModel with ChangeNotifier {
   Future<void> fetchPostWithPagination(int page) async {
     if (currentPage != page) {
       currentPage = page;
-      String api = isForYou
-          ? Api.followingsPostsListUrl
-          : Api.suggestedPostsListUrl;
+      String api =
+          isForYou ? Api.followingsPostsListUrl : Api.suggestedPostsListUrl;
       Response response = await ApiService().get('$api&pageNumber=$page');
       if (response.statusCode == 200) {
         Map<String, dynamic> data = response.data;
@@ -53,32 +52,69 @@ class PostViewModel with ChangeNotifier {
       }
     }
   }
-  String?_selectedUrl ;
-   String? get selectedUrl =>_selectedUrl ;
-   set selectedUrl(String?value){
-    _selectedUrl=value;notifyListeners();
-   }
-    Future<void> createPost(
-      {
-      required String description,
-      required String sharedWith, required BuildContext context}) async {
-    Response response = await ApiService().post(Api.createPostUrl, {
-    "bio":description,
-    "mediaType": "image",
-    "mediaUrl":selectedUrl,
-    "sharedWith":'all'
-});
-    log(response.data.toString());
-    if(response.statusCode==200){
-  Map<String, dynamic> data = response.data;
-  if(data['status']){
-    if(data.containsKey('message')){Navigator.pop(context);
-      EasyLoading.showSuccess(data['message']);
 
+  String? _selectedUrl;
+  String? get selectedUrl => _selectedUrl;
+  set selectedUrl(String? value) {
+    _selectedUrl = value;
+    notifyListeners();
+  }
+
+  Future<void> createPost(
+      {required String description,
+      required String sharedWith,
+      required BuildContext context}) async {
+    Response response = await ApiService().post(Api.createPostUrl, {
+      "bio": description,
+      "mediaType": "image",
+      "mediaUrl": selectedUrl,
+      "sharedWith": 'all'
+    });
+    log(response.data.toString());
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = response.data;
+      if (data['status']) {
+        if (data.containsKey('message')) {
+          Navigator.pop(context);
+          EasyLoading.showSuccess(data['message']);
+        }
+      }
     }
   }
 
+  late PagingController<int, PostModel> selfPostController;
+  int currentPageForSelfPost = 0;
+  initSelfPostPagination() {
+    currentPage = 0;
+    selfPostController = PagingController(firstPageKey: 1);
+    selfPostController.addPageRequestListener((pageKey) {
+      fetchSelfPostWithPagination(pageKey);
+    });
+  }
 
+  Future<void> fetchSelfPostWithPagination(int page) async {
+    if (currentPage != page) {
+      currentPage = page;
+      String api = Api.loginUserPostsListUrl;
+      Response response = await ApiService().get('$api&pageNumber=$page');
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        if (data['status']) {
+          List<PostModel> temp = (data['data']['posts'] as List)
+              .map((e) => PostModel.fromJson(e))
+              .toList();
+
+          if (data['data']['hasNext']) {
+            selfPostController.appendPage(temp, page + 1);
+          } else {
+            selfPostController.appendLastPage(temp);
+          }
+        } else {
+          selfPostController.appendLastPage([]);
+        }
+      } else {
+        selfPostController.appendLastPage([]);
+      }
     }
   }
 }

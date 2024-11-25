@@ -29,32 +29,33 @@ class CustomTextFeild extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String? val)? validation;
   final TextInputType? keyboardType;
-  const CustomTextFeild({
-    super.key,
-    this.onTap,
-    this.textHead,
-    required this.hintText,
-    this.suffixIcon,
-    this.sufixfn,
-     this.onSaved,
-     this.onChanged,
-     this.validation,
-    this.keyboardType,
-    this.hintColor,
-    this.autofillHints,
-    this.controller,
-    required this.filColor,
-    this.prefixIcon,
-    this.prefixfn,
-    this.textColor,
-    this.focusNode,
-    this.maxLine,
-    this.maxLength,
-    this.contentPadVertical,
-    this.inputFormatters,
-    this.borderRadius,
-    this.borderColor,
-  });
+  final bool readOnly;
+  const CustomTextFeild(
+      {super.key,
+      this.onTap,
+      this.textHead,
+      required this.hintText,
+      this.suffixIcon,
+      this.sufixfn,
+      this.onSaved,
+      this.onChanged,
+      this.validation,
+      this.keyboardType,
+      this.hintColor,
+      this.autofillHints,
+      this.controller,
+      required this.filColor,
+      this.prefixIcon,
+      this.prefixfn,
+      this.textColor,
+      this.focusNode,
+      this.maxLine,
+      this.maxLength,
+      this.contentPadVertical,
+      this.inputFormatters,
+      this.borderRadius,
+      this.borderColor,
+      this.readOnly = false});
 
   @override
   State<CustomTextFeild> createState() => _CustomTextFeildState();
@@ -117,6 +118,7 @@ class _CustomTextFeildState extends State<CustomTextFeild> {
         if (widget.textHead != null) textHead(),
         if (widget.textHead != null) const SizedBox(height: 7),
         TextFormField(
+          readOnly: widget.readOnly,
           onTap: widget.onTap,
           focusNode: widget.focusNode,
           autofillHints: widget.autofillHints,
