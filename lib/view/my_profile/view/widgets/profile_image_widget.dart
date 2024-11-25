@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
@@ -9,6 +10,8 @@ import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 import 'package:jora_customer/view_model/profile_analytics_view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../view_model/file_view_model.dart';
 
 class ProfileImageWidget extends StatelessWidget {
   final String icon;
@@ -33,13 +36,48 @@ class ProfileImageWidget extends StatelessWidget {
       children: [
         Container(
           margin: EdgeInsets.only(bottom: profileHeight / 1.4),
-          child: SizedBox(
-              height: coverHeight,
-              width: double.infinity,
-              child: Image.network(
-                profileModel?.coverImage ?? '',
-                fit: BoxFit.fill,
-              )),
+          child: Stack(
+            children: [
+              SizedBox(
+                  height: coverHeight,
+                  width: double.infinity,
+                  child: Image.network(
+                    profileModel?.coverImage ?? '',
+                    fit: BoxFit.fill,
+                  )),
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                    onPressed: () async {
+                      XFile? image = await ImagePicker()
+                          .pickImage(source: ImageSource.gallery);
+
+                      if (image != null) {
+                        String url = await context
+                                .read<FileUploadViewModel>()
+                                .pickedImageUpload(image, 'Cover') ??
+                            '';
+
+                        context
+                            .read<ProfileViewModel>()
+                            .updateCoverImage(url: url);
+                      }
+                    },
+                    icon: Container(
+                      height: 40,
+                      width: 40,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                          color: Colors.black, shape: BoxShape.circle),
+                      child: const Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                    )),
+              ),
+            ],
+          ),
         ),
         Positioned(
             left: 20,
@@ -72,7 +110,7 @@ class ProfileImageWidget extends StatelessWidget {
                         icon,
                         height: 30,
                       )),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   WrapperViewStatus.profile == value
@@ -86,7 +124,7 @@ class ProfileImageWidget extends StatelessWidget {
                           ))
                       : Container(),
                   WrapperViewStatus.profile == value
-                      ? SizedBox(
+                      ? const SizedBox(
                           width: 10,
                         )
                       : Container(),

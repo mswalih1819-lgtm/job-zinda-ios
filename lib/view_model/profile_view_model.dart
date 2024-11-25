@@ -67,4 +67,22 @@ class ProfileViewModel with ChangeNotifier {
     }
     EasyLoading.dismiss();
   }
+
+  Future<void> updateCoverImage({required String url}) async {
+    EasyLoading.show();
+    Response response =
+        await ApiService().put(Api.updateCoverImage, {'coverImage': url});
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = response.data;
+      if (data['status']) {
+        if (data.containsKey('message')) {
+          EasyLoading.showSuccess(data['message']);
+          LoggedInUser.profile(data['data']['profileDetails']);
+          notifyListeners();
+        }
+      }
+    }
+    EasyLoading.dismiss();
+  }
 }

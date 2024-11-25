@@ -33,12 +33,12 @@ class PostModel {
     likesCount = json['likesCount'];
     commentsCount = json['commentsCount'];
     shareCount = json['shareCount'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = json['user'] != null && json['user'] is Map
+        ? User.fromJson(json['user'])
+        : null;
     sharedWith = json['sharedWith'];
     createdAt = json['createdAt'];
   }
-
-
 }
 
 class User {
@@ -62,5 +62,4 @@ class User {
     professionId = json['professionId'];
     professionName = json['professionName'];
   }
-
 }
