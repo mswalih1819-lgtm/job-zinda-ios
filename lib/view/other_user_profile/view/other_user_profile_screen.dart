@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
-import 'package:jora_customer/view/my_profile/view/widgets/gallery_ui.dart';
+import 'package:jora_customer/model/profile_model.dart';
+import 'package:jora_customer/view/my_profile/view/widgets/gallery_section.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/profile_head_ui.dart';
 import 'package:jora_customer/view/other_user_profile/view/widgets/other_user_profile_button.dart';
 
-class OtherUserProfileUi extends StatelessWidget {
-  OtherUserProfileUi({super.key});
+import '../../my_profile/view/widgets/other_user_profile_head_ui.dart';
+
+class OtherUserProfileScreen extends StatelessWidget {
+  final ProfileModel?profileModel;
+  OtherUserProfileScreen({super.key, this.profileModel});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +19,9 @@ class OtherUserProfileUi extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              ProfileHeadUi(
-                map: map,
-            icon: PSvgs.other_user_analytics,
+              OtherUserProfileHeadUi(
+            
+            profileModel: profileModel,
               ),
               SizedBox(
                 height: 5,
@@ -26,7 +30,7 @@ class OtherUserProfileUi extends StatelessWidget {
               SizedBox(
                 height: 5,
               ),
-              GalleryUi()
+              GallerySection()
             ],
           ),
         ),
@@ -34,9 +38,5 @@ class OtherUserProfileUi extends StatelessWidget {
     );
   }
 
-  Map map = {
-    'cover': PImages.cover_pic3,
-    'profile': PImages.pro_pic3,
-    'name': "Jessica12"
-  };
+
 }

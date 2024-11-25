@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:jora_customer/Settings/until/PImages.dart';
+
+import '../../../../model/profile_model.dart';
 
 class SearchImageWidgetSectionUi extends StatelessWidget {
-  Map map;
-  SearchImageWidgetSectionUi({super.key, required this.map});
+final  ProfileModel profileModel;
+  const SearchImageWidgetSectionUi({super.key, required this.profileModel});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +24,13 @@ class SearchImageWidgetSectionUi extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(bottom: profileHeight / 2),
           child: ClipRRect(
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-            child: Container(
-                height: coverHeight,
-                child: Image.asset(
-                  map["cover"],
-                  fit: BoxFit.cover,
+            child: SizedBox(
+                height: coverHeight,width: double.infinity,
+                child: Image.network(
+                profileModel.coverImage??'',  fit: BoxFit.fill,errorBuilder: (context, error, stackTrace) => Image.asset(PImages.noImage , fit: BoxFit.cover,),
+           
                 )),
           ),
         ),
@@ -44,7 +47,7 @@ class SearchImageWidgetSectionUi extends StatelessWidget {
       backgroundColor: PColors.white,
       child: CircleAvatar(
         radius: profileHeight / 2.1,
-        backgroundImage: AssetImage(map["profile"]),
+        backgroundImage: NetworkImage(profileModel.profileImageUrl??''),
       ),
     );
   }

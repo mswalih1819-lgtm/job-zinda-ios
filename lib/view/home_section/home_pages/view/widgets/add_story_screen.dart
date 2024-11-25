@@ -1,11 +1,9 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
-import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/utils/validator.dart';
@@ -14,6 +12,7 @@ import 'package:jora_customer/view_model/story_view_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../Settings/widgets/custom_icon_elevated_button.dart';
+import '../../../../../model/logged_in_user.dart';
 
 class AddStoryScreen extends StatefulWidget {
   static const route = '/add-story-screen';
@@ -36,7 +35,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
       bottomNavigationBar: Padding(
         padding: MediaQuery.of(context).viewInsets,
         child: Container(
-          margin: EdgeInsets.only(bottom: 10, left: 12, right: 12),
+          margin: const EdgeInsets.only(bottom: 10, left: 12, right: 12),
           child: CustomIconElevatedButton(
               bgcolor: PColors.black2.withOpacity(0.9),
               textColor: PColors.whiteOff.withOpacity(0.6),
@@ -57,21 +56,19 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
               )),
         ),
       ),
-      // floatingActionButton: UploadButtonUi(),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
               ListTile(
-                contentPadding: EdgeInsets.only(left: 10),
+                contentPadding: const EdgeInsets.only(left: 10),
                 leading: CircleAvatar(
                   radius: 24,
-                  backgroundImage: AssetImage(PImages.pro_pic3),
+                  backgroundImage: NetworkImage(LoggedInUser.profilePic ?? ''),
                 ),
                 title: Container(
                   width: 100.0,
@@ -87,7 +84,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                         Icons.keyboard_arrow_down,
                         color: PColors.whiteOff,
                       ),
-                      underline: SizedBox(),
+                      underline: const SizedBox(),
                       items: <String>['Anyone', 'Nobody'].map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -147,9 +144,11 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                     validation: Validator.text,
                     filColor: PColors.black),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               if (url != null) Image.network(url!, fit: BoxFit.cover),
-              SizedBox(height: 20,)
+              const SizedBox(
+                height: 20,
+              )
               // Column(
               //   children: [
 

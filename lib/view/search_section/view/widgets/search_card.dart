@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/model/profile_model.dart';
+import 'package:jora_customer/view/profile_view/view/widgets/profile_view_body.dart';
 import 'package:jora_customer/view/search_section/view/widgets/search_image_widget_section.dart';
 import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
+import 'package:jora_customer/view_model/post_view_model.dart';
+import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
-class SearchSingleWidgetUi extends StatelessWidget {
-  Map map;
-  SearchSingleWidgetUi({super.key, required this.map});
+import '../../../other_user_profile/view/other_user_profile_screen.dart';
+
+class SearchCard extends StatelessWidget {
+final  ProfileModel profileModel;
+  const SearchCard({super.key, required this.profileModel});
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    // double coverHeight = size.height * 0.1;
-    // double profileHeight = 68;
 
     return GestureDetector(
       onTap: () {
-        context
-            .read<WrapperViewModel>()
-            .updatePageView(WrapperViewStatus.otherProfile);
+        context.read<PostViewModel>().otherUser=profileModel;
+        Navigator.push(context, MaterialPageRoute(builder:  (context) => OtherUserProfileScreen(profileModel: profileModel,),));
+        // context
+        //     .read<WrapperViewModel>()
+        //     .updatePageView(WrapperViewStatus.otherProfile);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -27,26 +32,18 @@ class SearchSingleWidgetUi extends StatelessWidget {
         child: Column(
           children: [
             SearchImageWidgetSectionUi(
-              map: map,
+        profileModel: profileModel,
             ),
-            contentWidget()
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget contentWidget() {
-    return Column(
+       Column(
       children: [
         textWidget(
-            text: "Jessica12",
+            text:profileModel.name??'',
             fontsize: 14,
             fontweight: FontWeight.w500,
             overflow: TextOverflow.ellipsis,
             maxLines: 1),
         textWidget(
-            text: "Photographer",
+            text: profileModel.profession??'',
             fontsize: 12,
             color: PColors.whiteOff.withOpacity(0.6),
             overflow: TextOverflow.ellipsis,
@@ -57,24 +54,29 @@ class SearchSingleWidgetUi extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            columnWidget(title: "Followers", value: "500"),
+            columnWidget(title: 'Followers', value: '${profileModel.followersCount??'0'}'),
             Container(
                 height: 30,
                 child: VerticalDivider(
                   color: PColors.whiteOff.withOpacity(0.2),
                 )),
-            columnWidget(title: "Projects", value: "77"),
+            columnWidget(title: 'Projects', value: '${profileModel.projectsCount??'0'}'),
             Container(
                 height: 30,
                 child: VerticalDivider(
                   color: PColors.whiteOff.withOpacity(0.2),
                 )),
-            columnWidget(title: "Feedback", value: "4.5"),
+            columnWidget(title: 'Feedback', value:  profileModel.rating?.toStringAsFixed(1)??'0'),
           ],
         )
       ],
+    )
+          ],
+        ),
+      ),
     );
   }
+
 
   Widget columnWidget({required String title, required String value}) {
     return Flexible(

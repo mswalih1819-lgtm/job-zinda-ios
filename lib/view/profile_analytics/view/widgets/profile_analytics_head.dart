@@ -129,6 +129,7 @@ class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
               if (newValue == 'Last 7 days') {
                 context
                     .read<ProfileAnalyticsViewModel>()
+                    
                     .fetchProfileAnalytics(filter: '7days');
               } else {
                 context

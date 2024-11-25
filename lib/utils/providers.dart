@@ -4,6 +4,7 @@ import 'package:jora_customer/view_model/file_view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:jora_customer/view_model/profile_analytics_view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
+import 'package:jora_customer/view_model/search_view_model.dart';
 import 'package:jora_customer/view_model/story_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -40,5 +41,8 @@ List<SingleChildWidget> providers = [
   ),
      ChangeNotifierProvider(
     create: (context) => ProfileAnalyticsViewModel(),
+  ),
+      ChangeNotifierProvider(
+    create: (context) => SearchViewModel(),
   ),
 ];

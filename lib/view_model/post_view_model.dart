@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/utils/api_url.dart';
 import '../model/post_model.dart';
 import '../utils/api_service.dart';
@@ -85,7 +86,7 @@ class PostViewModel with ChangeNotifier {
   late PagingController<int, PostModel> selfPostController;
   int currentPageForSelfPost = 0;
   initSelfPostPagination() {
-    currentPage = 0;
+    currentPageForSelfPost = 0;
     selfPostController = PagingController(firstPageKey: 1);
     selfPostController.addPageRequestListener((pageKey) {
       fetchSelfPostWithPagination(pageKey);
@@ -93,8 +94,8 @@ class PostViewModel with ChangeNotifier {
   }
 
   Future<void> fetchSelfPostWithPagination(int page) async {
-    if (currentPage != page) {
-      currentPage = page;
+    if (currentPageForSelfPost != page) {
+      currentPageForSelfPost = page;
       String api = Api.loginUserPostsListUrl;
       Response response = await ApiService().get('$api&pageNumber=$page');
       if (response.statusCode == 200) {
@@ -114,6 +115,46 @@ class PostViewModel with ChangeNotifier {
         }
       } else {
         selfPostController.appendLastPage([]);
+      }
+    }
+  }
+
+
+
+
+  ProfileModel?otherUser;
+  late PagingController<int, PostModel> otherUserPostController;
+  int currentPageOtherUserPost = 0;
+  initOtherUserPostPagination() {
+    currentPageOtherUserPost = 0;
+    otherUserPostController = PagingController(firstPageKey: 1);
+    otherUserPostController.addPageRequestListener((pageKey) {
+      fetchOtherUserPostWithPagination(pageKey);
+    });
+  }
+
+  Future<void> fetchOtherUserPostWithPagination(int page) async {
+    if (currentPageOtherUserPost != page) {
+      currentPageOtherUserPost = page;
+      String api = Api.otherUserPostsListUrl;
+      Response response = await ApiService().get('$api&pageNumber=$page&&profileId=${otherUser?.sId}');
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        if (data['status']) {
+          List<PostModel> temp = (data['data']['posts'] as List)
+              .map((e) => PostModel.fromJson(e))
+              .toList();
+
+          if (data['data']['hasNext']) {
+            otherUserPostController.appendPage(temp, page + 1);
+          } else {
+            otherUserPostController.appendLastPage(temp);
+          }
+        } else {
+          otherUserPostController.appendLastPage([]);
+        }
+      } else {
+        otherUserPostController.appendLastPage([]);
       }
     }
   }

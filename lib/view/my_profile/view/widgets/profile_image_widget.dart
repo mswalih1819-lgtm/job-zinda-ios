@@ -14,10 +14,10 @@ import 'package:provider/provider.dart';
 import '../../../../view_model/file_view_model.dart';
 
 class ProfileImageWidget extends StatelessWidget {
-  final String icon;
+  final String? icon;
   final ProfileModel? profileModel;
   ProfileImageWidget(
-      {super.key, required this.icon, required this.profileModel});
+      {super.key,  this.icon, required this.profileModel});
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +45,7 @@ class ProfileImageWidget extends StatelessWidget {
                     profileModel?.coverImage ?? '',
                     fit: BoxFit.fill,
                   )),
+                  if(icon!=null)
               Align(
                 alignment: Alignment.topRight,
                 child: IconButton(
@@ -98,6 +99,7 @@ class ProfileImageWidget extends StatelessWidget {
               selector: (p0, p1) => p1.viewStatus,
               builder: (context, value, child) => Row(
                 children: [
+                  if(icon!=null)
                   GestureDetector(
                       onTap: () async {
                         await context
@@ -107,7 +109,7 @@ class ProfileImageWidget extends StatelessWidget {
                             context, PPages.profileAnalyticsPageUi);
                       },
                       child: SvgPicture.asset(
-                        icon,
+                        icon!,
                         height: 30,
                       )),
                   const SizedBox(

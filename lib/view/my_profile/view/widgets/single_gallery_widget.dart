@@ -1,34 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/Settings/until/PImages.dart';
+import '../../../../model/post_model.dart';
 
 class SingleGalleryWidget extends StatelessWidget {
-  Map map;
-  SingleGalleryWidget({super.key, required this.map});
+ final PostModel?postModel;
+  const SingleGalleryWidget({super.key, required this.postModel});
 
   @override
   Widget build(BuildContext context) {
-    return singleWidget(context);
-  }
-
-  Widget singleWidget(BuildContext context) {
-    return Stack(
-      // alignment: Alignment.bottomLeft,
-      fit: StackFit.expand,
-      children: [
-        GestureDetector(
-          onTap: () {
-            // Navigator.pushNamed(context, PPages.profilePostDetailsUi);
-          },
-          child: Container(
-            child: Image.asset(
-              map["image"],
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-       
-      ],
+    return Image.network(
+     postModel?.mediaUrl??'',
+      fit: BoxFit.cover,errorBuilder: (context, error, stackTrace) => Image.asset(PImages.noImage , fit: BoxFit.cover,),
     );
   }
+
+
 }

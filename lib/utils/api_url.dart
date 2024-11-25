@@ -15,6 +15,7 @@ class Api {
       '$baseurl/api/v1/post/getAllFollowingPosts?pageSize=10';
   static const loginUserPostsListUrl =
       '$baseurl/api/v1/post/listMyPosts?pageSize=10';
+      static const otherUserPostsListUrl ='$baseurl/api/v1/post/getOtherProfilePosts?&pageSize=10';
   static const createStoryUrl = '$baseurl/api/v1/story/createStory';
   static const getSignInUrl = '$baseurl/api/v1/signed-url/get-signed-url';
   static const createPostUrl = '$baseurl/api/v1/post/addPost';
@@ -24,4 +25,5 @@ class Api {
   static const fetchProfileAnalyticsUrl =
       '$baseurl/api/v1/user/get-profile-analytics';
   static const updateCoverImage = '$baseurl/api/v1/user/update-cover-image';
+  static const searchUserListUrl ='$baseurl/api/v1/user/get-other-profiles?pageSize=10';
 }

@@ -78,7 +78,7 @@ class ProfileViewModel with ChangeNotifier {
       if (data['status']) {
         if (data.containsKey('message')) {
           EasyLoading.showSuccess(data['message']);
-          LoggedInUser.profile(data['data']['profileDetails']);
+      fetchProfile();
           notifyListeners();
         }
       }

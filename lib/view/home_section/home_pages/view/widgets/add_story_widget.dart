@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
-import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/add_story_screen.dart';
 
 class AddstorywidgetUi extends StatelessWidget {
@@ -16,7 +16,7 @@ class AddstorywidgetUi extends StatelessWidget {
     return Container(
       // width: size.width * 0.26,
       // height: size.height * 0.2,
-      margin: EdgeInsets.symmetric(horizontal: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -28,7 +28,7 @@ class AddstorywidgetUi extends StatelessWidget {
                 child: Container(
                        height: size.height * .19,
                     width: size.width * 0.26,
-                    margin: EdgeInsets.all(0),
+                    margin: const EdgeInsets.all(0),
                     decoration: BoxDecoration(
                       color: PColors.black2,
                       borderRadius: BorderRadius.circular(8),
@@ -43,21 +43,21 @@ class AddstorywidgetUi extends StatelessWidget {
                             PSvgs.add_status,
                             height: 40,
                           )),
-                          SizedBox(height: 5,),
-                          textWidget(text: "Add Story",color: PColors.whiteOff.withOpacity(0.4),fontsize: 12),
+                          const SizedBox(height: 5,),
+                          textWidget(text: 'Add Story',color: PColors.whiteOff.withOpacity(0.4),fontsize: 12),
                         ],
                       ),
                     )),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 35
               ),
               Expanded(
                 child: textWidget(
-                  // text: "sdbsd sd sd s dbs bs bd b",
+                  // text: 'sdbsd sd sd s dbs bs bd b',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
-                  text: "You",
+                  text: 'You',
                 ),
               )
             ],
@@ -68,9 +68,9 @@ class AddstorywidgetUi extends StatelessWidget {
               height: 46.0,
               width: 46.0,
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
+                shape: BoxShape.circle,image: DecorationImage(image: NetworkImage(LoggedInUser.profilePic??'') , fit: BoxFit.cover)
               ),
-              child: SvgPicture.asset(PSvgs.profile),
+              
             ),
           )
         ],

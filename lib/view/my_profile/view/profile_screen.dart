@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
-import 'package:jora_customer/view/my_profile/view/widgets/gallery_ui.dart';
+import 'package:jora_customer/view/my_profile/view/widgets/gallery_section.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/my_profile_button.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/profile_head_ui.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
+import 'widgets/self_gallery_section.dart';
+
 class ProfileScreen extends StatelessWidget {
-  ProfileScreen({super.key});
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +23,14 @@ class ProfileScreen extends StatelessWidget {
                 icon: PSvgs.myProfileAnalytics,
                 profileModel: profileViewModel.profileModel,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
-              MyProfileButtonUi(),
-              SizedBox(
+              const MyProfileButtonUi(),
+              const SizedBox(
                 height: 5,
               ),
-              GalleryUi()
+              const SelfGallerySection()
             ],
           ),
         ),
