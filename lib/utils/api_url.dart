@@ -26,4 +26,6 @@ class Api {
       '$baseurl/api/v1/user/get-profile-analytics';
   static const updateCoverImage = '$baseurl/api/v1/user/update-cover-image';
   static const searchUserListUrl ='$baseurl/api/v1/user/get-other-profiles?pageSize=10';
+
+  static const conversationListUrl ='$baseurl/api/v1/conversation/listConversations?pageSize=1000&&pageNumber=1' ;
 }

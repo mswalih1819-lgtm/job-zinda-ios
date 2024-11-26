@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jora_customer/Settings/until/PColors.dart';
-import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/view/chat_section/all_chat_widget/view/ui.dart';
 import 'package:jora_customer/view/chat_section/chat_pages/view/widgets/chat_filter.dart';
-import 'package:jora_customer/view/chat_section/chat_pages/view_model/view_model.dart';
+import 'package:jora_customer/view_model/chat_view_model.dart';
 import 'package:jora_customer/view/chat_section/unread_chat_widget/view/ui.dart';
 import 'package:provider/provider.dart';
 

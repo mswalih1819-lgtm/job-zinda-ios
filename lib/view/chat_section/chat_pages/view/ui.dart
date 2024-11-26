@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/view/chat_section/chat_pages/view/widgets/chat_body.dart';
 import 'package:jora_customer/view/chat_section/chat_pages/view/widgets/chat_head.dart';
-import 'package:jora_customer/view/chat_section/chat_pages/view_model/view_model.dart';
+import 'package:jora_customer/view_model/chat_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ChatPageUi extends StatelessWidget {
