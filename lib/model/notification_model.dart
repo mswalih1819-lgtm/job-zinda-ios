@@ -1,0 +1,81 @@
+class NotificationModel {
+  String? sId;
+  String? recipient;
+  String? notificationType;
+  String? title;
+  String? description;
+  String? onTapNavigate;
+  String? sentOn;
+  bool? documentStatus;
+  ConnectedProfileId? connectedProfileId;
+  ConnectedPostId? connectedPostId;
+  Null? connectedCommentId;
+  Null? connectedReplyId;
+  bool? viewStatus;
+  int? iV;
+
+  NotificationModel(
+      {this.sId,
+      this.recipient,
+      this.notificationType,
+      this.title,
+      this.description,
+      this.onTapNavigate,
+      this.sentOn,
+      this.documentStatus,
+      this.connectedProfileId,
+      this.connectedPostId,
+      this.connectedCommentId,
+      this.connectedReplyId,
+      this.viewStatus,
+      this.iV});
+
+  NotificationModel.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    recipient = json['recipient'];
+    notificationType = json['notificationType'];
+    title = json['title'];
+    description = json['description'];
+    onTapNavigate = json['onTapNavigate'];
+    sentOn = json['sentOn'];
+    documentStatus = json['documentStatus'];
+    connectedProfileId = json['connectedProfileId'] != null
+        ? ConnectedProfileId.fromJson(json['connectedProfileId'])
+        : null;
+    connectedPostId = json['connectedPostId'] != null
+        ? ConnectedPostId.fromJson(json['connectedPostId'])
+        : null;
+    connectedCommentId = json['connectedCommentId'];
+    connectedReplyId = json['connectedReplyId'];
+    viewStatus = json['viewStatus'];
+    iV = json['__v'];
+  }
+}
+
+class ConnectedProfileId {
+  String? sId;
+  String? name;
+  String? profileImageUrl;
+
+  ConnectedProfileId({this.sId, this.name, this.profileImageUrl});
+
+  ConnectedProfileId.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    name = json['name'];
+    profileImageUrl = json['profileImageUrl'];
+  }
+}
+
+class ConnectedPostId {
+  String? sId;
+  String? mediaUrl;
+  String? user;
+
+  ConnectedPostId({this.sId, this.mediaUrl, this.user});
+
+  ConnectedPostId.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    mediaUrl = json['mediaUrl'];
+    user = json['user'];
+  }
+}

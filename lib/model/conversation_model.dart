@@ -3,14 +3,14 @@ class ConversationModel {
   List<Participants>? participants;
   LastMessage? lastMessage;
   String? createdUser;
-  int? iV;
+  int? unreadCount;
 
   ConversationModel(
       {this.sId,
       this.participants,
       this.lastMessage,
       this.createdUser,
-      this.iV});
+      this.unreadCount});
 
   ConversationModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -24,26 +24,37 @@ class ConversationModel {
         ? new LastMessage.fromJson(json['lastMessage'])
         : null;
     createdUser = json['createdUser'];
-    iV = json['__v'];
+    unreadCount = json['unreadCount'];
   }
-
-
 }
 
 class Participants {
-  String? userId;
+  UserId? userId;
   String? lastReadMessageId;
   String? sId;
 
   Participants({this.userId, this.lastReadMessageId, this.sId});
 
   Participants.fromJson(Map<String, dynamic> json) {
-    userId = json['userId'];
+    userId =
+        json['userId'] != null ? new UserId.fromJson(json['userId']) : null;
     lastReadMessageId = json['lastReadMessageId'];
     sId = json['_id'];
   }
+}
 
+class UserId {
+  String? sId;
+  String? name;
+  String? profileImageUrl;
 
+  UserId({this.sId, this.name, this.profileImageUrl});
+
+  UserId.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    name = json['name'];
+    profileImageUrl = json['profileImageUrl'];
+  }
 }
 
 class LastMessage {
@@ -65,7 +76,6 @@ class LastMessage {
         : null;
     senderId = json['senderId'];
   }
-
 }
 
 class MessageId {
@@ -74,7 +84,8 @@ class MessageId {
   String? senderId;
   String? content;
   String? messageType;
-  int? iV;
+  String? createdAt;
+  String? updatedAt;
 
   MessageId(
       {this.sId,
@@ -82,7 +93,8 @@ class MessageId {
       this.senderId,
       this.content,
       this.messageType,
-      this.iV});
+      this.createdAt,
+      this.updatedAt});
 
   MessageId.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -90,8 +102,7 @@ class MessageId {
     senderId = json['senderId'];
     content = json['content'];
     messageType = json['messageType'];
-    iV = json['__v'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
   }
-
-
 }

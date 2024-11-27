@@ -38,6 +38,10 @@ class _PostSectionState extends State<PostSection> {
         shrinkWrap: true,
         pagingController: postViewModel.postController,
         builderDelegate: PagedChildBuilderDelegate<PostModel>(
+          noItemsFoundIndicatorBuilder: (context) => Center(child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 100),
+            child: Text('No posts found'),
+          )),
           itemBuilder: (context, item, index) {
             return singleWidget(item, context);
           },

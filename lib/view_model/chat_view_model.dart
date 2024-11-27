@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../model/conversation_model.dart';
 import '../utils/api_service.dart';
@@ -29,6 +32,7 @@ class ChatViewModel extends ChangeNotifier {
   }
    List<ConversationModel> conversationList = [];
   Future<void> fetchAllConversations() async {
+    EasyLoading.show();
     Response response = await ApiService().get(Api.conversationListUrl);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
@@ -43,5 +47,6 @@ class ChatViewModel extends ChangeNotifier {
         conversationList.clear();
       }  notifyListeners();
     }
+    EasyLoading.dismiss();
   }
 }

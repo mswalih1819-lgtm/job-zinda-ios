@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
-import 'package:jora_customer/view/notifications/notification_pages/view_model/view_model.dart';
+import 'package:jora_customer/view_model/notification_view_model.dart';
 import 'package:provider/provider.dart';
 
-class NotificationFilterSection extends StatelessWidget {
-  NotificationFilterSection({super.key});
+class NotificationTabSection extends StatelessWidget {
+  NotificationTabSection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    NotificationViewModel notificationViewModel =
+        context.read<NotificationViewModel>();
     Size size = MediaQuery.of(context).size;
     return Selector<NotificationViewModel, String>(
       selector: (p0, p1) => p1.view,
@@ -18,36 +20,43 @@ class NotificationFilterSection extends StatelessWidget {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           singleWidget(
               size: size,
-              str: "All",
+              str: 'All',
               fun: () {
-                context
-                    .read<NotificationViewModel>()
+                notificationViewModel
                     .updateViewStatus(NotificationViewStatus.allNotification);
+                notificationViewModel.currentPage = 0;
+                notificationViewModel.notificatonController.refresh();
               },
               selected: value == NotificationViewStatus.allNotification),
           singleWidget(
               size: size,
-              str: "Follow",
+              str: 'Follow',
               fun: () {
-                context.read<NotificationViewModel>().updateViewStatus(
+                notificationViewModel.updateViewStatus(
                     NotificationViewStatus.followNotification);
+                notificationViewModel.currentPage = 0;
+                notificationViewModel.notificatonController.refresh();
               },
               selected: value == NotificationViewStatus.followNotification),
           singleWidget(
               size: size,
-              str: "Profile Views",
+              str: 'Profile Views',
               fun: () {
-                context.read<NotificationViewModel>().updateViewStatus(
+                notificationViewModel.updateViewStatus(
                     NotificationViewStatus.profileViewsNotification);
+                notificationViewModel.currentPage = 0;
+                notificationViewModel.notificatonController.refresh();
               },
               selected:
                   value == NotificationViewStatus.profileViewsNotification),
           singleWidget(
               size: size,
-              str: "Comments",
+              str: 'Comments',
               fun: () {
-                context.read<NotificationViewModel>().updateViewStatus(
+                notificationViewModel.updateViewStatus(
                     NotificationViewStatus.commentsNotification);
+                notificationViewModel.currentPage = 0;
+                notificationViewModel.notificatonController.refresh();
               },
               selected: value == NotificationViewStatus.commentsNotification),
         ]),
@@ -73,8 +82,8 @@ class NotificationFilterSection extends StatelessWidget {
                   selected ? PColors.white : PColors.whiteOff.withOpacity(0.8),
               overflow: TextOverflow.ellipsis,
               maxLines: 1),
-          SizedBox(
-            height: 5,
+          const SizedBox(
+            height: 5
           ),
           Container(
             width: size.width / 4.6,

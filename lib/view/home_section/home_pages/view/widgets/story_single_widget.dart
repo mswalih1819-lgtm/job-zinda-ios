@@ -48,7 +48,9 @@ class StorySingleWidgetUi extends StatelessWidget {
           Positioned(
             top: (size.height * 0.19) - (46 / 2),
             child: ClipRRect(borderRadius: BorderRadius.circular(60),
-              child: Image.network(story.userProfileImg ?? '',
+              child: Image.network(story.userProfileImg ?? '',   height: 46.0,
+                        width: 46.0,
+                        fit: BoxFit.fill,
                   errorBuilder: (context, error, stackTrace) => Image.asset(
                         PImages.profile,
                         height: 46.0,

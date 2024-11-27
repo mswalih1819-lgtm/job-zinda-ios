@@ -19,8 +19,8 @@ final  ProfileModel profileModel;
   Widget build(BuildContext context) {
 
     return GestureDetector(
-      onTap: () {
-        context.read<PostViewModel>().otherUser=profileModel;
+      onTap: ()async {
+      await  context.read<PostViewModel>().fetchOtherUserProfileDetails(userID: profileModel.sId??'');
         Navigator.push(context, MaterialPageRoute(builder:  (context) => OtherUserProfileScreen(profileModel: profileModel,),));
         // context
         //     .read<WrapperViewModel>()

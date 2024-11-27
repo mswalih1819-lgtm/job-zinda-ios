@@ -1,19 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
+import 'package:jora_customer/view/home_section/home_pages/view/widgets/home_appbar.dart';
+import 'package:jora_customer/view_model/post_view_model.dart';
+import 'package:provider/provider.dart';
 
 class OtherUserProfileButtonUi extends StatelessWidget {
   const OtherUserProfileButtonUi({super.key});
 
   @override
   Widget build(BuildContext context) {
+    PostViewModel postViewModel = context.watch<PostViewModel>();
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: [
-          button(btn: "Follow", fun: () {}, selected: true),
-          SizedBox(width: 6,),
-          button(btn: "Send message", fun: () {}, selected: false),
+          button(
+              btn: postViewModel.isFollowed ? 'Unfollow' : 'Follow',
+              fun: () {
+                if (postViewModel.isFollowed) {
+                  postViewModel.unFollowUser();
+                } else {
+                  postViewModel.followUser();
+                }
+                postViewModel.isFollowed = !postViewModel.isFollowed;
+              },
+              selected: !postViewModel.isFollowed),
+          SizedBox(
+            width: 6,
+          ),
+          button(btn: 'Send message', fun: () {}, selected: false),
         ],
       ),
     );
@@ -29,7 +45,8 @@ class OtherUserProfileButtonUi extends StatelessWidget {
           text: btn,
           onPressed: fun,
           bgcolor: selected ? PColors.white : PColors.black2,
-          textColor: selected ? PColors.black :  PColors.whiteOff.withOpacity(0.7)),
+          textColor:
+              selected ? PColors.black : PColors.whiteOff.withOpacity(0.7)),
     );
   }
 }

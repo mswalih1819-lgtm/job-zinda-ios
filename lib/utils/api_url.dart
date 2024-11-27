@@ -20,6 +20,7 @@ class Api {
   static const getSignInUrl = '$baseurl/api/v1/signed-url/get-signed-url';
   static const createPostUrl = '$baseurl/api/v1/post/addPost';
   static const profileDetailsUrl = '$baseurl/api/v1/user/get-profile-details';
+  static const otherUserProfileDetailsUrl ='$baseurl/api/v1/user/get-other-profile';
   static const updateProfileImage = '$baseurl/api/v1/user/update-profile-image';
   static const updateProfile = '$baseurl/api/v1/user/update-profile';
   static const fetchProfileAnalyticsUrl =
@@ -28,4 +29,7 @@ class Api {
   static const searchUserListUrl ='$baseurl/api/v1/user/get-other-profiles?pageSize=10';
 
   static const conversationListUrl ='$baseurl/api/v1/conversation/listConversations?pageSize=1000&&pageNumber=1' ;
+static const followUrl ='$baseurl/api/v1/follower/followUser';
+static const unfollowUrl ='$baseurl/api/v1/follower/unFollowUser';
+static const fetchNotificationsUrl ='$baseurl/api/v1/notification/listNotification?pageSize=10';
 }

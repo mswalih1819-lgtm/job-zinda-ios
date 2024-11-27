@@ -15,26 +15,34 @@ class GallerySection extends StatefulWidget {
 }
 
 class _GallerySectionState extends State<GallerySection> {
-    @override
+  @override
   void initState() {
-   PostViewModel postViewModel = context.read<PostViewModel>() ;
-   postViewModel.currentPageOtherUserPost=0;
-   postViewModel.initOtherUserPostPagination();
+    PostViewModel postViewModel = context.read<PostViewModel>();
+    postViewModel.currentPageOtherUserPost = 0;
+    postViewModel.initOtherUserPostPagination();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-       PostViewModel postViewModel = context.watch<PostViewModel>() ;
+    PostViewModel postViewModel = context.watch<PostViewModel>();
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      child:   PagedGridView(   padding: const EdgeInsets.all(0),
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),pagingController:postViewModel.otherUserPostController , builderDelegate: PagedChildBuilderDelegate<PostModel>(itemBuilder: (context, item, index) {
-        return SingleGalleryWidget(postModel: item);
-      },), gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3 , childAspectRatio: .8))
-    );
+        margin: const EdgeInsets.symmetric(horizontal: 10),
+        child: PagedGridView(
+            padding: const EdgeInsets.all(0),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            pagingController: postViewModel.otherUserPostController,
+            builderDelegate: PagedChildBuilderDelegate<PostModel>(
+                  noItemsFoundIndicatorBuilder: (context) => Center(child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 100),
+            child: Text('No posts found'),
+          )),
+              itemBuilder: (context, item, index) {
+                return SingleGalleryWidget(postModel: item);
+              },
+            ),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3, childAspectRatio: .8)));
   }
-
-
-
 }

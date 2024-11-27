@@ -13,7 +13,7 @@ import 'package:jora_customer/view/login_section/login_splash/view/widgets/login
 import 'package:jora_customer/view/login_section/login_welcome_screen/view/ui.dart';
 import 'package:jora_customer/view/login_section/otp_verify/view/ui.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/view/login_screen.dart';
-import 'package:jora_customer/view/notifications/notification_pages/view/ui.dart';
+import 'package:jora_customer/view/notifications/notification_pages/view/notification_screen.dart';
 import 'package:jora_customer/view/subscription_page/view/ui.dart';
 import 'package:jora_customer/view/upload_pages/view/widgets/add_post_screen.dart';
 import 'package:jora_customer/view/welcome/view/ui.dart';

@@ -3,11 +3,13 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/model/conversation_model.dart';
+import 'package:jora_customer/utils/date_formatter.dart';
 
-class SingleChatWidgetUi extends StatelessWidget {
-  Map map;
+class ChatCard extends StatelessWidget {
+ final ConversationModel conversationModel;
 
-  SingleChatWidgetUi({super.key, required this.map});
+  ChatCard({super.key, required this.conversationModel});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class SingleChatWidgetUi extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 24,
-                backgroundImage: AssetImage(PImages.pro_pic3),
+                backgroundImage: NetworkImage(conversationModel.participants?.first.userId?.profileImageUrl??''),
               )
             ],
           ),
@@ -36,9 +38,9 @@ class SingleChatWidgetUi extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    textWidget(text: "Layla B", fontweight: FontWeight.w500),
+                    textWidget(text:conversationModel.participants?.first.userId?.name??'', fontweight: FontWeight.w500),
                     textWidget(
-                        text: "12:32",
+                        text: formatDateFromString(conversationModel.lastMessage?.createdAt??'','yyyy-MM-ddThh:mm:ss' ,'HH:mm' ), 
                         color: PColors.whiteOff.withOpacity(0.5),
                         fontsize: 11)
                   ],
@@ -48,7 +50,7 @@ class SingleChatWidgetUi extends StatelessWidget {
                     Expanded(
                         child: textWidget(
                             text:
-                                "The reviews are very good, I guess we shall see Layla, I have a good feeling about it. ",
+                               conversationModel.lastMessage?.content??'',
                             color: PColors.whiteOff.withOpacity(0.5),
                             fontsize: 12,
                             overflow: TextOverflow.ellipsis,
@@ -56,7 +58,7 @@ class SingleChatWidgetUi extends StatelessWidget {
                     SizedBox(
                       width: 7,
                     ),
-                    map["status"]
+                   conversationModel.unreadCount==0
                         ? Icon(
                             Icons.done,
                             size: 14,
@@ -69,7 +71,7 @@ class SingleChatWidgetUi extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 6.0, vertical: 2),
                               child: textWidget(
-                                  text: "23",
+                                  text: '${conversationModel.unreadCount??0}',
                                   color: PColors.black,
                                   fontsize: 12,
                                   fontweight: FontWeight.w500),

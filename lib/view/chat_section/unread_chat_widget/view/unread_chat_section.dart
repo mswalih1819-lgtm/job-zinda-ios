@@ -1,0 +1,28 @@
+import 'package:flutter/material.dart';
+import 'package:jora_customer/view/chat_section/all_chat_widget/view/widgets/chat_card.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../model/conversation_model.dart';
+import '../../../../view_model/chat_view_model.dart';
+
+class UnreadChatSection extends StatelessWidget {
+  const UnreadChatSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    ChatViewModel chatViewModel = context.watch<ChatViewModel>();
+    List<ConversationModel> conversationList = chatViewModel.conversationList
+        .where((element) => (element.unreadCount ?? 0) > 0)
+        .toList();
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      child: ListView.builder(
+        itemCount: conversationList.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) => ChatCard(
+          conversationModel: conversationList[index],
+        ),
+      ),
+    );
+  }
+}

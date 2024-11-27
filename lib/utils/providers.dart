@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 import '../view_model/chat_view_model.dart';
-import '../view/notifications/notification_pages/view_model/view_model.dart';
+import '../view_model/notification_view_model.dart';
 import '../view/wrapper/view_model/view_model.dart';
 import '../view_model/auth_view_model.dart';
 

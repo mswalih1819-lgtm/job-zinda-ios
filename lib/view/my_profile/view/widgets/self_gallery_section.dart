@@ -15,26 +15,34 @@ class SelfGallerySection extends StatefulWidget {
 }
 
 class _SelfGallerySectionState extends State<SelfGallerySection> {
-    @override
+  @override
   void initState() {
-   PostViewModel postViewModel = context.read<PostViewModel>() ;
-   postViewModel.currentPageForSelfPost=0;
-   postViewModel.initSelfPostPagination();
+    PostViewModel postViewModel = context.read<PostViewModel>();
+    postViewModel.currentPageForSelfPost = 0;
+    postViewModel.initSelfPostPagination();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-       PostViewModel postViewModel = context.watch<PostViewModel>() ;
+    PostViewModel postViewModel = context.watch<PostViewModel>();
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10),
-      child:   PagedGridView(   padding: const EdgeInsets.all(0),
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),pagingController:postViewModel.selfPostController , builderDelegate: PagedChildBuilderDelegate<PostModel>(itemBuilder: (context, item, index) {
-        return SingleGalleryWidget(postModel: item);
-      },), gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3 , childAspectRatio: .8))
-    );
+        margin: EdgeInsets.symmetric(horizontal: 10),
+        child: PagedGridView(
+            padding: const EdgeInsets.all(0),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            pagingController: postViewModel.selfPostController,
+            builderDelegate: PagedChildBuilderDelegate<PostModel>(
+                  noItemsFoundIndicatorBuilder: (context) => Center(child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 100),
+            child: Text('No posts found',),
+          )),
+              itemBuilder: (context, item, index) {
+                return SingleGalleryWidget(postModel: item);
+              },
+            ),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3, childAspectRatio: .8)));
   }
-
-
-
 }

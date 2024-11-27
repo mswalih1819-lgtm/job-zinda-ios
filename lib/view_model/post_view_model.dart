@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +33,7 @@ class PostViewModel with ChangeNotifier {
       String api =
           isForYou ? Api.followingsPostsListUrl : Api.suggestedPostsListUrl;
       Response response = await ApiService().get('$api&pageNumber=$page');
+
       if (response.statusCode == 200) {
         Map<String, dynamic> data = response.data;
         if (data['status']) {
@@ -66,12 +67,11 @@ class PostViewModel with ChangeNotifier {
       required String sharedWith,
       required BuildContext context}) async {
     Response response = await ApiService().post(Api.createPostUrl, {
-      "bio": description,
-      "mediaType": "image",
-      "mediaUrl": selectedUrl,
-      "sharedWith": 'all'
+      'bio': description,
+      'mediaType': 'image',
+      'mediaUrl': selectedUrl,
+      'sharedWith': 'all'
     });
-    log(response.data.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {
@@ -119,10 +119,30 @@ class PostViewModel with ChangeNotifier {
     }
   }
 
+  bool _isFollowed = false;
+  bool get isFollowed => _isFollowed;
+  set isFollowed(bool value) {
+    _isFollowed = value;
+    notifyListeners();
+  }
 
+  ProfileModel? otherUser;
+  Future<void> fetchOtherUserProfileDetails({required String userID}) async {
+    EasyLoading.show();
 
+    Response response =
+        await ApiService().get('${Api.otherUserProfileDetailsUrl}/$userID');
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = response.data;
+      if (data['status']) {
+        otherUser = ProfileModel.fromJson(data['data']['profileDetails']);
+        isFollowed = data['data']['isFollowing'];
+        notifyListeners();
+      }
+    }
+    EasyLoading.dismiss();
+  }
 
-  ProfileModel?otherUser;
   late PagingController<int, PostModel> otherUserPostController;
   int currentPageOtherUserPost = 0;
   initOtherUserPostPagination() {
@@ -137,7 +157,8 @@ class PostViewModel with ChangeNotifier {
     if (currentPageOtherUserPost != page) {
       currentPageOtherUserPost = page;
       String api = Api.otherUserPostsListUrl;
-      Response response = await ApiService().get('$api&pageNumber=$page&&profileId=${otherUser?.sId}');
+      Response response = await ApiService()
+          .get('$api&pageNumber=$page&&profileId=${otherUser?.sId}');
       if (response.statusCode == 200) {
         Map<String, dynamic> data = response.data;
         if (data['status']) {
@@ -157,5 +178,13 @@ class PostViewModel with ChangeNotifier {
         otherUserPostController.appendLastPage([]);
       }
     }
+  }
+
+  Future<void> followUser() async {
+    ApiService().post(Api.followUrl, {'profileId': otherUser?.sId});
+  }
+
+  Future<void> unFollowUser() async {
+    ApiService().post(Api.unfollowUrl, {'profileId': otherUser?.sId});
   }
 }
