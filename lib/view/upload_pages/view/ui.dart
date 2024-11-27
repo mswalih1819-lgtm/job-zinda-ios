@@ -4,6 +4,10 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/main.dart';
+import 'package:jora_customer/view_model/post_view_model.dart';
+import 'package:jora_customer/view_model/story_view_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../home_section/home_pages/view/widgets/add_story_screen.dart';
 
@@ -40,20 +44,22 @@ class UploadPagesUi extends StatelessWidget {
             ListTile(
               onTap: () {
                 Navigator.pop(context);
-
+     context.read<PostViewModel>().selectedUrl=null;
                 Navigator.pushNamed(context, PPages.addPostUi);
+           
               },
               leading: SvgPicture.asset(PSvgs.share_post),
-              title: textWidget(text: "Share new post", color: PColors.white),
+              title: textWidget(text: 'Share new post', color: PColors.white),
             ),
             ListTile(onTap: () {
+              context.read<StoryViewModel>().selectedUrl=null;
                Navigator.pushNamed(context, AddStoryScreen.route);
             },
               leading: SvgPicture.asset(
                 PSvgs.share_story,
               ),
               title: textWidget(
-                text: "Share story",
+                text: 'Share story',
                 color: PColors.white,
               ),
             )

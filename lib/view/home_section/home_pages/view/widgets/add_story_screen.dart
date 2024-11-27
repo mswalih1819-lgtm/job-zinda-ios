@@ -1,4 +1,7 @@
 
+import 'dart:typed_data';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,6 +16,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../Settings/widgets/custom_icon_elevated_button.dart';
 import '../../../../../model/logged_in_user.dart';
+import '../../../../video_player/video_player.dart';
 
 class AddStoryScreen extends StatefulWidget {
   static const route = '/add-story-screen';
@@ -26,10 +30,11 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
   final TextEditingController _descriptionController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
-  String value = "Anyone";
-  String? url;
+  String value = 'Anyone';
   @override
   Widget build(BuildContext context) {
+    StoryViewModel storyViewModel = context.read<StoryViewModel>();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: Padding(
@@ -39,10 +44,63 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
           child: CustomIconElevatedButton(
               bgcolor: PColors.black2.withOpacity(0.9),
               textColor: PColors.whiteOff.withOpacity(0.6),
-              text: "Upload media",
+              text: 'Upload media',
               borderRadius: 1,
               onPressed: () {
+showModalBottomSheet(context: context, backgroundColor: PColors.seed2, builder: (context) {
+  return Container(
+      width: 360,
+      height: 250,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.close,
+                      color: PColors.white,
+                    )),
+              ],
+            ),
+            ListTile(
+              onTap: () {
+                getImage(ImageSource.camera);
+              },
+              leading: Icon(Icons.camera, color: PColors.white),
+              title: textWidget(text: 'Camera', color: PColors.white),
+            ),
+            ListTile(
+              onTap: () {
                 getImage(ImageSource.gallery);
+              },
+              leading: Icon(Icons.photo, color: PColors.white),
+              title: textWidget(text: 'Gallery', color: PColors.white),
+            ),
+                     ListTile(
+              onTap: () {Navigator.pop(context);
+               _pickVideo(context);
+              },
+              leading: Icon(Icons.videocam_rounded, color: PColors.white),
+              title: textWidget(text: 'Video', color: PColors.white),
+            ),
+          ],
+        ),
+      ),
+    );
+},);
+            //      showBottomSheet(
+            //   shape: const BeveledRectangleBorder(),
+            //   backgroundColor: PColors.seed2,
+            //   context: context,
+            //   builder: (context) => sheet(),
+            // );
+                // getImage(ImageSource.gallery);
                 // showBottomSheet(
                 //   shape: BeveledRectangleBorder(),
                 //   backgroundColor: PColors.seed2,
@@ -85,7 +143,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                         color: PColors.whiteOff,
                       ),
                       underline: const SizedBox(),
-                      items: <String>['Anyone', 'Nobody'].map((String value) {
+                      items: <String>['Anyone', 'Followers'].map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(
@@ -105,11 +163,11 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                 trailing: InkWell(
                   onTap: () async {
                     if (_formKey.currentState?.validate() ?? false) {
-                      if (url == null) {
+                      if (storyViewModel.selectedUrl == null) {
                         EasyLoading.showError('Please select media');
                       } else {
                         context.read<StoryViewModel>().createStory(
-                            url: url ?? '',
+                            url: storyViewModel.selectedUrl ?? '',
                             description: _descriptionController.text,
                             archived: value == 'Anyone',
                             context: context);
@@ -125,7 +183,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 30.0, vertical: 6),
                       child: textWidget(
-                          text: "Post",
+                          text: 'Post',
                           color: PColors.black,
                           fontweight: FontWeight.w500,
                           fontsize: 14),
@@ -145,7 +203,27 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                     filColor: PColors.black),
               ),
               const SizedBox(height: 10),
-              if (url != null) Image.network(url!, fit: BoxFit.cover),
+               if (storyViewModel.selectedUrl != null &&
+                  storyViewModel.selectedMediaType == 'image')
+                Image.network(storyViewModel.selectedUrl!, fit: BoxFit.cover),
+              if (storyViewModel.selectedUrl != null &&
+                  storyViewModel.selectedMediaType == 'video')
+                InkWell(onTap: () {
+          Navigator.push(context , MaterialPageRoute(builder:  (context) => VideoViewScreen(videoUrl:storyViewModel.selectedUrl??'')));
+        } ,
+                  child: Container(
+                    height: 200,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Colors.grey[50],
+                        borderRadius: BorderRadius.circular(8)),
+                    child: const Icon(
+                      Icons.play_circle,
+                      color: Colors.black,
+                      size: 50,
+                    ),
+                  ),
+                ),
               const SizedBox(
                 height: 20,
               )
@@ -162,46 +240,34 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
     );
   }
 
-  Widget sheet() {
-    return Container(
-      width: 360,
-      height: 200,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(
-                      Icons.close,
-                      color: PColors.white,
-                    )),
-              ],
-            ),
-            ListTile(
-              onTap: () {
-                getImage(ImageSource.camera);
-              },
-              leading: Icon(Icons.camera, color: PColors.white),
-              title: textWidget(text: "Camera", color: PColors.white),
-            ),
-            ListTile(
-              onTap: () {
-                getImage(ImageSource.gallery);
-              },
-              leading: Icon(Icons.photo, color: PColors.white),
-              title: textWidget(text: 'Gallery', color: PColors.white),
-            ),
-          ],
-        ),
-      ),
-    );
+ void _pickVideo(BuildContext context) async {
+  FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
+    type: FileType.video,
+  );
+
+  // final XFile? video = await _picker.pickVideo(source: ImageSource.gallery);
+
+  //    if (video != null) {
+  //     String? url = await context
+  //         .read<FileUploadViewModel>()
+  //         .pickedImageUpload(video, 'Post');
+  //          PostViewModel postProvider = context.read<PostViewModel>();
+  //   postProvider.selectedMediaType='video';
+  //    postProvider.selectedUrl = url;
+  //    log(postProvider.selectedUrl.toString());
+  //   }
+
+  if (pickedFile != null && pickedFile.files.isNotEmpty) {
+    final Uint8List fileBytes = pickedFile.files.first.bytes ?? Uint8List(0);
+    FileUploadViewModel provider = context.read<FileUploadViewModel>();
+    StoryViewModel storyViewModel = context.read<StoryViewModel>();
+    storyViewModel.selectedMediaType='video';
+  storyViewModel.selectedUrl  = await provider.pickedVideoUpload(
+        fileBytes, pickedFile.files.first.name);
+  } else {
+    debugPrint('No file was picked');
   }
+}
 
   Future getImage(ImageSource source) async {
     final XFile? image = await _picker.pickImage(source: source);
@@ -210,9 +276,9 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
       String? imageUrl = await context
           .read<FileUploadViewModel>()
           .pickedImageUpload(image, 'Story');
-      setState(() {
-        url = imageUrl;
-      });
+      StoryViewModel storyViewModel = context.read<StoryViewModel>();
+    storyViewModel.selectedMediaType='image';
+    storyViewModel.selectedUrl=imageUrl;
     }
   }
 }

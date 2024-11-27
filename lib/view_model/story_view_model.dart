@@ -44,14 +44,20 @@ class StoryViewModel with ChangeNotifier {
       }
     }
   }
-
+ String? _selectedUrl;
+  String? get selectedUrl => _selectedUrl;
+  set selectedUrl(String? value) {
+    _selectedUrl = value;
+    notifyListeners();
+  }
+String selectedMediaType='image';
   Future<void> createStory(
       {required String url,
       required String description,
       required bool archived, required BuildContext context}) async {
     Response response = await ApiService().post(Api.createStoryUrl, {
       'notificationType': 'other',
-      'media': {'mediaType': 'image', 'content': url, 'duration': 0},
+      'media': {'mediaType': selectedMediaType, 'content': url, 'duration': 0},
       'description': description,
       'caption': '',
       'archived': archived

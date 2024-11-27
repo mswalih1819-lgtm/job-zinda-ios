@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jora_customer/model/notification_model.dart';
-import 'package:jora_customer/view/notifications/all_notification/view/ui.dart';
 import 'package:jora_customer/view/notifications/comments_notificaton/view/ui.dart';
 import 'package:jora_customer/view/notifications/follow_notifications/view/ui.dart';
 import 'package:jora_customer/view_model/notification_view_model.dart';
-import 'package:jora_customer/view/notifications/profile_view_notifications/view/ui.dart';
 import 'package:provider/provider.dart';
+
+import '../../../comments_notificaton/view/widgets/comments_single_noti.dart';
+import '../../../follow_notifications/view/widgets/follow_single_notification.dart';
+import '../../../profile_view_notifications/view/widgets/profile_view_single_noti.dart';
 
 class NotificationBodySection extends StatefulWidget {
   const NotificationBodySection({super.key});
@@ -33,33 +35,42 @@ class _NotificationBodySectionState extends State<NotificationBodySection> {
     return Expanded(
       child: PagedListView(
           shrinkWrap: true,
+          padding: EdgeInsets.symmetric(horizontal: 13),
           pagingController: notificationViewModel.notificatonController,
           builderDelegate: PagedChildBuilderDelegate<NotificationModel>(
-            noItemsFoundIndicatorBuilder: (context) => const Center(
+            noItemsFoundIndicatorBuilder: (context) => Center(
                 child: Padding(
               padding: EdgeInsets.symmetric(vertical: 150),
               child: Text('No data found'),
             )),
             itemBuilder: (context, item, index) {
-              return Selector<NotificationViewModel, String>(
-                selector: (p0, p1) => p1.view,
-                builder: (context, value, child) {
-                  switch (value) {
-                    case NotificationViewStatus.allNotification:
-                      return const AllNotificationWidget();
-                    case NotificationViewStatus.followNotification:
-                      return const FollowNotificationWidget();
+              switch (item.notificationType) {
+                case 'follow':
+                  return InkWell(
+                      onTap: () => context
+                          .read<NotificationViewModel>()
+                          .notificationRead(id: item.sId ?? ''),
+                      child: const FollowSingleNotificationUi());
 
-                    case NotificationViewStatus.commentsNotification:
-                      return const CommentsNotificationWidget();
-                    case NotificationViewStatus.profileViewsNotification:
-                      return const profileViewsNotificationUi();
+                case 'comment':
+                  return InkWell(
+                      onTap: () => context
+                          .read<NotificationViewModel>()
+                          .notificationRead(id: item.sId ?? ''),
+                      child: const CommentsSingleNotificationwidget());
+                case 'profile_view' || 'like':
+                  return InkWell(
+                      onTap: () => context
+                          .read<NotificationViewModel>()
+                          .notificationRead(id: item.sId ?? ''),
+                      child: ProfileViewSingleNotiWidget(
+                        notificationModel: item,
+                      ));
 
-                    default:
-                      return const AllNotificationWidget();
-                  }
-                },
-              );
+                default:
+                  return SizedBox();
+              }
+              ;
             },
           )),
     );

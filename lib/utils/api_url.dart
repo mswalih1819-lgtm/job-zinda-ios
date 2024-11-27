@@ -32,4 +32,9 @@ class Api {
 static const followUrl ='$baseurl/api/v1/follower/followUser';
 static const unfollowUrl ='$baseurl/api/v1/follower/unFollowUser';
 static const fetchNotificationsUrl ='$baseurl/api/v1/notification/listNotification?pageSize=10';
+static const deleteComment ='$baseurl/api/v1/notification/deleteNotification';
+static const profileVisitUrl='$baseurl/api/v1/user/visit-profile';
+static const fetchNotificationCount ='$baseurl/api/v1/notification/getNotificationCount';
+static const notificationRead='$baseurl/api/v1/notification/markAsRead';
+static const postLikeUrl = '$baseurl/api/v1/post/addALike';
 }

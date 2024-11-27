@@ -5,6 +5,7 @@ class AnalyticsModel {
   int? unFollowCount;
   int? totalProfileViews;
   int? totalProjects;
+  TotalFeedback? totalFeedback;
 
   AnalyticsModel(
       {this.totalFollowers,
@@ -12,7 +13,8 @@ class AnalyticsModel {
       this.followersGrowth,
       this.unFollowCount,
       this.totalProfileViews,
-      this.totalProjects});
+      this.totalProjects,
+      this.totalFeedback});
 
   AnalyticsModel.fromJson(Map<String, dynamic> json) {
     totalFollowers = json['totalFollowers'];
@@ -21,6 +23,22 @@ class AnalyticsModel {
     unFollowCount = json['unFollowCount'];
     totalProfileViews = json['totalProfileViews'];
     totalProjects = json['totalProjects'];
+    totalFeedback = json['totalFeedback'] != null
+        ? new TotalFeedback.fromJson(json['totalFeedback'])
+        : null;
+  }
+
+}
+
+class TotalFeedback {
+  double? averageRating;
+  int? totalRatings;
+
+  TotalFeedback({this.averageRating, this.totalRatings});
+
+  TotalFeedback.fromJson(Map<String, dynamic> json) {
+    averageRating = json['averageRating'];
+    totalRatings = json['totalRatings'];
   }
 
 

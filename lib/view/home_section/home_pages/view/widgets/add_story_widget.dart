@@ -5,6 +5,8 @@ import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/add_story_screen.dart';
+import 'package:jora_customer/view_model/story_view_model.dart';
+import 'package:provider/provider.dart';
 
 class AddstorywidgetUi extends StatelessWidget {
   const AddstorywidgetUi({super.key});
@@ -22,7 +24,7 @@ class AddstorywidgetUi extends StatelessWidget {
         children: [
           Column(
             children: [
-              InkWell(onTap: (){
+              InkWell(onTap: (){context.read<StoryViewModel>().selectedUrl=null;
                 Navigator.pushNamed(context, AddStoryScreen.route);
               },
                 child: Container(

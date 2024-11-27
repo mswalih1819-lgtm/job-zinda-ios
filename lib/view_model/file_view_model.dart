@@ -66,4 +66,19 @@ class FileUploadViewModel with ChangeNotifier {
     } EasyLoading.dismiss();
     return null;
   }
+   Future<String?> pickedVideoUpload(dynamic imageBytes, String name) async {
+    String? signInUrl =
+        await getSignInUrl(fileName: name, fieldName: name.split('.').first);
+    if (signInUrl != null) {
+      await uploadFile(url: signInUrl, imageBytes: imageBytes);
+      Uri uri = Uri.parse(signInUrl);
+      String videoUrl = Uri(
+        scheme: uri.scheme,
+        host: uri.host,
+        path: uri.path,
+      ).toString();
+      return videoUrl;
+    }
+    return null;
+  }
 }

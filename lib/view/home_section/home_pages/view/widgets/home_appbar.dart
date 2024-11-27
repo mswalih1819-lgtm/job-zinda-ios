@@ -6,6 +6,7 @@ import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:jora_customer/view_model/chat_view_model.dart';
+import 'package:jora_customer/view_model/notification_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeAppbar extends StatelessWidget {
@@ -61,7 +62,7 @@ class HomeAppbar extends StatelessWidget {
           child: badges.Badge(
             badgeStyle: badges.BadgeStyle(badgeColor: PColors.badgeColor),
             position: badges.BadgePosition.topEnd(top: -12, end: -4),
-            badgeContent: Text(''),
+            badgeContent: Text(''), showBadge: context.read<NotificationViewModel>().notificationCount>0,
             child: SvgPicture.asset(PSvgs.notification),
           ),
         ),

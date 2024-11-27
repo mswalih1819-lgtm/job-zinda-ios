@@ -1,4 +1,4 @@
-
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -61,17 +61,19 @@ class PostViewModel with ChangeNotifier {
     _selectedUrl = value;
     notifyListeners();
   }
-
+String selectedMediaType='image';
   Future<void> createPost(
       {required String description,
       required String sharedWith,
       required BuildContext context}) async {
+        EasyLoading.show();
     Response response = await ApiService().post(Api.createPostUrl, {
       'bio': description,
-      'mediaType': 'image',
+      'mediaType': selectedMediaType,
       'mediaUrl': selectedUrl,
-      'sharedWith': 'all'
+      'sharedWith':sharedWith=='Anyone'? 'all':'followers'
     });
+    log(response.data.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {
@@ -80,7 +82,9 @@ class PostViewModel with ChangeNotifier {
           EasyLoading.showSuccess(data['message']);
         }
       }
+
     }
+    EasyLoading.dismiss();
   }
 
   late PagingController<int, PostModel> selfPostController;
@@ -137,10 +141,15 @@ class PostViewModel with ChangeNotifier {
       if (data['status']) {
         otherUser = ProfileModel.fromJson(data['data']['profileDetails']);
         isFollowed = data['data']['isFollowing'];
+        visitProfile(userID: userID);
         notifyListeners();
       }
     }
     EasyLoading.dismiss();
+  }
+
+  Future<void> visitProfile({required String userID}) async {
+    await ApiService().post(Api.profileVisitUrl, {'profileId': userID});
   }
 
   late PagingController<int, PostModel> otherUserPostController;
@@ -159,6 +168,7 @@ class PostViewModel with ChangeNotifier {
       String api = Api.otherUserPostsListUrl;
       Response response = await ApiService()
           .get('$api&pageNumber=$page&&profileId=${otherUser?.sId}');
+      print(response.data.toString());
       if (response.statusCode == 200) {
         Map<String, dynamic> data = response.data;
         if (data['status']) {
@@ -186,5 +196,12 @@ class PostViewModel with ChangeNotifier {
 
   Future<void> unFollowUser() async {
     ApiService().post(Api.unfollowUrl, {'profileId': otherUser?.sId});
+  }
+
+  Future<void> postLike({required String postID}) async {
+    await ApiService().post(Api.postLikeUrl, {'postId': postID});
+    currentPage=0;
+    postController.refresh();
+    
   }
 }

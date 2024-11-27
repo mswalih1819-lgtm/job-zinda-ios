@@ -18,21 +18,21 @@ class FeedbackSectionUi extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 16),
+          margin: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
     
               textWidget(
                   text: 'Feedbacks',
                   color: PColors.white,
                   fontsize: 18,
                   fontweight: FontWeight.w600),
-              SizedBox(height: 10),
-              itemWidget(title: 'Total feedbacks', value: '53'),
-              SizedBox(height: 30),
+              const SizedBox(height: 10),
+              itemWidget(title: 'Total feedbacks', value: '${analyticsModel?.totalFeedback?.totalRatings??'0'}'),
+              const SizedBox(height: 30),
             ],
           ),
         ),
@@ -41,18 +41,18 @@ class FeedbackSectionUi extends StatelessWidget {
         ),
     
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 16),
+          margin: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
            textWidget(
               text: 'Projects',
               color: PColors.white,
               fontsize: 18,
               fontweight: FontWeight.w600),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           itemWidget(title: 'Total projects handled', value: '${analyticsModel?.totalProjects??'0'}'),
          
           ],),

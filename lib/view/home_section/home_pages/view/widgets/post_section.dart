@@ -8,6 +8,7 @@ import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/utils/date_formatter.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/home_bottom_sheet.dart';
+import 'package:jora_customer/view/video_player/video_player.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
@@ -38,8 +39,8 @@ class _PostSectionState extends State<PostSection> {
         shrinkWrap: true,
         pagingController: postViewModel.postController,
         builderDelegate: PagedChildBuilderDelegate<PostModel>(
-          noItemsFoundIndicatorBuilder: (context) => Center(child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 100),
+          noItemsFoundIndicatorBuilder: (context) => const Center(child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 100),
             child: Text('No posts found'),
           )),
           itemBuilder: (context, item, index) {
@@ -69,8 +70,8 @@ class _PostSectionState extends State<PostSection> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    image: AssetImage(
-                      PImages.profile,
+                    image: NetworkImage(
+                     post?.user?.userProfilePicture??''
                     ),
                     fit: BoxFit.cover),
               ))
@@ -110,40 +111,38 @@ class _PostSectionState extends State<PostSection> {
                 Icons.more_horiz,
                 color: PColors.white,
               )),
-        ),
+        ),if(post?.mediaType=='image')
         Image.network(post?.mediaUrl ?? '',fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => Image.asset(PImages.noImage)),
-        const SizedBox(height: 10),
-        actionWidget(post),
+            errorBuilder: (context, error, stackTrace) => Image.asset(PImages.noImage))
+        else
+
+        InkWell(onTap: () {
+          Navigator.push(context , MaterialPageRoute(builder:  (context) => VideoViewScreen(videoUrl: post?.mediaUrl??'')));
+        } ,child: Container( height:200,color: Colors.black , alignment: Alignment.center, child: Icon(Icons.play_circle ,color: Colors.white , size: 50,),))
+        ,const SizedBox(height: 4),
+        actionWidget(post , context),
         captionWidget(post)
       ],
     );
   }
 
-  Widget actionWidget(PostModel? post) {
+  Widget actionWidget(PostModel? post , BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
           children: [
-            SvgPicture.asset(
+           IconButton(onPressed: (){context.read<PostViewModel>().postLike(postID: post?.sId??'');}, icon:  SvgPicture.asset(
               PSvgs.heart,
               height: 24,
-            ),
-            const SizedBox(
-              width: 8,
-            ),
-            SvgPicture.asset(
+            ),),
+               IconButton(onPressed: (){}, icon:  SvgPicture.asset(
               PSvgs.chat,
               height: 24,
-            ),
-            const SizedBox(
-              width: 8,
-            ),
-            SvgPicture.asset(
+            ),),  IconButton(onPressed: (){}, icon:  SvgPicture.asset(
               PSvgs.share,
               height: 24,
-            ),
+            ),),
           ],
         ),
         Row(

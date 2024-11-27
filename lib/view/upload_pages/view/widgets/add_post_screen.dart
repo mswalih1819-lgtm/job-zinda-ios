@@ -9,6 +9,8 @@ import 'package:jora_customer/view/upload_pages/view/widgets/upload_button.dart'
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
 
+import '../../../video_player/video_player.dart';
+
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({super.key});
 
@@ -20,7 +22,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   final TextEditingController _descriptionController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  String value = "Anyone";
+  String value = 'Anyone';
   @override
   Widget build(BuildContext context) {
     PostViewModel postViewModel = context.watch<PostViewModel>();
@@ -28,7 +30,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: Padding(
         padding: MediaQuery.of(context).viewInsets,
-        child: UploadButtonUi(),
+        child: const UploadButtonUi(),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -59,7 +61,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         color: PColors.whiteOff,
                       ),
                       underline: const SizedBox(),
-                      items: <String>['Anyone', 'Nobody'].map((String value) {
+                      items:
+                          <String>['Anyone', 'Followers'].map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(
@@ -98,7 +101,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 30.0, vertical: 6),
                       child: textWidget(
-                          text: "Post",
+                          text: 'Post',
                           color: PColors.black,
                           fontweight: FontWeight.w500,
                           fontsize: 14),
@@ -113,15 +116,32 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     maxLine: 20,
                     keyboardType: TextInputType.multiline,
                     borderColor: PColors.black,
-                    hintText: "Share your thoughts",
-                    onSaved: (val) {},
-                    onChanged: (val) {},
+                    hintText: 'Share your thoughts',
                     validation: Validator.text,
                     filColor: PColors.black),
               ),
               const SizedBox(height: 10),
-              if (postViewModel.selectedUrl != null)
+              if (postViewModel.selectedUrl != null &&
+                  postViewModel.selectedMediaType == 'image')
                 Image.network(postViewModel.selectedUrl!, fit: BoxFit.cover),
+              if (postViewModel.selectedUrl != null &&
+                  postViewModel.selectedMediaType == 'video')
+                InkWell(onTap: () {
+          Navigator.push(context , MaterialPageRoute(builder:  (context) => VideoViewScreen(videoUrl:postViewModel.selectedUrl??'')));
+        } ,
+                  child: Container(
+                    height: 200,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Colors.grey[50],
+                        borderRadius: BorderRadius.circular(8)),
+                    child: const Icon(
+                      Icons.play_circle,
+                      color: Colors.black,
+                      size: 50,
+                    ),
+                  ),
+                ),
               const SizedBox(
                 height: 20,
               )
