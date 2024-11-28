@@ -22,7 +22,7 @@ class UploadPagesUi extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Row(
@@ -32,11 +32,11 @@ class UploadPagesUi extends StatelessWidget {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.close,
                       size: 20,
                     )),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 )
               ],
@@ -52,6 +52,7 @@ class UploadPagesUi extends StatelessWidget {
               title: textWidget(text: 'Share new post', color: PColors.white),
             ),
             ListTile(onTap: () {
+              Navigator.pop(context);
               context.read<StoryViewModel>().selectedUrl=null;
                Navigator.pushNamed(context, AddStoryScreen.route);
             },

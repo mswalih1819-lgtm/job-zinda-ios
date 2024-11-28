@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
-import 'package:jora_customer/view/home_section/home_pages/view/widgets/home_appbar.dart';
+import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -11,8 +11,11 @@ class OtherUserProfileButtonUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PostViewModel postViewModel = context.watch<PostViewModel>();
+    if(postViewModel.otherUser?.sId==LoggedInUser.id){
+      return const SizedBox();
+    }
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: [
           button(
@@ -26,7 +29,7 @@ class OtherUserProfileButtonUi extends StatelessWidget {
                 postViewModel.isFollowed = !postViewModel.isFollowed;
               },
               selected: !postViewModel.isFollowed),
-          SizedBox(
+          const SizedBox(
             width: 6,
           ),
           button(btn: 'Send message', fun: () {}, selected: false),

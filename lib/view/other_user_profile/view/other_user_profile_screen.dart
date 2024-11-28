@@ -9,8 +9,7 @@ import 'package:jora_customer/view/other_user_profile/view/widgets/other_user_pr
 import '../../my_profile/view/widgets/other_user_profile_head_ui.dart';
 
 class OtherUserProfileScreen extends StatelessWidget {
-  final ProfileModel?profileModel;
-  OtherUserProfileScreen({super.key, this.profileModel});
+  OtherUserProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +19,6 @@ class OtherUserProfileScreen extends StatelessWidget {
           child: Column(
             children: [
               OtherUserProfileHeadUi(
-            
-            profileModel: profileModel,
               ),
               SizedBox(
                 height: 5,

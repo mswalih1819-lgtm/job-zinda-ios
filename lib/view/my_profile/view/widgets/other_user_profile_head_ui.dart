@@ -6,14 +6,17 @@ import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/profile_image_widget.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../view_model/post_view_model.dart';
 
 class OtherUserProfileHeadUi extends StatelessWidget {
-  final ProfileModel? profileModel;
-  OtherUserProfileHeadUi({super.key, this.profileModel});
+  OtherUserProfileHeadUi({super.key});
 
   @override
   Widget build(BuildContext context) {
-    log(LoggedInUser.accessToken.toString());
+     PostViewModel postViewModel = context.watch<PostViewModel>();
+     ProfileModel? profileModel = postViewModel.otherUser;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,

@@ -13,6 +13,7 @@ import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import '../../../../../model/post_model.dart';
+import '../../../../other_user_profile/view/other_user_profile_screen.dart';
 import '../../../../wrapper/view_model/view_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 class PostSection extends StatefulWidget {
@@ -53,10 +54,9 @@ class _PostSectionState extends State<PostSection> {
     return Column(
       children: [
         ListTile(
-          onTap: () {
-            context
-                .read<WrapperViewModel>()
-                .updatePageView(WrapperViewStatus.otherProfile);
+          onTap: () async{
+            await  context.read<PostViewModel>().fetchOtherUserProfileDetails(userID: post?.user?.sId??'');
+        Navigator.push(context, MaterialPageRoute(builder:  (context) => OtherUserProfileScreen(),));
           },
           contentPadding: EdgeInsets.zero,
           title: textWidget(
@@ -104,7 +104,7 @@ class _PostSectionState extends State<PostSection> {
                   clipBehavior: Clip.hardEdge,
                   backgroundColor: PColors.black,
                   context: context,
-                  builder: (context) => const HomeBottomsheetUi(),
+                  builder: (context) =>  HomeBottomsheetUi(post: post),
                 );
               },
               child: Icon(

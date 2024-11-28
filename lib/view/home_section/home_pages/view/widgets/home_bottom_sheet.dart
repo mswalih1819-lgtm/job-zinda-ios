@@ -3,45 +3,53 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/main.dart';
+import 'package:jora_customer/view_model/post_view_model.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../../model/post_model.dart';
 
 class HomeBottomsheetUi extends StatelessWidget {
-  const HomeBottomsheetUi({super.key});
+ final PostModel? post;
+  const HomeBottomsheetUi({super.key,required this.post});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // height: 300,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(height: 5,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(Icons.close)),
-                    SizedBox(width: 10,)
-              ],
-            ),
-            itemWidget(icon: PSvgs.share_profile, title: "Share", fun: () {}),
-            itemWidget(icon: PSvgs.unfollow, title: "Unfollow", fun: () {}),
-            itemWidget(icon: PSvgs.report, title: "Report", fun: () {}),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 5,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(Icons.close)),
+                  const SizedBox(width: 10,)
+            ],
+          ),
+          itemWidget(icon: PSvgs.share_profile, title: 'Share', fun: () {}),
+          itemWidget(icon: PSvgs.unfollow, title: 'Unfollow', fun: () {
+            Navigator.pop(context);
+            PostViewModel postViewModel =  context.read<PostViewModel>();
+            postViewModel.unFollowUser( userID:post?.user?.sId??'');
+          }),
+          itemWidget(icon: PSvgs.report, title: 'Report', fun: () {}),
+            itemWidget( title: 'Cancel', fun: () {Navigator.pop(context);}),
+        ],
       ),
     );
   }
 
   Widget itemWidget(
-      {required String icon, required String title, required Function()? fun}) {
+      { String? icon, required String title, required Function()? fun}) {
     return ListTile(
       onTap: fun,
-      leading: SvgPicture.asset(icon,height: 24,),
+      leading:icon==null? null: SvgPicture.asset(icon,height: 24,),
       title: textWidget(text: title,color:title=='Report'?PColors.red: PColors.white,fontsize: 15),
     );
   }

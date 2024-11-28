@@ -33,7 +33,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
   String value = 'Anyone';
   @override
   Widget build(BuildContext context) {
-    StoryViewModel storyViewModel = context.read<StoryViewModel>();
+    StoryViewModel storyViewModel = context.watch<StoryViewModel>();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -47,7 +47,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
               text: 'Upload media',
               borderRadius: 1,
               onPressed: () {
-showModalBottomSheet(context: context, backgroundColor: PColors.seed2, builder: (context) {
+showModalBottomSheet(context: context, backgroundColor: PColors.seed2, builder: (ctx) {
   return Container(
       width: 360,
       height: 250,
@@ -83,7 +83,7 @@ showModalBottomSheet(context: context, backgroundColor: PColors.seed2, builder: 
               title: textWidget(text: 'Gallery', color: PColors.white),
             ),
                      ListTile(
-              onTap: () {Navigator.pop(context);
+              onTap: () {Navigator.pop(ctx);
                _pickVideo(context);
               },
               leading: Icon(Icons.videocam_rounded, color: PColors.white),

@@ -61,17 +61,18 @@ class PostViewModel with ChangeNotifier {
     _selectedUrl = value;
     notifyListeners();
   }
-String selectedMediaType='image';
+
+  String selectedMediaType = 'image';
   Future<void> createPost(
       {required String description,
       required String sharedWith,
       required BuildContext context}) async {
-        EasyLoading.show();
+    EasyLoading.show();
     Response response = await ApiService().post(Api.createPostUrl, {
       'bio': description,
       'mediaType': selectedMediaType,
       'mediaUrl': selectedUrl,
-      'sharedWith':sharedWith=='Anyone'? 'all':'followers'
+      'sharedWith': sharedWith == 'Anyone' ? 'all' : 'followers'
     });
     log(response.data.toString());
     if (response.statusCode == 200) {
@@ -82,7 +83,6 @@ String selectedMediaType='image';
           EasyLoading.showSuccess(data['message']);
         }
       }
-
     }
     EasyLoading.dismiss();
   }
@@ -136,6 +136,7 @@ String selectedMediaType='image';
 
     Response response =
         await ApiService().get('${Api.otherUserProfileDetailsUrl}/$userID');
+    log(response.data.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {
@@ -194,14 +195,19 @@ String selectedMediaType='image';
     ApiService().post(Api.followUrl, {'profileId': otherUser?.sId});
   }
 
-  Future<void> unFollowUser() async {
-    ApiService().post(Api.unfollowUrl, {'profileId': otherUser?.sId});
+  Future<void> unFollowUser({String? userID}) async {
+    String? id = userID ?? otherUser?.sId;
+  Response response= await  ApiService().post(Api.unfollowUrl, {'profileId': id});
+    log("-------${response.data}---------");
+    if (userID != null) {
+      currentPage = 0;
+      postController.refresh();
+    }
   }
 
   Future<void> postLike({required String postID}) async {
     await ApiService().post(Api.postLikeUrl, {'postId': postID});
-    currentPage=0;
+    currentPage = 0;
     postController.refresh();
-    
   }
 }

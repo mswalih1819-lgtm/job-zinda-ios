@@ -26,19 +26,19 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(80), child: HomeAppbar()),
-      floatingActionButton: HomeFloatingActionButtonUi(),
+      floatingActionButton: const HomeFloatingActionButtonUi(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
-              StorySection(),
+              const StorySection(),
               Divider(
                 color: PColors.whiteOff.withOpacity(0.3),
               ),
-              PostSection(),
-              SizedBox(height: 100)
+              const PostSection(),
+              const SizedBox(height: 100)
             ],
           ),
         ),
