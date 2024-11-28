@@ -1,10 +1,10 @@
 class AnalyticsModel {
-  int? totalFollowers;
-  int? filteredFollowers;
+  num? totalFollowers;
+  num? filteredFollowers;
   String? followersGrowth;
-  int? unFollowCount;
-  int? totalProfileViews;
-  int? totalProjects;
+  num? unFollowCount;
+  num? totalProfileViews;
+  num? totalProjects;
   TotalFeedback? totalFeedback;
 
   AnalyticsModel(
@@ -24,15 +24,15 @@ class AnalyticsModel {
     totalProfileViews = json['totalProfileViews'];
     totalProjects = json['totalProjects'];
     totalFeedback = json['totalFeedback'] != null
-        ? new TotalFeedback.fromJson(json['totalFeedback'])
+        ?  TotalFeedback.fromJson(json['totalFeedback'])
         : null;
   }
 
 }
 
 class TotalFeedback {
-  double? averageRating;
-  int? totalRatings;
+  num? averageRating;
+  num? totalRatings;
 
   TotalFeedback({this.averageRating, this.totalRatings});
 

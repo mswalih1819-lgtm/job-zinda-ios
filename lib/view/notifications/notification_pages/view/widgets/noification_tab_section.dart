@@ -5,7 +5,7 @@ import 'package:jora_customer/view_model/notification_view_model.dart';
 import 'package:provider/provider.dart';
 
 class NotificationTabSection extends StatelessWidget {
-  NotificationTabSection({super.key});
+  const NotificationTabSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class NotificationTabSection extends StatelessWidget {
     return Selector<NotificationViewModel, String>(
       selector: (p0, p1) => p1.view,
       builder: (context, value, child) => Container(
-        margin: EdgeInsets.only(left: 13, right: 6),
+        margin: const EdgeInsets.only(left: 13, right: 6),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           singleWidget(

@@ -6,6 +6,7 @@ class NotificationModel {
   String? description;
   String? onTapNavigate;
   String? sentOn;
+  Sender? sender;
   bool? documentStatus;
   ConnectedProfileId? connectedProfileId;
   ConnectedPostId? connectedPostId;
@@ -21,7 +22,7 @@ class NotificationModel {
       this.title,
       this.description,
       this.onTapNavigate,
-      this.sentOn,
+      this.sentOn,this.sender,
       this.documentStatus,
       this.connectedProfileId,
       this.connectedPostId,
@@ -38,6 +39,8 @@ class NotificationModel {
     description = json['description'];
     onTapNavigate = json['onTapNavigate'];
     sentOn = json['sentOn'];
+     sender =
+        json['sender'] != null ? new Sender.fromJson(json['sender']) : null;
     documentStatus = json['documentStatus'];
     connectedProfileId = json['connectedProfileId'] != null
         ? ConnectedProfileId.fromJson(json['connectedProfileId'])
@@ -45,11 +48,26 @@ class NotificationModel {
     connectedPostId = json['connectedPostId'] != null
         ? ConnectedPostId.fromJson(json['connectedPostId'])
         : null;
-    connectedCommentId = json['connectedCommentId'];
-    connectedReplyId = json['connectedReplyId'];
-    viewStatus = json['viewStatus'];
+    // connectedCommentId = json['connectedCommentId'];
+    // connectedReplyId = json['connectedReplyId'];
+    // viewStatus = json['viewStatus'];
     iV = json['__v'];
   }
+}
+class Sender {
+  String? sId;
+  String? name;
+  String? profileImageUrl;
+
+  Sender({this.sId, this.name, this.profileImageUrl});
+
+  Sender.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    name = json['name'];
+    profileImageUrl = json['profileImageUrl'];
+  }
+
+
 }
 
 class ConnectedProfileId {

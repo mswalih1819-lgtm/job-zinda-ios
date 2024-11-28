@@ -46,6 +46,7 @@ class NotificationViewModel extends ChangeNotifier {
       String api = Api.fetchNotificationsUrl;
       Response response = await ApiService()
           .get('$api&pageNumber=$page&notificationType=$action');
+          log(response.data.toString());
       if (response.statusCode == 200) {
         Map<String, dynamic> data = response.data;
         if (data['status']) {

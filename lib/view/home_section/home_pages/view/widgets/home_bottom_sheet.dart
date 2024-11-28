@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
-import 'package:jora_customer/main.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -33,11 +32,17 @@ class HomeBottomsheetUi extends StatelessWidget {
             ],
           ),
           itemWidget(icon: PSvgs.share_profile, title: 'Share', fun: () {}),
-          itemWidget(icon: PSvgs.unfollow, title: 'Unfollow', fun: () {
+          Consumer<PostViewModel>(builder: (context, postViewModel, child) {
+            return itemWidget(icon: PSvgs.unfollow, title:postViewModel.isFollowed? 'Unfollow':'Follow', fun: () {
             Navigator.pop(context);
-            PostViewModel postViewModel =  context.read<PostViewModel>();
-            postViewModel.unFollowUser( userID:post?.user?.sId??'');
-          }),
+          
+          if(postViewModel.isFollowed){
+              postViewModel.unFollowUser( userID:post?.user?.sId??'');
+          }else{
+            postViewModel.followUser(userID:post?.user?.sId??'');
+          }
+          });
+          },),
           itemWidget(icon: PSvgs.report, title: 'Report', fun: () {}),
             itemWidget( title: 'Cancel', fun: () {Navigator.pop(context);}),
         ],

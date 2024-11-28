@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/model/post_model.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/single_gallery_widget.dart';
 import 'package:provider/provider.dart';
@@ -34,10 +33,11 @@ class _GallerySectionState extends State<GallerySection> {
             physics: const NeverScrollableScrollPhysics(),
             pagingController: postViewModel.otherUserPostController,
             builderDelegate: PagedChildBuilderDelegate<PostModel>(
-                  noItemsFoundIndicatorBuilder: (context) => Center(child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 100),
-            child: Text('No posts found'),
-          )),
+              noItemsFoundIndicatorBuilder: (context) => const Center(
+                  child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 100),
+                child: Text('No posts found'),
+              )),
               itemBuilder: (context, item, index) {
                 return SingleGalleryWidget(postModel: item);
               },

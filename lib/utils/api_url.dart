@@ -16,6 +16,7 @@ class Api {
   static const loginUserPostsListUrl =
       '$baseurl/api/v1/post/listMyPosts?pageSize=10';
       static const otherUserPostsListUrl ='$baseurl/api/v1/post/getOtherProfilePosts?&pageSize=10';
+  static const fetchPostDetails = '$baseurl/api/v1/post/getPostDetails';
   static const createStoryUrl = '$baseurl/api/v1/story/createStory';
   static const getSignInUrl = '$baseurl/api/v1/signed-url/get-signed-url';
   static const createPostUrl = '$baseurl/api/v1/post/addPost';

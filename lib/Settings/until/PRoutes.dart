@@ -2,6 +2,7 @@ import 'package:jora_customer/view/chat_details_page/view/ui.dart';
 import 'package:jora_customer/view/chat_section/chat_pages/view/ui.dart';
 import 'package:jora_customer/view/connect_pages/filter_freelancers/view/ui.dart';
 import 'package:jora_customer/view/edit_profile/view/edit_profile_screen.dart';
+import 'package:jora_customer/view/home_section/home_pages/view/post_details_screen.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/add_story_screen.dart';
 import 'package:jora_customer/view/profile_analytics/view/profile_analytics_screen.dart';
 import 'package:jora_customer/view/profile_view/view/ui.dart';
@@ -28,7 +29,7 @@ class Routes {
     switch (settings.name) {
       case PPages.splash:
         return MaterialPageRoute(
-          builder: (context) => SplashScreen(),
+          builder: (context) => const SplashScreen(),
         );
 
       case PPages.welcomePageUi:
@@ -37,11 +38,11 @@ class Routes {
         );
       case PPages.onboardingScreensUi:
         return MaterialPageRoute(
-          builder: (context) => OnboardingScreensUi(),
+          builder: (context) => const OnboardingScreensUi(),
         );
       case PPages.loginWelcomeScreenUi:
         return MaterialPageRoute(
-          builder: (context) => LoginWelcomeScreenUi(),
+          builder: (context) => const LoginWelcomeScreenUi(),
         );
       case PPages.phoneNumberUi:
         return MaterialPageRoute(
@@ -49,53 +50,53 @@ class Routes {
         );
       case PPages.otpPageUi:
         return MaterialPageRoute(
-          builder: (context) => OtpPageUi(),
+          builder: (context) => const OtpPageUi(),
         );
       case PPages.loginSplashUi:
         return MaterialPageRoute(
-          builder: (context) => LoginSplashUi(),
+          builder: (context) => const LoginSplashUi(),
         );
       case PPages.loginSplash2Ui:
         return MaterialPageRoute(
-          builder: (context) => LoginSplash2Ui(),
+          builder: (context) => const LoginSplash2Ui(),
         );
 
       case PPages.wrapperView:
         return MaterialPageRoute(
-          builder: (context) => WrapperView(),
+          builder: (context) => const WrapperView(),
         );
       case PPages.helpSupportUi:
         return MaterialPageRoute(
-          builder: (context) => HelpSupportUi(),
+          builder: (context) => const HelpSupportUi(),
         );
       case PPages.sendFeedbackUi:
         return MaterialPageRoute(
-          builder: (context) => SendFeedbackUi(),
+          builder: (context) => const SendFeedbackUi(),
         );
 
       case PPages.notificationsUi:
         return MaterialPageRoute(
-          builder: (context) => NotificationsUi(),
+          builder: (context) => const NotificationScreen(),
         );
       case PPages.chatPageUi:
         return MaterialPageRoute(
-          builder: (context) => ChatPageUi(),
+          builder: (context) => const ChatPageUi(),
         );
       case PPages.addPostUi:
         return MaterialPageRoute(
-          builder: (context) => AddPostScreen(),
+          builder: (context) => const AddPostScreen(),
         );
       case PPages.chatDetailsPageui:
         return MaterialPageRoute(
-          builder: (context) => ChatDetailsPageui(),
+          builder: (context) => const ChatDetailsPageui(),
         );
       case PPages.editProfileUi:
         return MaterialPageRoute(
-          builder: (context) => EditProfileScreen(),
+          builder: (context) => const EditProfileScreen(),
         );
       case PPages.profileView:
         return MaterialPageRoute(
-          builder: (context) => ProfileViewUi(),
+          builder: (context) => const ProfileViewUi(),
         );
       case PPages.freelancerFilterPageUi:
         return MaterialPageRoute(
@@ -107,10 +108,16 @@ class Routes {
         );
       case PPages.subscriptionPageUi:
         return MaterialPageRoute(
-          builder: (context) => SubscriptionPageUi(),
+          builder: (context) => const SubscriptionPageUi(),
         );
-case AddStoryScreen.route:
-return MaterialPageRoute(builder: (context) => AddStoryScreen(),);
+      case AddStoryScreen.route:
+        return MaterialPageRoute(
+          builder: (context) => const AddStoryScreen(),
+        );
+      case PostDetailsScreen.route:
+        return MaterialPageRoute(
+          builder: (context) => const PostDetailsScreen(),
+        );
       default:
         return null;
     }

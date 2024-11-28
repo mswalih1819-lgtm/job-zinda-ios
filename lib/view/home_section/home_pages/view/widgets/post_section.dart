@@ -1,21 +1,11 @@
 // import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:jora_customer/Settings/until/PColors.dart';
-import 'package:jora_customer/Settings/until/PImages.dart';
-import 'package:jora_customer/Settings/until/PSvgs.dart';
-import 'package:jora_customer/Settings/widgets/text_widget.dart';
-import 'package:jora_customer/utils/date_formatter.dart';
-import 'package:jora_customer/view/home_section/home_pages/view/widgets/home_bottom_sheet.dart';
-import 'package:jora_customer/view/video_player/video_player.dart';
+import 'package:jora_customer/view/home_section/home_pages/view/widgets/post_card.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
-import 'package:readmore/readmore.dart';
 import '../../../../../model/post_model.dart';
-import '../../../../other_user_profile/view/other_user_profile_screen.dart';
-import '../../../../wrapper/view_model/view_model.dart';
-import 'package:timeago/timeago.dart' as timeago;
+
 class PostSection extends StatefulWidget {
   const PostSection({super.key});
 
@@ -45,154 +35,12 @@ class _PostSectionState extends State<PostSection> {
             child: Text('No posts found'),
           )),
           itemBuilder: (context, item, index) {
-            return singleWidget(item, context);
+            return PostCard(post: item,);
           },
         ));
   }
 
-  Widget singleWidget(PostModel? post, BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          onTap: () async{
-            await  context.read<PostViewModel>().fetchOtherUserProfileDetails(userID: post?.user?.sId??'');
-        Navigator.push(context, MaterialPageRoute(builder:  (context) => OtherUserProfileScreen(),));
-          },
-          contentPadding: EdgeInsets.zero,
-          title: textWidget(
-              text: post?.user?.userName ?? '', color: PColors.white),
-          subtitle: textWidget(
-              text: post?.user?.professionName,
-              color: PColors.whiteOff.withOpacity(0.5)),
-          leading: Container(
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    image: NetworkImage(
-                     post?.user?.userProfilePicture??''
-                    ),
-                    fit: BoxFit.cover),
-              ))
-          // leading: CachedNetworkImage(
-          //   height: 25,
-          //   width: 25,
-          //   fit: BoxFit.cover,
-          //   imageUrl: post?.user?.userProfilePicture ?? '',
-          //   imageBuilder: (context, imageProvider) {
-          //     return Container(
-          //       height: 25,
-          //       width: 25,
-          //       decoration: BoxDecoration(
-          //           shape: BoxShape.circle,
-          //           image: DecorationImage(
-          //               image: NetworkImage(
-          //                   post?.user?.userProfilePicture ?? ''))),
-          //     );
-          //   },
-          //   errorWidget: (context, url, error) {
-          //     return Image.asset(PImages.profile,
-          //         height: 25, width: 25, fit: BoxFit.cover);
-          //   },
-          // ),
-          ,
-          trailing: GestureDetector(
-              onTap: () {
-                showBottomSheet(
-                  shape: const BeveledRectangleBorder(),
-                  clipBehavior: Clip.hardEdge,
-                  backgroundColor: PColors.black,
-                  context: context,
-                  builder: (context) =>  HomeBottomsheetUi(post: post),
-                );
-              },
-              child: Icon(
-                Icons.more_horiz,
-                color: PColors.white,
-              )),
-        ),if(post?.mediaType=='image')
-        Image.network(post?.mediaUrl ?? '',fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => Image.asset(PImages.noImage))
-        else
 
-        InkWell(onTap: () {
-          Navigator.push(context , MaterialPageRoute(builder:  (context) => VideoViewScreen(videoUrl: post?.mediaUrl??'')));
-        } ,child: Container( height:200,color: Colors.black , alignment: Alignment.center, child: Icon(Icons.play_circle ,color: Colors.white , size: 50,),))
-        ,const SizedBox(height: 4),
-        actionWidget(post , context),
-        captionWidget(post)
-      ],
-    );
-  }
 
-  Widget actionWidget(PostModel? post , BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-           IconButton(onPressed: (){context.read<PostViewModel>().postLike(postID: post?.sId??'');}, icon:  SvgPicture.asset(
-              PSvgs.heart,
-              height: 24,
-            ),),
-               IconButton(onPressed: (){}, icon:  SvgPicture.asset(
-              PSvgs.chat,
-              height: 24,
-            ),),  IconButton(onPressed: (){}, icon:  SvgPicture.asset(
-              PSvgs.share,
-              height: 24,
-            ),),
-          ],
-        ),
-        Row(
-          children: [
-            textWidget(
-                text: '${post?.likesCount??'0'} like',
-                color: PColors.whiteOff.withOpacity(0.6),
-                fontsize: 12),
-            const SizedBox(
-              width: 6
-            ),
-            textWidget(
-                text: '${post?.commentsCount??''} comments',
-                color: PColors.whiteOff.withOpacity(0.6),
-                fontsize: 12),
-          ],
-        )
-      ],
-    );
-  }
 
-  Widget captionWidget(PostModel? post) {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ReadMoreText(
-           post?.bio??'',
-            trimMode: TrimMode.Line,
-            style: TextStyle(color: PColors.whiteOff),
-            // delimiterStyle: TextStyle(color: PColors.seed,fontWeight: FontWeight.bold,),
-            trimLines: 1,
-            colorClickableText: PColors.whiteOff.withOpacity(0.5),
-            trimCollapsedText: 'view more',
-            trimExpandedText: 'show less',
-
-            moreStyle: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: PColors.whiteOff.withOpacity(0.5),
-                height: 2),
-          ),
-          textWidget(
-              text: timeago.format(stringToDateTime(date: post?.createdAt??'', format: 'yyyy-MM-ddThh:mm:ss')??DateTime.now()),
-              color: PColors.whiteOff.withOpacity(0.5),
-              fontsize: 11)
-        ],
-      ),
-    );
-  }
 }

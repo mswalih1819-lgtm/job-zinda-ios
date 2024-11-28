@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/profile_model.dart';
-import 'package:jora_customer/view/profile_view/view/widgets/profile_view_body.dart';
 import 'package:jora_customer/view/search_section/view/widgets/search_image_widget_section.dart';
-import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
-import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../../other_user_profile/view/other_user_profile_screen.dart';

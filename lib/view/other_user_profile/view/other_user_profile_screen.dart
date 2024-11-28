@@ -1,33 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:jora_customer/Settings/until/PImages.dart';
-import 'package:jora_customer/Settings/until/PSvgs.dart';
-import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/gallery_section.dart';
-import 'package:jora_customer/view/my_profile/view/widgets/profile_head_ui.dart';
 import 'package:jora_customer/view/other_user_profile/view/widgets/other_user_profile_button.dart';
-
 import '../../my_profile/view/widgets/other_user_profile_head_ui.dart';
 
 class OtherUserProfileScreen extends StatelessWidget {
-  OtherUserProfileScreen({super.key});
+  const OtherUserProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(appBar: AppBar(),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
             children: [
               OtherUserProfileHeadUi(
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
-              OtherUserProfileButtonUi(),
-              SizedBox(
+              const OtherUserProfileButtonUi(),
+              const SizedBox(
                 height: 5,
               ),
-              GallerySection()
+              const GallerySection()
             ],
           ),
         ),

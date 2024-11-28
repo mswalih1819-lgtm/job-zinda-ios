@@ -10,6 +10,7 @@ class PostModel {
   User? user;
   String? sharedWith;
   String? createdAt;
+  bool?isLiked;
 
   PostModel(
       {this.sId,
@@ -22,7 +23,7 @@ class PostModel {
       this.shareCount,
       this.user,
       this.sharedWith,
-      this.createdAt});
+      this.createdAt,this.isLiked});
 
   PostModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -35,9 +36,11 @@ class PostModel {
     shareCount = json['shareCount'];
     user = json['user'] != null && json['user'] is Map
         ? User.fromJson(json['user'])
-        : null;
+        : User();
     sharedWith = json['sharedWith'];
     createdAt = json['createdAt'];
+    isLiked =json.containsKey('isLiked')? json['isLiked']:null;
+
   }
 }
 

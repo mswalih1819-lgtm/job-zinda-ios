@@ -3,19 +3,26 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/notification_model.dart';
+import 'package:jora_customer/model/post_model.dart';
 import 'package:jora_customer/view/notifications/notification_pages/view/widgets/icon_more_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../../utils/date_formatter.dart';
+import '../../../../../view_model/notification_view_model.dart';
+import '../../../../../view_model/post_view_model.dart';
+import '../../../../home_section/home_pages/view/post_details_screen.dart';
+import '../../../../other_user_profile/view/other_user_profile_screen.dart';
+
 class ProfileViewSingleNotiWidget extends StatelessWidget {
   final NotificationModel? notificationModel;
-  const ProfileViewSingleNotiWidget({super.key , required this.notificationModel});
-  
+  const ProfileViewSingleNotiWidget(
+      {super.key, required this.notificationModel});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10),
+      margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
           border: Border(
               bottom: BorderSide(color: PColors.whiteOff.withOpacity(0.5)))),
@@ -24,65 +31,106 @@ class ProfileViewSingleNotiWidget extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundImage: AssetImage(PImages.pro_pic3),
+            InkWell(
+              onTap: () async {
+                await context
+                    .read<PostViewModel>()
+                    .fetchOtherUserProfileDetails(
+                        userID: notificationModel?.sender?.sId ?? '');
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OtherUserProfileScreen(),
+                    ));
+              },
+              child: CircleAvatar(
+                radius: 30,
+                backgroundImage: NetworkImage(
+                    notificationModel?.sender?.profileImageUrl ?? ''),
+              ),
             ),
-            SizedBox(
-              width: 13,
+            const SizedBox(width: 13),
+            Expanded(
+              child: InkWell(
+                onTap: () async {
+                  context
+                      .read<NotificationViewModel>()
+                      .notificationRead(id: notificationModel?.sId ?? '');
+                  if (notificationModel?.notificationType == 'profile_view' ||
+                      notificationModel?.notificationType == 'follow') {
+                    await context
+                        .read<PostViewModel>()
+                        .fetchOtherUserProfileDetails(
+                            userID: notificationModel?.sender?.sId ?? '');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OtherUserProfileScreen(),
+                        ));
+                  } else if (notificationModel?.notificationType == 'like' ||
+                      notificationModel?.notificationType == 'comment') {
+                    PostViewModel postViewModel = context.read<PostViewModel>();
+                    postViewModel.postDetails =
+                        PostModel(sId: notificationModel?.connectedPostId?.sId);
+                    postViewModel.fetchPostDetails();
+                    Navigator.pushNamed(context, PostDetailsScreen.route);
+                  }
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 11,
+                    ),
+                    RichText(
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      text: TextSpan(
+                        style:const  TextStyle(
+                            fontSize: 13, fontWeight: FontWeight.w500
+                            // color: Colors.black,
+                            ),
+                        children: [
+                          // new TextSpan(text: 'James Mathew'),
+                          // WidgetSpan(
+                          //     child: SizedBox(
+                          //   width: 10,
+                          // )),
+                           TextSpan(
+                              text: notificationModel?.description ?? '',
+                              style:  const TextStyle(
+                                  fontWeight: FontWeight.w300, fontSize: 12)),
+                          const WidgetSpan(
+                              child: SizedBox(
+                            width: 10
+                          )),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 7,
+                    ),
+                    textWidget(
+                        text: timeago.format(stringToDateTime(
+                                date: notificationModel?.sentOn ?? '',
+                                format: 'yyyy-MM-ddThh:mm:ss') ??
+                            DateTime.now()),
+                        fontsize: 12,
+                        color: PColors.whiteOff.withOpacity(0.4)),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
+              ),
             ),
-          Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 11,
-          ),
-         RichText(
-      overflow: TextOverflow.ellipsis,
-      maxLines: 1,
-      text:  TextSpan(
-        style: new TextStyle(fontSize: 13, fontWeight: FontWeight.w500
-            // color: Colors.black,
-            ),
-        children: [
-          // new TextSpan(text: 'James Mathew'),
-          // WidgetSpan(
-          //     child: SizedBox(
-          //   width: 10,
-          // )),
-          new TextSpan(
-              text: notificationModel?.description??'',
-              style: new TextStyle(fontWeight: FontWeight.w300, fontSize: 12)),
-          WidgetSpan(
-              child: SizedBox(
-            width: 10,
-          )),
-        ],
-      ),
-    ),
-          SizedBox(
-            height: 7,
-          ),
-          textWidget(
-              text: timeago.format(stringToDateTime(date: notificationModel?.sentOn??'', format: 'yyyy-MM-ddThh:mm:ss')??DateTime.now()),
-              fontsize: 12,
-              color: PColors.whiteOff.withOpacity(0.4)),
-          SizedBox(
-            height: 20,
-          ),
-        ],
-      ),
-    ),
-           IconMoreWidget(notificationModel: notificationModel,)
+            IconMoreWidget(
+              notificationModel: notificationModel,
+            )
           ],
         ),
       ),
     );
   }
-
-  
-
- 
 }
