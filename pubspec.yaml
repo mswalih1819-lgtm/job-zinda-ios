@@ -58,6 +58,7 @@ dependencies:
   infinite_scroll_pagination: ^4.1.0
   timeago: ^3.7.0
   file_picker: ^8.1.4
+  # url_launcher: ^6.3.1
   # video_player: ^2.9.2
   # chewie: ^1.8.5
   # cached_network_image: ^3.4.1

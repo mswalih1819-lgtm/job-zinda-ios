@@ -1,7 +1,5 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart' as dio;
-import 'package:dio/io.dart';
 import 'package:jora_customer/Data/Network/base_api_service.dart';
 import 'package:jora_customer/Data/app_exceptions.dart';
 import 'package:jora_customer/Settings/common/constants/app_url.dart';
@@ -14,8 +12,8 @@ class NetworkApiServiceV2 implements BaseApiService {
   NetworkApiServiceV2() {
     adapter = dio.Dio(dio.BaseOptions(
         baseUrl: AppUrl.baseurl,
-        connectTimeout: Duration(minutes: 6),
-        receiveTimeout: Duration(minutes: 60)));
+        connectTimeout: const Duration(minutes: 6),
+        receiveTimeout: const Duration(minutes: 60)));
     adapter.interceptors.add(dio.InterceptorsWrapper(
       onRequest: (options, handler) {
         if (LoggedInUser.accessToken != null) {

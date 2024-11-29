@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Jora Customer',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
+      theme: ThemeData(highlightColor: Colors.transparent,splashColor: Colors.transparent,
         textTheme: const TextTheme(
           bodySmall:  TextStyle(),
           bodyMedium: TextStyle(),

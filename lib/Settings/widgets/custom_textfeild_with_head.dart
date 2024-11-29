@@ -82,7 +82,7 @@ class _CustomTextfeildWithHeadState extends State<CustomTextfeildWithHead> {
       filled: true,
       fillColor: widget.filColor,
       counterText: '',
-      hintText: widget.hintText ?? '',
+      hintText: widget.hintText,
       hintStyle: PTextStyles.titleSmall.copyWith(fontWeight: FontWeight.w400),
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
@@ -145,7 +145,7 @@ class _CustomTextfeildWithHeadState extends State<CustomTextfeildWithHead> {
   Widget textHead() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 2),
-      color: widget.filColor ?? PColors.white,
+      color: widget.filColor,
       child: Text(
         widget.textHead,
         style: TextStyle(

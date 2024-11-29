@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/view/chat_section/chat_pages/view/widgets/chat_body.dart';
 import 'package:jora_customer/view/chat_section/chat_pages/view/widgets/chat_head.dart';
-import 'package:jora_customer/view_model/chat_view_model.dart';
-import 'package:provider/provider.dart';
 
 class ChatPageUi extends StatelessWidget {
   const ChatPageUi({super.key});
@@ -16,8 +14,8 @@ class ChatPageUi extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: 17, horizontal: 16),
-          child: Column(
+          margin: const EdgeInsets.symmetric(vertical: 17, horizontal: 16),
+          child: const Column(
             children: [
               ChatHeadUi(),
               SizedBox(

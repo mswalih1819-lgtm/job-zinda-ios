@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
-import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/conversation_model.dart';
@@ -9,7 +8,7 @@ import 'package:jora_customer/utils/date_formatter.dart';
 class ChatCard extends StatelessWidget {
  final ConversationModel conversationModel;
 
-  ChatCard({super.key, required this.conversationModel});
+  const ChatCard({super.key, required this.conversationModel});
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +26,8 @@ class ChatCard extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(
-            width: 9,
+          const SizedBox(
+            width: 9
           ),
           Flexible(
             child: Column(
@@ -55,11 +54,11 @@ class ChatCard extends StatelessWidget {
                             fontsize: 12,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2)),
-                    SizedBox(
+                    const SizedBox(
                       width: 7,
                     ),
                    conversationModel.unreadCount==0
-                        ? Icon(
+                        ? const Icon(
                             Icons.done,
                             size: 14,
                           )
@@ -79,7 +78,7 @@ class ChatCard extends StatelessWidget {
                           )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Divider(

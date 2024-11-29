@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
-import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
 
 class ChatBottomBarUi extends StatelessWidget {
   const ChatBottomBarUi({super.key});
@@ -10,22 +9,22 @@ class ChatBottomBarUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
       // EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
         height: 50,
-        margin: EdgeInsets.only(bottom: 14),
+        margin: const EdgeInsets.only(bottom: 14),
         width: MediaQuery.of(context).size.width,
         // color:PColors.seed2,
         child: Row(
           children: [
-            SizedBox(
-              width: 10,
+            const SizedBox(
+              width: 10
             ),
             Expanded(
               child: TextField(decoration: inputDecoration()),
             ),
-            SizedBox(
+            const SizedBox(
               width: 25,
             ),
             // Send Button
@@ -33,7 +32,7 @@ class ChatBottomBarUi extends StatelessWidget {
               PSvgs.audio,
               height: 24,
             ),
-            SizedBox(
+            const SizedBox(
               width: 20,
             )
           ],
@@ -71,7 +70,7 @@ class ChatBottomBarUi extends StatelessWidget {
   }
 
   Widget prefixIcon() {
-    return Container(
+    return SizedBox(
         width: 40,
         // height: 27,
         child: Center(
@@ -94,7 +93,7 @@ class ChatBottomBarUi extends StatelessWidget {
               PSvgs.plus,
               height: 24,
             ),
-            SizedBox(
+            const SizedBox(
               width: 16,
             ),
             SvgPicture.asset(
@@ -102,7 +101,7 @@ class ChatBottomBarUi extends StatelessWidget {
               height: 21,
               width: 7,
             ),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
           ],

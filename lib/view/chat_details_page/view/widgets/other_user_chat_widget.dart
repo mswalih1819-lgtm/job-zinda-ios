@@ -4,9 +4,9 @@ import 'package:jora_customer/Settings/widgets/text_widget.dart';
 
 class OtherUserChatWidget extends StatelessWidget {
 
-  String text;
-  String time;
-   OtherUserChatWidget({super.key,required this.text,required this.time});
+ final String text;
+final  String time;
+   const OtherUserChatWidget({super.key,required this.text,required this.time});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +26,9 @@ class OtherUserChatWidget extends StatelessWidget {
                   left: 10, right: 10, top: 10, bottom: 10),
               decoration: BoxDecoration(
                   color: PColors.black2,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     bottomRight: Radius.circular(20),
-                    topLeft: Radius.circular(20),
+                    topLeft:  Radius.circular(20),
                     topRight: Radius.circular(20),
                   )),
               child: textWidget(

@@ -15,11 +15,11 @@ class DistanceFilterUi extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: 20,
+        const SizedBox(
+          height: 20
         ),
         textWidget(text: "Distance"),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         distanceFilter(size, context),

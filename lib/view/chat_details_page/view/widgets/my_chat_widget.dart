@@ -3,9 +3,9 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 
 class MyChatWidget extends StatelessWidget {
-  String text;
-  String time;
-   MyChatWidget({super.key,required this.text,required this.time});
+ final String text;
+ final String time;
+   const MyChatWidget({super.key,required this.text,required this.time});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class MyChatWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
 
             Container(
               alignment: Alignment.centerLeft,
@@ -27,7 +27,7 @@ class MyChatWidget extends StatelessWidget {
                   left: 10, right: 10, top: 10, bottom: 10),
               decoration: BoxDecoration(
                   color: PColors.white,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(20),
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),

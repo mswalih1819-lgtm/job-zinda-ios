@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jora_customer/main.dart';
 import 'package:jora_customer/view/chat_section/all_chat_widget/view/widgets/chat_card.dart';
 import 'package:jora_customer/view_model/chat_view_model.dart';
 import 'package:provider/provider.dart';

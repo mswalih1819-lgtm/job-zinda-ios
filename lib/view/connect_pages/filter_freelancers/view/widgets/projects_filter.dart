@@ -15,11 +15,11 @@ class ProjectsFilterUi extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         textWidget(text: "Projects handled"),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         projectsFilter(size, context),

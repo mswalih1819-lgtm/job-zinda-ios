@@ -141,7 +141,7 @@ class PostViewModel with ChangeNotifier {
       Map<String, dynamic> data = response.data;
       if (data['status']) {
         otherUser = ProfileModel.fromJson(data['data']['profileDetails']);
-        isFollowed = data['data']['isFollowing'];
+        isFollowed = otherUser?.isFollowing??false;
         visitProfile(userID: userID);
         notifyListeners();
       }
@@ -202,6 +202,7 @@ class PostViewModel with ChangeNotifier {
   Future<void> unFollowUser({String? userID}) async {
     String? id = userID ?? otherUser?.sId;
  Response response = await  ApiService().post(Api.unfollowUrl, {'profileId': id});
+ 
  log(response.data.toString());
     if (userID != null) {
       currentPage = 0;

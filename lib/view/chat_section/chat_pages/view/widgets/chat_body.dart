@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jora_customer/Settings/until/PColors.dart';
-import 'package:jora_customer/Settings/widgets/text_widget.dart';
-import 'package:jora_customer/view/chat_section/chat_pages/view/widgets/chat_filter.dart';
 import 'package:jora_customer/view_model/chat_view_model.dart';
 import 'package:jora_customer/view/chat_section/chat_pages/view/widgets/lets_plan_chat_widget_ui.dart';
 import 'package:jora_customer/view/chat_section/chat_pages/view/widgets/primary_chat_widget_ui.dart';
@@ -25,9 +22,9 @@ class ChatBodyUi extends StatelessWidget {
       builder: (context, value, child) {
         switch (value) {
           case ChatViewStatus.primary:
-            return PrimaryChatWidgetUi();
+            return const PrimaryChatWidgetUi();
           case ChatViewStatus.letsPlan:
-            return LetsPlanChatWidgetUi();
+            return const LetsPlanChatWidgetUi();
 
           default:
             return const PrimaryChatWidgetUi();
