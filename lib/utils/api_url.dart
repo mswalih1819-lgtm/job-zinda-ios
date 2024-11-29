@@ -38,4 +38,5 @@ static const profileVisitUrl='$baseurl/api/v1/user/visit-profile';
 static const fetchNotificationCount ='$baseurl/api/v1/notification/getNotificationCount';
 static const notificationRead='$baseurl/api/v1/notification/markAsRead';
 static const postLikeUrl = '$baseurl/api/v1/post/addALike';
+static const refreshTokenUrl = '$baseurl/api/v1/auth/refresh-tokens';
 }

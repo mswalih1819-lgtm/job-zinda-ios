@@ -41,12 +41,18 @@ class LoggedInUser {
     long = json['lng'];
     storeUserLocally();
   }
+  LoggedInUser.tokenUpdate(Map<String, dynamic> json){
+    accessToken = json['access']['token'];
+    refreshToken = json['refresh']['token'];
+    storeUserLocally();
+
+  }
+
   static void storeUserLocally() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('id', id ?? '');
     prefs.setString('email', email ?? '');
     prefs.setString('name', name ?? '');
-
     prefs.setString('countryCode', countryCode ?? '');
     prefs.setString('phoneNumber', phoneNumber ?? '');
     prefs.setString('profilePic', profilePic ?? '');

@@ -1,3 +1,5 @@
+
+
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -74,7 +76,6 @@ class PostViewModel with ChangeNotifier {
       'mediaUrl': selectedUrl,
       'sharedWith': sharedWith == 'Anyone' ? 'all' : 'followers'
     });
-    log(response.data.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {
@@ -136,7 +137,6 @@ class PostViewModel with ChangeNotifier {
 
     Response response =
         await ApiService().get('${Api.otherUserProfileDetailsUrl}/$userID');
-    log(response.data.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {

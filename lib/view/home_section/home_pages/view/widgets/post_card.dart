@@ -1,9 +1,11 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/post_model.dart';
+import 'package:jora_customer/utils/thumbnail.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -106,14 +108,14 @@ class _PostCardState extends State<PostCard> {
                             videoUrl: widget.post?.mediaUrl ?? '')));
               },
               child: Container(
-                height: 200,
-                color: Colors.black,
-                alignment: Alignment.center,
-                child: const Icon(
-                  Icons.play_circle,
-                  color: Colors.white,
-                  size: 50,
-                ),
+                      height: 200,
+                      color: Colors.black,
+                      alignment: Alignment.center,
+                      child: const Icon(
+                        Icons.play_circle,
+                        color: Colors.white,
+                        size: 50,
+                      ),
               )),
         const SizedBox(height: 4),
         actionWidget(widget.post, context),
