@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:jora_customer/model/logged_in_user.dart';
 
 import '../model/conversation_model.dart';
 import '../utils/api_service.dart';
@@ -32,6 +33,7 @@ class ChatViewModel extends ChangeNotifier {
   }
    List<ConversationModel> conversationList = [];
   Future<void> fetchAllConversations() async {
+    print("token:-${LoggedInUser.accessToken}");
     EasyLoading.show();
     Response response = await ApiService().get(Api.conversationListUrl);
     if (response.statusCode == 200) {

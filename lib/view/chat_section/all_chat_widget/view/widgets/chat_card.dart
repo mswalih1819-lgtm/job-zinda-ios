@@ -5,9 +5,12 @@ import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/conversation_model.dart';
 import 'package:jora_customer/utils/date_formatter.dart';
+import 'package:jora_customer/utils/providers.dart';
+import 'package:jora_customer/view_model/chat_details_view_model.dart';
+import 'package:provider/provider.dart';
 
 class ChatCard extends StatelessWidget {
- final ConversationModel conversationModel;
+  final ConversationModel conversationModel;
 
   ChatCard({super.key, required this.conversationModel});
 
@@ -15,6 +18,10 @@ class ChatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        context
+            .read<ChatDetailsViewModel>()
+            .updateConversationModel(conversationModel);
+        context.read<ChatDetailsViewModel>().fetchAllConversations(1);
         Navigator.pushNamed(context, PPages.chatDetailsPageui);
       },
       child: Row(
@@ -23,7 +30,9 @@ class ChatCard extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 24,
-                backgroundImage: NetworkImage(conversationModel.participants?.first.userId?.profileImageUrl??''),
+                backgroundImage: NetworkImage(conversationModel
+                        .participants?.first.userId?.profileImageUrl ??
+                    ''),
               )
             ],
           ),
@@ -38,9 +47,16 @@ class ChatCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    textWidget(text:conversationModel.participants?.first.userId?.name??'', fontweight: FontWeight.w500),
                     textWidget(
-                        text: formatDateFromString(conversationModel.lastMessage?.createdAt??'','yyyy-MM-ddThh:mm:ss' ,'HH:mm' ), 
+                        text: conversationModel
+                                .participants?.first.userId?.name ??
+                            '',
+                        fontweight: FontWeight.w500),
+                    textWidget(
+                        text: formatDateFromString(
+                            conversationModel.lastMessage?.createdAt ?? '',
+                            'yyyy-MM-ddThh:mm:ss',
+                            'HH:mm'),
                         color: PColors.whiteOff.withOpacity(0.5),
                         fontsize: 11)
                   ],
@@ -49,8 +65,7 @@ class ChatCard extends StatelessWidget {
                   children: [
                     Expanded(
                         child: textWidget(
-                            text:
-                               conversationModel.lastMessage?.content??'',
+                            text: conversationModel.lastMessage?.content ?? '',
                             color: PColors.whiteOff.withOpacity(0.5),
                             fontsize: 12,
                             overflow: TextOverflow.ellipsis,
@@ -58,7 +73,7 @@ class ChatCard extends StatelessWidget {
                     SizedBox(
                       width: 7,
                     ),
-                   conversationModel.unreadCount==0
+                    conversationModel.unreadCount == 0
                         ? Icon(
                             Icons.done,
                             size: 14,
@@ -71,7 +86,7 @@ class ChatCard extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 6.0, vertical: 2),
                               child: textWidget(
-                                  text: '${conversationModel.unreadCount??0}',
+                                  text: '${conversationModel.unreadCount ?? 0}',
                                   color: PColors.black,
                                   fontsize: 12,
                                   fontweight: FontWeight.w500),

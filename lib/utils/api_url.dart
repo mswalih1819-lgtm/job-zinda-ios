@@ -15,27 +15,38 @@ class Api {
       '$baseurl/api/v1/post/getAllFollowingPosts?pageSize=10';
   static const loginUserPostsListUrl =
       '$baseurl/api/v1/post/listMyPosts?pageSize=10';
-      static const otherUserPostsListUrl ='$baseurl/api/v1/post/getOtherProfilePosts?&pageSize=10';
+  static const otherUserPostsListUrl =
+      '$baseurl/api/v1/post/getOtherProfilePosts?&pageSize=10';
   static const fetchPostDetails = '$baseurl/api/v1/post/getPostDetails';
   static const createStoryUrl = '$baseurl/api/v1/story/createStory';
   static const getSignInUrl = '$baseurl/api/v1/signed-url/get-signed-url';
   static const createPostUrl = '$baseurl/api/v1/post/addPost';
   static const profileDetailsUrl = '$baseurl/api/v1/user/get-profile-details';
-  static const otherUserProfileDetailsUrl ='$baseurl/api/v1/user/get-other-profile';
+  static const otherUserProfileDetailsUrl =
+      '$baseurl/api/v1/user/get-other-profile';
   static const updateProfileImage = '$baseurl/api/v1/user/update-profile-image';
   static const updateProfile = '$baseurl/api/v1/user/update-profile';
   static const fetchProfileAnalyticsUrl =
       '$baseurl/api/v1/user/get-profile-analytics';
   static const updateCoverImage = '$baseurl/api/v1/user/update-cover-image';
-  static const searchUserListUrl ='$baseurl/api/v1/user/get-other-profiles?pageSize=10';
+  static const searchUserListUrl =
+      '$baseurl/api/v1/user/get-other-profiles?pageSize=10';
 
-  static const conversationListUrl ='$baseurl/api/v1/conversation/listConversations?pageSize=1000&&pageNumber=1' ;
-static const followUrl ='$baseurl/api/v1/follower/followUser';
-static const unfollowUrl ='$baseurl/api/v1/follower/unFollowUser';
-static const fetchNotificationsUrl ='$baseurl/api/v1/notification/listNotification?pageSize=10';
-static const deleteComment ='$baseurl/api/v1/notification/deleteNotification';
-static const profileVisitUrl='$baseurl/api/v1/user/visit-profile';
-static const fetchNotificationCount ='$baseurl/api/v1/notification/getNotificationCount';
-static const notificationRead='$baseurl/api/v1/notification/markAsRead';
-static const postLikeUrl = '$baseurl/api/v1/post/addALike';
+  static const conversationListUrl =
+      '$baseurl/api/v1/conversation/listConversations?pageSize=1000&&pageNumber=1';
+  static const followUrl = '$baseurl/api/v1/follower/followUser';
+  static const unfollowUrl = '$baseurl/api/v1/follower/unFollowUser';
+  static const fetchNotificationsUrl =
+      '$baseurl/api/v1/notification/listNotification?pageSize=10';
+  static const deleteComment =
+      '$baseurl/api/v1/notification/deleteNotification';
+  static const profileVisitUrl = '$baseurl/api/v1/user/visit-profile';
+  static const fetchNotificationCount =
+      '$baseurl/api/v1/notification/getNotificationCount';
+  static const notificationRead = '$baseurl/api/v1/notification/markAsRead';
+  static const postLikeUrl = '$baseurl/api/v1/post/addALike';
+  
+  static const getAllMessage = '$baseurl/api/v1/conversation/getAllMessage';
+  static const updateChat = '$baseurl/api/v1/conversation/updateChat';
+  static const sentMessage = '$baseurl/api/v1/conversation/sentMessage';
 }
