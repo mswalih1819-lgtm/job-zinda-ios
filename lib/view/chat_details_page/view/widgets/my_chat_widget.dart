@@ -3,6 +3,7 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/%20chat_message_model.dart';
 import 'package:jora_customer/utils/date_formatter.dart';
+import 'package:jora_customer/view/chat_details_page/view/widgets/audio_widget.dart';
 
 class MyChatWidget extends StatelessWidget {
   final ChatMessageModel message;
@@ -25,7 +26,7 @@ class MyChatWidget extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            if (message.messageType == "text"||message.messageType == 'text')
+            if (message.messageType == "text" || message.messageType == 'text')
               Container(
                 alignment: Alignment.centerLeft,
                 // width: size.width / 1.4,
@@ -44,7 +45,8 @@ class MyChatWidget extends StatelessWidget {
                     fontsize: 12,
                     fontweight: FontWeight.w600),
               ),
-            if (message.messageType == "image"||message.messageType == 'image')
+            if (message.messageType == "image" ||
+                message.messageType == 'image')
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -59,6 +61,22 @@ class MyChatWidget extends StatelessWidget {
                 ),
                 height: size.height * 0.3,
                 child: Image.network(message.content!),
+              ),
+            if (message.messageType == "audio" ||
+                message.messageType == 'audio')
+              Container(
+                alignment: Alignment.centerLeft,
+                // width: size.width / 1.4,
+                padding: const EdgeInsets.only(
+                    left: 10, right: 10, top: 10, bottom: 10),
+                decoration: BoxDecoration(
+                    color: PColors.white,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    )),
+                child: AudioWidget(audioUrl: message.content!),
               ),
             textWidget(
                 text: formatDateFromString(

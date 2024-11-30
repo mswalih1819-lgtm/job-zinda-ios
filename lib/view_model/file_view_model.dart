@@ -81,4 +81,20 @@ class FileUploadViewModel with ChangeNotifier {
     }
     return null;
   }
+
+   Future<String?> pickedAudioUpload(dynamic audioBytes, String name,String audioName) async {
+    String? signInUrl =
+        await getSignInUrl(fileName: audioName, fieldName: name);
+    if (signInUrl != null) {
+      await uploadFile(url: signInUrl, imageBytes: audioBytes);
+      Uri uri = Uri.parse(signInUrl);
+      String audioUrl = Uri(
+        scheme: uri.scheme,
+        host: uri.host,
+        path: uri.path,
+      ).toString();
+      return audioUrl;
+    }
+    return null;
+  }
 }

@@ -1,23 +1,22 @@
+import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
+import 'package:jora_customer/view/chat_details_page/view/widgets/chat_textfeild_sectopn.dart';
 import 'package:jora_customer/view_model/chat_details_view_model.dart';
 import 'package:jora_customer/view_model/file_view_model.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class ChatBottomBarUi extends StatelessWidget {
   ChatBottomBarUi({super.key});
 
-  final TextEditingController _messageController = TextEditingController();
-
-  final ImagePicker _picker = ImagePicker();
-
   @override
   Widget build(BuildContext context) {
     ChatDetailsViewModel chatDetailsViewModel =
-        context.read<ChatDetailsViewModel>();
+        context.watch<ChatDetailsViewModel>();
     return Padding(
       padding: EdgeInsets.all(0),
       // EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -29,15 +28,27 @@ class ChatBottomBarUi extends StatelessWidget {
         child: Row(
           children: [
             const SizedBox(width: 10),
-            Expanded(
-              child: TextField(
-                // controller: _messageController,
-                decoration: inputDecoration(context),
-                onChanged: (value) {
-                  chatDetailsViewModel.updateTextContect(value);
-                },
+            if (!chatDetailsViewModel.isrecord)
+              Expanded(
+                child: ChatBottomTextfeildSectopn(),
               ),
-            ),
+            if (chatDetailsViewModel.isrecord)
+              AudioWaveforms(
+                enableGesture: true,
+                size: Size(MediaQuery.of(context).size.width-120, 50),
+                recorderController: chatDetailsViewModel.recorderController,
+                waveStyle: WaveStyle(
+                  waveColor: PColors.white,
+                  waveThickness: 8.0,
+                  waveCap: StrokeCap.round,
+                  spacing: 24.0,
+                  extendWaveform: true,
+                  showMiddleLine: false,
+                  durationTextPadding: 0,
+                  labelSpacing: 0,
+                ),
+                margin: const EdgeInsets.only(left: 25),
+              ),
             const SizedBox(width: 25),
             if (chatDetailsViewModel.message != null &&
                 chatDetailsViewModel.message!.isNotEmpty)
@@ -51,107 +62,44 @@ class ChatBottomBarUi extends StatelessWidget {
                 },
                 child: Icon(Icons.send_outlined),
               ),
-            if (chatDetailsViewModel.message == null ||
-                chatDetailsViewModel.message!.isEmpty)
+            // if (chatDetailsViewModel.message == null ||
+            //     chatDetailsViewModel.message!.isEmpty)
+            if (!chatDetailsViewModel.isrecord)
               // Send Button
-              SvgPicture.asset(
-                PSvgs.audio,
-                height: 24,
+              GestureDetector(
+                onTap: () async {
+                  chatDetailsViewModel.getDir();
+                  final status = await Permission.microphone.request();
+                  // ignore: use_build_context_synchronously
+
+                  final hasPermission = await chatDetailsViewModel
+                      .recorderController
+                      .checkPermission();
+
+                  if (status != PermissionStatus.granted ||
+                      hasPermission == false) {
+                    throw "Microphone Permission not Granted";
+                  }
+                  chatDetailsViewModel.updateISRecord(true);
+                  chatDetailsViewModel.record(context, isRecorderReady: true);
+                },
+                child: SvgPicture.asset(
+                  PSvgs.audio,
+                  height: 24,
+                ),
+              ),
+            if (chatDetailsViewModel.isrecord)
+              GestureDetector(
+                onTap: () {
+                  chatDetailsViewModel.updateISRecord(false);
+                  chatDetailsViewModel.stop(context, isRecorderReady: true);
+                },
+                child: Icon(Icons.send_outlined),
               ),
             const SizedBox(width: 20)
           ],
         ),
       ),
     );
-  }
-
-  InputDecoration inputDecoration(BuildContext context) {
-    return InputDecoration(
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(24),
-        borderSide:
-            BorderSide(color: PColors.whiteOff.withOpacity(0.4), width: 0.0),
-      ),
-      disabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(24),
-        borderSide:
-            BorderSide(color: PColors.whiteOff.withOpacity(0.4), width: 0.0),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(24),
-        borderSide:
-            BorderSide(color: PColors.whiteOff.withOpacity(0.4), width: 0.0),
-      ),
-
-      hintText: "",
-      suffixIcon: suffixIcon(context),
-      prefixIcon: prefixIcon(),
-      // hintStyle: TextStyle(color: Colors.blue),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(24),
-        borderSide: BorderSide(color: PColors.whiteOff.withOpacity(0.4)),
-      ),
-    );
-  }
-
-  Widget prefixIcon() {
-    return Container(
-      width: 40,
-      child: Center(
-        child: SvgPicture.asset(
-          PSvgs.emoji,
-          height: 27,
-        ),
-      ),
-    );
-  }
-
-  Widget suffixIcon(BuildContext context) {
-    ChatDetailsViewModel chatDetailsViewModel =
-        context.read<ChatDetailsViewModel>();
-    return Container(
-      child: IntrinsicHeight(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            GestureDetector(
-              onTap: () {
-                getImage(context, ImageSource.gallery);
-              },
-              child: SvgPicture.asset(
-                PSvgs.plus,
-                height: 24,
-              ),
-            ),
-            const SizedBox(width: 16),
-            GestureDetector(
-              onTap: () {
-                getImage(context, ImageSource.camera);
-              },
-              child: SvgPicture.asset(
-                PSvgs.camera,
-                height: 21,
-                width: 7,
-              ),
-            ),
-            const SizedBox(width: 20),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future getImage(BuildContext context, ImageSource source) async {
-    final XFile? image = await _picker.pickImage(source: source);
-
-    if (image != null) {
-      String? url = await context
-          .read<FileUploadViewModel>()
-          .pickedImageUpload(image, 'chat');
-      ChatDetailsViewModel chatDetailsViewModel =
-          context.read<ChatDetailsViewModel>();
-      chatDetailsViewModel.updateImageContect(context, url!);
-      // chatDetailsViewModel.selectedUrl = url;
-    }
   }
 }
