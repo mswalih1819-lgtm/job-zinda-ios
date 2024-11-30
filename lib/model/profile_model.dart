@@ -23,6 +23,7 @@ class ProfileModel {
   List<Null>? fcmTokens;
   String? createdAt;
   String? coverImage;
+  bool?isFollowing;
 
   ProfileModel(
       {this.location,
@@ -48,11 +49,11 @@ class ProfileModel {
       this.accountType,
       this.fcmTokens,
       this.createdAt,
-      this.coverImage});
+      this.coverImage , this.isFollowing});
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     location = json['location'] != null
-        ? new Location.fromJson(json['location'])
+        ?  Location.fromJson(json['location'])
         : null;
     sId = json['_id'];
     getNotifications = json['getNotifications'];
@@ -76,6 +77,7 @@ class ProfileModel {
     accountType = json['accountType'];
     createdAt = json['createdAt'];
     coverImage = json['coverImage'];
+    isFollowing=json['isFollowing'];
   }
 }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
-import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/conversation_model.dart';
@@ -12,17 +11,30 @@ import 'package:provider/provider.dart';
 class ChatCard extends StatelessWidget {
   final ConversationModel conversationModel;
 
-  ChatCard({super.key, required this.conversationModel});
+  const ChatCard({super.key, required this.conversationModel});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context
-            .read<ChatDetailsViewModel>()
-            .updateConversationModel(conversationModel);
-        context.read<ChatDetailsViewModel>().fetchAllConversations(1);
-        Navigator.pushNamed(context, PPages.chatDetailsPageui);
+        if (conversationModel.unreadCount != 0) {
+          context
+              .read<ChatDetailsViewModel>()
+              .updateConversationModel(conversationModel);
+
+          context.read<ChatDetailsViewModel>().updatemessage(
+              lastMessageId: conversationModel.lastMessage!.sId!,
+              context: context);
+              
+          context.read<ChatDetailsViewModel>().fetchAllConversations(1);
+          Navigator.pushNamed(context, PPages.chatDetailsPageui);
+        } else {
+          context
+              .read<ChatDetailsViewModel>()
+              .updateConversationModel(conversationModel);
+          context.read<ChatDetailsViewModel>().fetchAllConversations(1);
+          Navigator.pushNamed(context, PPages.chatDetailsPageui);
+        }
       },
       child: Row(
         children: [
@@ -36,9 +48,7 @@ class ChatCard extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(
-            width: 9,
-          ),
+          const SizedBox(width: 9),
           Flexible(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -70,7 +80,7 @@ class ChatCard extends StatelessWidget {
                             fontsize: 12,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2)),
-                    SizedBox(
+                    const SizedBox(
                       width: 7,
                     ),
                     conversationModel.unreadCount == 0
@@ -94,7 +104,7 @@ class ChatCard extends StatelessWidget {
                           )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Divider(

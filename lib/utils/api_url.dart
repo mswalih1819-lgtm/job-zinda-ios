@@ -45,9 +45,10 @@ class Api {
       '$baseurl/api/v1/notification/getNotificationCount';
   static const notificationRead = '$baseurl/api/v1/notification/markAsRead';
   static const postLikeUrl = '$baseurl/api/v1/post/addALike';
-  
+
   static const getAllMessage = '$baseurl/api/v1/conversation/getAllMessage';
   static const updateChat = '$baseurl/api/v1/conversation/updateChat';
   static const sentMessage = '$baseurl/api/v1/conversation/sentMessage';
   static const getNearestProfiles = '$baseurl/api/v1/user/get-nearest-profiles';
+  static const refreshTokenUrl = '$baseurl/api/v1/auth/refresh-tokens';
 }

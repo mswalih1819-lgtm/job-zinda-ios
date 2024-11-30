@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,6 @@ class ProfileViewModel with ChangeNotifier {
       EasyLoading.show();
     }
     Response response = await ApiService().get(Api.profileDetailsUrl);
-    log(response.data.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {
@@ -52,7 +51,6 @@ class ProfileViewModel with ChangeNotifier {
     EasyLoading.show();
     Response response = await ApiService()
         .put(Api.updateProfile, {'name': name, 'email': email});
-    log(response.data.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {

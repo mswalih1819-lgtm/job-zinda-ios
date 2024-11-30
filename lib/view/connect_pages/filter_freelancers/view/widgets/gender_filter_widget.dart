@@ -15,11 +15,11 @@ class GenderFilterUi extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         textWidget(text: "Gender"),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         genderFilter(size),

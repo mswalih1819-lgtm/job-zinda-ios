@@ -25,7 +25,7 @@ class ChatDetailsPageui extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding:
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: ChatBottomBarUi(),
+        child:  ChatBottomBarUi(),
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 16),

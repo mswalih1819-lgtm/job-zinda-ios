@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -15,7 +17,7 @@ class AuthViewModel with ChangeNotifier {
         .post(Api.loginUrl, {'countryCode': '91', 'mobileNumber': phoneNumber});
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
-      print(response.data);
+      log(response.data.toString());
       if (data['status']) {
         LoggedInUser.login(data['data']);
         Navigator.pushNamedAndRemoveUntil(

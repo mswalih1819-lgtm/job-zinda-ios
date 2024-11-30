@@ -18,11 +18,11 @@ class ChatBottomBarUi extends StatelessWidget {
     ChatDetailsViewModel chatDetailsViewModel =
         context.watch<ChatDetailsViewModel>();
     return Padding(
-      padding: EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
       // EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
         height: 50,
-        margin: EdgeInsets.only(bottom: 14),
+        margin: const EdgeInsets.only(bottom: 14),
         width: MediaQuery.of(context).size.width,
         // color:PColors.seed2,
         child: Row(

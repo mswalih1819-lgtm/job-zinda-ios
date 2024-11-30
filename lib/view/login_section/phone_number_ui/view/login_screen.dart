@@ -2,19 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
-import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
-import 'package:jora_customer/view/chat_section/chat_pages/view/ui.dart';
-import 'package:jora_customer/view/login_section/phone_number_ui/view/widgets/login_body.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/view/widgets/login_head.dart';
 import 'package:jora_customer/view_model/auth_view_model.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../utils/validator.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -35,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 18),
+        margin: const EdgeInsets.symmetric(horizontal: 18),
         child: Column(
           children: [
             Expanded(
@@ -44,21 +40,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 100,
                     ),
                     Image.asset(
                       PImages.phone,
                       height: 150,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
                     LoginHeadingUi(
                         title: "What’s your phone number ?",
                         description:
                             "We need to make sure you’re you. Please let us know what number to send a code to"),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     phonenUmberField(),
@@ -67,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             button(context),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
           ],

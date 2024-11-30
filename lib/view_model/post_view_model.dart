@@ -1,3 +1,5 @@
+
+
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -74,7 +76,6 @@ class PostViewModel with ChangeNotifier {
       'mediaUrl': selectedUrl,
       'sharedWith': sharedWith == 'Anyone' ? 'all' : 'followers'
     });
-    log(response.data.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {
@@ -136,12 +137,11 @@ class PostViewModel with ChangeNotifier {
 
     Response response =
         await ApiService().get('${Api.otherUserProfileDetailsUrl}/$userID');
-    log(response.data.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {
         otherUser = ProfileModel.fromJson(data['data']['profileDetails']);
-        isFollowed = data['data']['isFollowing'];
+        isFollowed = otherUser?.isFollowing??false;
         visitProfile(userID: userID);
         notifyListeners();
       }
@@ -202,6 +202,7 @@ class PostViewModel with ChangeNotifier {
   Future<void> unFollowUser({String? userID}) async {
     String? id = userID ?? otherUser?.sId;
  Response response = await  ApiService().post(Api.unfollowUrl, {'profileId': id});
+ 
  log(response.data.toString());
     if (userID != null) {
       currentPage = 0;

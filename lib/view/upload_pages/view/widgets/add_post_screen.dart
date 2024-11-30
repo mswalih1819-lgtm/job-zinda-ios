@@ -1,9 +1,14 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
+import 'package:jora_customer/utils/thumbnail.dart';
+import 'package:jora_customer/utils/thumbnail_file.dart';
 import 'package:jora_customer/utils/validator.dart';
 import 'package:jora_customer/view/upload_pages/view/widgets/upload_button.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
