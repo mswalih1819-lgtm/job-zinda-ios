@@ -67,7 +67,7 @@ class BottomNavBar extends StatelessWidget {
                         context
                             .read<ConnectPageViewModel>()
                             .fetchNearestProfiles();
-                        await Future.delayed(Duration(milliseconds: 300));
+                        await Future.delayed(Duration(milliseconds: 600));
                         context
                             .read<WrapperViewModel>()
                             .updatePageView(WrapperViewStatus.connect);
