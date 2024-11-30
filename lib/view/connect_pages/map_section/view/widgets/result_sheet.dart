@@ -6,6 +6,8 @@ import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/view/connect_pages/map_section/view/widgets/result_freelancers.dart';
+import 'package:jora_customer/view_model/connect_page_view_model.dart';
+import 'package:provider/provider.dart';
 
 class ResultSheetUi extends StatelessWidget {
   ResultSheetUi({super.key});
@@ -13,6 +15,8 @@ class ResultSheetUi extends StatelessWidget {
   final _controller = DraggableScrollableController();
   @override
   Widget build(BuildContext context) {
+    ConnectPageViewModel connectPageViewModel =
+        context.watch<ConnectPageViewModel>();
     return DraggableScrollableSheet(
       key: _sheet,
 
@@ -48,9 +52,7 @@ class ResultSheetUi extends StatelessWidget {
                         borderRadius: BorderRadius.circular(3)),
                     height: 6,
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
+                  const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -64,7 +66,7 @@ class ResultSheetUi extends StatelessWidget {
                                 color: PColors.white,
                                 fontsize: 14),
                             textWidget(
-                                text: "6 freelancers available",
+                                text: "${connectPageViewModel.nearestProfiles.length} freelancers available",
                                 fontsize: 20,
                                 fontweight: FontWeight.w500,
                                 color: PColors.white),
@@ -85,10 +87,10 @@ class ResultSheetUi extends StatelessWidget {
                   ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: list.length,
+                      itemCount: connectPageViewModel.nearestProfiles.length,
                       controller: scrollController, // set this too
                       itemBuilder: (_, index) => ResultFreelancersSingleUi(
-                            map: list[index],
+                            profileModel: connectPageViewModel.nearestProfiles[index],
                           )),
                 ],
               ),
@@ -99,31 +101,31 @@ class ResultSheetUi extends StatelessWidget {
     );
   }
 
-  List list = [
-    {
-      'cover': PImages.cover_pic1,
-      'profile': PImages.pro_pic3,
-      'name': "Jessica12"
-    },
-    {
-      'cover': PImages.cover_pic2,
-      'profile': PImages.pro_pic2,
-      'name': "Jessica12"
-    },
-    {
-      'cover': PImages.cover_pic1,
-      'profile': PImages.pro_pic3,
-      'name': "Jessica12"
-    },
-    {
-      'cover': PImages.cover_pic2,
-      'profile': PImages.pro_pic2,
-      'name': "Jessica12"
-    },
-    {
-      'cover': PImages.cover_pic1,
-      'profile': PImages.pro_pic3,
-      'name': "Jessica12"
-    },
-  ];
+  // List list = [
+  //   {
+  //     'cover': PImages.cover_pic1,
+  //     'profile': PImages.pro_pic3,
+  //     'name': "Jessica12"
+  //   },
+  //   {
+  //     'cover': PImages.cover_pic2,
+  //     'profile': PImages.pro_pic2,
+  //     'name': "Jessica12"
+  //   },
+  //   {
+  //     'cover': PImages.cover_pic1,
+  //     'profile': PImages.pro_pic3,
+  //     'name': "Jessica12"
+  //   },
+  //   {
+  //     'cover': PImages.cover_pic2,
+  //     'profile': PImages.pro_pic2,
+  //     'name': "Jessica12"
+  //   },
+  //   {
+  //     'cover': PImages.cover_pic1,
+  //     'profile': PImages.pro_pic3,
+  //     'name': "Jessica12"
+  //   },
+  // ];
 }

@@ -4,6 +4,8 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/view/upload_pages/view/ui.dart';
 import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
+import 'package:jora_customer/view_model/connect_page_view_model.dart';
+import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavBar extends StatelessWidget {
@@ -60,7 +62,12 @@ class BottomNavBar extends StatelessWidget {
                   bottombaritem(
                       icon: PSvgs.connect,
                       label: "Connection",
-                      fun: () {
+                      fun: () async {
+                        context.read<ProfileViewModel>().fetchProfile();
+                        context
+                            .read<ConnectPageViewModel>()
+                            .fetchNearestProfiles();
+                        await Future.delayed(Duration(milliseconds: 300));
                         context
                             .read<WrapperViewModel>()
                             .updatePageView(WrapperViewStatus.connect);

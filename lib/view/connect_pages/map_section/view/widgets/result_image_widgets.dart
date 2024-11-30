@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:jora_customer/model/profile_model.dart';
 
 class ResultImageWidgetSectionUi extends StatelessWidget {
-  Map map;
-  ResultImageWidgetSectionUi({super.key, required this.map});
+  final ProfileModel profileModel;
+  ResultImageWidgetSectionUi({super.key, required this.profileModel});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double coverHeight = size.height * 0.16;
     double profileHeight = 68;
-    return buildCoverImage(coverHeight, profileHeight);
+    return buildCoverImage(coverHeight, profileHeight,size.width);
   }
 
-  Widget buildCoverImage(double coverHeight, double profileHeight) {
+  Widget buildCoverImage(double coverHeight, double profileHeight,double width) {
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.center,
@@ -25,8 +26,9 @@ class ResultImageWidgetSectionUi extends StatelessWidget {
                 topLeft: Radius.circular(10), topRight: Radius.circular(10)),
             child: Container(
                 height: coverHeight,
-                child: Image.asset(
-                  map["cover"],
+                width: width,
+                child: Image.network(
+                  profileModel.coverImage!,
                   fit: BoxFit.cover,
                 )),
           ),
@@ -44,7 +46,7 @@ class ResultImageWidgetSectionUi extends StatelessWidget {
       backgroundColor: PColors.white,
       child: CircleAvatar(
         radius: profileHeight / 2.1,
-        backgroundImage: AssetImage(map["profile"]),
+        backgroundImage: NetworkImage(profileModel.profileImageUrl!),
       ),
     );
   }

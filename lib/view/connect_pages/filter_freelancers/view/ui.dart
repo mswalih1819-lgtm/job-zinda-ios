@@ -6,6 +6,7 @@ import 'package:jora_customer/view/connect_pages/filter_freelancers/view/widgets
 import 'package:jora_customer/view/connect_pages/filter_freelancers/view/widgets/projects_filter.dart';
 import 'package:jora_customer/view/connect_pages/filter_freelancers/view/widgets/rating_filter.dart';
 import 'package:jora_customer/view/connect_pages/filter_freelancers/view_model/view_model.dart';
+import 'package:jora_customer/view_model/connect_page_view_model.dart';
 import 'package:provider/provider.dart';
 
 class FreelancerFilterPageUi extends StatelessWidget {
@@ -13,11 +14,16 @@ class FreelancerFilterPageUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ConnectPageViewModel connectPageViewModel =
+        context.read<ConnectPageViewModel>();
     return Scaffold(
       floatingActionButton: CustomElavatedTextButton(
         borderRadius: 0,
         text: "Save",
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pop(context);
+          connectPageViewModel.fetchNearestProfiles();
+        },
         bgcolor: PColors.white,
         textColor: PColors.black,
       ),
@@ -29,31 +35,24 @@ class FreelancerFilterPageUi extends StatelessWidget {
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 17),
-        child: ChangeNotifierProvider(
-          create: (context) => FreelancerFilterViewModel(),
-          builder: (context, child) => SingleChildScrollView(
-            child: Column(
-              children: [
-                DistanceFilterUi(),
-                SizedBox(
-                  height: 10,
-                ),
-                GenderFilterUi(),
-                SizedBox(
-                  height: 10,
-                ),
-                ProjectsFilterUi(),
-                SizedBox(
-                  height: 10,
-                ),
-                RatingFilterUi(),
-                SizedBox(
-                  height: 40,
-                ),
-              ],
-            ),
+        // child: ChangeNotifierProvider(
+        //   create: (context) => FreelancerFilterViewModel(),
+        //   builder: (context, child) =>
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              DistanceFilterUi(),
+              const SizedBox(height: 10),
+              GenderFilterUi(),
+              const SizedBox(height: 10),
+              ProjectsFilterUi(),
+              const SizedBox(height: 10),
+              RatingFilterUi(),
+              const SizedBox(height: 40),
+            ],
           ),
         ),
+        // ),
       ),
     );
   }

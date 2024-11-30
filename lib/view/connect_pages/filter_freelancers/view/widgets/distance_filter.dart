@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/view/connect_pages/filter_freelancers/view_model/view_model.dart';
+import 'package:jora_customer/view_model/connect_page_view_model.dart';
 import 'package:provider/provider.dart';
 
 class DistanceFilterUi extends StatelessWidget {
@@ -28,7 +29,7 @@ class DistanceFilterUi extends StatelessWidget {
   }
 
   Widget distanceFilter(Size size, BuildContext context) {
-    return Consumer<FreelancerFilterViewModel>(
+    return Consumer<ConnectPageViewModel>(
       builder: (context, value, child) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(
@@ -36,21 +37,21 @@ class DistanceFilterUi extends StatelessWidget {
           (index) => GestureDetector(
             onTap: () {
               context
-                  .read<FreelancerFilterViewModel>()
-                  .updateDistance(list[index]);
+                  .read<ConnectPageViewModel>()
+                  .updateDistanceInKm2(list[index]);
             },
             child: Container(
               width: size.width / 3.4,
               height: 37,
               decoration: BoxDecoration(
-                  color: value.distance == list[index]
+                  color: value.distanceInKm == list[index]
                       ? PColors.seed2
                       : PColors.black2.withOpacity(0.55),
                   borderRadius: BorderRadius.circular(5)),
               child: Center(
                   child: textWidget(
                       text: "${list[index]} Km",
-                      color: value.distance == list[index]
+                      color: value.distanceInKm == list[index]
                           ? PColors.white
                           : PColors.whiteOff.withOpacity(0.5))),
             ),
@@ -62,7 +63,7 @@ class DistanceFilterUi extends StatelessWidget {
 
   List list = [
     "10",
-    "15",
     "20",
+    "30",
   ];
 }

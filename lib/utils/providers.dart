@@ -1,6 +1,7 @@
 import 'package:jora_customer/model/analytics_model.dart';
 import 'package:jora_customer/view/profile_view/view/widgets/profile_view_body.dart';
 import 'package:jora_customer/view_model/chat_details_view_model.dart';
+import 'package:jora_customer/view_model/connect_page_view_model.dart';
 import 'package:jora_customer/view_model/file_view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:jora_customer/view_model/profile_analytics_view_model.dart';
@@ -49,5 +50,8 @@ List<SingleChildWidget> providers = [
 
    ChangeNotifierProvider(
     create: (context) => ChatDetailsViewModel(),
+  ),
+   ChangeNotifierProvider(
+    create: (context) => ConnectPageViewModel(),
   ),
 ];

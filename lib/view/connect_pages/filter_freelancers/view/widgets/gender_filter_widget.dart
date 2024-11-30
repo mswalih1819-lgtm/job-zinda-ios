@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/view/connect_pages/filter_freelancers/view_model/view_model.dart';
+import 'package:jora_customer/view_model/connect_page_view_model.dart';
 import 'package:provider/provider.dart';
 
 class GenderFilterUi extends StatelessWidget {
@@ -27,7 +28,7 @@ class GenderFilterUi extends StatelessWidget {
   }
 
   Widget genderFilter(Size size) {
-    return Consumer<FreelancerFilterViewModel>(
+    return Consumer<ConnectPageViewModel>(
       builder: (context, value, child) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(
@@ -35,7 +36,7 @@ class GenderFilterUi extends StatelessWidget {
           (index) => GestureDetector(
             onTap: () {
               context
-                  .read<FreelancerFilterViewModel>()
+                  .read<ConnectPageViewModel>()
                   .updateGender(list[index]);
             },
             child: Container(

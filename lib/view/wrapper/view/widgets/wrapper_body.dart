@@ -21,7 +21,7 @@ class WrapperBody extends StatelessWidget {
     return Selector<WrapperViewModel, String>(
       selector: (p0, p1) => p1.viewStatus,
       builder: (context, value, child) {
-        if (value == 'Profile') {
+        if (value == 'Profile' ) {
           context.read<ProfileViewModel>().fetchProfile();
         }
         switch (value) {
@@ -33,6 +33,7 @@ class WrapperBody extends StatelessWidget {
           case WrapperViewStatus.upload:
             return Container();
           case WrapperViewStatus.connect:
+          
             return ConnectPagesUi();
 
           case WrapperViewStatus.profile:

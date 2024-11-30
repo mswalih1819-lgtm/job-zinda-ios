@@ -49,4 +49,5 @@ class Api {
   static const getAllMessage = '$baseurl/api/v1/conversation/getAllMessage';
   static const updateChat = '$baseurl/api/v1/conversation/updateChat';
   static const sentMessage = '$baseurl/api/v1/conversation/sentMessage';
+  static const getNearestProfiles = '$baseurl/api/v1/user/get-nearest-profiles';
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/view/connect_pages/filter_freelancers/view_model/view_model.dart';
+import 'package:jora_customer/view_model/connect_page_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ProjectsFilterUi extends StatelessWidget {
@@ -28,7 +29,7 @@ class ProjectsFilterUi extends StatelessWidget {
   }
 
   Widget projectsFilter(Size size, BuildContext context) {
-    return Consumer<FreelancerFilterViewModel>(
+    return Consumer<ConnectPageViewModel>(
       builder: (context, value, child) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(
@@ -36,8 +37,8 @@ class ProjectsFilterUi extends StatelessWidget {
           (index) => GestureDetector(
             onTap: () {
               context
-                  .read<FreelancerFilterViewModel>()
-                  .updateProjects(list[index]);
+                  .read<ConnectPageViewModel>()
+                  .updateHandledProjectsCountFrom(list[index]);
             },
             child: Container(
               width: size.width / 3.4,

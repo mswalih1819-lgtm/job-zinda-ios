@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class MapViewModel extends ChangeNotifier{
-  bool onChanged=true;
+// class MapViewModel extends ChangeNotifier{
+//   bool onChanged=true;
 
-  updateTextfieldChange(bool val){
-    onChanged=val;
-    notifyListeners();
+//   updateTextfieldChange(bool val){
+//     onChanged=val;
+//     notifyListeners();
 
-  }
-}
+//   }
+// }

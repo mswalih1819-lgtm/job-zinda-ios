@@ -7,6 +7,7 @@ import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/view/connect_pages/map_section/view/widgets/result_sheet.dart';
 import 'package:jora_customer/view/connect_pages/map_section/view/widgets/simple_map.dart';
 import 'package:jora_customer/view/connect_pages/map_section/view_model/view_model.dart';
+import 'package:jora_customer/view_model/connect_page_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ConnectPagesUi extends StatefulWidget {
@@ -17,24 +18,24 @@ class ConnectPagesUi extends StatefulWidget {
 class _ConnectPagesUiState extends State<ConnectPagesUi> {
   int? tappedIndex;
   GoogleMapController? mapController;
-  LatLng _center = const LatLng(
-      37.7749, -122.4194); // San Francisco coordinates as an example
-  double _radius = 10000; // default radius in meters
-  List<LatLng> _photographers = [
-    LatLng(37.7799, -122.4194), // Sample photographer locations
-    LatLng(37.7749, -122.4294),
-    LatLng(37.7699, -122.4394),
-  ];
+  // LatLng _center = const LatLng(
+  //     37.7749, -122.4194); // San Francisco coordinates as an example
+  // double _radius = 10000; // default radius in meters
+  // List<LatLng> _photographers = [
+  //   LatLng(37.7799, -122.4194), // Sample photographer locations
+  //   LatLng(37.7749, -122.4294),
+  //   LatLng(37.7699, -122.4394),
+  // ];
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
 
-  void _updateRadius(double radius) {
-    setState(() {
-      _radius = radius;
-    });
-  }
+  // void _updateRadius(double radius) {
+  //   setState(() {
+  //     _radius = radius;
+  //   });
+  // }
 
   double calculateDistance(LatLng point1, LatLng point2) {
     return Geolocator.distanceBetween(
@@ -47,6 +48,8 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
 
   @override
   Widget build(BuildContext context) {
+    ConnectPageViewModel connectPageViewModel =
+        context.watch<ConnectPageViewModel>();
     return Scaffold(
       // appBar: AppBar(
       //   // title: TextField(
@@ -109,11 +112,12 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
       body: Stack(
         children: [
           SimpleMap(),
-          ChangeNotifierProvider(
-              create: (context) => MapViewModel(),
-              builder: (context, child) {
-                var model = context.read<MapViewModel>();
-                return Padding(
+          // ChangeNotifierProvider(
+          //     create: (context) => MapViewModel(),
+          //     builder: (context, child) {
+          //       var model = context.read<MapViewModel>();
+                // return 
+                Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 50, horizontal: 10),
                   child: CustomTextFeild(
@@ -123,9 +127,11 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
                           size: 18,
                           color: PColors.white,
                         ),
-                        visible: model.onChanged,
+                        visible: true,
                       ),
-                      sufixfn: () {},
+                      sufixfn: () {
+                        connectPageViewModel.clear();
+                      },
                       hintColor: PColors.white,
                       borderRadius: 4,
                       borderColor: PColors.textFieldColor,
@@ -137,13 +143,21 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
                       prefixfn: () {},
                       hintText: "Type a skill or role",
                       onSaved: (val) {},
-                      onChanged: (val) {
-                        model.updateTextfieldChange(true);
+                      onChanged: (val) async{
+                        connectPageViewModel.updateSearchTag(val!);
+                        await Future.delayed(Duration(seconds: 1));
+                        showModalBottomSheet(
+                          // shape: Border(),
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (context) => ResultSheetUi(),
+                        );
                       },
                       validation: (val) {},
                       filColor: PColors.textFieldColor),
-                );
-              }),
+                // );
+              // }
+              ),
           Positioned(
             // bottom: 20,
             top: 115,
@@ -163,10 +177,12 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
                     // });
 
                     return GestureDetector(
-                      onTap: () {
+                      onTap: () async{
                         setState(() {
                           tappedIndex = index;
                         });
+                       await connectPageViewModel.updateDistanceInKm(list[index]);
+                       await Future.delayed(Duration(seconds: 1));
                         showModalBottomSheet(
                           // shape: Border(),
                           isScrollControlled: true,
@@ -177,7 +193,7 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
                       child: kmWidget(
                           title: list[index], selected: tappedIndex == index),
                     );
-                  }),
+                  },),
             ),
             // child: Row(
             //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -225,5 +241,5 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
     );
   }
 
-  List list = ["10", "15", "20", "25"];
+  List list = ["10", "20", "30"];
 }

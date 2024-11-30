@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/view/connect_pages/map_section/view/widgets/result_image_widgets.dart';
 import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 import 'package:provider/provider.dart';
 
 class ResultFreelancersSingleUi extends StatelessWidget {
-  Map map;
-  ResultFreelancersSingleUi({super.key, required this.map});
+  final ProfileModel profileModel;
+  ResultFreelancersSingleUi({super.key, required this.profileModel});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,7 @@ class ResultFreelancersSingleUi extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        Navigator.pop(context);
         context
             .read<WrapperViewModel>()
             .updatePageView(WrapperViewStatus.otherProfile);
@@ -30,7 +32,7 @@ class ResultFreelancersSingleUi extends StatelessWidget {
           child: Column(
             children: [
               ResultImageWidgetSectionUi(
-                map: map,
+                profileModel: profileModel,
               ),
               contentWidget()
             ],
@@ -44,13 +46,13 @@ class ResultFreelancersSingleUi extends StatelessWidget {
     return Column(
       children: [
         textWidget(
-            text: "Jessica12",
+            text: profileModel.name,
             fontsize: 16,
             fontweight: FontWeight.w500,
             overflow: TextOverflow.ellipsis,
             maxLines: 1),
         textWidget(
-            text: "Photographer",
+            text: profileModel.profession,
             fontsize: 13,
             color: PColors.whiteOff.withOpacity(0.6),
             overflow: TextOverflow.ellipsis,
@@ -61,19 +63,24 @@ class ResultFreelancersSingleUi extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            columnWidget(title: "Followers", value: "500"),
+            columnWidget(
+                title: "Followers",
+                value: profileModel.followersCount!.toString()),
             Container(
                 height: 40,
                 child: VerticalDivider(
                   color: PColors.whiteOff.withOpacity(0.2),
                 )),
-            columnWidget(title: "Projects", value: "77"),
+            columnWidget(
+                title: "Projects",
+                value: profileModel.projectsCount!.toString()),
             Container(
                 height: 40,
                 child: VerticalDivider(
                   color: PColors.whiteOff.withOpacity(0.2),
                 )),
-            columnWidget(title: "Feedback", value: "4.5"),
+            columnWidget(
+                title: "Feedback", value: profileModel.rating!.toString()),
           ],
         )
       ],
