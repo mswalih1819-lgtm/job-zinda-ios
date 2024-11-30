@@ -23,7 +23,7 @@ class ChatCard extends StatelessWidget {
               .updateConversationModel(conversationModel);
 
           context.read<ChatDetailsViewModel>().updatemessage(
-              lastMessageId: conversationModel.lastMessage!.messageId!.sId!,
+              lastMessageId: conversationModel.lastMessage!.sId!,
               context: context);
               
           context.read<ChatDetailsViewModel>().fetchAllConversations(1);

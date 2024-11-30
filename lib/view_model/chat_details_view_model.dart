@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jora_customer/model/%20chat_message_model.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
-import 'package:jora_customer/view_model/chat_view_model.dart';
 import 'package:jora_customer/view_model/file_view_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -179,7 +178,6 @@ class ChatDetailsViewModel extends ChangeNotifier {
           // Navigator.pop(context);
           EasyLoading.showSuccess(data['message']);
         }
-        context.read<ChatViewModel>().fetchAllConversations();
       }
     }
     EasyLoading.dismiss();
