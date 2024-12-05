@@ -24,11 +24,13 @@ class AddstorywidgetUi extends StatelessWidget {
         children: [
           Column(
             children: [
-              InkWell(onTap: (){context.read<StoryViewModel>().selectedUrl=null;
-                Navigator.pushNamed(context, AddStoryScreen.route);
-              },
+              InkWell(
+                onTap: () {
+                  context.read<StoryViewModel>().selectedUrl = null;
+                  Navigator.pushNamed(context, AddStoryScreen.route);
+                },
                 child: Container(
-                       height: size.height * .19,
+                    height: size.height * .19,
                     width: size.width * 0.26,
                     margin: const EdgeInsets.all(0),
                     decoration: BoxDecoration(
@@ -45,15 +47,18 @@ class AddstorywidgetUi extends StatelessWidget {
                             PSvgs.add_status,
                             height: 40,
                           )),
-                          const SizedBox(height: 5,),
-                          textWidget(text: 'Add Story',color: PColors.whiteOff.withOpacity(0.4),fontsize: 12),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          textWidget(
+                              text: 'Add Story',
+                              color: PColors.whiteOff.withOpacity(0.4),
+                              fontsize: 12),
                         ],
                       ),
                     )),
               ),
-              const SizedBox(
-                height: 35
-              ),
+              const SizedBox(height: 35),
               Expanded(
                 child: textWidget(
                   // text: 'sdbsd sd sd s dbs bs bd b',
@@ -70,9 +75,10 @@ class AddstorywidgetUi extends StatelessWidget {
               height: 46.0,
               width: 46.0,
               decoration: BoxDecoration(
-                shape: BoxShape.circle,image: DecorationImage(image: NetworkImage(LoggedInUser.profilePic??'') , fit: BoxFit.cover)
-              ),
-              
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                      image: NetworkImage(LoggedInUser.profilePic ?? ''),
+                      fit: BoxFit.cover)),
             ),
           )
         ],

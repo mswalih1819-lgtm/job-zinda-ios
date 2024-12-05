@@ -17,28 +17,22 @@ class HomeFloatingActionButtonUi extends StatelessWidget {
           color: PColors.black2, borderRadius: BorderRadius.circular(10)),
       child: Row(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: button(
-                title: 'For you',
-                fun: () {
-                  postViewModel.isForYou = true;
-                  postViewModel.currentPage = 0;
-                  postViewModel.postController.refresh();
-                },
-                selected: postViewModel.isForYou),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: button(
-                title: 'Following',
-                fun: () {
-                  postViewModel.isForYou = false;
-                  postViewModel.currentPage = 0;
-                  postViewModel.postController.refresh();
-                },
-                selected: !postViewModel.isForYou),
-          ),
+          button(
+              title: 'For you',
+              fun: () {
+                postViewModel.isForYou = true;
+                postViewModel.currentPage = 0;
+                postViewModel.postController.refresh();
+              },
+              selected: postViewModel.isForYou),
+          button(
+              title: 'Following',
+              fun: () {
+                postViewModel.isForYou = false;
+                postViewModel.currentPage = 0;
+                postViewModel.postController.refresh();
+              },
+              selected: !postViewModel.isForYou),
         ],
       ),
     );

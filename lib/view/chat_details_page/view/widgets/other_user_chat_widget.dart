@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/%20chat_message_model.dart';
@@ -74,8 +75,10 @@ class OtherUserChatWidget extends StatelessWidget {
                 child: AudioWidget(audioUrl: message.content!),
               ),
             textWidget(
-                text: formatDateFromString(
-                    message.createdAt ?? '', 'yyyy-MM-ddThh:mm:ss', 'HH:mm'),
+                text: DateFormat('hh:mm a')
+                    .format(
+                        DateTime.parse(message.createdAt.toString()).toLocal())
+                    .toString(),
                 fontsize: 10,
                 color: PColors.whiteOff.withOpacity(0.4))
           ],

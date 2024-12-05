@@ -44,18 +44,18 @@ class UploadPagesUi extends StatelessWidget {
             ListTile(
               onTap: () {
                 Navigator.pop(context);
-     context.read<PostViewModel>().selectedUrl=null;
+                context.read<PostViewModel>().selectedUrl = null;
                 Navigator.pushNamed(context, PPages.addPostUi);
-           
               },
               leading: SvgPicture.asset(PSvgs.share_post),
               title: textWidget(text: 'Share new post', color: PColors.white),
             ),
-            ListTile(onTap: () {
-              Navigator.pop(context);
-              context.read<StoryViewModel>().selectedUrl=null;
-               Navigator.pushNamed(context, AddStoryScreen.route);
-            },
+            ListTile(
+              onTap: () {
+                Navigator.pop(context);
+                context.read<StoryViewModel>().selectedUrl = null;
+                Navigator.pushNamed(context, AddStoryScreen.route);
+              },
               leading: SvgPicture.asset(
                 PSvgs.share_story,
               ),

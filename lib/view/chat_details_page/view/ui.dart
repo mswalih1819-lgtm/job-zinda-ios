@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:jora_customer/Settings/until/PColors.dart';
-import 'package:jora_customer/Settings/until/PImages.dart';
-import 'package:jora_customer/Settings/until/PSvgs.dart';
-import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/%20chat_message_model.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/view/chat_details_page/view/widgets/chat_appbar.dart';
 import 'package:jora_customer/view/chat_details_page/view/widgets/chat_bottom_bar.dart';
 import 'package:jora_customer/view/chat_details_page/view/widgets/my_chat_widget.dart';
-import 'package:jora_customer/view/chat_details_page/view/widgets/my_image_widget.dart';
 import 'package:jora_customer/view/chat_details_page/view/widgets/other_user_chat_widget.dart';
 import 'package:jora_customer/view_model/chat_details_view_model.dart';
 import 'package:provider/provider.dart';

@@ -40,7 +40,9 @@ class _StorySectionState extends State<StorySection> {
                 builderDelegate: PagedChildBuilderDelegate<StoryModel>(
                   noItemsFoundIndicatorBuilder: (context) => SizedBox(),
                   itemBuilder: (context, item, index) {
-                    return StorySingleWidgetUi(story: item);
+                    return
+                    
+                     StorySingleWidgetUi(story: item);
                   },
                 )),
           ),
@@ -48,5 +50,4 @@ class _StorySectionState extends State<StorySection> {
       ),
     );
   }
-
 }

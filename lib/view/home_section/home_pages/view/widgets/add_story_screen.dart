@@ -1,4 +1,3 @@
-
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
@@ -47,59 +46,70 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
               text: 'Upload media',
               borderRadius: 1,
               onPressed: () {
-showModalBottomSheet(context: context, backgroundColor: PColors.seed2, builder: (ctx) {
-  return Container(
-      width: 360,
-      height: 250,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(
-                      Icons.close,
-                      color: PColors.white,
-                    )),
-              ],
-            ),
-            ListTile(
-              onTap: () {
-                getImage(ImageSource.camera);
-              },
-              leading: Icon(Icons.camera, color: PColors.white),
-              title: textWidget(text: 'Camera', color: PColors.white),
-            ),
-            ListTile(
-              onTap: () {
-                getImage(ImageSource.gallery);
-              },
-              leading: Icon(Icons.photo, color: PColors.white),
-              title: textWidget(text: 'Gallery', color: PColors.white),
-            ),
-                     ListTile(
-              onTap: () {Navigator.pop(ctx);
-               _pickVideo(context);
-              },
-              leading: Icon(Icons.videocam_rounded, color: PColors.white),
-              title: textWidget(text: 'Video', color: PColors.white),
-            ),
-          ],
-        ),
-      ),
-    );
-},);
-            //      showBottomSheet(
-            //   shape: const BeveledRectangleBorder(),
-            //   backgroundColor: PColors.seed2,
-            //   context: context,
-            //   builder: (context) => sheet(),
-            // );
+                showModalBottomSheet(
+                  context: context,
+                  backgroundColor: PColors.seed2,
+                  builder: (ctx) {
+                    return Container(
+                      width: 360,
+                      height: 250,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                GestureDetector(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Icon(
+                                      Icons.close,
+                                      color: PColors.white,
+                                    )),
+                              ],
+                            ),
+                            ListTile(
+                              onTap: () {
+                                Navigator.pop(ctx);
+                                getImage(ImageSource.camera);
+                              },
+                              leading: Icon(Icons.camera, color: PColors.white),
+                              title: textWidget(
+                                  text: 'Camera', color: PColors.white),
+                            ),
+                            ListTile(
+                              onTap: () {
+                                Navigator.pop(ctx);
+                                getImage(ImageSource.gallery);
+                              },
+                              leading: Icon(Icons.photo, color: PColors.white),
+                              title: textWidget(
+                                  text: 'Gallery', color: PColors.white),
+                            ),
+                            ListTile(
+                              onTap: () {
+                                Navigator.pop(ctx);
+                                _pickVideo(context);
+                              },
+                              leading: Icon(Icons.videocam_rounded,
+                                  color: PColors.white),
+                              title: textWidget(
+                                  text: 'Video', color: PColors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+                //      showBottomSheet(
+                //   shape: const BeveledRectangleBorder(),
+                //   backgroundColor: PColors.seed2,
+                //   context: context,
+                //   builder: (context) => sheet(),
+                // );
                 // getImage(ImageSource.gallery);
                 // showBottomSheet(
                 //   shape: BeveledRectangleBorder(),
@@ -143,7 +153,8 @@ showModalBottomSheet(context: context, backgroundColor: PColors.seed2, builder: 
                         color: PColors.whiteOff,
                       ),
                       underline: const SizedBox(),
-                      items: <String>['Anyone', 'Followers'].map((String value) {
+                      items:
+                          <String>['Anyone', 'Followers'].map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(
@@ -195,7 +206,7 @@ showModalBottomSheet(context: context, backgroundColor: PColors.seed2, builder: 
                 key: _formKey,
                 child: CustomTextFeild(
                     controller: _descriptionController,
-                    maxLine: 20,
+                    maxLine: 4,
                     keyboardType: TextInputType.multiline,
                     borderColor: PColors.black,
                     hintText: 'Share your thoughts',
@@ -203,14 +214,19 @@ showModalBottomSheet(context: context, backgroundColor: PColors.seed2, builder: 
                     filColor: PColors.black),
               ),
               const SizedBox(height: 10),
-               if (storyViewModel.selectedUrl != null &&
+              if (storyViewModel.selectedUrl != null &&
                   storyViewModel.selectedMediaType == 'image')
                 Image.network(storyViewModel.selectedUrl!, fit: BoxFit.cover),
               if (storyViewModel.selectedUrl != null &&
                   storyViewModel.selectedMediaType == 'video')
-                InkWell(onTap: () {
-          Navigator.push(context , MaterialPageRoute(builder:  (context) => VideoViewScreen(videoUrl:storyViewModel.selectedUrl??'')));
-        } ,
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => VideoViewScreen(
+                                videoUrl: storyViewModel.selectedUrl ?? '')));
+                  },
                   child: Container(
                     height: 200,
                     width: double.infinity,
@@ -240,34 +256,34 @@ showModalBottomSheet(context: context, backgroundColor: PColors.seed2, builder: 
     );
   }
 
- void _pickVideo(BuildContext context) async {
-  FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
-    type: FileType.video,
-  );
+  void _pickVideo(BuildContext context) async {
+    FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
+      type: FileType.video,
+    );
 
-  // final XFile? video = await _picker.pickVideo(source: ImageSource.gallery);
+    // final XFile? video = await _picker.pickVideo(source: ImageSource.gallery);
 
-  //    if (video != null) {
-  //     String? url = await context
-  //         .read<FileUploadViewModel>()
-  //         .pickedImageUpload(video, 'Post');
-  //          PostViewModel postProvider = context.read<PostViewModel>();
-  //   postProvider.selectedMediaType='video';
-  //    postProvider.selectedUrl = url;
-  //    log(postProvider.selectedUrl.toString());
-  //   }
+    //    if (video != null) {
+    //     String? url = await context
+    //         .read<FileUploadViewModel>()
+    //         .pickedImageUpload(video, 'Post');
+    //          PostViewModel postProvider = context.read<PostViewModel>();
+    //   postProvider.selectedMediaType='video';
+    //    postProvider.selectedUrl = url;
+    //    log(postProvider.selectedUrl.toString());
+    //   }
 
-  if (pickedFile != null && pickedFile.files.isNotEmpty) {
-    final Uint8List fileBytes = pickedFile.files.first.bytes ?? Uint8List(0);
-    FileUploadViewModel provider = context.read<FileUploadViewModel>();
-    StoryViewModel storyViewModel = context.read<StoryViewModel>();
-    storyViewModel.selectedMediaType='video';
-  storyViewModel.selectedUrl  = await provider.pickedVideoUpload(
-        fileBytes, pickedFile.files.first.name);
-  } else {
-    debugPrint('No file was picked');
+    if (pickedFile != null && pickedFile.files.isNotEmpty) {
+      final Uint8List fileBytes = pickedFile.files.first.bytes ?? Uint8List(0);
+      FileUploadViewModel provider = context.read<FileUploadViewModel>();
+      StoryViewModel storyViewModel = context.read<StoryViewModel>();
+      storyViewModel.selectedMediaType = 'video';
+      storyViewModel.selectedUrl = await provider.pickedVideoUpload(
+          fileBytes, pickedFile.files.first.name);
+    } else {
+      debugPrint('No file was picked');
+    }
   }
-}
 
   Future getImage(ImageSource source) async {
     final XFile? image = await _picker.pickImage(source: source);
@@ -277,8 +293,8 @@ showModalBottomSheet(context: context, backgroundColor: PColors.seed2, builder: 
           .read<FileUploadViewModel>()
           .pickedImageUpload(image, 'Story');
       StoryViewModel storyViewModel = context.read<StoryViewModel>();
-    storyViewModel.selectedMediaType='image';
-    storyViewModel.selectedUrl=imageUrl;
+      storyViewModel.selectedMediaType = 'image';
+      storyViewModel.selectedUrl = imageUrl;
     }
   }
 }

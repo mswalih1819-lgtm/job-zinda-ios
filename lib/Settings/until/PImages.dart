@@ -4,7 +4,9 @@ class PImages {
 
   static String get welcome1 => "assets/images/welcome1.png";
   static String get welcome => "assets/images/welcome.png";
+static String get actor1 => "assets/images/actor1.png";
 
+  static String get profile_pic => "assets/images/profile_pic.png";
   static String get welcome2 => "assets/images/welcome2.png";
   static String get welcome3 => "assets/images/welcome3.png";
   static String get login1 => "assets/images/login1.png";
@@ -35,6 +37,8 @@ class PImages {
   static String get open_gift_box => "assets/images/open_gift_box.png";
   static String get profile =>'assets/images/profile.jpg' ;
   static String get noImage =>'assets/images/no_image.jpg';
+  
+  static String get delete_comment => "assets/svgs/delete_comment.svg";
 
   // static String get  => "assets/images/.jpg";
 }

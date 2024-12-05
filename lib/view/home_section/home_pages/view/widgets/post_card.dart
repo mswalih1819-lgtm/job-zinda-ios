@@ -1,11 +1,9 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/post_model.dart';
-import 'package:jora_customer/utils/thumbnail.dart';
+import 'package:jora_customer/view/comment_pages/ui.dart';
+import 'package:jora_customer/view_model/comment_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -93,12 +91,21 @@ class _PostCardState extends State<PostCard> {
                     color: PColors.white,
                   )),
         ),
+        if (widget.post?.mediaType == "text")
+          Container(
+            alignment: Alignment.centerLeft,
+            child: Text(widget.post!.bio!),
+          ),
         if (widget.post?.mediaType == 'image')
-          Image.network(widget.post?.mediaUrl ?? '',
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) =>
-                  Image.asset(PImages.noImage))
-        else
+          Container(
+            height: 250,
+            width: double.infinity - 100,
+            child: Image.network(widget.post?.mediaUrl ?? '',
+                fit: BoxFit.fill,
+                errorBuilder: (context, error, stackTrace) =>
+                    Image.asset(PImages.noImage)),
+          )
+        else if (widget.post?.mediaType == 'video')
           InkWell(
               onTap: () {
                 Navigator.push(
@@ -108,14 +115,14 @@ class _PostCardState extends State<PostCard> {
                             videoUrl: widget.post?.mediaUrl ?? '')));
               },
               child: Container(
-                      height: 200,
-                      color: Colors.black,
-                      alignment: Alignment.center,
-                      child: const Icon(
-                        Icons.play_circle,
-                        color: Colors.white,
-                        size: 50,
-                      ),
+                height: 200,
+                color: Colors.black,
+                alignment: Alignment.center,
+                child: const Icon(
+                  Icons.play_circle,
+                  color: Colors.white,
+                  size: 50,
+                ),
               )),
         const SizedBox(height: 4),
         actionWidget(widget.post, context),
@@ -153,7 +160,17 @@ class _PostCardState extends State<PostCard> {
                     ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                context
+                    .read<CommentViewModel>()
+                    .fetchComments(post!.sId.toString());
+                showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    useSafeArea: true,
+                    backgroundColor: PColors.seed2,
+                    builder: (ctx) => CommentsBottomSheet(post: widget.post));
+              },
               icon: SvgPicture.asset(
                 PSvgs.chat,
                 height: 24,

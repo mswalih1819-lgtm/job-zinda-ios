@@ -56,6 +56,8 @@ class ChatDetailsViewModel extends ChangeNotifier {
     notifyListeners();
     sentmessage(context: context);
   }
+  final TextEditingController messageController = TextEditingController();
+
 
   updateTextContect(String tex) {
     message = tex;
@@ -103,6 +105,7 @@ class ChatDetailsViewModel extends ChangeNotifier {
 
     await updateAduioFile(context, audioPath);
   }
+
 
   List<ChatMessageModel> messages = [];
   Future<void> fetchAllConversations(int page) async {
@@ -153,6 +156,7 @@ class ChatDetailsViewModel extends ChangeNotifier {
         }
       }
     }
+    messageController.clear();
     fetchAllConversations(1);
     message = null;
     selectedUrl = null;

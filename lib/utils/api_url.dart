@@ -51,4 +51,8 @@ class Api {
   static const sentMessage = '$baseurl/api/v1/conversation/sentMessage';
   static const getNearestProfiles = '$baseurl/api/v1/user/get-nearest-profiles';
   static const refreshTokenUrl = '$baseurl/api/v1/auth/refresh-tokens';
+  static const viewComments = '$baseurl/api/v1/postComment/viewComments';
+  static const addComments = '$baseurl/api/v1/postComment/addComment';
+  static const removeComments = '$baseurl/api/v1/postComment/removeComment';
+  static const addReply = '$baseurl/api/v1/postComment/reply/addReply';
 }

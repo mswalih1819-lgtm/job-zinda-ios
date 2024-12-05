@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 class ChatBottomTextfeildSectopn extends StatelessWidget {
   ChatBottomTextfeildSectopn({super.key});
 
-  final TextEditingController _messageController = TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
 
@@ -19,10 +18,11 @@ class ChatBottomTextfeildSectopn extends StatelessWidget {
     ChatDetailsViewModel chatDetailsViewModel =
         context.read<ChatDetailsViewModel>();
     return TextField(
-      // controller: _messageController,
+      controller: chatDetailsViewModel.messageController,
       decoration: inputDecoration(context),
       onChanged: (value) {
         chatDetailsViewModel.updateTextContect(value);
+        
       },
     );
   }

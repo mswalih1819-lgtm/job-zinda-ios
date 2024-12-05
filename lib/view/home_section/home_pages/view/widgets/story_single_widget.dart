@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/story_model.dart';
+import 'package:jora_customer/view_model/story_view_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../Settings/until/PImages.dart';
 
@@ -21,16 +24,26 @@ class StorySingleWidgetUi extends StatelessWidget {
         children: [
           Column(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  height: size.height * .19,
-                  width: size.width * 0.26,
-                  story.media?.first.content ?? '',
-                  errorBuilder: (context, error, stackTrace) =>
-                      Image.asset(PImages.noImage ,   height: size.height * .19,
-                  width: size.width * 0.26,   fit: BoxFit.fill,),
-                  fit: BoxFit.fill,
+              GestureDetector(
+                onTap: () {
+                  context
+                      .read<StoryViewModel>()
+                      .updateStoryModel(story, context);
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    height: size.height * .19,
+                    width: size.width * 0.26,
+                    story.media?.first.content ?? '',
+                    errorBuilder: (context, error, stackTrace) => Image.asset(
+                      PImages.noImage,
+                      height: size.height * .19,
+                      width: size.width * 0.26,
+                      fit: BoxFit.fill,
+                    ),
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
               SizedBox(
@@ -38,19 +51,23 @@ class StorySingleWidgetUi extends StatelessWidget {
               ),
               Expanded(
                 child: textWidget(
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  text: story.userName==null||story.userName!.isEmpty?'User Name':story.userName, color: Colors.white
-                ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    text: story.userName == null || story.userName!.isEmpty
+                        ? ''
+                        : story.userName,
+                    color: Colors.white),
               )
             ],
           ),
           Positioned(
             top: (size.height * 0.19) - (46 / 2),
-            child: ClipRRect(borderRadius: BorderRadius.circular(60),
-              child: Image.network(story.userProfileImg ?? '',   height: 46.0,
-                        width: 46.0,
-                        fit: BoxFit.fill,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(60),
+              child: Image.network(story.userProfileImg ?? '',
+                  height: 46.0,
+                  width: 46.0,
+                  fit: BoxFit.fill,
                   errorBuilder: (context, error, stackTrace) => Image.asset(
                         PImages.profile,
                         height: 46.0,

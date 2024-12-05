@@ -1,19 +1,13 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
-import 'package:jora_customer/utils/thumbnail.dart';
-import 'package:jora_customer/utils/thumbnail_file.dart';
 import 'package:jora_customer/utils/validator.dart';
 import 'package:jora_customer/view/upload_pages/view/widgets/upload_button.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
-
 import '../../../video_player/video_player.dart';
 
 class AddPostScreen extends StatefulWidget {
@@ -87,15 +81,19 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 trailing: InkWell(
                   onTap: () {
                     if (_formKey.currentState?.validate() ?? false) {
-                      if (postViewModel.selectedUrl == null) {
-                        EasyLoading.showError('Please select media');
-                      } else {
+                      // if (postViewModel.selectedUrl == null) {
+                      //   EasyLoading.showError('Please select media');
+                      // } else {
+                         if(postViewModel.selectedUrl == null){
+                          postViewModel.selectedMediaType="text";
+                         }
+
                         postViewModel.createPost(
                             description: _descriptionController.text,
                             sharedWith: value,
                             context: context);
                       }
-                    }
+                    // }
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -118,7 +116,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 key: _formKey,
                 child: CustomTextFeild(
                     controller: _descriptionController,
-                    maxLine: 20,
+                    maxLine: 4,
                     keyboardType: TextInputType.multiline,
                     borderColor: PColors.black,
                     hintText: 'Share your thoughts',
@@ -131,9 +129,14 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 Image.network(postViewModel.selectedUrl!, fit: BoxFit.cover),
               if (postViewModel.selectedUrl != null &&
                   postViewModel.selectedMediaType == 'video')
-                InkWell(onTap: () {
-          Navigator.push(context , MaterialPageRoute(builder:  (context) => VideoViewScreen(videoUrl:postViewModel.selectedUrl??'')));
-        } ,
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => VideoViewScreen(
+                                videoUrl: postViewModel.selectedUrl ?? '')));
+                  },
                   child: Container(
                     height: 200,
                     width: double.infinity,

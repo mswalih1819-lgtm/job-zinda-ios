@@ -4,6 +4,7 @@ import 'package:jora_customer/view/connect_pages/filter_freelancers/view/ui.dart
 import 'package:jora_customer/view/edit_profile/view/edit_profile_screen.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/post_details_screen.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/add_story_screen.dart';
+import 'package:jora_customer/view/home_section/home_pages/view/widgets/display_stories.dart';
 import 'package:jora_customer/view/profile_analytics/view/profile_analytics_screen.dart';
 import 'package:jora_customer/view/profile_view/view/ui.dart';
 import 'package:jora_customer/view/help_support/view/ui.dart';
@@ -118,6 +119,11 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => const PostDetailsScreen(),
         );
+      case PPages.storyDisplayPageUi:
+        return MaterialPageRoute(
+          builder: (context) => DisplayStoryPage(),
+        );
+
       default:
         return null;
     }

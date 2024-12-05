@@ -1,6 +1,7 @@
 import 'package:jora_customer/model/analytics_model.dart';
 import 'package:jora_customer/view/profile_view/view/widgets/profile_view_body.dart';
 import 'package:jora_customer/view_model/chat_details_view_model.dart';
+import 'package:jora_customer/view_model/comment_view_model.dart';
 import 'package:jora_customer/view_model/connect_page_view_model.dart';
 
 import 'package:jora_customer/view_model/file_view_model.dart';
@@ -30,29 +31,31 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider(
     create: (context) => AuthViewModel(),
   ),
-   ChangeNotifierProvider(
+  ChangeNotifierProvider(
     create: (context) => StoryViewModel(),
   ),
-     ChangeNotifierProvider(
+  ChangeNotifierProvider(
     create: (context) => PostViewModel(),
   ),
-       ChangeNotifierProvider(
+  ChangeNotifierProvider(
     create: (context) => FileUploadViewModel(),
   ),
-    ChangeNotifierProvider(
+  ChangeNotifierProvider(
     create: (context) => ProfileViewModel(),
   ),
-     ChangeNotifierProvider(
+  ChangeNotifierProvider(
     create: (context) => ProfileAnalyticsViewModel(),
   ),
-      ChangeNotifierProvider(
+  ChangeNotifierProvider(
     create: (context) => SearchViewModel(),
   ),
-
-   ChangeNotifierProvider(
+  ChangeNotifierProvider(
     create: (context) => ChatDetailsViewModel(),
   ),
-   ChangeNotifierProvider(
+  ChangeNotifierProvider(
     create: (context) => ConnectPageViewModel(),
+  ),
+  ChangeNotifierProvider(
+    create: (context) => CommentViewModel(),
   ),
 ];

@@ -1,5 +1,3 @@
-
-
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -39,6 +37,7 @@ class PostViewModel with ChangeNotifier {
       if (response.statusCode == 200) {
         Map<String, dynamic> data = response.data;
         if (data['status']) {
+          print("following posts-----${data['data']['posts'].length}");
           List<PostModel> temp = (data['data']['posts'] as List)
               .map((e) => PostModel.fromJson(e))
               .toList();
@@ -64,20 +63,24 @@ class PostViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  String selectedMediaType = 'image';
+  String selectedMediaType = '';
   Future<void> createPost(
       {required String description,
       required String sharedWith,
       required BuildContext context}) async {
     EasyLoading.show();
-    Response response = await ApiService().post(Api.createPostUrl, {
+    Map body = {
       'bio': description,
       'mediaType': selectedMediaType,
       'mediaUrl': selectedUrl,
       'sharedWith': sharedWith == 'Anyone' ? 'all' : 'followers'
-    });
+    };
+
+    Response response = await ApiService().post(Api.createPostUrl, body);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
+      print("create post  response---$data");
+
       if (data['status']) {
         if (data.containsKey('message')) {
           Navigator.pop(context);
@@ -141,7 +144,7 @@ class PostViewModel with ChangeNotifier {
       Map<String, dynamic> data = response.data;
       if (data['status']) {
         otherUser = ProfileModel.fromJson(data['data']['profileDetails']);
-        isFollowed = otherUser?.isFollowing??false;
+        isFollowed = otherUser?.isFollowing ?? false;
         visitProfile(userID: userID);
         notifyListeners();
       }
@@ -192,8 +195,10 @@ class PostViewModel with ChangeNotifier {
   }
 
   Future<void> followUser({String? userID}) async {
-  Response response =  await ApiService().post(Api.followUrl, {'profileId': otherUser?.sId});
-     log(response.data.toString());  if (userID != null) {
+    Response response =
+        await ApiService().post(Api.followUrl, {'profileId': otherUser?.sId});
+    log(response.data.toString());
+    if (userID != null) {
       currentPage = 0;
       postController.refresh();
     }
@@ -201,9 +206,10 @@ class PostViewModel with ChangeNotifier {
 
   Future<void> unFollowUser({String? userID}) async {
     String? id = userID ?? otherUser?.sId;
- Response response = await  ApiService().post(Api.unfollowUrl, {'profileId': id});
- 
- log(response.data.toString());
+    Response response =
+        await ApiService().post(Api.unfollowUrl, {'profileId': id});
+
+    log(response.data.toString());
     if (userID != null) {
       currentPage = 0;
       postController.refresh();
@@ -215,14 +221,17 @@ class PostViewModel with ChangeNotifier {
     // currentPage = 0;
     // postController.refresh();
   }
-PostModel?postDetails;
-  Future<void>fetchPostDetails()async{
-    Response response  = await ApiService().get('${Api.fetchPostDetails}/${postDetails?.sId}');
-   log(response.realUri.toString());
-    if(response.statusCode==200){
-      Map<String,dynamic>data = response.data;
-      if(data['status']){
-        postDetails = PostModel.fromJson(data['data']['post']);notifyListeners();
+
+  PostModel? postDetails;
+  Future<void> fetchPostDetails() async {
+    Response response =
+        await ApiService().get('${Api.fetchPostDetails}/${postDetails?.sId}');
+    log(response.realUri.toString());
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = response.data;
+      if (data['status']) {
+        postDetails = PostModel.fromJson(data['data']['post']);
+        notifyListeners();
       }
     }
   }
