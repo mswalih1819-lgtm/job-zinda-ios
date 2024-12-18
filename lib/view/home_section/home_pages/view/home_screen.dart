@@ -27,12 +27,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
     super.initState();
   }
-
+final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Consumer<ProfileViewModel>(
       builder: (context, value, child) => Scaffold(
-        key: value.scaffoldKey,
+        key:scaffoldKey,
         drawer: Drawer(
           backgroundColor: PColors.black,
           child: ListView(
@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       backgroundImage: (value.profileModel?.profileImageUrl ??
                                   '')
                               .isEmpty
-                          ? AssetImage(PImages.profile) 
+                          ? AssetImage(PImages.profile)
                           : NetworkImage(value.profileModel!.profileImageUrl!),
                     ),
                     SizedBox(width: 10),
@@ -64,15 +64,38 @@ class _HomeScreenState extends State<HomeScreen> {
                   fun: () {
                     showDialog(
                       context: context,
-                      builder: (context) => logoutBox(context),
+                      builder: (context) => logoutBox(
+                          context: context,
+                          title: "Do you want to logout?",
+                          onTap: () {
+                            context
+                                .read<ProfileViewModel>()
+                                .userLogout(context);
+                          }),
+                    );
+                  }),
+              drawerWidget(
+                  title: "Delete account",
+                  icon: Icons.delete,
+                  fun: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => logoutBox(
+                          context: context,
+                          title: "Do you want to delete your account?",
+                          onTap: () {
+                            context
+                                .read<ProfileViewModel>()
+                                .deleteProfile(context);
+                          }),
                     );
                   }),
             ],
           ),
         ),
-        appBar: const PreferredSize(
+        appBar:  PreferredSize(
           preferredSize: Size.fromHeight(80),
-          child: HomeAppbar(),
+          child: HomeAppbar(scaffoldKey: scaffoldKey,),
         ),
         body: Stack(
           children: [
@@ -116,7 +139,10 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: fun);
   }
 
-  logoutBox(BuildContext context) {
+  logoutBox(
+      {required BuildContext context,
+      required String title,
+      required Function()? onTap}) {
     return AlertDialog(
       backgroundColor: PColors.white,
       content: Column(
@@ -134,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           textWidget(
               textAlign: TextAlign.center,
-              text: "Are you sure you want to logout?",
+              text: title,
               fontweight: FontWeight.w600,
               color: PColors.black,
               fontsize: 19),
@@ -142,14 +168,10 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 20,
           ),
           CustomElavatedTextButton(
-            text: "Yes",
-            borderRadius: 24,
-            bgcolor: PColors.seed,
-            onPressed: () {
-              context.read<ProfileViewModel>().userLogout(context);
-              // Navigator.pushReplacementNamed(context, PPages.phoneNumberUi);
-            },
-          ),
+              text: "Yes",
+              borderRadius: 24,
+              bgcolor: PColors.seed,
+              onPressed: onTap),
           const SizedBox(
             height: 10,
           ),

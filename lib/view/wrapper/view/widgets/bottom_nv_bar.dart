@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
+import 'package:jora_customer/main.dart';
 import 'package:jora_customer/view/upload_pages/view/ui.dart';
 import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 import 'package:jora_customer/view_model/connect_page_view_model.dart';
@@ -38,7 +39,7 @@ class BottomNavBar extends StatelessWidget {
                       icon: PSvgs.home,
                       label: "Home",
                       fun: () {
-                        context
+                         navigatorKey.currentContext!
                             .read<WrapperViewModel>()
                             .updatePageView(WrapperViewStatus.home);
                       },
@@ -47,7 +48,7 @@ class BottomNavBar extends StatelessWidget {
                       icon: PSvgs.search,
                       label: "Search",
                       fun: () {
-                        context
+                         navigatorKey.currentContext!
                             .read<WrapperViewModel>()
                             .updatePageView(WrapperViewStatus.search);
                       },
@@ -56,7 +57,7 @@ class BottomNavBar extends StatelessWidget {
                       icon: PSvgs.upload,
                       label: "Upload",
                       fun: () {
-                        if (context
+                        if ( navigatorKey.currentContext!
                                 .read<ProfileViewModel>()
                                 .profileModel!
                                 .accountType!
@@ -64,7 +65,7 @@ class BottomNavBar extends StatelessWidget {
                             "normal") {
                           print(
                               "smnnmdfnf----${context.read<ProfileViewModel>().profileModel!.accountType!.toLowerCase()}");
-                          context
+                           navigatorKey.currentContext!
                               .read<WrapperViewModel>()
                               .updatePageView(WrapperViewStatus.normalProfile);
                         } else {
@@ -76,12 +77,13 @@ class BottomNavBar extends StatelessWidget {
                       icon: PSvgs.connect,
                       label: "Connection",
                       fun: () async {
-                        context.read<ProfileViewModel>().fetchProfile();
-                        context
+                         navigatorKey.currentContext!.read<ProfileViewModel>().fetchProfile();
+                         navigatorKey.currentContext!.read<ConnectPageViewModel>().updateLocation(context.read<ProfileViewModel>().profileModel!.lat!, context.read<ProfileViewModel>().profileModel!.lng!);
+                         navigatorKey.currentContext!
                             .read<ConnectPageViewModel>()
                             .fetchNearestProfiles();
                         await Future.delayed(Duration(milliseconds: 300));
-                        context
+                        navigatorKey.currentContext!
                             .read<WrapperViewModel>()
                             .updatePageView(WrapperViewStatus.connect);
                       },
@@ -93,19 +95,19 @@ class BottomNavBar extends StatelessWidget {
                         // context
                         //       .read<WrapperViewModel>()
                         //       .updatePageView(WrapperViewStatus.profile);
-                        if (context
+                        if ( navigatorKey.currentContext!
                                 .read<ProfileViewModel>()
                                 .profileModel!
                                 .accountType!
                                 .toLowerCase() ==
                             "normal") {
                           print(
-                              "smnnmdfnf----${context.read<ProfileViewModel>().profileModel!.accountType!.toLowerCase()}");
-                          context
+                              "smnnmdfnf----${ navigatorKey.currentContext!.read<ProfileViewModel>().profileModel!.accountType!.toLowerCase()}");
+                           navigatorKey.currentContext!
                               .read<WrapperViewModel>()
                               .updatePageView(WrapperViewStatus.normalProfile);
                         } else {
-                          context
+                           navigatorKey.currentContext!
                               .read<WrapperViewModel>()
                               .updatePageView(WrapperViewStatus.profile);
                         }

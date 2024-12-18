@@ -27,15 +27,13 @@ class AppUrl {
   static const loginUrl = 'api/v1/auth/user-auth';
   static const checkUserExistEmail = 'api/v1/auth/check-user-exists-email';
   static const loginEmail = 'api/v1/auth/user-auth-email';
-
-  
 }
 
 class Api {
   static Future<Map<String, String>> getAuthorizationHeader() async {
     return {'Authorization': 'Bearer ${LoggedInUser.accessToken}'};
   }
-  
+
   static const baseurl = 'http://3.110.26.51:4001';
 
   // static const loginUrl = '$baseurl/api/v1/auth/user-auth';
@@ -92,7 +90,6 @@ class Api {
   static const updateStoryView = '$baseurl/api/v1/story/updateStoryView';
   static const userLogout = '$baseurl/api/v1/auth/log-out';
 
-
   static const getProfession =
       '$baseurl/api/v1/category/customer/get-categories';
   static const getPlans = '$baseurl/api/v1/subscription/listSubscriptionPlans';
@@ -101,7 +98,9 @@ class Api {
   static const verifySubscriptionPayment =
       '$baseurl/api/v1/subscription/verifyPayment';
   static const reportProfile = '$baseurl/api/v1/report/reportProfile';
-  static const listProfileMessages = '$baseurl/api/v1/conversation/listAllMessages';
+  static const listProfileMessages =
+      '$baseurl/api/v1/conversation/listAllMessages';
   static const removeStory = '$baseurl/api/v1/story/removeStory';
-
+  static const profilebyLocation = '$baseurl/api/v1/user/profiles-by-location';
+  static const deleteProfile = '$baseurl/api/v1/user/delete-profile';
 }

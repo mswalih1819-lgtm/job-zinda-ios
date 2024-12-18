@@ -1,16 +1,17 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/profile_model.dart';
+import 'package:latlong2/latlong.dart';
 
-import '../model/conversation_model.dart';
 import '../utils/api_service.dart';
 import '../utils/api_url.dart';
 
 class ConnectPageViewModel extends ChangeNotifier {
+  final Dio dio = Dio();
+  final MapController mapController = MapController();
   String distanceInKm = "10";
   String searchTag = "";
   String gender = "";
@@ -18,10 +19,19 @@ class ConnectPageViewModel extends ChangeNotifier {
   String projects = "";
   String rating = "";
 
+  double? lat;
+  double? lng;
+
   updateDistanceInKm(String disKm) {
     distanceInKm = disKm;
     notifyListeners();
     fetchNearestProfiles();
+  }
+
+  void _zoomToTarget() {
+    Future.delayed(Duration(milliseconds: 100), () {
+      mapController.move(LatLng(lat!, lng!), 10);
+    });
   }
 
   clear() {
@@ -52,6 +62,15 @@ class ConnectPageViewModel extends ChangeNotifier {
     fetchNearestProfiles();
   }
 
+  updateLocation(double? lattude, double? longitude) {
+    lat = lattude;
+    lng = longitude;
+    print("my lat----$lat---$lng");
+    fetchNearestProfiles();
+    _zoomToTarget();
+    notifyListeners();
+  }
+
   updateHandledProjectsCountFrom(String pro) {
     projects = pro;
     handledProjectsCountFrom = projects == "Any"
@@ -74,7 +93,7 @@ class ConnectPageViewModel extends ChangeNotifier {
     EasyLoading.show();
     String api = Api.getNearestProfiles;
     Response response = await ApiService().get(
-        '$api?pageNumber=1&pageSize=1000&searchTag=$searchTag&distanceInKm=$distanceInKm&gender=$gender&handledProjectsCountFrom=$handledProjectsCountFrom&handledProjectsCountTo=1000&rating=$rating');
+        '$api?pageNumber=1&pageSize=1000&searchTag=$searchTag&distanceInKm=$distanceInKm&gender=$gender&handledProjectsCountFrom=$handledProjectsCountFrom&handledProjectsCountTo=1000&rating=$rating&lat=$lat&lng=$lng');
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {

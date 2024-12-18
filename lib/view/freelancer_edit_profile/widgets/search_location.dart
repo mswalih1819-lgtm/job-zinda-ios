@@ -7,55 +7,53 @@ import 'package:jora_customer/view_model/location_view_model.dart';
 import 'package:provider/provider.dart';
 
 class SearchLocation extends StatelessWidget {
-  const SearchLocation({super.key});
-
+  String? page;
+  SearchLocation({required this.page});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: PColors.seed,
+      appBar: AppBar(
         backgroundColor: PColors.seed,
-        appBar: AppBar(
-          backgroundColor: PColors.seed,
-          
-          centerTitle: true,
-          title: textWidget(
-              text: "Select a location",
-              fontsize: 19,
-              fontweight: FontWeight.w700,
-              color: PColors.white),
-        ),
-        body: Consumer<LocationViewModel>(
-          builder: (context, value, child) =>SingleChildScrollView(
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  searchButton(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const LocationListUi(
-                  )
-                ],
-              ),
+        centerTitle: true,
+        title: textWidget(
+            text: "Select a location",
+            fontsize: 19,
+            fontweight: FontWeight.w700,
+            color: PColors.white),
+      ),
+      body: Consumer<LocationViewModel>(
+        builder: (context, value, child) => SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                searchButton(),
+                const SizedBox(
+                  height: 20,
+                ),
+                 LocationListUi(page: page,)
+              ],
             ),
           ),
         ),
-      
+      ),
     );
   }
 
   Widget searchButton() {
     return Consumer<LocationViewModel>(
-      builder: (context, value, child) =>CustomTextFeild(
-        onSubmitted: (val){},
-        controller: value.controller,
+      builder: (context, value, child) => CustomTextFeild(
+          onSubmitted: (val) {},
+          controller: value.controller,
           borderRadius: 0,
           textColor: PColors.black,
           suffixIcon: const Icon(Icons.close),
           sufixfn: () {
+            value.controller.clear();
             value.getLocationSuggestions("");
 
             // value.clearTextField();
@@ -74,4 +72,3 @@ class SearchLocation extends StatelessWidget {
     );
   }
 }
-

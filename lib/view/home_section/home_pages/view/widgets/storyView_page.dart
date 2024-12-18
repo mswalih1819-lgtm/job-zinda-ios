@@ -279,11 +279,11 @@ class _StoryViewerState extends State<StoryViewer> {
                         ),
                       ),
                       Spacer(),
-                      GestureDetector(
+                 isMyProfile?     GestureDetector(
                           onTap: () {
                             _deleteStory(context);
                           },
-                          child: Icon(Icons.delete))
+                          child: Icon(Icons.delete)):Container()
                     ],
                   ),
                 ],

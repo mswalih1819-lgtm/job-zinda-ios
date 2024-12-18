@@ -126,7 +126,7 @@ class _PostCardState extends State<PostCard> {
                 // color: Colors.transparent,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
                         image: NetworkImage(
                           widget.post!.thumbnail != null
                               ? widget.post!.thumbnail.toString()

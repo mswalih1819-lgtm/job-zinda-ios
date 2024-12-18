@@ -14,8 +14,8 @@ class ProfileModel {
   num? followersCount;
   num? projectsCount;
   num? rating;
-  num? lat;
-  num? lng;
+  double? lat;
+  double? lng;
   String? address;
   String? zipcode;
   bool? isVerified;
@@ -76,8 +76,8 @@ class ProfileModel {
     followersCount = json['followersCount'];
     projectsCount = json['projectsCount'];
     rating = json['rating'];
-    lat = json['lat'];
-    lng = json['lng'];
+    lat =double.parse(json['lat'].toString()) ;
+    lng = double.parse(json['lng'].toString());
     address = json['address'];
     zipcode = json['zipcode'];
     isVerified = json['isVerified'];

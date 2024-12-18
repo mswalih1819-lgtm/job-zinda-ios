@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/model/profile_model.dart';
 
 class ResultImageWidgetSectionUi extends StatelessWidget {
@@ -47,7 +48,7 @@ class ResultImageWidgetSectionUi extends StatelessWidget {
       backgroundColor: PColors.white,
       child: CircleAvatar(
         radius: profileHeight / 2.1,
-        backgroundImage: NetworkImage(profileModel.profileImageUrl!),
+        backgroundImage:profileModel.profileImageUrl!.isEmpty?AssetImage(PImages.profile): NetworkImage(profileModel.profileImageUrl!),
       ),
     );
   }

@@ -19,7 +19,7 @@ class ProfileViewModel with ChangeNotifier {
   final TextEditingController zipCodeController = TextEditingController();
   final TextEditingController stateController = TextEditingController();
 
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  // final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController bioController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
 
@@ -34,7 +34,7 @@ class ProfileViewModel with ChangeNotifier {
 
   Future<void> fetchProfile() async {
     // if (profileModel == null) {
-      EasyLoading.show();
+    EasyLoading.show();
     // }
     Response response = await ApiService().get(Api.profileDetailsUrl);
     if (response.statusCode == 200) {
@@ -211,9 +211,24 @@ class ProfileViewModel with ChangeNotifier {
 
     Response response = await ApiService().post(Api.userLogout, body);
     print("logout----${response.data}");
-    
+
     if (response.data['status']) {
       LoggedInUser.clearUserData();
+      Navigator.pushReplacementNamed(context, PPages.loginWelcomeScreenUi);
+    }
+  }
+
+  deleteProfile(BuildContext context) async {
+    EasyLoading.show();
+    Response response = await ApiService().patch(
+      Api.deleteProfile,
+    );
+    EasyLoading.dismiss();
+    if (response.data['status']) {
+      EasyLoading.showSuccess(response.data['message']);
+
+      LoggedInUser.clearUserData();
+      Navigator.pop(context);
       Navigator.pushReplacementNamed(context, PPages.loginWelcomeScreenUi);
     }
   }

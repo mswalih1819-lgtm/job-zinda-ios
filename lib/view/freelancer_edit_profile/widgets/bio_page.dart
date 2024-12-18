@@ -241,7 +241,7 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
       builder: (context, value, child) => CustomTextFeild(
           onTap: () {
             print("sfndf");
-            Navigator.pushNamed(context, PPages.searchLocation);
+            Navigator.pushNamed(context, PPages.searchLocation,arguments: "bio");
           },
           readOnly: true,
           controller: value.addressController,

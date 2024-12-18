@@ -5,9 +5,8 @@ import 'package:jora_customer/view_model/location_view_model.dart';
 import 'package:provider/provider.dart';
 
 class LocationListUi extends StatelessWidget {
-  const LocationListUi({
-    super.key,
-  });
+  String? page;
+  LocationListUi({required this.page});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +19,7 @@ class LocationListUi extends StatelessWidget {
               value.getPlaceDetails(
                   value.locationList[index]["place_id"],
                   context,
-                  "address",
+                  page!,
                   value.locationList[index]['structured_formatting']
                       ['main_text']);
             },

@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:jora_customer/Settings/widgets/errorMsg.dart';
 import 'package:jora_customer/main.dart';
+import 'package:jora_customer/view_model/connect_page_view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -72,37 +73,44 @@ class LocationViewModel extends ChangeNotifier {
           latitude = map["latitude"];
           longitude = map["longitude"];
 
-          List<Placemark> placemarks = await placemarkFromCoordinates(
-            map["latitude"],
-            map["longitude"]!,
-          );
-          Placemark place = placemarks[0];
+          print("page-----$page");
+          if (page == 'map') {
+            navigatorKey.currentContext!
+                .read<ConnectPageViewModel>()
+                .updateLocation(latitude, longitude);
+          } else {
+            List<Placemark> placemarks = await placemarkFromCoordinates(
+              map["latitude"],
+              map["longitude"]!,
+            );
+            Placemark place = placemarks[0];
 
-          navigatorKey.currentContext!.read<ProfileViewModel>().stateList = [
-            place.administrativeArea!
-          ];
-          navigatorKey.currentContext!.read<ProfileViewModel>().stateController.text =
-              place.administrativeArea.toString();
-          print("object---${place.subAdministrativeArea}");
+            navigatorKey.currentContext!.read<ProfileViewModel>().stateList = [
+              place.administrativeArea!
+            ];
+            navigatorKey.currentContext!
+                .read<ProfileViewModel>()
+                .stateController
+                .text = place.administrativeArea.toString();
+            print("object---${place.subAdministrativeArea}");
 
-          navigatorKey.currentContext!
-              .read<ProfileViewModel>()
-              .updateState(place.administrativeArea!);
-          // selectedCountry = place.country;
-          // if (isEdit) {
-          // } else {
-          navigatorKey.currentContext!
-              .read<ProfileViewModel>()
-              .cityController
-              .text = place.locality ?? "";
-          navigatorKey.currentContext!
-              .read<ProfileViewModel>()
-              .zipCodeController
-              .text = place.postalCode.toString();
-          // }
+            navigatorKey.currentContext!
+                .read<ProfileViewModel>()
+                .updateState(place.administrativeArea!);
+
+            navigatorKey.currentContext!
+                .read<ProfileViewModel>()
+                .cityController
+                .text = place.locality ?? "";
+            navigatorKey.currentContext!
+                .read<ProfileViewModel>()
+                .zipCodeController
+                .text = place.postalCode.toString();
+            // }
+          }
+
           notifyListeners();
           EasyLoading.dismiss();
-
           Navigator.pop(context);
         }
       } else {

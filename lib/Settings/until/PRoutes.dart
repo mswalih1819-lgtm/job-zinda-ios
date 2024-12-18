@@ -70,9 +70,9 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => const LoginSplashUi(),
         );
-         case PPages.storyViewer:
+      case PPages.storyViewer:
         return MaterialPageRoute(
-          builder: (context) =>  StoryViewer(),
+          builder: (context) => StoryViewer(),
         );
       case PPages.loginSplash2Ui:
         return MaterialPageRoute(
@@ -154,9 +154,15 @@ class Routes {
           builder: (context) => FreelancerBioPageUi(),
         );
       case PPages.searchLocation:
-        return MaterialPageRoute(
-          builder: (context) => SearchLocation(),
-        );
+        {
+          var arg = settings.arguments;
+          return MaterialPageRoute(
+            builder: (context) => SearchLocation(
+              page: arg.toString(),
+            ),
+          );
+        }
+
       case PPages.noIntenet:
         return MaterialPageRoute(
           builder: (context) => NoInternetWidget(),

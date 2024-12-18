@@ -11,7 +11,8 @@ import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeAppbar extends StatelessWidget {
-  const HomeAppbar({super.key});
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  HomeAppbar({super.key, required this.scaffoldKey});
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +24,12 @@ class HomeAppbar extends StatelessWidget {
           children: [
             GestureDetector(
                 onTap: () {
-                  context
-                      .read<ProfileViewModel>()
-                      .scaffoldKey
-                      .currentState
-                      ?.openDrawer();
+                  scaffoldKey.currentState?.openDrawer();
+                  // context
+                  //     .read<ProfileViewModel>()
+                  //     .scaffoldKey
+                  //     .currentState
+                  //     ?.openDrawer();
                 },
                 child: Icon(
                   Icons.menu,
