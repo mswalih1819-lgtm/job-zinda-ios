@@ -24,6 +24,7 @@ class SimpleMap extends StatelessWidget {
       builder: (context, value, child) => FlutterMap(
         mapController: value.mapController,
         options: MapOptions(
+            onMapReady: value.onMapReady,
             initialCenter: LatLng(value.lat!, value.lng!), //
             // initialCenter: LatLng(
             //     profileViewModel.profileModel!.lat!.toDouble(),
@@ -79,16 +80,13 @@ class SimpleMap extends StatelessWidget {
                             child: CircleAvatar(
                               radius: 26,
                               backgroundColor: PColors.black,
-                          //  backgroundImage:    AssetImage(PImages.profile)
+                              //  backgroundImage:    AssetImage(PImages.profile)
                               backgroundImage: e.profileImageUrl!.isEmpty
                                   ? AssetImage(PImages.profile)
                                   : NetworkImage(e.profileImageUrl!),
                             ),
                           ),
-                        )
-                       
-
-                        ),
+                        )),
                   )
                   .toList()),
 

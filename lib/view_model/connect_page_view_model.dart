@@ -18,7 +18,7 @@ class ConnectPageViewModel extends ChangeNotifier {
   String handledProjectsCountFrom = "";
   String projects = "";
   String rating = "";
-
+  bool isMapReady = false;
   double? lat;
   double? lng;
 
@@ -30,8 +30,15 @@ class ConnectPageViewModel extends ChangeNotifier {
 
   void _zoomToTarget() {
     Future.delayed(Duration(milliseconds: 100), () {
-      mapController.move(LatLng(lat!, lng!), 10);
+      if (isMapReady) {
+        mapController.move(LatLng(lat!, lng!), 10);
+      } 
     });
+  }
+
+  void onMapReady() {
+    isMapReady = true;
+    notifyListeners();
   }
 
   clear() {
