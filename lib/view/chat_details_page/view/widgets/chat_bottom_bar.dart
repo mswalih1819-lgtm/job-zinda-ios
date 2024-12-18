@@ -1,12 +1,12 @@
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
+import 'package:jora_customer/main.dart';
 import 'package:jora_customer/view/chat_details_page/view/widgets/chat_textfeild_sectopn.dart';
 import 'package:jora_customer/view_model/chat_details_view_model.dart';
-import 'package:jora_customer/view_model/file_view_model.dart';
+import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +35,7 @@ class ChatBottomBarUi extends StatelessWidget {
             if (chatDetailsViewModel.isrecord)
               AudioWaveforms(
                 enableGesture: true,
-                size: Size(MediaQuery.of(context).size.width-120, 50),
+                size: Size(MediaQuery.of(context).size.width - 120, 50),
                 recorderController: chatDetailsViewModel.recorderController,
                 waveStyle: WaveStyle(
                   waveColor: PColors.white,
@@ -57,14 +57,26 @@ class ChatBottomBarUi extends StatelessWidget {
                   if (chatDetailsViewModel.message != null &&
                       chatDetailsViewModel.message!.isNotEmpty) {
                     chatDetailsViewModel.sentmessage(context: context);
-                    chatDetailsViewModel.fetchAllConversations(1);
+                    // if (context.read<ChatDetailsViewModel>().pageType ==
+                    //     "from profile") {
+                    //   // chatDetailsViewModel.fetchAllMessageProfile(navigatorKey
+                    //   //     .currentContext!
+                    //   //     .read<ProfileViewModel>()
+                    //   //     .profileModel!
+                    //   //     .sId
+                    //   //     .toString());
+                    // } else {
+                    //   chatDetailsViewModel.fetchAllConversations(1);
+                    // }
                   }
                 },
                 child: Icon(Icons.send_outlined),
               ),
-            // if (chatDetailsViewModel.message == null ||
-            //     chatDetailsViewModel.message!.isEmpty)
-            if (!chatDetailsViewModel.isrecord)
+         
+      if(  chatDetailsViewModel.messageController.text.isNotEmpty)
+      
+          Container()else
+          if (!chatDetailsViewModel.isrecord)
               // Send Button
               GestureDetector(
                 onTap: () async {

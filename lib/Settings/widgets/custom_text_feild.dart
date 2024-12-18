@@ -23,6 +23,8 @@ class CustomTextFeild extends StatefulWidget {
   final Function()? prefixfn;
   final Function()? onTap;
   final Function(String? val)? onSaved;
+  final Function(String? val)? onSubmitted;
+
   final Function(String? val)? onChanged;
   final Iterable<String>? autofillHints;
   final TextEditingController? controller;
@@ -38,6 +40,7 @@ class CustomTextFeild extends StatefulWidget {
       this.suffixIcon,
       this.sufixfn,
       this.onSaved,
+      this.onSubmitted,
       this.onChanged,
       this.validation,
       this.keyboardType,
@@ -120,6 +123,7 @@ class _CustomTextFeildState extends State<CustomTextFeild> {
         TextFormField(
           readOnly: widget.readOnly,
           onTap: widget.onTap,
+          onFieldSubmitted: widget.onSubmitted,
           focusNode: widget.focusNode,
           autofillHints: widget.autofillHints,
           controller: widget.controller,

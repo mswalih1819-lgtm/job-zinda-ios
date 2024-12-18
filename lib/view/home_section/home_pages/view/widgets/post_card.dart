@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jora_customer/Settings/widgets/time_function.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/post_model.dart';
 import 'package:jora_customer/view/comment_pages/ui.dart';
@@ -11,7 +12,6 @@ import '../../../../../Settings/until/PColors.dart';
 import '../../../../../Settings/until/PImages.dart';
 import '../../../../../Settings/until/PSvgs.dart';
 import '../../../../../Settings/widgets/text_widget.dart';
-import '../../../../../utils/date_formatter.dart';
 import '../../../../../view_model/post_view_model.dart';
 import '../../../../other_user_profile/view/other_user_profile_screen.dart';
 import '../../../../video_player/video_player.dart';
@@ -32,6 +32,7 @@ class _PostCardState extends State<PostCard> {
   void initState() {
     isLiked = widget.post?.isLiked ?? false;
     likesCount = widget.post?.likesCount ?? 0;
+
     super.initState();
   }
 
@@ -64,8 +65,10 @@ class _PostCardState extends State<PostCard> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    image: NetworkImage(
-                        widget.post?.user?.userProfilePicture ?? ''),
+                    image: widget.post!.user!.userProfilePicture!.isEmpty
+                        ? AssetImage(PImages.profile)
+                        : NetworkImage(
+                            widget.post?.user?.userProfilePicture ?? ''),
                     fit: BoxFit.cover),
               )),
           trailing: widget.post?.user?.sId == null ||
@@ -77,9 +80,12 @@ class _PostCardState extends State<PostCard> {
                         .read<PostViewModel>()
                         .fetchOtherUserProfileDetails(
                             userID: widget.post?.user?.sId ?? '');
+                    await context
+                        .read<PostViewModel>()
+                        .updateBottomsheetoen(true);
                     showBottomSheet(
                       shape: const BeveledRectangleBorder(),
-                      clipBehavior: Clip.hardEdge,
+                      // clipBehavior: Clip.hardEdge,
                       backgroundColor: PColors.black,
                       context: context,
                       builder: (context) =>
@@ -106,6 +112,7 @@ class _PostCardState extends State<PostCard> {
                     Image.asset(PImages.noImage)),
           )
         else if (widget.post?.mediaType == 'video')
+          // Text(widget.post!.thumbnail.toString()),
           InkWell(
               onTap: () {
                 Navigator.push(
@@ -116,7 +123,15 @@ class _PostCardState extends State<PostCard> {
               },
               child: Container(
                 height: 200,
-                color: Colors.black,
+                // color: Colors.transparent,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          widget.post!.thumbnail != null
+                              ? widget.post!.thumbnail.toString()
+                              : "",
+                        ))),
                 alignment: Alignment.center,
                 child: const Icon(
                   Icons.play_circle,
@@ -161,6 +176,10 @@ class _PostCardState extends State<PostCard> {
             ),
             IconButton(
               onPressed: () {
+                // CommentViewModel commentViewModel =
+                //     context.read<CommentViewModel>();
+                // commentViewModel.currentPage = 0;
+                // commentViewModel.initCommentPagination(post!.sId.toString());
                 context
                     .read<CommentViewModel>()
                     .fetchComments(post!.sId.toString());
@@ -176,13 +195,13 @@ class _PostCardState extends State<PostCard> {
                 height: 24,
               ),
             ),
-            IconButton(
-              onPressed: () {},
-              icon: SvgPicture.asset(
-                PSvgs.share,
-                height: 24,
-              ),
-            ),
+            // IconButton(
+            //   onPressed: () {},
+            //   icon: SvgPicture.asset(
+            //     PSvgs.share,
+            //     height: 24,
+            //   ),
+            // ),
           ],
         ),
         Row(
@@ -226,14 +245,17 @@ class _PostCardState extends State<PostCard> {
                 height: 2),
           ),
           textWidget(
-              text: timeago.format(stringToDateTime(
-                      date: post?.createdAt ?? '',
-                      format: 'yyyy-MM-ddThh:mm:ss') ??
-                  DateTime.now()),
+            text:TimeAgoClass.getHoursAgo( post?.createdAt ?? ''),
+              // text: timeago.format(stringToDateTime(
+              //         date: post?.createdAt ?? '',
+              //         format: 'yyyy-MM-ddThh:mm:ss') ??
+              //     DateTime.now()),
               color: PColors.whiteOff.withOpacity(0.5),
               fontsize: 11)
         ],
       ),
     );
   }
+
+ 
 }

@@ -21,8 +21,8 @@ class ContactUsUi extends StatelessWidget {
           // _makePhoneCall('7034094131');
         }),
         contentWidget(icon: PSvgs.mail, title: 'Email',onTap: (){
-          LoggedInUser.clearUserData();
-          Navigator.pushNamedAndRemoveUntil(context, PPages.phoneNumberUi, (route) => false);
+          // LoggedInUser.clearUserData();
+          // Navigator.pushNamedAndRemoveUntil(context, PPages.phoneNumberUi, (route) => false);
         }),
         contentWidget(icon: PSvgs.feedback, title: 'Send Feedback',onTap: (){
 

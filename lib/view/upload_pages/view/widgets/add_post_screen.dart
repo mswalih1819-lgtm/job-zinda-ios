@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
@@ -43,7 +44,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 contentPadding: const EdgeInsets.only(left: 10),
                 leading: CircleAvatar(
                   radius: 24,
-                  backgroundImage: NetworkImage(LoggedInUser.profilePic ?? ''),
+                  backgroundImage: LoggedInUser.profilePic!.isEmpty
+                      ? AssetImage(PImages.profile)
+                      : NetworkImage(LoggedInUser.profilePic ?? ''),
                 ),
                 title: Container(
                   width: 100.0,
@@ -81,19 +84,19 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 trailing: InkWell(
                   onTap: () {
                     if (_formKey.currentState?.validate() ?? false) {
+                      if (postViewModel.selectedUrl == null) {
+                        EasyLoading.showError('Please select media');
+                      } else {
                       // if (postViewModel.selectedUrl == null) {
-                      //   EasyLoading.showError('Please select media');
-                      // } else {
-                         if(postViewModel.selectedUrl == null){
-                          postViewModel.selectedMediaType="text";
-                         }
+                      //   postViewModel.selectedMediaType = "text";
+                      // }
 
-                        postViewModel.createPost(
-                            description: _descriptionController.text,
-                            sharedWith: value,
-                            context: context);
-                      }
-                    // }
+                      postViewModel.createPost(
+                          description: _descriptionController.text,
+                          sharedWith: value,
+                          context: context);
+                    }
+                    }
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -127,29 +130,24 @@ class _AddPostScreenState extends State<AddPostScreen> {
               if (postViewModel.selectedUrl != null &&
                   postViewModel.selectedMediaType == 'image')
                 Image.network(postViewModel.selectedUrl!, fit: BoxFit.cover),
-              if (postViewModel.selectedUrl != null &&
+              if (postViewModel.selectedThumbanilFile != null &&
                   postViewModel.selectedMediaType == 'video')
                 InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => VideoViewScreen(
-                                videoUrl: postViewModel.selectedUrl ?? '')));
-                  },
-                  child: Container(
-                    height: 200,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Colors.grey[50],
-                        borderRadius: BorderRadius.circular(8)),
-                    child: const Icon(
-                      Icons.play_circle,
-                      color: Colors.black,
-                      size: 50,
-                    ),
-                  ),
-                ),
+                    onTap: () {
+                      print("fdnfnjdfn---${postViewModel.selectedUrl}");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => VideoViewScreen(
+                                  videoUrl:
+                                      postViewModel.selectedUrl.toString())));
+                    },
+                    child: Image.memory(
+                      postViewModel.selectedThumbanilFile!,
+                      width: 400,
+                      height: 500,
+                      fit: BoxFit.fill,
+                    )),
               const SizedBox(
                 height: 20,
               )

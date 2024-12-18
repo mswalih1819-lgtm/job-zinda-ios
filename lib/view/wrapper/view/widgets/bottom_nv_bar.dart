@@ -56,7 +56,20 @@ class BottomNavBar extends StatelessWidget {
                       icon: PSvgs.upload,
                       label: "Upload",
                       fun: () {
-                        openBottomseet(context);
+                        if (context
+                                .read<ProfileViewModel>()
+                                .profileModel!
+                                .accountType!
+                                .toLowerCase() ==
+                            "normal") {
+                          print(
+                              "smnnmdfnf----${context.read<ProfileViewModel>().profileModel!.accountType!.toLowerCase()}");
+                          context
+                              .read<WrapperViewModel>()
+                              .updatePageView(WrapperViewStatus.normalProfile);
+                        } else {
+                          openBottomseet(context);
+                        }
                       },
                       selected: value == WrapperViewStatus.upload),
                   bottombaritem(
@@ -77,13 +90,30 @@ class BottomNavBar extends StatelessWidget {
                       icon: PSvgs.profile,
                       label: "Profile",
                       fun: () {
-                        context
-                            .read<WrapperViewModel>()
-                            .updatePageView(WrapperViewStatus.profile);
+                        // context
+                        //       .read<WrapperViewModel>()
+                        //       .updatePageView(WrapperViewStatus.profile);
+                        if (context
+                                .read<ProfileViewModel>()
+                                .profileModel!
+                                .accountType!
+                                .toLowerCase() ==
+                            "normal") {
+                          print(
+                              "smnnmdfnf----${context.read<ProfileViewModel>().profileModel!.accountType!.toLowerCase()}");
+                          context
+                              .read<WrapperViewModel>()
+                              .updatePageView(WrapperViewStatus.normalProfile);
+                        } else {
+                          context
+                              .read<WrapperViewModel>()
+                              .updatePageView(WrapperViewStatus.profile);
+                        }
                       },
                       selected: value == WrapperViewStatus.profile_view ||
                           value == WrapperViewStatus.profile ||
-                          value == WrapperViewStatus.otherProfile)
+                          value == WrapperViewStatus.otherProfile ||
+                          value == WrapperViewStatus.normalProfile)
                 ],
               ),
             ),

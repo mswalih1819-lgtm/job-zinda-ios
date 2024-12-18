@@ -1,14 +1,18 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PRoutes.dart';
 import 'package:jora_customer/Settings/until/PText_styles.dart';
+import 'package:jora_customer/firebase_options.dart';
 import 'package:jora_customer/utils/providers.dart';
 import 'package:provider/provider.dart';
 
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // checkPermission();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   configLoading();
   runApp(
     MultiProvider(
@@ -17,6 +21,7 @@ void main() {
     ),
   );
 }
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -25,11 +30,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Jora Customer',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(highlightColor: Colors.transparent,splashColor: Colors.transparent,
+      theme: ThemeData(
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
         textTheme: const TextTheme(
-          bodySmall:  TextStyle(),
+          bodySmall: TextStyle(),
           bodyMedium: TextStyle(),
           bodyLarge: TextStyle(),
         ).apply(
@@ -64,17 +72,17 @@ class MyApp extends StatelessWidget {
 }
 
 void configLoading() {
-EasyLoading.instance
-  ..displayDuration = const Duration(milliseconds: 2000)
-  ..indicatorType = EasyLoadingIndicatorType.fadingCircle
-  ..loadingStyle = EasyLoadingStyle.dark
-  ..indicatorSize = 45.0
-  ..radius = 10.0
-  ..progressColor = Colors.yellow
-  ..backgroundColor = Colors.green
-  ..indicatorColor = Colors.yellow
-  ..textColor = Colors.yellow
-  ..maskColor = Colors.blue.withOpacity(0.5)
-  ..userInteractions = true
-  ..dismissOnTap = false;
+  EasyLoading.instance
+    ..displayDuration = const Duration(milliseconds: 2000)
+    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..loadingStyle = EasyLoadingStyle.dark
+    ..indicatorSize = 45.0
+    ..radius = 10.0
+    ..progressColor = Colors.yellow
+    ..backgroundColor = Colors.green
+    ..indicatorColor = Colors.yellow
+    ..textColor = Colors.yellow
+    ..maskColor = Colors.blue.withOpacity(0.5)
+    ..userInteractions = true
+    ..dismissOnTap = false;
 }

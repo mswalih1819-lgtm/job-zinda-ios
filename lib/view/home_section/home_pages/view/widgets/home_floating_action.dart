@@ -21,16 +21,16 @@ class HomeFloatingActionButtonUi extends StatelessWidget {
               title: 'For you',
               fun: () {
                 postViewModel.isForYou = true;
-                postViewModel.currentPage = 0;
-                postViewModel.postController.refresh();
+                  postViewModel.currentPage = 0;
+                  postViewModel.postController.refresh();
               },
               selected: postViewModel.isForYou),
           button(
               title: 'Following',
               fun: () {
-                postViewModel.isForYou = false;
-                postViewModel.currentPage = 0;
-                postViewModel.postController.refresh();
+                 postViewModel.isForYou = false;
+                  postViewModel.currentPage = 0;
+                  postViewModel.postController.refresh();
               },
               selected: !postViewModel.isForYou),
         ],

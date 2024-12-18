@@ -3,6 +3,8 @@ class PostModel {
   String? bio;
   String? mediaType;
   String? mediaUrl;
+  String? thumbnail;
+
   int? duration;
   int? likesCount;
   int? commentsCount;
@@ -10,7 +12,7 @@ class PostModel {
   User? user;
   String? sharedWith;
   String? createdAt;
-  bool?isLiked;
+  bool? isLiked;
 
   PostModel(
       {this.sId,
@@ -23,13 +25,17 @@ class PostModel {
       this.shareCount,
       this.user,
       this.sharedWith,
-      this.createdAt,this.isLiked});
+      this.thumbnail,
+      this.createdAt,
+      this.isLiked});
 
   PostModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     bio = json['bio'];
     mediaType = json['mediaType'];
     mediaUrl = json['mediaUrl'];
+    thumbnail = json['thumbnail'];
+
     duration = json['duration'];
     likesCount = json['likesCount'];
     commentsCount = json['commentsCount'];
@@ -39,8 +45,7 @@ class PostModel {
         : User();
     sharedWith = json['sharedWith'];
     createdAt = json['createdAt'];
-    isLiked =json.containsKey('isLiked')? json['isLiked']:null;
-
+    isLiked = json.containsKey('isLiked') ? json['isLiked'] : null;
   }
 }
 

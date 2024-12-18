@@ -3,6 +3,7 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
+import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 class MyProfileButtonUi extends StatelessWidget {
@@ -17,15 +18,21 @@ class MyProfileButtonUi extends StatelessWidget {
           button(
               btn: "Edit profile",
               fun: () {
-                context
-                    .read<WrapperViewModel>()
-                    .updatePageView(WrapperViewStatus.profile_view);
+                context.read<ProfileViewModel>().fetchProfile();
+                Navigator.pushNamed(context, PPages.freeLancerEditProfileUi);
               },
               selected: false),
           SizedBox(
             width: 6,
           ),
-          button(btn: "Share profile", fun: () {}, selected: false),
+          button(
+              btn: "Plans",
+              fun: () {
+                context
+                    .read<WrapperViewModel>()
+                    .updatePageView(WrapperViewStatus.normalProfile);
+              },
+              selected: false),
         ],
       ),
     );

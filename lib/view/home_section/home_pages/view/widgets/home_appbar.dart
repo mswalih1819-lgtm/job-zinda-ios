@@ -7,6 +7,7 @@ import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:jora_customer/view_model/chat_view_model.dart';
 import 'package:jora_customer/view_model/notification_view_model.dart';
+import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeAppbar extends StatelessWidget {
@@ -15,14 +16,31 @@ class HomeAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leadingWidth: 120,
+      leadingWidth: 150,
       leading: Padding(
         padding: const EdgeInsets.all(10),
-        child: Image.asset(PImages.logo),
+        child: Row(
+          children: [
+            GestureDetector(
+                onTap: () {
+                  context
+                      .read<ProfileViewModel>()
+                      .scaffoldKey
+                      .currentState
+                      ?.openDrawer();
+                },
+                child: Icon(
+                  Icons.menu,
+                  weight: 10,
+                )),
+            Image.asset(PImages.logo),
+          ],
+        ),
       ),
       actions: [
         GestureDetector(
-          onTap: () {  context.read<ChatViewModel>().fetchAllConversations();
+          onTap: () {
+            context.read<ChatViewModel>().fetchAllConversations();
             // Navigator.pushNamed(context, PPages.subscriptionPageUi);
             context.read<ChatViewModel>().updateView(ChatViewStatus.letsPlan);
             Navigator.pushNamed(context, PPages.chatPageUi);
@@ -62,7 +80,9 @@ class HomeAppbar extends StatelessWidget {
           child: badges.Badge(
             badgeStyle: badges.BadgeStyle(badgeColor: PColors.badgeColor),
             position: badges.BadgePosition.topEnd(top: -12, end: -4),
-            badgeContent: Text(''), showBadge: context.read<NotificationViewModel>().notificationCount>0,
+            badgeContent: Text(''),
+            showBadge:
+                context.read<NotificationViewModel>().notificationCount > 0,
             child: SvgPicture.asset(PSvgs.notification),
           ),
         ),

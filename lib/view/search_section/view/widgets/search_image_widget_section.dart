@@ -47,7 +47,7 @@ final  ProfileModel profileModel;
       backgroundColor: PColors.white,
       child: CircleAvatar(
         radius: profileHeight / 2.1,
-        backgroundImage: NetworkImage(profileModel.profileImageUrl??''),
+        backgroundImage:profileModel.profileImageUrl!.isEmpty?AssetImage(PImages.profile): NetworkImage(profileModel.profileImageUrl??''),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
@@ -24,19 +25,21 @@ class AddstorywidgetUi extends StatelessWidget {
         children: [
           Column(
             children: [
-              InkWell(
-                onTap: () {
-                  context.read<StoryViewModel>().selectedUrl = null;
-                  Navigator.pushNamed(context, AddStoryScreen.route);
-                },
-                child: Container(
-                    height: size.height * .19,
-                    width: size.width * 0.26,
-                    margin: const EdgeInsets.all(0),
-                    decoration: BoxDecoration(
-                      color: PColors.black2,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+              Container(
+                  height: size.height * .19,
+                  width: size.width * 0.26,
+                  margin: const EdgeInsets.all(0),
+                  decoration: BoxDecoration(
+                    color: PColors.black2,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      StoryViewModel storyViewModel =
+                          context.read<StoryViewModel>();
+                      storyViewModel.selectedUrl = null;
+                      Navigator.pushNamed(context, AddStoryScreen.route);
+                    },
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -56,8 +59,8 @@ class AddstorywidgetUi extends StatelessWidget {
                               fontsize: 12),
                         ],
                       ),
-                    )),
-              ),
+                    ),
+                  )),
               const SizedBox(height: 35),
               Expanded(
                 child: textWidget(
@@ -71,14 +74,26 @@ class AddstorywidgetUi extends StatelessWidget {
           ),
           Positioned(
             top: (size.height * 0.19) - (46 / 2),
-            child: Container(
-              height: 46.0,
-              width: 46.0,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: NetworkImage(LoggedInUser.profilePic ?? ''),
-                      fit: BoxFit.cover)),
+            child: GestureDetector(
+              onTap: () {
+                context.read<StoryViewModel>().fetchMyStory(context);
+              },
+              child: Container(
+                height: 46.0,
+                width: 46.0,
+                decoration: BoxDecoration(
+                    // color: LoggedInUser.profilePic?.isEmpty ?? true
+                    //     ? const Color.fromARGB(255, 247, 204, 237)
+                    //     : null,
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: LoggedInUser.profilePic!.isEmpty
+                            ? AssetImage(PImages.profile)
+                            : NetworkImage(
+                                LoggedInUser.profilePic ?? '',
+                              ),
+                        fit: BoxFit.cover)),
+              ),
             ),
           )
         ],

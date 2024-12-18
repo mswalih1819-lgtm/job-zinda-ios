@@ -41,7 +41,10 @@ class ProfileImageWidget extends StatelessWidget {
               SizedBox(
                   height: coverHeight,
                   width: double.infinity,
-                  child: Image.network(
+                  child: profileModel!.coverImage!.isEmpty?Container(
+
+                    child: Center(child: Text("No cover Image",style: TextStyle(color: PColors.white),)),
+                  ): Image.network(
                     profileModel?.coverImage ?? '',
                     fit: BoxFit.fill,
                   )),
@@ -89,7 +92,7 @@ class ProfileImageWidget extends StatelessWidget {
               child: CircleAvatar(
                 radius: profileHeight / 1.5,
                 backgroundImage:
-                    NetworkImage(profileModel?.profileImageUrl ?? ''),
+                profileModel!.profileImageUrl!.isEmpty?AssetImage(PImages.profile):    NetworkImage(profileModel?.profileImageUrl ?? ''),
               ),
             )),
         Positioned(

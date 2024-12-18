@@ -20,10 +20,14 @@ class ProfileModel {
   String? zipcode;
   bool? isVerified;
   String? accountType;
-  List<Null>? fcmTokens;
+  List<String>? fcmTokens;
   String? createdAt;
   String? coverImage;
-  bool?isFollowing;
+  String? district;
+  String? state;
+
+
+  bool? isFollowing;
 
   ProfileModel(
       {this.location,
@@ -49,7 +53,10 @@ class ProfileModel {
       this.accountType,
       this.fcmTokens,
       this.createdAt,
-      this.coverImage , this.isFollowing});
+      this.coverImage , this.isFollowing,
+      this.district,
+      this.state
+      });
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     location = json['location'] != null
@@ -78,6 +85,10 @@ class ProfileModel {
     createdAt = json['createdAt'];
     coverImage = json['coverImage'];
     isFollowing=json['isFollowing'];
+    district=json['district'];
+    state=json['state'];
+
+
   }
 }
 

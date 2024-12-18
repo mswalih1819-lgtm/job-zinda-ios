@@ -1,0 +1,194 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:jora_customer/Data/Network/network_api_service.dart';
+import 'package:jora_customer/Data/Network/network_controller.dart';
+import 'package:jora_customer/Settings/until/PPages.dart';
+import 'package:jora_customer/Settings/widgets/errorMsg.dart';
+import 'package:jora_customer/main.dart';
+import 'package:jora_customer/model/logged_in_user.dart';
+import 'package:jora_customer/view/login_section/add_newuser/repository/repository.dart';
+import 'package:jora_customer/view/login_section/otp_verify/repository/repository.dart';
+import 'package:jora_customer/view/login_section/phone_number_ui/repository/repository.dart';
+
+class LoginPhoneNumberViewModel extends ChangeNotifier {
+  FirebaseAuthServices services = FirebaseAuthServices();
+  var otpRepo = OtpPageRepository(NetworkApiService());
+  var repo = AddNewUserRepository(NetworkApiService());
+  String signintype = "";
+  bool checkbox = false;
+  String? phoneNumber;
+  String? countryCode;
+  bool loading = false;
+  String? error;
+  String? verfiId;
+  // String? email;
+  int get phoneDigitCount => 10;
+  final TextEditingController numberController = TextEditingController();
+
+  List<String> get countryCodes => ['+91'];
+
+  savePhoneNumber(String phone) {
+    phoneNumber = phone;
+
+    notifyListeners();
+  }
+
+  Future sendCode(BuildContext context) async {
+    NetConnection.networkConnection(context).then((value) async {
+      if (value == true) {
+        try {
+          // if (form_key.currentState!.validate() == false) {
+          //   throw 'Please check the field error';
+          // }
+          countryCode ??= countryCodes.first;
+          print("country==${numberController.text}==$countryCode");
+
+          loading = true;
+          notifyListeners();
+          services.signinWithPhone(
+            '$countryCode${numberController.text}',
+            verificationFailed: (val) {
+              loading = false;
+              notifyListeners();
+              ErrorMsg.showSnakError(context,
+                  val.message ?? 'Unable to send code to $phoneNumber');
+            },
+            codeSent: (verificationId, forceResendingToken) {
+              loading = false;
+              notifyListeners();
+              verfiId = verificationId;
+              Navigator.pushNamed(context, PPages.otpPageUi, arguments: this);
+            },
+            onAutoVerify: (user) {
+              onVerifyOTp(context);
+            },
+          );
+
+          // loading = false;
+          // notifyListeners();
+        } catch (e) {
+          loading = false;
+          error = e.toString();
+          notifyListeners();
+          ErrorMsg.showSnakError(navigatorKey.currentContext!, e.toString());
+        }
+      } else {
+        Navigator.pushReplacementNamed(
+            navigatorKey.currentContext!, PPages.noIntenet);
+      }
+    });
+  }
+
+  onVerifyOTp(BuildContext context) async {
+    signintype = "phone";
+
+    var result = await otpRepo.checkProfile(
+      phoneNumber!,
+      countryCode!.split('+').last,
+    );
+    print(result['data']['userExists']);
+    if (result['data']['userExists'] == false) {
+      LoggedInUser.phoneNumber = phoneNumber;
+      LoggedInUser.countryCode = countryCode!.split('+').last;
+      // LoggedInUser.profile(
+      //   phoneNumber!,
+      //   countryCode!.split('+').last,
+      //   "",
+      //   "",
+      //   "",
+      // );
+      // ignore: use_build_context_synchronously
+      // Navigator.pushNamedAndRemoveUntil(
+      //     context, PPages.adduserpage, (route) => false);
+      Navigator.pushNamed(context, PPages.adduserpage);
+    } else {
+      loginUser(context, "");
+    }
+  }
+
+  loginUser(BuildContext context, String? email) async {
+    NetConnection.networkConnection(context).then((value) async {
+      if (value == true) {
+        var result;
+        try {
+          if (signintype == "phone") {
+            result = await repo.addNewUser(
+              phone: phoneNumber!,
+              countryCode: countryCode!.split('+').last,
+              name: '',
+            );
+          } else {
+            result = await repo.addNewUserEmail(
+              email: email!,
+              phone: '',
+              countryCode: '',
+              name: '',
+            );
+          }
+
+          print("User login-----------------${result['data']['user']}");
+
+          LoggedInUser.login(result['data']);
+
+          print(result['data']['user']['orgId']);
+          print(result['data']['tokens']['access']['token']);
+          print(result['data']['tokens']['refresh']['token']);
+
+          // ignore: use_build_context_synchronously
+          Navigator.pushNamedAndRemoveUntil(navigatorKey.currentContext!,
+              PPages.loginSplashUi, (route) => false);
+        } catch (e) {
+          loading = false;
+          notifyListeners();
+          // ignore: use_build_context_synchronously
+          print("e---$e");
+          ErrorMsg.showSnakError(context, e.toString());
+        }
+      } else {
+        Navigator.pushReplacementNamed(context, PPages.noIntenet);
+      }
+    });
+  }
+
+  checkUserExstsEmail(BuildContext context, String email) async {
+    signintype = "email";
+    print("checkProfileEmail----$email---$signintype");
+
+    var result = await otpRepo.checkProfileEmail(email);
+    print(result['data']['userExists']);
+    if (result['data']['userExists'] == false) {
+      LoggedInUser.email = email;
+      // LoggedInUser.profile(
+      //   phoneNumber!,
+      //   countryCode!.split('+').last,
+      //   "",
+      //   "",
+      //   "",
+      // );
+      // ignore: use_build_context_synchronously
+      notifyListeners();
+      Navigator.pushNamed(context, PPages.adduserpage);
+    } else {
+      loginUser(context, email);
+    }
+  }
+  // Future<void> initMobileNumberState() async {
+  //   try {
+  //     if (!await MobileNumber.hasPhonePermission) {
+  //       await MobileNumber.requestPhonePermission;
+  //       return;
+  //     }
+
+  //     String number = (await MobileNumber.mobileNumber)!;
+  //     phoneNumber = number.substring(5);
+  //     notifyListeners();
+  //   } on PlatformException catch (e) {
+  //     debugPrint("Failed to get mobile number because of '${e.message}'");
+  //   }
+  // }
+
+  setCheckboxValue(bool value) {
+    checkbox = value;
+    notifyListeners();
+  }
+}

@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get_thumbnail_video/index.dart';
+import 'package:get_thumbnail_video/video_thumbnail.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
@@ -11,6 +14,7 @@ import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/utils/validator.dart';
 import 'package:jora_customer/view_model/file_view_model.dart';
 import 'package:jora_customer/view_model/story_view_model.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../Settings/widgets/custom_icon_elevated_button.dart';
@@ -136,7 +140,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                 contentPadding: const EdgeInsets.only(left: 10),
                 leading: CircleAvatar(
                   radius: 24,
-                  backgroundImage: NetworkImage(LoggedInUser.profilePic ?? ''),
+                  backgroundImage:LoggedInUser.profilePic!.isEmpty?AssetImage(PImages.profile): NetworkImage(LoggedInUser.profilePic ?? ''),
                 ),
                 title: Container(
                   width: 100.0,
@@ -217,29 +221,24 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
               if (storyViewModel.selectedUrl != null &&
                   storyViewModel.selectedMediaType == 'image')
                 Image.network(storyViewModel.selectedUrl!, fit: BoxFit.cover),
-              if (storyViewModel.selectedUrl != null &&
+              if (storyViewModel.selectedThumbanilFile != null &&
                   storyViewModel.selectedMediaType == 'video')
                 InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => VideoViewScreen(
-                                videoUrl: storyViewModel.selectedUrl ?? '')));
-                  },
-                  child: Container(
-                    height: 200,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Colors.grey[50],
-                        borderRadius: BorderRadius.circular(8)),
-                    child: const Icon(
-                      Icons.play_circle,
-                      color: Colors.black,
-                      size: 50,
-                    ),
-                  ),
-                ),
+                    onTap: () {
+                      print("storyv---${storyViewModel.selectedUrl}");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => VideoViewScreen(
+                                  videoUrl:
+                                      storyViewModel.selectedUrl.toString())));
+                    },
+                    child: Image.memory(
+                      storyViewModel.selectedThumbanilFile!,
+                      width: 400,
+                      height: 500,
+                      fit: BoxFit.fill,
+                    )),
               const SizedBox(
                 height: 20,
               )
@@ -256,33 +255,57 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
     );
   }
 
-  void _pickVideo(BuildContext context) async {
-    FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
-      type: FileType.video,
+  _generateThumbnail(String videoPath) async {
+    final tempDir = await getTemporaryDirectory();
+    final thumbnailPath = await VideoThumbnail.thumbnailData(
+      video: videoPath,
+      imageFormat: ImageFormat.PNG,
+
+      // maxWidth:
+      //     128, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
+      quality: 25,
     );
+    return thumbnailPath;
+  }
 
-    // final XFile? video = await _picker.pickVideo(source: ImageSource.gallery);
-
-    //    if (video != null) {
-    //     String? url = await context
-    //         .read<FileUploadViewModel>()
-    //         .pickedImageUpload(video, 'Post');
-    //          PostViewModel postProvider = context.read<PostViewModel>();
-    //   postProvider.selectedMediaType='video';
-    //    postProvider.selectedUrl = url;
-    //    log(postProvider.selectedUrl.toString());
-    //   }
-
-    if (pickedFile != null && pickedFile.files.isNotEmpty) {
-      final Uint8List fileBytes = pickedFile.files.first.bytes ?? Uint8List(0);
-      FileUploadViewModel provider = context.read<FileUploadViewModel>();
+  void _pickVideo(BuildContext context) async {
+    var result = await ImagePicker().pickVideo(
+      source: ImageSource.gallery,
+    );
+    EasyLoading.show();
+    if (result != null) {
       StoryViewModel storyViewModel = context.read<StoryViewModel>();
+
+      Uint8List thumbnailPath = await _generateThumbnail(result.path);
+      if (thumbnailPath != null) {
+        setState(() {
+          storyViewModel.selectedThumbanilFile = thumbnailPath;
+        });
+      }
+
+      FileUploadViewModel provider = context.read<FileUploadViewModel>();
+      XFile xfile = await createTempXFile(thumbnailPath, 'thumbnail.png');
+
+      storyViewModel.selectedThumbnailUrl =
+          await provider.pickedImageUpload(xfile, "thumbnail");
       storyViewModel.selectedMediaType = 'video';
+      print("thummm------${storyViewModel.selectedThumbnailUrl}");
       storyViewModel.selectedUrl = await provider.pickedVideoUpload(
-          fileBytes, pickedFile.files.first.name);
+          await File(result.path).readAsBytes(), result.path.split('/').last);
+
+      EasyLoading.dismiss();
+      print("dnsdnms------${storyViewModel.selectedUrl}");
     } else {
       debugPrint('No file was picked');
     }
+  }
+
+  Future<XFile> createTempXFile(Uint8List data, String fileName) async {
+    final tempDir = await getTemporaryDirectory();
+    final tempFile = File('${tempDir.path}/$fileName');
+    await tempFile.writeAsBytes(data);
+
+    return XFile(tempFile.path);
   }
 
   Future getImage(ImageSource source) async {

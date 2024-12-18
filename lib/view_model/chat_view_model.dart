@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -14,7 +13,6 @@ class ChatViewStatus {
 
   static const String all = "All";
   static const String unread = "Unread";
-
 }
 
 class ChatViewModel extends ChangeNotifier {
@@ -26,27 +24,30 @@ class ChatViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateAllAndUnread(String val){
-    allUnreadView=val;
+  updateAllAndUnread(String val) {
+    allUnreadView = val;
     notifyListeners();
   }
-   List<ConversationModel> conversationList = [];
+
+  List<ConversationModel> conversationList = [];
   Future<void> fetchAllConversations() async {
-    print("token:-${LoggedInUser.accessToken}");
     EasyLoading.show();
-    Response response = await ApiService().get(Api.conversationListUrl);
+    Response response = await ApiService().get("${Api.conversationListUrl}");
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
+            print("converstaion -----$data");
+
       if (data['status']) {
         conversationList = (data['data']['conversations'] as List)
             .map(
               (e) => ConversationModel.fromJson(e),
             )
             .toList();
-      
-      }else{
+
+      } else {
         conversationList.clear();
-      }  notifyListeners();
+      }
+      notifyListeners();
     }
     EasyLoading.dismiss();
   }

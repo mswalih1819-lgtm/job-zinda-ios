@@ -4,7 +4,6 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
-import 'package:jora_customer/main.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:jora_customer/view_model/story_view_model.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +44,8 @@ class UploadPagesUi extends StatelessWidget {
               onTap: () {
                 Navigator.pop(context);
                 context.read<PostViewModel>().selectedUrl = null;
+                context.read<PostViewModel>().selectedThumbanilFile = null;
+
                 Navigator.pushNamed(context, PPages.addPostUi);
               },
               leading: SvgPicture.asset(PSvgs.share_post),
@@ -54,6 +55,8 @@ class UploadPagesUi extends StatelessWidget {
               onTap: () {
                 Navigator.pop(context);
                 context.read<StoryViewModel>().selectedUrl = null;
+                context.read<StoryViewModel>().selectedThumbanilFile = null;
+
                 Navigator.pushNamed(context, AddStoryScreen.route);
               },
               leading: SvgPicture.asset(

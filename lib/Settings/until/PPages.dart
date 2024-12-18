@@ -20,6 +20,16 @@ class PPages {
   static const String profileAnalyticsPageUi = "/profileAnalyticsPageUi";
   static const String subscriptionPageUi = "/subscriptionPageUi";
   static const String storyDisplayPageUi = "/storyDisplayPageUi";
+  static const String profilePostDetailsUi = "/profilePostDetailsUi";
+  static const String freeLancerEditProfileUi = "/freeLancerEditProfileUi";
+  static const String freelancerBioPageUi = "/freelancerBioPageUi";
+  static const String searchLocation = "/searchLocation";
+  static const String noIntenet = "/noIntenet";
+  static const String adduserpage = "/adduserpage";
+  static const String storyViewer = "/storyViewer";
+
+
+
 
 
 

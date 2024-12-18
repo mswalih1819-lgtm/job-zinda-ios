@@ -1,10 +1,17 @@
+import 'package:jora_customer/Settings/widgets/no_internet.dart';
 import 'package:jora_customer/view/chat_details_page/view/ui.dart';
 import 'package:jora_customer/view/chat_section/chat_pages/view/ui.dart';
 import 'package:jora_customer/view/connect_pages/filter_freelancers/view/ui.dart';
 import 'package:jora_customer/view/edit_profile/view/edit_profile_screen.dart';
+import 'package:jora_customer/view/freelancer_edit_profile/ui.dart';
+import 'package:jora_customer/view/freelancer_edit_profile/widgets/bio_page.dart';
+import 'package:jora_customer/view/freelancer_edit_profile/widgets/search_location.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/post_details_screen.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/add_story_screen.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/display_stories.dart';
+import 'package:jora_customer/view/home_section/home_pages/view/widgets/storyView_page.dart';
+import 'package:jora_customer/view/login_section/add_newuser/view/ui.dart';
+import 'package:jora_customer/view/my_profile/view/widgets/profile_post_details.dart';
 import 'package:jora_customer/view/profile_analytics/view/profile_analytics_screen.dart';
 import 'package:jora_customer/view/profile_view/view/ui.dart';
 import 'package:jora_customer/view/help_support/view/ui.dart';
@@ -50,12 +57,22 @@ class Routes {
           builder: (context) => LoginScreen(),
         );
       case PPages.otpPageUi:
-        return MaterialPageRoute(
-          builder: (context) => const OtpPageUi(),
-        );
+        {
+          dynamic model = settings.arguments!;
+          return MaterialPageRoute(
+            builder: (context) => OtpPageUi(
+              model: model,
+            ),
+          );
+        }
+
       case PPages.loginSplashUi:
         return MaterialPageRoute(
           builder: (context) => const LoginSplashUi(),
+        );
+         case PPages.storyViewer:
+        return MaterialPageRoute(
+          builder: (context) =>  StoryViewer(),
         );
       case PPages.loginSplash2Ui:
         return MaterialPageRoute(
@@ -73,6 +90,14 @@ class Routes {
       case PPages.sendFeedbackUi:
         return MaterialPageRoute(
           builder: (context) => const SendFeedbackUi(),
+        );
+      case PPages.profilePostDetailsUi:
+        return MaterialPageRoute(
+          builder: (context) => const ProfilePostDetailsUi(),
+        );
+      case PPages.freeLancerEditProfileUi:
+        return MaterialPageRoute(
+          builder: (context) => const FreeLancerEditProfileUi(),
         );
 
       case PPages.notificationsUi:
@@ -115,13 +140,30 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => const AddStoryScreen(),
         );
-      case PostDetailsScreen.route:
+      // case PostDetailsScreen.route:
+      //   return MaterialPageRoute(
+      //     builder: (context) => const PostDetailsScreen(),
+      //   );
+      // case PPages.storyDisplayPageUi:
+      //   return MaterialPageRoute(
+      //     builder: (context) => DisplayStoryPage(),
+      //   );
+
+      case PPages.freelancerBioPageUi:
         return MaterialPageRoute(
-          builder: (context) => const PostDetailsScreen(),
+          builder: (context) => FreelancerBioPageUi(),
         );
-      case PPages.storyDisplayPageUi:
+      case PPages.searchLocation:
         return MaterialPageRoute(
-          builder: (context) => DisplayStoryPage(),
+          builder: (context) => SearchLocation(),
+        );
+      case PPages.noIntenet:
+        return MaterialPageRoute(
+          builder: (context) => NoInternetWidget(),
+        );
+      case PPages.adduserpage:
+        return MaterialPageRoute(
+          builder: (context) => AddUserPage(),
         );
 
       default:

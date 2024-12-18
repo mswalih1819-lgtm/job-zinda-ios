@@ -1,8 +1,11 @@
-import 'dart:developer';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get_thumbnail_video/index.dart';
+import 'package:get_thumbnail_video/video_thumbnail.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
@@ -10,6 +13,7 @@ import 'package:jora_customer/Settings/widgets/custom_icon_elevated_button.dart'
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/view_model/file_view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 class UploadButtonUi extends StatefulWidget {
@@ -21,7 +25,6 @@ class UploadButtonUi extends StatefulWidget {
 
 class _UploadButtonUiState extends State<UploadButtonUi> {
   final ImagePicker _picker = ImagePicker();
-
 
   @override
   Widget build(BuildContext context) {
@@ -82,9 +85,11 @@ class _UploadButtonUiState extends State<UploadButtonUi> {
               leading: Icon(Icons.photo, color: PColors.white),
               title: textWidget(text: 'Gallery', color: PColors.white),
             ),
-                  ListTile(
-              onTap: () {Navigator.pop(context);
-               _pickVideo(context);
+            ListTile(
+              onTap: () {
+                Navigator.pop(context);
+
+                _pickVideo(context);
               },
               leading: Icon(Icons.videocam_rounded, color: PColors.white),
               title: textWidget(text: 'Video', color: PColors.white),
@@ -95,44 +100,70 @@ class _UploadButtonUiState extends State<UploadButtonUi> {
     );
   }
 
-  Future getImage(ImageSource source) async {  Navigator.pop(context);
+  Future getImage(ImageSource source) async {
+    Navigator.pop(context);
     final XFile? image = await _picker.pickImage(source: source);
-  
+
     if (image != null) {
       String? url = await context
           .read<FileUploadViewModel>()
           .pickedImageUpload(image, 'Post');
-           PostViewModel postProvider = context.read<PostViewModel>();
-    postProvider.selectedMediaType='image';
-     postProvider.selectedUrl = url;
+      PostViewModel postProvider = context.read<PostViewModel>();
+      postProvider.selectedMediaType = 'image';
+      postProvider.selectedUrl = url;
     }
   }
+
   void _pickVideo(BuildContext context) async {
-  FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
-    type: FileType.video,
-  );
+    var result = await ImagePicker().pickVideo(
+      source: ImageSource.gallery,
+    );
+    EasyLoading.show();
+    if (result != null) {
+      PostViewModel postProvider = context.read<PostViewModel>();
 
-  // final XFile? video = await _picker.pickVideo(source: ImageSource.gallery);
+      Uint8List thumbnailPath = await _generateThumbnail(result.path);
+      if (thumbnailPath != null) {
+        setState(() {
+          postProvider.selectedThumbanilFile = thumbnailPath;
+        });
+      }
+      // final Uint8List fileBytes = pickedFile.files.first.bytes ?? Uint8List(0);
+      FileUploadViewModel provider = context.read<FileUploadViewModel>();
+      XFile xfile = await createTempXFile(thumbnailPath, 'thumbnail.png');
 
-  //    if (video != null) {
-  //     String? url = await context
-  //         .read<FileUploadViewModel>()
-  //         .pickedImageUpload(video, 'Post');
-  //          PostViewModel postProvider = context.read<PostViewModel>();
-  //   postProvider.selectedMediaType='video';
-  //    postProvider.selectedUrl = url;
-  //    log(postProvider.selectedUrl.toString());
-  //   }
+      postProvider.selectedThumbnailUrl =
+          await provider.pickedImageUpload(xfile, "thumbnail");
+      postProvider.selectedMediaType = 'video';
 
-  if (pickedFile != null && pickedFile.files.isNotEmpty) {
-    final Uint8List fileBytes = pickedFile.files.first.bytes ?? Uint8List(0);
-    FileUploadViewModel provider = context.read<FileUploadViewModel>();
-    PostViewModel postProvider = context.read<PostViewModel>();
-    postProvider.selectedMediaType='video';
-  postProvider.selectedUrl  = await provider.pickedVideoUpload(
-        fileBytes, pickedFile.files.first.name);
-  } else {
-    debugPrint('No file was picked');
+      postProvider.selectedUrl = await provider.pickedVideoUpload(
+          await File(result.path).readAsBytes(), result.path.split('/').last);
+      await Future.delayed(Duration(seconds: 5));
+      EasyLoading.dismiss();
+      print("dnsdnms------${postProvider.selectedUrl}");
+    } else {
+      debugPrint('No file was picked');
+    }
   }
-}
+
+  _generateThumbnail(String videoPath) async {
+    final tempDir = await getTemporaryDirectory();
+    final thumbnailPath = await VideoThumbnail.thumbnailData(
+      video: videoPath,
+      imageFormat: ImageFormat.PNG,
+
+      // maxWidth:
+      //     128, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
+      quality: 25,
+    );
+    return thumbnailPath;
+  }
+
+  Future<XFile> createTempXFile(Uint8List data, String fileName) async {
+    final tempDir = await getTemporaryDirectory();
+    final tempFile = File('${tempDir.path}/$fileName');
+    await tempFile.writeAsBytes(data);
+
+    return XFile(tempFile.path);
+  }
 }

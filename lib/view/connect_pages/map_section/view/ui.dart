@@ -6,7 +6,6 @@ import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/view/connect_pages/map_section/view/widgets/result_sheet.dart';
 import 'package:jora_customer/view/connect_pages/map_section/view/widgets/simple_map.dart';
-import 'package:jora_customer/view/connect_pages/map_section/view_model/view_model.dart';
 import 'package:jora_customer/view_model/connect_page_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -45,6 +44,7 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
       point2.longitude,
     );
   }
+  TextEditingController txetController=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -116,48 +116,52 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
           //     create: (context) => MapViewModel(),
           //     builder: (context, child) {
           //       var model = context.read<MapViewModel>();
-                // return 
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 50, horizontal: 10),
-                  child: CustomTextFeild(
-                      suffixIcon: Visibility(
-                        child: Icon(
-                          Icons.close,
-                          size: 18,
-                          color: PColors.white,
-                        ),
-                        visible: true,
-                      ),
-                      sufixfn: () {
-                        connectPageViewModel.clear();
-                      },
-                      hintColor: PColors.white,
-                      borderRadius: 4,
-                      borderColor: PColors.textFieldColor,
-                      textColor: PColors.white,
-                      prefixIcon: Icon(
-                        Icons.person,
-                        color: PColors.white,
-                      ),
-                      prefixfn: () {},
-                      hintText: "Type a skill or role",
-                      onSaved: (val) {},
-                      onChanged: (val) async{
-                        connectPageViewModel.updateSearchTag(val!);
-                        await Future.delayed(Duration(seconds: 1));
-                        showModalBottomSheet(
-                          // shape: Border(),
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (context) => ResultSheetUi(),
-                        );
-                      },
-                      validation: (val) {},
-                      filColor: PColors.textFieldColor),
-                // );
-              // }
-              ),
+          // return
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 10),
+            child: CustomTextFeild(
+                suffixIcon: Visibility(
+                  child: Icon(
+                    Icons.close,
+                    size: 18,
+                    color: PColors.white,
+                  ),
+                  visible: true,
+                ),
+                sufixfn: () {
+                  txetController.clear();
+                  connectPageViewModel.updateSearchTag("");
+                  connectPageViewModel.clear();
+                },
+                hintColor: PColors.white,
+                borderRadius: 4,
+                borderColor: PColors.textFieldColor,
+                textColor: PColors.white,
+                prefixIcon: Icon(
+                  Icons.person,
+                  color: PColors.white,
+                ),
+                prefixfn: () {},
+                controller: txetController,
+                hintText: "Type a role",
+                onSaved: (val) async {},
+                onChanged: (val) async {
+                  connectPageViewModel.updateSearchTag(val!);
+                },
+                onSubmitted: (val) async {
+                  // await Future.delayed(Duration(seconds: 1));
+                  showModalBottomSheet(
+                    // shape: Border(),
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (context) => ResultSheetUi(),
+                  );
+                },
+                validation: (val) {},
+                filColor: PColors.textFieldColor),
+            // );
+            // }
+          ),
           Positioned(
             // bottom: 20,
             top: 115,
@@ -166,34 +170,36 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
             child: Container(
               height: 40,
               child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: list.length,
-                  itemBuilder: (context, index) {
-                    // WidgetsBinding.instance.addPostFrameCallback((_) {
-                    //   setState(() {
-                    //     tappedIndex = index;
-                    //   });
-                    //   print(tappedIndex);
-                    // });
+                scrollDirection: Axis.horizontal,
+                itemCount: list.length,
+                itemBuilder: (context, index) {
+                  // WidgetsBinding.instance.addPostFrameCallback((_) {
+                  //   setState(() {
+                  //     tappedIndex = index;
+                  //   });
+                  //   print(tappedIndex);
+                  // });
 
-                    return GestureDetector(
-                      onTap: () async{
-                        setState(() {
-                          tappedIndex = index;
-                        });
-                       await connectPageViewModel.updateDistanceInKm(list[index]);
-                       await Future.delayed(Duration(seconds: 1));
-                        showModalBottomSheet(
-                          // shape: Border(),
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (context) => ResultSheetUi(),
-                        );
-                      },
-                      child: kmWidget(
-                          title: list[index], selected: tappedIndex == index),
-                    );
-                  },),
+                  return GestureDetector(
+                    onTap: () async {
+                      setState(() {
+                        tappedIndex = index;
+                      });
+                      await connectPageViewModel
+                          .updateDistanceInKm(list[index]);
+                      await Future.delayed(Duration(seconds: 1));
+                      showModalBottomSheet(
+                        // shape: Border(),
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (context) => ResultSheetUi(),
+                      );
+                    },
+                    child: kmWidget(
+                        title: list[index], selected: tappedIndex == index),
+                  );
+                },
+              ),
             ),
             // child: Row(
             //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -1,17 +1,14 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
-import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
-import 'package:jora_customer/Settings/widgets/custom_textfeild_with_head.dart';
+
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
-import 'package:jora_customer/main.dart';
+
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/utils/validator.dart';
 import 'package:jora_customer/view/edit_profile/view/widgets/image_edit_section.dart';
-import 'package:jora_customer/view/profile_view/view/widgets/profile_view_body.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -39,6 +36,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: PColors.black,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: CustomElavatedTextButton(
         text: 'Save',
@@ -47,7 +45,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         borderRadius: 0,
         onPressed: () {
           if (_formKey.currentState?.validate() ?? false) {
-            context.read<ProfileViewModel>().updateProfile(
+            context.read<ProfileViewModel>().updateNormalProfile(
                 name: _nameController.text,
                 email: _emailController.text,
                 context: context);
@@ -75,10 +73,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 SizedBox(
                   height: 14,
                 ),
-                emailTextField(),
-                SizedBox(
-                  height: 14,
-                ),
+                // emailTextField(),
+                // SizedBox(
+                //   height: 14,
+                // ),
                 mobileTextField()
               ],
             ),
@@ -95,6 +93,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         borderRadius: 0,
         filColor: PColors.black,
         textHead: 'Email ID',
+        readOnly: true,
         validation: Validator.email,
         hintText: 'Email ID');
   }

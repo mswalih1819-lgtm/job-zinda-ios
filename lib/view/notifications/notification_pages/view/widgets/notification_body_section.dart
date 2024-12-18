@@ -34,18 +34,16 @@ class _NotificationBodySectionState extends State<NotificationBodySection> {
           padding: const EdgeInsets.symmetric(horizontal: 13),
           pagingController: notificationViewModel.notificatonController,
           builderDelegate: PagedChildBuilderDelegate<NotificationModel>(
-            noItemsFoundIndicatorBuilder: (context) => const Center(
-                child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 150),
-              child: Text('No data found'),
-            )),
+            noItemsFoundIndicatorBuilder: (context) => Container(
+              height: 500,
+              child: const Center(child: Text('No data found')),
+            ),
             itemBuilder: (context, item, index) {
-               return 
-                       ProfileViewSingleNotiWidget(
-                        notificationModel: item,
-                      );
+              return ProfileViewSingleNotiWidget(
+                notificationModel: item,
+              );
               // switch (item.notificationType) {
-                
+
               //   case 'follow':
               //     return InkWell(
               //         onTap: () => context

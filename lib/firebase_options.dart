@@ -54,20 +54,20 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCD2ehzEZN6ORFA9SHlhYOdr8ipsrUuXPg',
-    appId: '1:210810815563:android:bd982b181396b9e2d7f9ce',
-    messagingSenderId: '210810815563',
-    projectId: 'transbus-f69a6',
-    storageBucket: 'transbus-f69a6.appspot.com',
+    apiKey: 'AIzaSyBCWFV48z4BLIeno4r7RuNTFNhBR9EwvNc',
+    appId: '1:1094867649764:android:b49d5c49820b39ea9818f1',
+    messagingSenderId: '1094867649764',
+    projectId: 'jora-87133',
+    storageBucket: 'jora-87133.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDvob-hI2AQCM568tRQFu3Jo5VuXSpxWYg',
-    appId: '1:339130305640:ios:1163387bea848849dfbfdd',
-    messagingSenderId: '339130305640',
-    projectId: 'bizire-35301',
-    storageBucket: 'bizire-35301.appspot.com',
-    iosBundleId: 'com.triliaonlineschool.pFlutterSetup',
+    apiKey: 'AIzaSyBCWFV48z4BLIeno4r7RuNTFNhBR9EwvNc',
+    appId: '1:1094867649764:ios:38e482da0e1ace9a9818f1',
+    messagingSenderId: '1094867649764',
+    projectId: 'jora-87133',
+    storageBucket: 'jora-87133.firebasestorage.app',
+    iosBundleId: 'com.example.joraCustomer',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(

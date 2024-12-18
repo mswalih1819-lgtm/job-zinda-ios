@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
-import 'package:jora_customer/model/%20chat_message_model.dart';
-import 'package:jora_customer/utils/date_formatter.dart';
+import 'package:jora_customer/model/chat_message_model.dart';
 import 'package:jora_customer/view/chat_details_page/view/widgets/audio_widget.dart';
 
 class OtherUserChatWidget extends StatelessWidget {
@@ -45,9 +44,9 @@ class OtherUserChatWidget extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
+                    bottomRight: Radius.circular(12),
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
                   ),
                   border: Border.all(
                     color: PColors.imageBorderColor,
@@ -55,7 +54,9 @@ class OtherUserChatWidget extends StatelessWidget {
                   ),
                 ),
                 height: size.height * 0.3,
-                child: Image.network(message.content!),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                  child: Image.network(message.content!)),
               ),
             if (message.messageType == "audio" ||
                 message.messageType == 'audio')
@@ -75,7 +76,7 @@ class OtherUserChatWidget extends StatelessWidget {
                 child: AudioWidget(audioUrl: message.content!),
               ),
             textWidget(
-                text: DateFormat('hh:mm a')
+            text:    DateFormat('hh:mm a')
                     .format(
                         DateTime.parse(message.createdAt.toString()).toLocal())
                     .toString(),

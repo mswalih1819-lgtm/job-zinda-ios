@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
+import 'package:jora_customer/view/login_section/otp_verify/view_model/view_model.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:provider/provider.dart';
 
 class OtpNumberFeild extends StatelessWidget {
   const OtpNumberFeild({super.key});
   Widget otp(BuildContext context) {
     return PinCodeTextField(
       appContext: context,
-      length: 5,
+      length: 6,
       animationType: AnimationType.scale,
       keyboardType: TextInputType.number,
       pinTheme: PinTheme(
@@ -27,7 +29,9 @@ class OtpNumberFeild extends StatelessWidget {
       validator: (val) {
         return null;
       },
-      onChanged: (value) {},
+      onChanged: (value) {
+         context.read<OtpPageViewModel>().otp = value;
+      },
       onSaved: (value) {},
     );
   }

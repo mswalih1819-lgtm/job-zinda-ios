@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/view/chat_section/all_chat_widget/view/widgets/chat_card.dart';
 import 'package:jora_customer/view_model/chat_view_model.dart';
 import 'package:provider/provider.dart';
@@ -14,14 +15,24 @@ class AllChatSection extends StatelessWidget {
     List<ConversationModel> conversationList = chatViewModel.conversationList;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      child: ListView.builder(
-        itemCount:conversationList.length,
-        shrinkWrap: true,
-        itemBuilder: (context, index) => ChatCard(
-        conversationModel: conversationList[index],
-        ),
-      ),
+      child: conversationList.length == 0
+          ? Container(
+            height: 500,
+            child: Center(
+                child: Text(
+                  "No data!!!",
+                  style: TextStyle(color: PColors.white),
+                ),
+              ),
+          )
+          : ListView.builder(
+              itemCount: conversationList.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) => ChatCard(
+                conversationModel: conversationList[index],
+              ),
+            ),
     );
+    // child: Text("sdbanmsbdnmsbf"));
   }
-
 }

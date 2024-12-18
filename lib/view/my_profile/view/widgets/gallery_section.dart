@@ -33,6 +33,7 @@ class _GallerySectionState extends State<GallerySection> {
             physics: const NeverScrollableScrollPhysics(),
             pagingController: postViewModel.otherUserPostController,
             builderDelegate: PagedChildBuilderDelegate<PostModel>(
+              
               noItemsFoundIndicatorBuilder: (context) => const Center(
                   child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 100),
@@ -43,6 +44,9 @@ class _GallerySectionState extends State<GallerySection> {
               },
             ),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3, childAspectRatio: .8)));
+                crossAxisSpacing: 3,
+                mainAxisSpacing: 3,
+                crossAxisCount: 3,
+                childAspectRatio: .8)));
   }
 }

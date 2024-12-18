@@ -53,6 +53,10 @@ class PSvgs {
   static String get lets_plan => "assets/svgs/lets_plan.svg";
   static String get smallHeart => 'assets/svgs/small_heart.svg';
   static String get delete_comment => "assets/svgs/delete_comment.svg";
+  static String get eye => "assets/svgs/eye.svg";
+  static String get upload_image => "assets/svgs/upload_image.svg";
+
+
 
   // static String get sv => "assets/svgs/.svg";
 }

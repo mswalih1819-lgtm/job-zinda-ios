@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
+import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/Settings/widgets/time_function.dart';
 import 'package:jora_customer/model/notification_model.dart';
 import 'package:jora_customer/model/post_model.dart';
 import 'package:jora_customer/view/notifications/notification_pages/view/widgets/icon_more_widget.dart';
@@ -45,7 +47,7 @@ class ProfileViewSingleNotiWidget extends StatelessWidget {
               },
               child: CircleAvatar(
                 radius: 30,
-                backgroundImage: NetworkImage(
+                backgroundImage:NetworkImage(
                     notificationModel?.sender?.profileImageUrl ?? ''),
               ),
             ),
@@ -73,7 +75,17 @@ class ProfileViewSingleNotiWidget extends StatelessWidget {
                     postViewModel.postDetails =
                         PostModel(sId: notificationModel?.connectedPostId?.sId);
                     postViewModel.fetchPostDetails();
-                    Navigator.pushNamed(context, PostDetailsScreen.route);
+                    Navigator.pushNamed(
+                            context, PPages.profilePostDetailsUi);
+                    // Future.delayed(
+                    //   Duration(seconds: 1),
+                    //   () => CircularProgressIndicator(),
+                    // ).then(
+                    //   (value) {
+                    //     Navigator.pushNamed(
+                    //         context, PPages.profilePostDetailsUi);
+                    //   },
+                    // );
                   }
                 },
                 child: Column(
@@ -87,7 +99,7 @@ class ProfileViewSingleNotiWidget extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       text: TextSpan(
-                        style:const  TextStyle(
+                        style: const TextStyle(
                             fontSize: 13, fontWeight: FontWeight.w500
                             // color: Colors.black,
                             ),
@@ -97,25 +109,20 @@ class ProfileViewSingleNotiWidget extends StatelessWidget {
                           //     child: SizedBox(
                           //   width: 10,
                           // )),
-                           TextSpan(
+                          TextSpan(
                               text: notificationModel?.description ?? '',
-                              style:  const TextStyle(
+                              style: const TextStyle(
                                   fontWeight: FontWeight.w300, fontSize: 12)),
-                          const WidgetSpan(
-                              child: SizedBox(
-                            width: 10
-                          )),
+                          const WidgetSpan(child: SizedBox(width: 10)),
                         ],
                       ),
                     ),
                     const SizedBox(
                       height: 7,
                     ),
+                    
                     textWidget(
-                        text: timeago.format(stringToDateTime(
-                                date: notificationModel?.sentOn ?? '',
-                                format: 'yyyy-MM-ddThh:mm:ss') ??
-                            DateTime.now()),
+                        text: TimeAgoClass.getHoursAgo(notificationModel!.sentOn!),
                         fontsize: 12,
                         color: PColors.whiteOff.withOpacity(0.4)),
                     const SizedBox(

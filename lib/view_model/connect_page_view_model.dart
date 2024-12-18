@@ -71,11 +71,10 @@ class ConnectPageViewModel extends ChangeNotifier {
 
   List<ProfileModel> nearestProfiles = [];
   Future<void> fetchNearestProfiles() async {
-    print("token:-${LoggedInUser.accessToken}");
     EasyLoading.show();
     String api = Api.getNearestProfiles;
     Response response = await ApiService().get(
-        '$api?pageNumber=1&pageSize=100&searchTag=$searchTag&distanceInKm=$distanceInKm&gender=$gender&handledProjectsCountFrom=$handledProjectsCountFrom&handledProjectsCountTo=1000&rating=$rating');
+        '$api?pageNumber=1&pageSize=1000&searchTag=$searchTag&distanceInKm=$distanceInKm&gender=$gender&handledProjectsCountFrom=$handledProjectsCountFrom&handledProjectsCountTo=1000&rating=$rating');
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {

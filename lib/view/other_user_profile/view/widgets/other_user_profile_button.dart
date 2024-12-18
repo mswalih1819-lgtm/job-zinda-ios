@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
+import 'package:jora_customer/main.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
+import 'package:jora_customer/view_model/chat_details_view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +15,7 @@ class OtherUserProfileButtonUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PostViewModel postViewModel = context.watch<PostViewModel>();
-    if(postViewModel.otherUser?.sId==LoggedInUser.id){
+    if (postViewModel.otherUser?.sId == LoggedInUser.id) {
       return const SizedBox();
     }
     return Container(
@@ -28,11 +32,26 @@ class OtherUserProfileButtonUi extends StatelessWidget {
                 }
                 postViewModel.isFollowed = !postViewModel.isFollowed;
               },
-              selected: !postViewModel.isFollowed),
+              selected: true),
           const SizedBox(
             width: 6,
           ),
-          button(btn: 'Send message', fun: () {}, selected: false),
+          button(
+              btn: 'Send message',
+              fun: () {
+                // PostViewModel postViewModel = context.watch<PostViewModel>();
+                // navigatorKey.currentContext!
+                //     .read<ChatDetailsViewModel>()
+                //     .updateRecieverId(postViewModel.otherUser!.sId.toString());
+
+                print("user anme-----${postViewModel.otherUser!.sId}");
+                navigatorKey.currentContext!
+                    .read<ChatDetailsViewModel>()
+                    .fetchAllMessageProfile(
+                        postViewModel.otherUser!.sId.toString());
+                Navigator.pushNamed(context, PPages.chatDetailsPageui);
+              },
+              selected: false),
         ],
       ),
     );

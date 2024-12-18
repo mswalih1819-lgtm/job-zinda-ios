@@ -1,3 +1,5 @@
+import 'package:jora_customer/model/myStory_model.dart';
+
 class StoryModel {
   String? sId;
   String? user;
@@ -52,21 +54,21 @@ class StoryModel {
 
 }
 
-class Media {
-  String? mediaType;
-  String? content;
-  int? duration;
-  String? postedAt;
-  String? sId;
+// class Media {
+//   String? mediaType;
+//   String? content;
+//   int? duration;
+//   String? postedAt;
+//   String? sId;
 
-  Media({this.mediaType, this.content, this.duration, this.postedAt, this.sId});
+//   Media({this.mediaType, this.content, this.duration, this.postedAt, this.sId});
 
-  Media.fromJson(Map<String, dynamic> json) {
-    mediaType = json['mediaType'];
-    content = json['content'];
-    duration = json['duration'];
-    postedAt = json['postedAt'];
-    sId = json['_id'];
-  }
+//   Media.fromJson(Map<String, dynamic> json) {
+//     mediaType = json['mediaType'];
+//     content = json['content'];
+//     duration = json['duration'];
+//     postedAt = json['postedAt'];
+//     sId = json['_id'];
+//   }
 
-}
+// }

@@ -5,7 +5,7 @@ import 'package:jora_customer/view/connect_pages/filter_freelancers/view/widgets
 import 'package:jora_customer/view/connect_pages/filter_freelancers/view/widgets/gender_filter_widget.dart';
 import 'package:jora_customer/view/connect_pages/filter_freelancers/view/widgets/projects_filter.dart';
 import 'package:jora_customer/view/connect_pages/filter_freelancers/view/widgets/rating_filter.dart';
-import 'package:jora_customer/view/connect_pages/filter_freelancers/view_model/view_model.dart';
+
 import 'package:jora_customer/view_model/connect_page_view_model.dart';
 import 'package:provider/provider.dart';
 

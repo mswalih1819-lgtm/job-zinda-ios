@@ -69,6 +69,7 @@ class ApiService {
     }
   }
   Future<Response> get(String url) async {
+    print("opppp----${options()}");
     return await dio.get(url, options: await options());
   }
 

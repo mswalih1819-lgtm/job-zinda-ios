@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1094867649764",
+    "project_id": "jora-87133",
+    "storage_bucket": "jora-87133.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1094867649764:android:b49d5c49820b39ea9818f1",
+        "android_client_info": {
+          "package_name": "com.jora.customers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1094867649764-e08m1q0tk0jmhv39h1m8572c7eg4icl2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCWFV48z4BLIeno4r7RuNTFNhBR9EwvNc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1094867649764-e08m1q0tk0jmhv39h1m8572c7eg4icl2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1094867649764-cdf6aanavjb0ufgsjltjrs5s02ogtiv6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.joraCustomer"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

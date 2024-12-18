@@ -43,6 +43,8 @@ class _SelfGallerySectionState extends State<SelfGallerySection> {
               },
             ),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisSpacing: 3,
+              mainAxisSpacing: 3,
                 crossAxisCount: 3, childAspectRatio: .8)));
   }
 }

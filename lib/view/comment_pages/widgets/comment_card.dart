@@ -22,7 +22,7 @@ class CommentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 5),
+      padding: const EdgeInsets.only(left: 20, right: 5, bottom: 20),
       child: Column(
         children: [
           Row(
@@ -30,8 +30,10 @@ class CommentCard extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 26,
-                backgroundImage: NetworkImage(
-                    comment.commentedBy!.profileImageUrl.toString()),
+                backgroundImage: comment.commentedBy!.profileImageUrl!.isEmpty
+                    ? AssetImage(PImages.profile)
+                    : NetworkImage(
+                        comment.commentedBy!.profileImageUrl.toString()),
               ),
               const SizedBox(width: 8),
               Expanded(
@@ -61,52 +63,55 @@ class CommentCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       textWidget(
-                          text: timeago.format(stringToDateTime(
-                                  date: comment?.createdAt ?? '',
-                                  format: 'yyyy-MM-ddThh:mm:ss') ??
-                              DateTime.now()),
+                          text: context
+                              .read<CommentViewModel>()
+                              .getRelativeTime(comment.createdAt.toString()),
+                          // text: timeago.format(stringToDateTime(
+                          //         date: comment?.createdAt ?? '',
+                          //         format: 'yyyy-MM-ddThh:mm:ss') ??
+                          //     DateTime.now()),
                           fontsize: 10,
                           color: const Color(0xff6A6A6A),
                           fontweight: FontWeight.w300),
                       const SizedBox(width: 8),
-                      SvgPicture.asset(
-                        PSvgs.smallHeart,
-                        colorFilter: const ColorFilter.mode(
-                            Color(0xff6A6A6A), BlendMode.srcIn),
-                        height: 10,
-                        width: 10,
-                      ),
-                      const SizedBox(width: 8),
-                      textWidget(
-                          text: 'Like',
-                          fontsize: 10,
-                          color: const Color(0xff6A6A6A),
-                          fontweight: FontWeight.w300),
-                      const SizedBox(width: 8),
-                      SvgPicture.asset(
-                        PSvgs.reply,
-                        colorFilter: const ColorFilter.mode(
-                            Color(0xff6A6A6A), BlendMode.srcIn),
-                        height: 10,
-                        width: 10,
-                      ),
-                      const SizedBox(width: 8),
-                      GestureDetector(
-                        onTap: () {
-                          context
-                              .read<CommentViewModel>()
-                              .updateIsReply(true, comment);
-                          context
-                              .read<CommentViewModel>()
-                              .focusNode
-                              .requestFocus();
-                        },
-                        child: textWidget(
-                            text: 'Reply',
-                            fontsize: 10,
-                            color: const Color(0xff6A6A6A),
-                            fontweight: FontWeight.w300),
-                      ),
+                      // SvgPicture.asset(
+                      //   PSvgs.smallHeart,
+                      //   colorFilter: const ColorFilter.mode(
+                      //       Color(0xff6A6A6A), BlendMode.srcIn),
+                      //   height: 10,
+                      //   width: 10,
+                      // ),
+                      // const SizedBox(width: 8),
+                      // textWidget(
+                      //     text: 'Like',
+                      //     fontsize: 10,
+                      //     color: const Color(0xff6A6A6A),
+                      //     fontweight: FontWeight.w300),
+                      // const SizedBox(width: 8),
+                      // SvgPicture.asset(
+                      //   PSvgs.reply,
+                      //   colorFilter: const ColorFilter.mode(
+                      //       Color(0xff6A6A6A), BlendMode.srcIn),
+                      //   height: 10,
+                      //   width: 10,
+                      // ),
+                      // const SizedBox(width: 8),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     context
+                      //         .read<CommentViewModel>()
+                      //         .updateIsReply(true, comment);
+                      //     context
+                      //         .read<CommentViewModel>()
+                      //         .focusNode
+                      //         .requestFocus();
+                      //   },
+                      //   child: textWidget(
+                      //       text: 'Reply',
+                      //       fontsize: 10,
+                      //       color: const Color(0xff6A6A6A),
+                      //       fontweight: FontWeight.w300),
+                      // ),
                     ],
                   )
                 ],
@@ -123,99 +128,99 @@ class CommentCard extends StatelessWidget {
                   ))
             ],
           ),
-          if (showReply) ...[
-            const SizedBox(height: 20),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(width: 50),
-                CircleAvatar(
-                  radius: 26,
-                  child: Image.asset(
-                    PImages.profile_pic,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    RichText(
-                        text: const TextSpan(
-                            text: 'James mathew ',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xffE6E6E6)),
-                            children: [
-                          TextSpan(
-                            text: 'commented : Nice',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xffE6E6E6)),
-                          )
-                        ])),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        textWidget(
-                            text: timeago.format(stringToDateTime(
-                                    date: comment?.createdAt ?? '',
-                                    format: 'yyyy-MM-ddThh:mm:ss') ??
-                                DateTime.now()),
-                            fontsize: 10,
-                            color: const Color(0xff6A6A6A),
-                            fontweight: FontWeight.w300),
-                        const SizedBox(width: 8),
-                        SvgPicture.asset(
-                          PSvgs.smallHeart,
-                          colorFilter: const ColorFilter.mode(
-                              Color(0xff6A6A6A), BlendMode.srcIn),
-                          height: 10,
-                          width: 10,
-                        ),
-                        const SizedBox(width: 8),
-                        textWidget(
-                            text: 'Like',
-                            fontsize: 10,
-                            color: const Color(0xff6A6A6A),
-                            fontweight: FontWeight.w300),
-                        const SizedBox(width: 8),
-                        SvgPicture.asset(
-                          PSvgs.reply,
-                          colorFilter: const ColorFilter.mode(
-                              Color(0xff6A6A6A), BlendMode.srcIn),
-                          height: 10,
-                          width: 10,
-                        ),
-                        const SizedBox(width: 8),
-                        textWidget(
-                            text: 'Reply',
-                            fontsize: 10,
-                            color: const Color(0xff6A6A6A),
-                            fontweight: FontWeight.w300),
-                      ],
-                    )
-                  ],
-                )),
-                const SizedBox(width: 10),
-                IconButton(
-                    onPressed: () {
-                      context
-                          .read<CommentViewModel>()
-                          .removeComment(comment.sId.toString(), postId);
-                    },
-                    icon: SvgPicture.asset(
-                      PSvgs.delete_comment,
-                    ))
-              ],
-            ),
-          ]
+
+          //   const SizedBox(height: 20),
+          //   Row(
+          //     crossAxisAlignment: CrossAxisAlignment.center,
+          //     children: [
+          //       const SizedBox(width: 50),
+          //       CircleAvatar(
+          //         radius: 26,
+          //         child: Image.asset(
+          //           PImages.profile_pic,
+          //           fit: BoxFit.cover,
+          //         ),
+          //       ),
+          //       const SizedBox(width: 8),
+          //       Expanded(
+          //           child: Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           RichText(
+          //               text: const TextSpan(
+          //                   text: 'James mathew ',
+          //                   style: TextStyle(
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.w700,
+          //                       color: Color(0xffE6E6E6)),
+          //                   children: [
+          //                 TextSpan(
+          //                   text: 'commented : Nice',
+          //                   style: TextStyle(
+          //                       fontSize: 12,
+          //                       fontWeight: FontWeight.w400,
+          //                       color: Color(0xffE6E6E6)),
+          //                 )
+          //               ])),
+          //           const SizedBox(
+          //             height: 6,
+          //           ),
+          //           Row(
+          //             crossAxisAlignment: CrossAxisAlignment.center,
+          //             children: [
+          //               textWidget(
+          //                   text: timeago.format(stringToDateTime(
+          //                           date: comment?.createdAt ?? '',
+          //                           format: 'yyyy-MM-ddThh:mm:ss') ??
+          //                       DateTime.now()),
+          //                   fontsize: 10,
+          //                   color: const Color(0xff6A6A6A),
+          //                   fontweight: FontWeight.w300),
+          //               const SizedBox(width: 8),
+          //               SvgPicture.asset(
+          //                 PSvgs.smallHeart,
+          //                 colorFilter: const ColorFilter.mode(
+          //                     Color(0xff6A6A6A), BlendMode.srcIn),
+          //                 height: 10,
+          //                 width: 10,
+          //               ),
+          //               const SizedBox(width: 8),
+          //               textWidget(
+          //                   text: 'Like',
+          //                   fontsize: 10,
+          //                   color: const Color(0xff6A6A6A),
+          //                   fontweight: FontWeight.w300),
+          //               const SizedBox(width: 8),
+          //               SvgPicture.asset(
+          //                 PSvgs.reply,
+          //                 colorFilter: const ColorFilter.mode(
+          //                     Color(0xff6A6A6A), BlendMode.srcIn),
+          //                 height: 10,
+          //                 width: 10,
+          //               ),
+          //               const SizedBox(width: 8),
+          //               textWidget(
+          //                   text: 'Reply',
+          //                   fontsize: 10,
+          //                   color: const Color(0xff6A6A6A),
+          //                   fontweight: FontWeight.w300),
+          //             ],
+          //           )
+          //         ],
+          //       )),
+          //       const SizedBox(width: 10),
+          //       IconButton(
+          //           onPressed: () {
+          //             context
+          //                 .read<CommentViewModel>()
+          //                 .removeComment(comment.sId.toString(), postId);
+          //           },
+          //           icon: SvgPicture.asset(
+          //             PSvgs.delete_comment,
+          //           ))
+          //     ],
+          //   ),
+          // ]
         ],
       ),
     );

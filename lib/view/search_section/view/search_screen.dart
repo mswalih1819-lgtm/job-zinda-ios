@@ -32,18 +32,19 @@ class _SearchScreenState extends State<SearchScreen> {
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
             child: Column(
               children: [
-                const SearchButtonUi(),
+                SearchButtonUi(),
                 const SizedBox(
                   height: 30,
                 ),
                 PagedGridView(
+                    physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     pagingController: searchViewModel.searchController,
                     builderDelegate: PagedChildBuilderDelegate<ProfileModel>(
                       noItemsFoundIndicatorBuilder: (context) => const Center(
                           child: Padding(
                         padding: EdgeInsets.symmetric(vertical: 100),
-                        child:  Text('No data found'),
+                        child: Text('No data found'),
                       )),
                       itemBuilder: (context, item, index) {
                         return SearchCard(profileModel: item);

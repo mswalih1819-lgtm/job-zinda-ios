@@ -1,12 +1,44 @@
 import '../model/logged_in_user.dart';
 
+class AppUrl {
+  static const String scurity = 'https';
+
+  static const isProduction = false;
+
+  static String get baseurl {
+    if (isProduction == false) {
+      return "http://3.110.26.51:4001/";
+    } else {
+      return "http://3.110.26.51:4001/";
+    }
+  }
+
+  static String get httpBaseUrl {
+    if (isProduction == false) {
+      return '3.110.26.51:4001';
+    } else {
+      return '3.110.26.51:4001';
+    }
+  }
+
+  static const String login = 'api/v1/auth/user-auth';
+  static const String refreshToken = 'api/v1/auth/refresh-tokens';
+  static const checkUserExist = 'api/v1/auth/check-user-exists';
+  static const loginUrl = 'api/v1/auth/user-auth';
+  static const checkUserExistEmail = 'api/v1/auth/check-user-exists-email';
+  static const loginEmail = 'api/v1/auth/user-auth-email';
+
+  
+}
+
 class Api {
   static Future<Map<String, String>> getAuthorizationHeader() async {
     return {'Authorization': 'Bearer ${LoggedInUser.accessToken}'};
   }
-
+  
   static const baseurl = 'http://3.110.26.51:4001';
-  static const loginUrl = '$baseurl/api/v1/auth/user-auth?id-token';
+
+  // static const loginUrl = '$baseurl/api/v1/auth/user-auth';
   static const storiesListUrl =
       '$baseurl/api/v1/story/listStories?pageLimit=10';
   static const suggestedPostsListUrl =
@@ -16,7 +48,7 @@ class Api {
   static const loginUserPostsListUrl =
       '$baseurl/api/v1/post/listMyPosts?pageSize=10';
   static const otherUserPostsListUrl =
-      '$baseurl/api/v1/post/getOtherProfilePosts?&pageSize=10';
+      '$baseurl/api/v1/post/getOtherProfilePosts?pageSize=10';
   static const fetchPostDetails = '$baseurl/api/v1/post/getPostDetails';
   static const createStoryUrl = '$baseurl/api/v1/story/createStory';
   static const getSignInUrl = '$baseurl/api/v1/signed-url/get-signed-url';
@@ -33,7 +65,7 @@ class Api {
       '$baseurl/api/v1/user/get-other-profiles?pageSize=10';
 
   static const conversationListUrl =
-      '$baseurl/api/v1/conversation/listConversations?pageSize=1000&&pageNumber=1';
+      '$baseurl/api/v1/conversation/listConversations?pageSize=10000&&pageNumber=1';
   static const followUrl = '$baseurl/api/v1/follower/followUser';
   static const unfollowUrl = '$baseurl/api/v1/follower/unFollowUser';
   static const fetchNotificationsUrl =
@@ -55,4 +87,21 @@ class Api {
   static const addComments = '$baseurl/api/v1/postComment/addComment';
   static const removeComments = '$baseurl/api/v1/postComment/removeComment';
   static const addReply = '$baseurl/api/v1/postComment/reply/addReply';
+  static const getMyStory = '$baseurl/api/v1/story/getMyStory';
+  static const getStoryViews = '$baseurl/api/v1/story/getStoryViewCount';
+  static const updateStoryView = '$baseurl/api/v1/story/updateStoryView';
+  static const userLogout = '$baseurl/api/v1/auth/log-out';
+
+
+  static const getProfession =
+      '$baseurl/api/v1/category/customer/get-categories';
+  static const getPlans = '$baseurl/api/v1/subscription/listSubscriptionPlans';
+  static const createSubscriptionPayment =
+      '$baseurl/api/v1/subscription/addSubscription';
+  static const verifySubscriptionPayment =
+      '$baseurl/api/v1/subscription/verifyPayment';
+  static const reportProfile = '$baseurl/api/v1/report/reportProfile';
+  static const listProfileMessages = '$baseurl/api/v1/conversation/listAllMessages';
+  static const removeStory = '$baseurl/api/v1/story/removeStory';
+
 }

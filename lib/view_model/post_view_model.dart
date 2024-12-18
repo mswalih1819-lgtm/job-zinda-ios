@@ -1,9 +1,12 @@
 import 'dart:developer';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
 import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/utils/api_url.dart';
 import '../model/post_model.dart';
@@ -12,6 +15,8 @@ import '../utils/api_service.dart';
 class PostViewModel with ChangeNotifier {
   late PagingController<int, PostModel> postController;
   int currentPage = 0;
+  // Uint8List? thumbnailFile;
+
   initPostPagination() {
     currentPage = 0;
     postController = PagingController(firstPageKey: 1);
@@ -31,17 +36,18 @@ class PostViewModel with ChangeNotifier {
     if (currentPage != page) {
       currentPage = page;
       String api =
-          isForYou ? Api.followingsPostsListUrl : Api.suggestedPostsListUrl;
+          isForYou ? Api.suggestedPostsListUrl : Api.followingsPostsListUrl;
+    
       Response response = await ApiService().get('$api&pageNumber=$page');
 
       if (response.statusCode == 200) {
         Map<String, dynamic> data = response.data;
         if (data['status']) {
-          print("following posts-----${data['data']['posts'].length}");
+          print("temp----${data}");
+
           List<PostModel> temp = (data['data']['posts'] as List)
               .map((e) => PostModel.fromJson(e))
               .toList();
-
           if (data['data']['hasNext']) {
             postController.appendPage(temp, page + 1);
           } else {
@@ -56,10 +62,31 @@ class PostViewModel with ChangeNotifier {
     }
   }
 
+  bool isBottomshetopen = false;
+  updateBottomsheetoen(bool value) {
+    isBottomshetopen = value;
+    print("bottm----$isBottomshetopen");
+    notifyListeners();
+  }
+
   String? _selectedUrl;
   String? get selectedUrl => _selectedUrl;
   set selectedUrl(String? value) {
     _selectedUrl = value;
+    notifyListeners();
+  }
+
+  Uint8List? _selectedThumbanilFile;
+  Uint8List? get selectedThumbanilFile => _selectedThumbanilFile;
+  set selectedThumbanilFile(Uint8List? value) {
+    _selectedThumbanilFile = value;
+    notifyListeners();
+  }
+
+  String? _selectedThumbnailUrl;
+  String? get selectedThumbnailUrl => _selectedThumbnailUrl;
+  set selectedThumbnailUrl(String? value) {
+    _selectedThumbnailUrl = value;
     notifyListeners();
   }
 
@@ -72,10 +99,11 @@ class PostViewModel with ChangeNotifier {
     Map body = {
       'bio': description,
       'mediaType': selectedMediaType,
+      'thumbnail': selectedThumbnailUrl,
       'mediaUrl': selectedUrl,
       'sharedWith': sharedWith == 'Anyone' ? 'all' : 'followers'
     };
-
+    print("create post body-----$body");
     Response response = await ApiService().post(Api.createPostUrl, body);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
@@ -85,6 +113,10 @@ class PostViewModel with ChangeNotifier {
         if (data.containsKey('message')) {
           Navigator.pop(context);
           EasyLoading.showSuccess(data['message']);
+          isForYou = true;
+          currentPage = 0;
+          fetchPostWithPagination(1);
+          postController.refresh();
         }
       }
     }
@@ -93,6 +125,7 @@ class PostViewModel with ChangeNotifier {
 
   late PagingController<int, PostModel> selfPostController;
   int currentPageForSelfPost = 0;
+
   initSelfPostPagination() {
     currentPageForSelfPost = 0;
     selfPostController = PagingController(firstPageKey: 1);
@@ -158,6 +191,7 @@ class PostViewModel with ChangeNotifier {
 
   late PagingController<int, PostModel> otherUserPostController;
   int currentPageOtherUserPost = 0;
+
   initOtherUserPostPagination() {
     currentPageOtherUserPost = 0;
     otherUserPostController = PagingController(firstPageKey: 1);
@@ -202,6 +236,8 @@ class PostViewModel with ChangeNotifier {
       currentPage = 0;
       postController.refresh();
     }
+    EasyLoading.showSuccess("Followed");
+
   }
 
   Future<void> unFollowUser({String? userID}) async {
@@ -214,16 +250,22 @@ class PostViewModel with ChangeNotifier {
       currentPage = 0;
       postController.refresh();
     }
+
+    EasyLoading.showSuccess("Unfollowed");
   }
 
   Future<void> postLike({required String postID}) async {
     await ApiService().post(Api.postLikeUrl, {'postId': postID});
+    fetchPostDetails();
     // currentPage = 0;
     // postController.refresh();
   }
 
   PostModel? postDetails;
   Future<void> fetchPostDetails() async {
+    EasyLoading.show();
+
+    print("postttt-----${postDetails?.sId}");
     Response response =
         await ApiService().get('${Api.fetchPostDetails}/${postDetails?.sId}');
     log(response.realUri.toString());
@@ -234,5 +276,31 @@ class PostViewModel with ChangeNotifier {
         notifyListeners();
       }
     }
+    EasyLoading.dismiss();
+
+  }
+
+  Future<void> reportProfile(
+      {required String profileId, required BuildContext context}) async {
+    EasyLoading.show();
+    Map body = {'profileId': profileId, 'reason': ''};
+
+    Response response = await ApiService().post(Api.reportProfile, body);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = response.data;
+      print("report profil---$data");
+
+      if (data['status']) {
+        if (data.containsKey('message')) {
+          Navigator.pop(context);
+          EasyLoading.showSuccess(data['message']);
+          isForYou = true;
+          currentPage = 0;
+          fetchPostWithPagination(1);
+          postController.refresh();
+        }
+      }
+    }
+    EasyLoading.dismiss();
   }
 }

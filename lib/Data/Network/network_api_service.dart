@@ -7,6 +7,7 @@ import 'package:dio/dio.dart' as dio;
 import 'package:jora_customer/Data/Network/base_api_service.dart';
 import 'package:jora_customer/Data/app_exceptions.dart';
 import 'package:jora_customer/Settings/common/constants/app_url.dart';
+import 'package:jora_customer/utils/api_url.dart';
 
 class NetworkApiService implements BaseApiService {
   @override
@@ -17,19 +18,16 @@ class NetworkApiService implements BaseApiService {
     String? appned,
     String? token,
   }) async {
+    bool isHttps = AppUrl.isProduction;
     try {
       var newEndPoint = appned == null ? endPoint : "$endPoint/$appned";
-      var uri = Uri.http(AppUrl.httpBaseUrl, newEndPoint, queryParameters);
+      var uri = isHttps == false
+          ? Uri.http(AppUrl.httpBaseUrl, newEndPoint, queryParameters)
+          : Uri.https(AppUrl.httpBaseUrl, newEndPoint, queryParameters);
       Response response = await http.get(
         uri,
         headers: _mergedheaders(headers, token),
       );
-      // if (response.statusCode == 401) {
-      //   if (LoggedInUser.refreshToken != null) {
-      //     await refreshToken();
-      //     // return await _retry(error.requestOptions));
-      //   }
-      // }
       return returnResponse(response);
     } catch (e) {
       rethrow;
@@ -47,61 +45,28 @@ class NetworkApiService implements BaseApiService {
     String? appned,
   }) async {
     try {
-      var uri = appned == null
-          ? Uri.http(domain ?? AppUrl.httpBaseUrl, endPoint, queryParameters)
-          : Uri.http(domain ?? AppUrl.httpBaseUrl, '$endPoint/$appned',
-              queryParameters);
+      bool isHttps = AppUrl.isProduction;
+      var newEndPoint = appned == null ? endPoint : "$endPoint/$appned";
+      // print("uri-----$newEndPoint----$isHttps");
 
+      var uri = isHttps
+          ? Uri.https(AppUrl.httpBaseUrl, newEndPoint, queryParameters)
+          : Uri.http(domain ?? AppUrl.httpBaseUrl, newEndPoint, queryParameters);
+
+      // var uri = appned == null
+      //     ? Uri.http(domain ?? AppUrl.httpBaseUrl, endPoint, queryParameters)
+      //     : Uri.http(
+      //         domain ?? AppUrl.httpBaseUrl, '$endPoint/$appned', queryParameters);
       Response? response = await http.post(
         uri,
         body: body != null ? jsonEncode(body) : null,
         headers: _mergedheaders(headers, token),
       );
-      // if (response.statusCode == 401) {
-      //   if (LoggedInUser.refreshToken != null) {
-      //     await refreshToken();
-      //     // return await _retry(error.requestOptions));
-      //   }
-      // }
       return returnResponse(response);
     } catch (e) {
       rethrow;
     }
   }
-
-  // Future<bool> refreshToken() async {
-  //   String? message;
-
-  //   final refreshToken = LoggedInUser.refreshToken;
-  //   final response = await http.post(
-  //     Uri.http(AppUrl.baseurl, AppUrl.refreshToken),
-  //     body: jsonEncode(
-  //       {'refreshToken': refreshToken},
-  //     ),
-  //   );
-
-  //   final responsebody = jsonDecode(response.body);
-
-  //   var body = responsebody as Map<String, dynamic>;
-  //   if (body.containsKey("message")) {
-  //     message = body["message"];
-  //   }
-
-  //   if (response.statusCode == 200) {
-  //     LoggedInUser.profile(
-  //       LoggedInUser.mobile,
-  //       LoggedInUser.countryCode,
-  //       body['data']['tokens']['access']['token'],
-  //       body['data']['tokens']['refresh']['token'],
-  //     );
-  //     return true;
-  //   } else {
-  //     // refresh token is wrong
-  //     LoggedInUser.accessToken = null;
-  //     LoggedInUser.clearUserData();
-  //     return false;
-  //   }
-  // }
 
   @override
   Future<dynamic> putMethod(
@@ -137,33 +102,9 @@ class NetworkApiService implements BaseApiService {
   }) async {
     try {
       var newEndPoint = appned == null ? endPoint : "$endPoint/$appned";
-      var uri = Uri.parse("http://${AppUrl.baseurl}/$newEndPoint");
+      var uri = Uri.parse("${AppUrl.scurity}://${AppUrl.baseurl}/$newEndPoint");
 
       Response? response = await http.put(
-        uri,
-        body: body,
-        headers: _mergedheaders(headers, token),
-      );
-      return returnResponse(response, mapcheck: false);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<dynamic> getDeleteApiResponse(
-    String endPoint, {
-    Object? body,
-    Map<String, String>? headers,
-    Map<String, dynamic>? queryParameters,
-    String? token,
-    String? appned,
-  }) async {
-    try {
-      var newEndPoint = appned == null ? endPoint : "$endPoint/$appned";
-      var uri = Uri.parse("http://${AppUrl.baseurl}/$newEndPoint");
-
-      Response? response = await http.delete(
         uri,
         body: body,
         headers: _mergedheaders(headers, token),
@@ -186,6 +127,30 @@ class NetworkApiService implements BaseApiService {
   }
 
   @override
+  Future<dynamic> getDeleteApiResponse(
+    String endPoint, {
+    Object? body,
+    Map<String, String>? headers,
+    Map<String, dynamic>? queryParameters,
+    String? token,
+    String? appned,
+  }) async {
+    try {
+      var newEndPoint = appned == null ? endPoint : "$endPoint/$appned";
+      var uri = Uri.parse("${AppUrl.scurity}://${AppUrl.baseurl}/$newEndPoint");
+
+      Response? response = await http.delete(
+        uri,
+        body: body,
+        headers: _mergedheaders(headers, token),
+      );
+      return returnResponse(response, mapcheck: false);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
   Future<dynamic> formData(
     String endpoints, {
     String? domain,
@@ -196,6 +161,7 @@ class NetworkApiService implements BaseApiService {
     String? token,
     bool isHttps = false,
   }) async {
+    isHttps = AppUrl.isProduction;
     try {
       dio.Dio doo = dio.Dio();
       for (var i = 0; i < fileFields.length; i++) {
@@ -234,6 +200,7 @@ class NetworkApiService implements BaseApiService {
     String? token,
     bool isHttps = false,
   }) async {
+    isHttps = AppUrl.isProduction;
     try {
       dio.Dio doo = dio.Dio();
       for (var i = 0; i < fileFields.length; i++) {
@@ -273,6 +240,7 @@ class NetworkApiService implements BaseApiService {
     String? token,
     bool isHttps = false,
   }) async {
+    isHttps = AppUrl.isProduction;
     try {
       dio.Dio doo = dio.Dio();
       dio.FormData form = dio.FormData.fromMap(body);
@@ -304,6 +272,7 @@ class NetworkApiService implements BaseApiService {
     String? token,
     bool isHttps = false,
   }) async {
+    isHttps = AppUrl.isProduction;
     try {
       final url = isHttps
           ? Uri.https(domain ?? AppUrl.baseurl, endpoints)
@@ -345,6 +314,7 @@ class NetworkApiService implements BaseApiService {
     }
   }
 
+  @override
   Future<Map<String, dynamic>> formDataMultiFile(
     String endpoints, {
     String? domain,

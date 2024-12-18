@@ -3,6 +3,7 @@ import 'package:dio/dio.dart' as dio;
 import 'package:jora_customer/Data/Network/base_api_service.dart';
 import 'package:jora_customer/Data/app_exceptions.dart';
 import 'package:jora_customer/Settings/common/constants/app_url.dart';
+import 'package:jora_customer/utils/api_url.dart';
 
 import '../../model/logged_in_user.dart';
 

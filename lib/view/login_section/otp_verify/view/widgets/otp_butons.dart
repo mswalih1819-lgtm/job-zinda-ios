@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
+import 'package:jora_customer/view/login_section/otp_verify/view_model/view_model.dart';
+import 'package:jora_customer/view/login_section/phone_number_ui/view_model/view_model.dart';
+import 'package:provider/provider.dart';
 
 class OtpButtonsUi extends StatelessWidget {
   const OtpButtonsUi({super.key});
@@ -12,6 +15,8 @@ class OtpButtonsUi extends StatelessWidget {
   }
 
   Widget buttons(BuildContext context) {
+    var model = context.read<OtpPageViewModel>();
+
     return Column(
       children: [
         CustomElavatedTextButton(
@@ -20,21 +25,36 @@ class OtpButtonsUi extends StatelessWidget {
             text: 'Resend code',
             textColor: PColors.white,
             onPressed: () {
-              // Navigator.pushNamed(context, PPages.addUserPageUi);
+              context.read<LoginPhoneNumberViewModel>().sendCode(context);
+              // Navigator.pop(context);
             },
             borderRadius: 0),
         SizedBox(
           height: 10,
         ),
-        CustomElavatedTextButton(
-            width: double.infinity,
-            bgcolor: PColors.white,
-            text: 'Verify',
-            textColor: PColors.black,
-            onPressed: () {
-              Navigator.pushNamed(context, PPages.loginSplashUi);
-            },
-            borderRadius: 0),
+        Selector<OtpPageViewModel, bool>(
+          selector: (p0, p1) => p1.loading,
+          builder: (context, value, child) {
+            if (value) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: PColors.white,
+                ),
+              );
+            } else {
+              return CustomElavatedTextButton(
+                  width: double.infinity,
+                  bgcolor: PColors.white,
+                  text: 'Verify',
+                  textColor: PColors.black,
+                  onPressed: () {
+                    model.verifyOtp(context);
+                    // Navigator.pushNamed(context, PPages.loginSplashUi);
+                  },
+                  borderRadius: 0);
+            }
+          },
+        ),
       ],
     );
   }

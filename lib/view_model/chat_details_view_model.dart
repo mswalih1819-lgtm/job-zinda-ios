@@ -6,9 +6,14 @@ import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:jora_customer/model/%20chat_message_model.dart';
+import 'package:jora_customer/Settings/widgets/loadingShow.dart';
+import 'package:jora_customer/main.dart';
+import 'package:jora_customer/model/chat_message_model.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
+import 'package:jora_customer/view_model/chat_view_model.dart';
 import 'package:jora_customer/view_model/file_view_model.dart';
+import 'package:jora_customer/view_model/post_view_model.dart';
+import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -18,11 +23,12 @@ import '../utils/api_url.dart';
 
 class ChatDetailsViewModel extends ChangeNotifier {
   ConversationModel? conversationModel;
-
+  String pageType = "from profile";
   String messageType = '';
   String? message;
   String? selectedUrl;
   String? audioUrl;
+  String? recieverId;
 
   final RecorderController recorderController = RecorderController()
     ..androidEncoder = AndroidEncoder.aac
@@ -56,8 +62,15 @@ class ChatDetailsViewModel extends ChangeNotifier {
     notifyListeners();
     sentmessage(context: context);
   }
-  final TextEditingController messageController = TextEditingController();
 
+  // updateRecieverId(String id) {
+  //   recieverId = id;
+  //   pageType = "from profile";
+  //   print("update reciever id------$recieverId---$pageType");
+  //   notifyListeners();
+  // }
+
+  final TextEditingController messageController = TextEditingController();
 
   updateTextContect(String tex) {
     message = tex;
@@ -75,6 +88,14 @@ class ChatDetailsViewModel extends ChangeNotifier {
 
   updateConversationModel(ConversationModel val) {
     conversationModel = val;
+    // recieverId = conversationModel!.participants!
+    //     .firstWhere(
+    //       (participant) => participant.userId!.sId != LoggedInUser.id,
+    //       orElse: () =>
+    //           Participants(), // Provide a fallback in case no match is found
+    //     )
+    //     ?.userId
+    //     ?.sId;
     notifyListeners();
   }
 
@@ -106,70 +127,105 @@ class ChatDetailsViewModel extends ChangeNotifier {
     await updateAduioFile(context, audioPath);
   }
 
-
   List<ChatMessageModel> messages = [];
+
   Future<void> fetchAllConversations(int page) async {
+    pageType = "";
+    notifyListeners();
     if (conversationModel != null) {
       EasyLoading.show();
       String api = Api.getAllMessage;
       Response response = await ApiService()
-          .get('$api/${conversationModel!.sId}?pageNumber=$page&pageSize=100');
+          .get('$api/${conversationModel!.sId}?pageNumber=$page&pageSize=1000');
+
       if (response.statusCode == 200) {
         Map<String, dynamic> data = response.data;
+
+          print("all msg------${data}");
+
         if (data['status']) {
           messages = (data['data']['messages'] as List)
               .map(
                 (e) => ChatMessageModel.fromJson(e),
               )
               .toList();
+          notifyListeners();
         } else {
           messages.clear();
         }
         notifyListeners();
       }
+      loading = false;
+      notifyListeners();
+
       EasyLoading.dismiss();
     }
   }
 
   Future<void> sentmessage({required BuildContext context}) async {
     EasyLoading.show();
-    print("messageType:- $messageType");
-    print("audioUrl:- $audioUrl");
+    loading = true;
+    notifyListeners();
+
+    // Capture the profile ID in a local final variable
+    final String? id = pageType == "from profile"
+        ? recieverId
+        : conversationModel?.participants
+            ?.firstWhere(
+              (participant) => participant.userId?.sId != LoggedInUser.id,
+              orElse: () => Participants(),
+            )
+            ?.userId
+            ?.sId;
+
+    if (id == null) {
+      EasyLoading.dismiss();
+      log("Error: Recipient ID is null.");
+      return;
+    }
 
     Response response = await ApiService().post(Api.sentMessage, {
-      "profileId": LoggedInUser.id,
+      "profileId": id,
       "content": messageType == 'image'
           ? selectedUrl
           : messageType == 'audio'
               ? audioUrl
               : message,
-      "messageType": messageType
+      "messageType": messageType,
     });
 
-    log(response.data.toString());
-    if (response.statusCode == 200) {
+    // log(response.data.toString());
+    if (response.data != null) {
       Map<String, dynamic> data = response.data;
+
+      print("send mesage-------$data");
       if (data['status']) {
-        if (data.containsKey('message')) {
-          // Navigator.pop(context);
-          EasyLoading.showSuccess(data['message']);
+        print("Success: $pageType");
+
+        if (pageType == "from profile") {
+          if (id != LoggedInUser.id) {
+            fetchAllMessageProfile(id);
+          }
+          print("Fetch from profile: $pageType, $id");
+        } else if (pageType == "") {
+          fetchAllConversations(1);
         }
       }
     }
+
+    EasyLoading.dismiss();
     messageController.clear();
-    fetchAllConversations(1);
     message = null;
     selectedUrl = null;
     audioUrl = null;
     notifyListeners();
-    print("sended chat:-");
-
-    EasyLoading.dismiss();
   }
 
   Future<void> updatemessage(
       {required String lastMessageId, required BuildContext context}) async {
     EasyLoading.show();
+    print("dataa-------${conversationModel!.sId}----${lastMessageId}");
+
     Response response = await ApiService().post(Api.updateChat, {
       "conversationId": conversationModel!.sId,
       "lastMessageId": lastMessageId,
@@ -180,7 +236,7 @@ class ChatDetailsViewModel extends ChangeNotifier {
       if (data['status']) {
         if (data.containsKey('message')) {
           // Navigator.pop(context);
-          EasyLoading.showSuccess(data['message']);
+          // EasyLoading.showSuccess(data['message']);
         }
       }
     }
@@ -206,5 +262,35 @@ class ChatDetailsViewModel extends ChangeNotifier {
       print('Error converting audio to Uint8List: $e');
       return null;
     }
+  }
+
+  fetchAllMessageProfile(String profileId) async {
+    EasyLoading.show();
+    pageType = "from profile";
+    notifyListeners();
+    recieverId = profileId;
+    print("profile id------$profileId");
+
+    String api = Api.listProfileMessages;
+    Response response =
+        await ApiService().get('$api/${profileId}?pageNumber=1&pageSize=1000');
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = response.data;
+      if (data['status']) {
+        messages = (data['data']['messages'] as List)
+            .map(
+              (e) => ChatMessageModel.fromJson(e),
+            )
+            .toList();
+
+        print('mmmss---$messages');
+      } else {
+        messages.clear();
+      }
+      loading = false;
+      notifyListeners();
+      notifyListeners();
+    }
+    EasyLoading.dismiss();
   }
 }

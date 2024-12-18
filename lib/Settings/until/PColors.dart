@@ -10,7 +10,7 @@ class PColors {
 
   static Color get scaffoldBackgroundColor =>const Color(0xffF8F8FF);
 
-  static Color get seed => const Color(0xff000000);
+  static Color get seed =>  Colors.black;
   static Color get textFeildBorderColor => const Color(0xff787878);
 
   static Color get darkGrey => const Color(0xff6C757D);

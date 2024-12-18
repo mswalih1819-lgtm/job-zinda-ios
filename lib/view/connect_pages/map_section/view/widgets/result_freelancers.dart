@@ -3,7 +3,10 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/view/connect_pages/map_section/view/widgets/result_image_widgets.dart';
+import 'package:jora_customer/view/other_user_profile/view/other_user_profile_screen.dart';
 import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
+import 'package:jora_customer/view_model/post_view_model.dart';
+import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ResultFreelancersSingleUi extends StatelessWidget {
@@ -17,11 +20,16 @@ class ResultFreelancersSingleUi extends StatelessWidget {
     // double profileHeight = 68;
 
     return GestureDetector(
-      onTap: () {
-        Navigator.pop(context);
-        context
-            .read<WrapperViewModel>()
-            .updatePageView(WrapperViewStatus.otherProfile);
+      onTap: () async {
+        // Navigator.pop(context);
+        await context
+            .read<PostViewModel>()
+            .fetchOtherUserProfileDetails(userID: profileModel.sId ?? '');
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OtherUserProfileScreen(),
+            ));
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 20),
@@ -80,7 +88,8 @@ class ResultFreelancersSingleUi extends StatelessWidget {
                   color: PColors.whiteOff.withOpacity(0.2),
                 )),
             columnWidget(
-                title: "Feedback", value: profileModel.rating!.toString()),
+                title: "Feedback",
+                value: profileModel.rating!.toStringAsFixed(1)),
           ],
         )
       ],

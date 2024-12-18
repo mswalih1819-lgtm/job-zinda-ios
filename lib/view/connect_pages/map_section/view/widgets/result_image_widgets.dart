@@ -27,8 +27,9 @@ class ResultImageWidgetSectionUi extends StatelessWidget {
             child: Container(
                 height: coverHeight,
                 width: width,
-                child: Image.network(
-                  profileModel.coverImage!,
+                color: profileModel.coverImage!.isEmpty?Colors.black:Colors.transparent,
+                child:profileModel.coverImage!.isEmpty?Container(): Image.network(
+                  profileModel.coverImage!.toString(),
                   fit: BoxFit.cover,
                 )),
           ),

@@ -1,4 +1,4 @@
-import 'package:dots_indicator/dots_indicator.dart';
+
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
@@ -16,6 +16,7 @@ class WelcomePageUi extends StatelessWidget {
     var size = MediaQuery.sizeOf(context);
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
           leadingWidth: 120,
           leading: Padding(
