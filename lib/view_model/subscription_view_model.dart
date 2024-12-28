@@ -12,7 +12,6 @@ import 'package:jora_customer/model/subscription_model.dart';
 import 'package:jora_customer/model/subscription_payment_model.dart';
 import 'package:jora_customer/utils/api_service.dart';
 import 'package:jora_customer/utils/api_url.dart';
-import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 // import 'package:dio/dio.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';

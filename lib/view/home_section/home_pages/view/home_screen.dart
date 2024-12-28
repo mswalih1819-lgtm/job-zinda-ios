@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: "Contact",
                   icon: SvgPicture.asset(PSvgs.contact_page),
                   fun: () {
-              _makePhoneCall('+919061259261');
+              _makePhoneCall('+919999999999');
 
                   }),
               drawerWidget(

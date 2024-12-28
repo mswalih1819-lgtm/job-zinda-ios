@@ -22,7 +22,7 @@ class ContactUsUi extends StatelessWidget {
             icon: PSvgs.call,
             title: 'Call',
             onTap: () {
-              _makePhoneCall('+919061259261');
+              _makePhoneCall('+919999999999');
             }),
         contentWidget(
             icon: PSvgs.mail,
