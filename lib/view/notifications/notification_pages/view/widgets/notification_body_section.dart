@@ -42,34 +42,7 @@ class _NotificationBodySectionState extends State<NotificationBodySection> {
               return ProfileViewSingleNotiWidget(
                 notificationModel: item,
               );
-              // switch (item.notificationType) {
-
-              //   case 'follow':
-              //     return InkWell(
-              //         onTap: () => context
-              //             .read<NotificationViewModel>()
-              //             .notificationRead(id: item.sId ?? ''),
-              //         child: const FollowSingleNotificationUi());
-
-              //   case 'comment':
-              //     return InkWell(
-              //         onTap: () => context
-              //             .read<NotificationViewModel>()
-              //             .notificationRead(id: item.sId ?? ''),
-              //         child: const CommentsSingleNotificationwidget());
-              //   case 'profile_view' || 'like' ||'reply':
-              //     return InkWell(
-              //         onTap: () => context
-              //             .read<NotificationViewModel>()
-              //             .notificationRead(id: item.sId ?? ''),
-              //         child: ProfileViewSingleNotiWidget(
-              //           notificationModel: item,
-              //         ));
-
-              //   default:
-              //     return const SizedBox();
-              // }
-              ;
+           
             },
           )),
     );

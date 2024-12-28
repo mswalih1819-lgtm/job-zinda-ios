@@ -11,6 +11,7 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/main.dart';
 import 'package:jora_customer/utils/validator.dart';
 import 'package:jora_customer/view_model/file_view_model.dart';
 import 'package:jora_customer/view_model/story_view_model.dart';
@@ -140,41 +141,43 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                 contentPadding: const EdgeInsets.only(left: 10),
                 leading: CircleAvatar(
                   radius: 24,
-                  backgroundImage:LoggedInUser.profilePic!.isEmpty?AssetImage(PImages.profile): NetworkImage(LoggedInUser.profilePic ?? ''),
+                  backgroundImage: LoggedInUser.profilePic!.isEmpty
+                      ? AssetImage(PImages.profile)
+                      : NetworkImage(LoggedInUser.profilePic ?? ''),
                 ),
-                title: Container(
-                  width: 100.0,
-                  child: ButtonTheme(
-                    alignedDropdown: true,
-                    child: DropdownButton<String>(
-                      isDense: true,
-                      dropdownColor: PColors.black2,
-                      value: value,
-                      // isExpanded: true,
-                      style: TextStyle(color: PColors.whiteOff),
-                      icon: Icon(
-                        Icons.keyboard_arrow_down,
-                        color: PColors.whiteOff,
-                      ),
-                      underline: const SizedBox(),
-                      items:
-                          <String>['Anyone', 'Followers'].map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: TextStyle(color: PColors.whiteOff),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (val) {
-                        setState(() {
-                          value = val!;
-                        });
-                      },
-                    ),
-                  ),
-                ),
+                // title: Container(
+                //   width: 100.0,
+                //   child: ButtonTheme(
+                //     alignedDropdown: true,
+                //     child: DropdownButton<String>(
+                //       isDense: true,
+                //       dropdownColor: PColors.black2,
+                //       value: value,
+                //       // isExpanded: true,
+                //       style: TextStyle(color: PColors.whiteOff),
+                //       icon: Icon(
+                //         Icons.keyboard_arrow_down,
+                //         color: PColors.whiteOff,
+                //       ),
+                //       underline: const SizedBox(),
+                //       items:
+                //           <String>['Anyone', 'Followers'].map((String value) {
+                //         return DropdownMenuItem<String>(
+                //           value: value,
+                //           child: Text(
+                //             value,
+                //             style: TextStyle(color: PColors.whiteOff),
+                //           ),
+                //         );
+                //       }).toList(),
+                //       onChanged: (val) {
+                //         setState(() {
+                //           value = val!;
+                //         });
+                //       },
+                //     ),
+                //   ),
+                // ),
                 trailing: InkWell(
                   onTap: () async {
                     if (_formKey.currentState?.validate() ?? false) {
@@ -184,7 +187,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                         context.read<StoryViewModel>().createStory(
                             url: storyViewModel.selectedUrl ?? '',
                             description: _descriptionController.text,
-                            archived: value == 'Anyone',
+                            archived: false,
                             context: context);
                       }
                     }
@@ -309,7 +312,13 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
   }
 
   Future getImage(ImageSource source) async {
-    final XFile? image = await _picker.pickImage(source: source);
+    final XFile? image = await _picker.pickImage(
+        source: source,
+        imageQuality: 50, // Compress image to reduce size
+        maxWidth: 800, // Resize for better performance
+        maxHeight: 800,
+      );
+    // final XFile? image = await _picker.pickImage(source: source);
 
     if (image != null) {
       String? imageUrl = await context
@@ -320,4 +329,38 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
       storyViewModel.selectedUrl = imageUrl;
     }
   }
+
+  // Future<void> getImage(ImageSource source) async {
+  //   try {
+  //     // Close the bottom sheet before capturing
+  //     // Navigator.pop(context);
+
+  //     // Pick the image from the source
+  //     final XFile? image = await _picker.pickImage(
+  //       source: source,
+  //       imageQuality: 50, // Compress image to reduce size
+  //       maxWidth: 800, // Resize for better performance
+  //       maxHeight: 800,
+  //     );
+
+  //     if (image != null) {
+  //       // Show loading while processing
+  //       EasyLoading.show(status: 'Uploading image...');
+
+  //       // Upload the image to your backend or storage
+  //       String? url = await navigatorKey.currentContext!
+  //           .read<FileUploadViewModel>()
+  //           .pickedImageUpload(image, 'Story');
+
+  //       StoryViewModel storyViewModel = navigatorKey.currentContext!.read<StoryViewModel>();
+  //       storyViewModel.selectedMediaType = 'image';
+  //       storyViewModel.selectedUrl = url;
+  //       // Dismiss loading
+  //       EasyLoading.dismiss();
+  //     }
+  //   } catch (e) {
+  //     EasyLoading.dismiss();
+  //     EasyLoading.showError('Error capturing image: $e');
+  //   }
+  // }
 }

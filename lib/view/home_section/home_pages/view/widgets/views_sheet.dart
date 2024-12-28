@@ -33,13 +33,19 @@ class StoryViewsSheetUi extends StatelessWidget {
                 itemCount: value.storeyViews.length,
                 itemBuilder: (context, index) => Row(
                   children: [
-                    value.storeyViews[index].user!.profileImageUrl == null ||
-                            value.storeyViews[index].user!.profileImageUrl!
-                                .isEmpty
-                        ? Image.asset(PImages.profile)
-                        : Image.network(value
-                            .storeyViews[index].user!.profileImageUrl
-                            .toString()),
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundImage:
+                          value.storeyViews[index].user!.profileImageUrl ==
+                                      null ||
+                                  value.storeyViews[index].user!
+                                      .profileImageUrl!.isEmpty
+                              ? AssetImage(PImages.profile)
+                              : NetworkImage(
+                                  value.storeyViews[index].user!.profileImageUrl
+                                      .toString(),
+                                ),
+                    ),
                     SizedBox(
                       width: 20,
                     ),

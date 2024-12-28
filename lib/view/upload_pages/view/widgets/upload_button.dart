@@ -100,19 +100,54 @@ class _UploadButtonUiState extends State<UploadButtonUi> {
     );
   }
 
-  Future getImage(ImageSource source) async {
+  // Future getImage(ImageSource source) async {
+  //   Navigator.pop(context);
+  //   final XFile? image = await _picker.pickImage(source: source);
+
+  //   if (image != null) {
+  //     String? url = await context
+  //         .read<FileUploadViewModel>()
+  //         .pickedImageUpload(image, 'Post');
+  //     PostViewModel postProvider = context.read<PostViewModel>();
+  //     postProvider.selectedMediaType = 'image';
+  //     postProvider.selectedUrl = url;
+  //   }
+  // }
+Future<void> getImage(ImageSource source) async {
+  try {
+    // Close the bottom sheet before capturing
     Navigator.pop(context);
-    final XFile? image = await _picker.pickImage(source: source);
+
+    // Pick the image from the source
+    final XFile? image = await _picker.pickImage(
+      source: source,
+      imageQuality: 50, // Compress image to reduce size
+      maxWidth: 800,    // Resize for better performance
+      maxHeight: 800,
+    );
 
     if (image != null) {
+      // Show loading while processing
+      EasyLoading.show(status: 'Uploading image...');
+      
+      // Upload the image to your backend or storage
       String? url = await context
           .read<FileUploadViewModel>()
           .pickedImageUpload(image, 'Post');
+
+      // Update UI with selected image URL
       PostViewModel postProvider = context.read<PostViewModel>();
       postProvider.selectedMediaType = 'image';
       postProvider.selectedUrl = url;
+
+      // Dismiss loading
+      EasyLoading.dismiss();
     }
+  } catch (e) {
+    EasyLoading.dismiss();
+    EasyLoading.showError('Error capturing image: $e');
   }
+}
 
   void _pickVideo(BuildContext context) async {
     var result = await ImagePicker().pickVideo(

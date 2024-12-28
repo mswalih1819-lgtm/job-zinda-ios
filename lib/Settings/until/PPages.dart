@@ -27,6 +27,12 @@ class PPages {
   static const String noIntenet = "/noIntenet";
   static const String adduserpage = "/adduserpage";
   static const String storyViewer = "/storyViewer";
+  static const String referalCodeUi= "/referalcode";
+  static const String referalPageUi= "/referalPageUi";
+  static const String coinScreenUi= "/coinScreenUi";
+
+
+
 
 
 

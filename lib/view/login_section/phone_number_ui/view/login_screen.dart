@@ -28,54 +28,53 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
-          resizeToAvoidBottomInset: true,
-          body: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 18),
-            child: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 100,
-                        ),
-                        Image.asset(
-                          PImages.phone,
-                          height: 150,
-                        ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        LoginHeadingUi(
-                            title: "What’s your phone number ?",
-                            description:
-                                "We need to make sure you’re you. Please let us know what number to send a code to"),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        phonenUmberField(),
-                      ],
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 18),
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 100,
                     ),
-                  ),
+                    Image.asset(
+                      PImages.phone,
+                      height: 150,
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    LoginHeadingUi(
+                        title: "What’s your phone number ?",
+                        description:
+                            "We need to make sure you’re you. Please let us know what number to send a code to"),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    phonenUmberField(),
+                  ],
                 ),
-                button(context),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
+              ),
             ),
-          ),
-        );
+            button(context),
+            const SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
+      ),
+    );
     // return ChangeNotifierProvider(
     //   create: (context) => LoginPhoneNumberViewModel(),
     //   builder: (context, child) {
     //     var model = context.read<LoginPhoneNumberViewModel>();
-        
-       
+
     //   },
     // );
   }
@@ -92,16 +91,13 @@ class _LoginScreenState extends State<LoginScreen> {
               borderRadius: 0,
               hintText: 'Phone number',
               // validation: Validator.mobile,
-               prefixIcon: const Padding(
-                   
-                       padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                    child: Text(
-                      "+91",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                    ),
-                  ),
-                 
+              prefixIcon: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                child: Text(
+                  "+91",
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                ),
+              ),
               onChanged: (val) {
                 print("vall--$val");
                 value.savePhoneNumber(val!);

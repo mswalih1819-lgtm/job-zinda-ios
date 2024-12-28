@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/model/post_model.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/single_gallery_widget.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +25,7 @@ class _SelfGallerySectionState extends State<SelfGallerySection> {
   @override
   Widget build(BuildContext context) {
     PostViewModel postViewModel = context.watch<PostViewModel>();
+
     return Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
         child: PagedGridView(
@@ -34,17 +34,22 @@ class _SelfGallerySectionState extends State<SelfGallerySection> {
             physics: const NeverScrollableScrollPhysics(),
             pagingController: postViewModel.selfPostController,
             builderDelegate: PagedChildBuilderDelegate<PostModel>(
-                  noItemsFoundIndicatorBuilder: (context) => Center(child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 100),
-            child: Text('No posts found',),
-          )),
+              newPageProgressIndicatorBuilder: (_) => Container(),
+              noItemsFoundIndicatorBuilder: (context) => Center(
+                  child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 100),
+                child: Text(
+                  'No posts found',
+                ),
+              )),
               itemBuilder: (context, item, index) {
                 return SingleGalleryWidget(postModel: item);
               },
             ),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisSpacing: 3,
-              mainAxisSpacing: 3,
-                crossAxisCount: 3, childAspectRatio: .8)));
+                crossAxisSpacing: 3,
+                mainAxisSpacing: 3,
+                crossAxisCount: 3,
+                childAspectRatio: .8)));
   }
 }

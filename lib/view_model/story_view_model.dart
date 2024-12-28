@@ -62,6 +62,8 @@ class StoryViewModel with ChangeNotifier {
           List<StoryModel> temp = (data['data']['stories'] as List)
               .map((e) => StoryModel.fromJson(e))
               .toList();
+
+              print("storyyy------$temp");
           if (data['data']['hasNext']) {
             storyController.appendPage(temp, page + 1);
           } else {
@@ -166,7 +168,7 @@ class StoryViewModel with ChangeNotifier {
       'caption': '',
       'archived': archived
     });
-    print("story out pit ---${response.data.toString()}");
+    print("story out pit ---${archived}");
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {

@@ -13,6 +13,10 @@ static String get actor1 => "assets/images/actor1.png";
   static String get login2 => "assets/images/login2.png";
   static String get logo => "assets/images/logo.png";
   static String get google => "assets/images/google.png";
+  static String get referal => "assets/images/referal.png";
+  static String get coin => "assets/images/coin.png";
+
+
   static String get phone => "assets/images/phone.png";
 
   static String get image1 => "assets/images/image1.png";

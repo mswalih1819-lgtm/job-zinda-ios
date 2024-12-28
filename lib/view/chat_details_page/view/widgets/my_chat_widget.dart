@@ -27,27 +27,54 @@ class MyChatWidget extends StatelessWidget {
               height: 10,
             ),
             if (message.messageType == "text" || message.messageType == 'text')
-              Container(
-                alignment: Alignment.centerLeft,
-                // width: size.width / 1.4,
-                padding: const EdgeInsets.only(
-                    left: 10, right: 10, top: 10, bottom: 10),
-                decoration: BoxDecoration(
+
+             Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 4.0),
+                padding: const EdgeInsets.all(10.0),
+                constraints: BoxConstraints(
+                  minWidth: 50,
+                  maxWidth: MediaQuery.of(context).size.width * 0.8,
+                ),
+                 decoration: BoxDecoration(
                     color: PColors.white,
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(20),
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     )),
-                child: textWidget(
-                    text: message.content!,
+                child:  textWidget(
+                    text: message.content,
                     color: PColors.black,
                     fontsize: 12,
                     fontweight: FontWeight.w600),
               ),
+            ),
+              // Container(
+              //     constraints: BoxConstraints(
+              //       maxWidth: 200), // 
+              //   alignment: Alignment.centerLeft,
+              //   // width: size.width / 1.4,
+              //   padding: const EdgeInsets.only(
+              //       left: 10, right: 10, top: 10, bottom: 10),
+              //   decoration: BoxDecoration(
+              //       color: PColors.white,
+              //       borderRadius: BorderRadius.only(
+              //         bottomLeft: Radius.circular(20),
+              //         topLeft: Radius.circular(20),
+              //         topRight: Radius.circular(20),
+              //       )),
+              //   child: textWidget(
+              //       text: message.content!,
+              //       color: PColors.black,
+              //       fontsize: 12,
+              //       fontweight: FontWeight.w600),
+              // ),
             if (message.messageType == "image" ||
                 message.messageType == 'image')
               Container(
+                
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(12),
@@ -59,7 +86,8 @@ class MyChatWidget extends StatelessWidget {
                     width: 3,
                   ),
                 ),
-                height: size.height * 0.3,
+                 height: size.height * 0.25,
+                width: size.width * 0.34,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child:message.content==null || message.content!.isEmpty?CircularProgressIndicator(): Image.network(message.content!,fit: BoxFit.fill,)),

@@ -4,6 +4,7 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactUsUi extends StatelessWidget {
   const ContactUsUi({super.key});
@@ -21,14 +22,13 @@ class ContactUsUi extends StatelessWidget {
             icon: PSvgs.call,
             title: 'Call',
             onTap: () {
-              // _makePhoneCall('7034094131');
+              _makePhoneCall('+919061259261');
             }),
         contentWidget(
             icon: PSvgs.mail,
             title: 'Email',
             onTap: () {
-              // LoggedInUser.clearUserData();
-              // Navigator.pushNamedAndRemoveUntil(context, PPages.phoneNumberUi, (route) => false);
+             sendEmail();
             }),
         contentWidget(
             icon: PSvgs.feedback,
@@ -51,10 +51,24 @@ class ContactUsUi extends StatelessWidget {
     );
   }
 }
-//  Future<void> _makePhoneCall(String phoneNumber) async {
-//     final Uri launchUri = Uri(
-//       scheme: 'tel',
-//       path: phoneNumber,
-//     );
-//     await launchUrl(launchUri);
-//   }
+Future<void> sendEmail() async {
+  final Uri emailUri = Uri(
+    scheme: 'mailto',
+    path: 'recipient@example.com',
+    query: 'subject=Hello&body=This is a test email',
+  );
+
+  if (await canLaunchUrl(emailUri)) {
+    await launchUrl(emailUri);
+  } else {
+    throw 'Could not launch $emailUri';
+  }
+}
+
+Future<void> _makePhoneCall(String phoneNumber) async {
+  final Uri launchUri = Uri(
+    scheme: 'tel',
+    path: phoneNumber,
+  );
+  await launchUrl(launchUri);
+}

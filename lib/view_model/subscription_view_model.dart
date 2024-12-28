@@ -32,13 +32,14 @@ class SubscriptionViewmodel extends ChangeNotifier {
     Response response = await ApiService().get(url);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
-   
+   print("plan olist------$data");
       if (data['status']) {
         planList = (data['data']['plans'] as List)
             .map(
               (e) => Plans.fromJson(e),
             )
             .toList();
+            
       } else {
         // planList.clear();
       }

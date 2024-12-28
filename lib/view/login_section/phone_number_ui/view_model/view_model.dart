@@ -6,9 +6,9 @@ import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/errorMsg.dart';
 import 'package:jora_customer/main.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
-import 'package:jora_customer/view/login_section/add_newuser/repository/repository.dart';
 import 'package:jora_customer/view/login_section/otp_verify/repository/repository.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/repository/repository.dart';
+import 'package:jora_customer/view/login_section/referal_code/repository/repository.dart';
 
 class LoginPhoneNumberViewModel extends ChangeNotifier {
   FirebaseAuthServices services = FirebaseAuthServices();
@@ -116,6 +116,7 @@ class LoginPhoneNumberViewModel extends ChangeNotifier {
               phone: phoneNumber!,
               countryCode: countryCode!.split('+').last,
               name: '',
+              referralCode: ''
             );
           } else {
             result = await repo.addNewUserEmail(
@@ -123,6 +124,7 @@ class LoginPhoneNumberViewModel extends ChangeNotifier {
               phone: '',
               countryCode: '',
               name: '',
+              referralCode: ''
             );
           }
 

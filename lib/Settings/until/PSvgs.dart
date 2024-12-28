@@ -48,15 +48,21 @@ class PSvgs {
   static String get network => "assets/svgs/network.svg";
   static String get filter => "assets/svgs/filter.svg";
 
-  static String get myProfileAnalytics => "assets/svgs/my_profile_analytics.svg";
-  static String get other_user_analytics => "assets/svgs/other_user_analytics.svg";
+  static String get myProfileAnalytics =>
+      "assets/svgs/my_profile_analytics.svg";
+  static String get other_user_analytics =>
+      "assets/svgs/other_user_analytics.svg";
   static String get lets_plan => "assets/svgs/lets_plan.svg";
   static String get smallHeart => 'assets/svgs/small_heart.svg';
   static String get delete_comment => "assets/svgs/delete_comment.svg";
   static String get eye => "assets/svgs/eye.svg";
   static String get upload_image => "assets/svgs/upload_image.svg";
 
-
+  static String get coins => 'assets/svgs/coins.svg';
+  static String get support => "assets/svgs/support.svg";
+  static String get referals => "assets/svgs/referals.svg";
+  static String get contact_page => "assets/svgs/contact_page.svg";
+  static String get terms => "assets/svgs/terms.svg";
 
   // static String get sv => "assets/svgs/.svg";
 }

@@ -26,7 +26,7 @@ class ChatAppbarUi extends StatelessWidget {
           // leadingWidth: 45,
           title: value.pageType == "from profile"
               ? profileChat(context)
-              : chatappbar(context)),
+              :value.pageType == "lets plan"?letsPlanAppbar(context): chatappbar(context)),
     );
   }
 
@@ -55,6 +55,31 @@ class ChatAppbarUi extends StatelessWidget {
             text: value.otherUser!.name,
             color: PColors.white,
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget letsPlanAppbar(BuildContext context) {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(Icons.arrow_back),
+        ),
+        const SizedBox(width: 10),
+        CircleAvatar(
+          backgroundColor: PColors.red,
+          child: Image.asset(
+            PImages.logo,
+          ),
+        ),
+        const SizedBox(width: 10),
+        textWidget(
+          text: "Jora Admin",
+          color: PColors.white,
         ),
       ],
     );

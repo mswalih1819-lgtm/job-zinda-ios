@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/main.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
@@ -10,6 +11,7 @@ import 'package:jora_customer/utils/api_service.dart';
 import 'package:jora_customer/utils/api_url.dart';
 import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 import 'package:jora_customer/view_model/location_view_model.dart';
+import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ProfileViewModel with ChangeNotifier {
@@ -57,7 +59,15 @@ class ProfileViewModel with ChangeNotifier {
       addressController.text = profileModel!.address ?? '';
       cityController.text = profileModel!.district ?? '';
       stateController.text = profileModel!.state ?? "";
-      // print("profile data----${selectedState}");
+      if (profileModel!.lat == 0 && profileModel!.lng == 0) {
+        Position position = await Geolocator.getCurrentPosition(
+          forceAndroidLocationManager: true,
+          desiredAccuracy: LocationAccuracy.medium,
+        );
+
+        profileModel!.lat = position.latitude;
+        profileModel!.lng = position.longitude;
+      }
       notifyListeners();
     }
     EasyLoading.dismiss();
@@ -176,11 +186,18 @@ class ProfileViewModel with ChangeNotifier {
         if (data.containsKey('message')) {
           LoggedInUser.profile(data['data']['profileDetails']);
           EasyLoading.showSuccess(data['message']);
+          // navigatorKey.currentContext!.read<PostViewModel>().currentPage = 0;
+          // navigatorKey.currentContext!
+          //     .read<PostViewModel>()
+          //     .initSelfPostPagination();
+         Navigator.pop(context);
+         Navigator.pop(context);
+
+
           navigatorKey.currentContext!
               .read<WrapperViewModel>()
               .updatePageView(WrapperViewStatus.profile);
-          Navigator.pushNamed(context, PPages.wrapperView);
-
+          // Navigator.pushNamed(navigatorKey.currentContext!, PPages.wrapperView);
           notifyListeners();
         }
       }

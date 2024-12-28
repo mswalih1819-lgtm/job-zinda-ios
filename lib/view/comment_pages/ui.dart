@@ -5,6 +5,7 @@ import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/post_model.dart';
 import 'package:jora_customer/view/comment_pages/widgets/comment_card.dart';
 import 'package:jora_customer/view_model/comment_view_model.dart';
+import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +18,8 @@ class CommentsBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom, // Adjust for the keyboard
+        bottom:
+            MediaQuery.of(context).viewInsets.bottom, // Adjust for the keyboard
       ),
       child: Consumer<CommentViewModel>(
         builder: (context, commentViewModel, child) {
@@ -38,7 +40,10 @@ class CommentsBottomSheet extends StatelessWidget {
                       color: PColors.white,
                     ),
                     GestureDetector(
-                      onTap: () => Navigator.pop(context),
+                      onTap: () {
+                        // context.read<PostViewModel>().postController.refresh();
+                        Navigator.pop(context);
+                      },
                       child: Icon(
                         Icons.close,
                         color: PColors.white,
@@ -49,11 +54,13 @@ class CommentsBottomSheet extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              Flexible( // Use Flexible to adjust dynamically
+              Flexible(
+                // Use Flexible to adjust dynamically
                 child: NotificationListener<ScrollNotification>(
                   onNotification: (notification) {
                     if (notification is ScrollEndNotification &&
-                        notification.metrics.pixels == notification.metrics.maxScrollExtent) {
+                        notification.metrics.pixels ==
+                            notification.metrics.maxScrollExtent) {
                       commentViewModel.getPaginationComments(context);
                     }
                     return false;
@@ -117,12 +124,12 @@ class CommentsBottomSheet extends StatelessWidget {
             builder: (context, profileViewModel, child) {
               return CircleAvatar(
                 radius: 26,
-                backgroundImage: profileViewModel.profileModel!.profileImageUrl!
-                        .isEmpty
-                    ? AssetImage(PImages.profile)
-                    : NetworkImage(
-                        profileViewModel.profileModel!.profileImageUrl!,
-                      ) as ImageProvider,
+                backgroundImage:
+                    profileViewModel.profileModel!.profileImageUrl!.isEmpty
+                        ? AssetImage(PImages.profile)
+                        : NetworkImage(
+                            profileViewModel.profileModel!.profileImageUrl!,
+                          ) as ImageProvider,
               );
             },
           ),
@@ -139,7 +146,9 @@ class CommentsBottomSheet extends StatelessWidget {
                     decoration: InputDecoration(
                       suffixIcon: GestureDetector(
                         onTap: () {
-                          if (commentViewModel.controller.text.trim().isNotEmpty) {
+                          if (commentViewModel.controller.text
+                              .trim()
+                              .isNotEmpty) {
                             commentViewModel.addComment(
                               postId: post!.sId.toString(),
                               comment: commentViewModel.controller.text.trim(),

@@ -4,6 +4,8 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/view_model/help_support.dart';
+import 'package:provider/provider.dart';
 
 class SendFeedbackUi extends StatefulWidget {
   const SendFeedbackUi({super.key});
@@ -13,9 +15,11 @@ class SendFeedbackUi extends StatefulWidget {
 }
 
 class _SendFeedbackUiState extends State<SendFeedbackUi> {
+  TextEditingController controller=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: textWidget(text: "Send feedback"),
       ),
@@ -26,32 +30,35 @@ class _SendFeedbackUiState extends State<SendFeedbackUi> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 50,
-                  ),
-                  textWidget(
-                    text: "Write your feedback below",
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  CustomTextFeild(
-                      borderRadius: 0,
-                      maxLine: 10,
-                      hintText: "",
-                      onSaved: (val) {},
-                      onChanged: (val) {},
-                      validation: (val) {},
-                      filColor: PColors.seed),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  starSection(context)
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 50,
+                    ),
+                    textWidget(
+                      text: "Write your feedback below",
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    CustomTextFeild(
+                      controller: controller,
+                        borderRadius: 0,
+                        maxLine: 10,
+                        hintText: "",
+                        onSaved: (val) {},
+                        onChanged: (val) {},
+                        validation: (val) {},
+                        filColor: PColors.seed),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    starSection(context)
+                  ],
+                ),
               ),
             ),
             button(),
@@ -66,14 +73,17 @@ class _SendFeedbackUiState extends State<SendFeedbackUi> {
     return CustomElavatedTextButton(
       width: double.infinity,
       text: "Send",
-      onPressed: () {},
+      onPressed: () {
+        context.read<HelpViewModel>().sendFeedback(rating:rating.toString() ,review:controller.text );
+        controller.clear();
+      },
       bgcolor: PColors.white,
       textColor: PColors.black,
       borderRadius: 0,
     );
   }
 
-  double rating = 0;
+  double rating = 1;
 
   Widget starSection(BuildContext context) {
     var size = MediaQuery.sizeOf(context);

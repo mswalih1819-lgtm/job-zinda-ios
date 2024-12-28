@@ -42,13 +42,18 @@ class _PostCardState extends State<PostCard> {
       children: [
         ListTile(
           onTap: () async {
-            await context.read<PostViewModel>().fetchOtherUserProfileDetails(
-                userID: widget.post?.user?.sId ?? '');
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => OtherUserProfileScreen(),
-                ));
+            bool? status = await context
+                .read<PostViewModel>()
+                .fetchOtherUserProfileDetails(
+                    userID: widget.post?.user?.sId ?? '');
+
+            if (status!) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OtherUserProfileScreen(),
+                  ));
+            }
           },
           contentPadding: EdgeInsets.zero,
           title: widget.post?.user == null
@@ -103,13 +108,18 @@ class _PostCardState extends State<PostCard> {
             child: Text(widget.post!.bio!),
           ),
         if (widget.post?.mediaType == 'image')
-          Container(
-            height: 250,
-            width: double.infinity - 100,
-            child: Image.network(widget.post?.mediaUrl ?? '',
-                fit: BoxFit.fill,
-                errorBuilder: (context, error, stackTrace) =>
-                    Image.asset(PImages.noImage)),
+          AspectRatio(
+            aspectRatio: 1.4,
+            child: Container(
+              // height: 250,
+              // width: double.infinity - 100,
+              child: Image.network(widget.post?.mediaUrl ?? '',
+                  // fit: BoxFit.cover,
+                  fit: BoxFit.cover, // Choose your preferred BoxFit option.
+
+                  errorBuilder: (context, error, stackTrace) =>
+                      Image.asset(PImages.noImage)),
+            ),
           )
         else if (widget.post?.mediaType == 'video')
           // Text(widget.post!.thumbnail.toString()),
@@ -123,10 +133,11 @@ class _PostCardState extends State<PostCard> {
               },
               child: Container(
                 height: 200,
+                width: double.infinity - 100,
                 // color: Colors.transparent,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                         image: NetworkImage(
                           widget.post!.thumbnail != null
                               ? widget.post!.thumbnail.toString()
@@ -245,7 +256,7 @@ class _PostCardState extends State<PostCard> {
                 height: 2),
           ),
           textWidget(
-            text:TimeAgoClass.getHoursAgo( post?.createdAt ?? ''),
+              text: TimeAgoClass.getHoursAgo(post?.createdAt ?? ''),
               // text: timeago.format(stringToDateTime(
               //         date: post?.createdAt ?? '',
               //         format: 'yyyy-MM-ddThh:mm:ss') ??
@@ -256,6 +267,4 @@ class _PostCardState extends State<PostCard> {
       ),
     );
   }
-
- 
 }

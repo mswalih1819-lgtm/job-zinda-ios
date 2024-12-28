@@ -1,34 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:jora_customer/view/chat_section/all_chat_widget/view/all_chat_section.dart';
-import 'package:jora_customer/view/chat_section/chat_pages/view/widgets/chat_filter.dart';
-import 'package:jora_customer/view_model/chat_view_model.dart';
-import 'package:jora_customer/view/chat_section/unread_chat_widget/view/unread_chat_section.dart';
+import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:jora_customer/Settings/until/PImages.dart';
+import 'package:jora_customer/Settings/until/PPages.dart';
+import 'package:jora_customer/view_model/chat_details_view_model.dart';
 import 'package:provider/provider.dart';
-
 class LetsPlanChatWidgetUi extends StatelessWidget {
   const LetsPlanChatWidgetUi({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [ChatFilterUi(), main()],
+      children: [main(context)],
     );
   }
 
-  Widget main() {
-    return Selector<ChatViewModel, String>(
-      selector: (p0, p1) => p1.allUnreadView,
-      builder: (context, value, child) {
-        switch (value) {
-          case ChatViewStatus.all:
-            return AllChatSection();
-          case ChatViewStatus.unread:
-            return UnreadChatSection();
-
-          default:
-            return AllChatSection();
-        }
+  Widget main(BuildContext context) {
+    return ListTile(
+      onTap: (){
+        context.read<ChatDetailsViewModel>().fetchAllQueryMessages();
+        Navigator.pushNamed(context, PPages.chatDetailsPageui);
       },
-    );
+        title: Text(
+          "Jora Admin",
+          style: TextStyle(color: PColors.white),
+        ),
+        leading: CircleAvatar(
+          backgroundColor: PColors.red,
+          child: Image.asset(
+            PImages.logo,
+          ),
+        ));
+    // return Selector<ChatViewModel, String>(
+    //   selector: (p0, p1) => p1.allUnreadView,
+    //   builder: (context, value, child) {
+    //     switch (value) {
+    //       case ChatViewStatus.all:
+    //         return AllChatSection();
+    //       case ChatViewStatus.unread:
+    //         return UnreadChatSection();
+
+    //       default:
+    //         return AllChatSection();
+    //     }
+    //   },
+    // );
   }
 }

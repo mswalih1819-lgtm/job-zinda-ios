@@ -83,7 +83,11 @@ class ChatDetailsViewModel extends ChangeNotifier {
     messageType = 'image';
     print("image");
     notifyListeners();
-    sentmessage(context: contxt);
+    if (pageType == "lets plan") {
+      sentQuery(context: contxt);
+    } else {
+      sentmessage(context: contxt);
+    }
   }
 
   updateConversationModel(ConversationModel val) {
@@ -131,6 +135,8 @@ class ChatDetailsViewModel extends ChangeNotifier {
 
   Future<void> fetchAllConversations(int page) async {
     pageType = "";
+    messages.clear();
+    loading = true;
     notifyListeners();
     if (conversationModel != null) {
       EasyLoading.show();
@@ -141,7 +147,7 @@ class ChatDetailsViewModel extends ChangeNotifier {
       if (response.statusCode == 200) {
         Map<String, dynamic> data = response.data;
 
-          print("all msg------${data}");
+        print("all msg------${data}");
 
         if (data['status']) {
           messages = (data['data']['messages'] as List)
@@ -193,15 +199,15 @@ class ChatDetailsViewModel extends ChangeNotifier {
               : message,
       "messageType": messageType,
     });
-
+    EasyLoading.dismiss();
+    loading = false;
+notifyListeners();
     // log(response.data.toString());
     if (response.data != null) {
       Map<String, dynamic> data = response.data;
 
       print("send mesage-------$data");
       if (data['status']) {
-        print("Success: $pageType");
-
         if (pageType == "from profile") {
           if (id != LoggedInUser.id) {
             fetchAllMessageProfile(id);
@@ -210,6 +216,10 @@ class ChatDetailsViewModel extends ChangeNotifier {
         } else if (pageType == "") {
           fetchAllConversations(1);
         }
+      } else {
+        EasyLoading.dismiss();
+        messageController.clear();
+        EasyLoading.showError(data['message']);
       }
     }
 
@@ -234,10 +244,11 @@ class ChatDetailsViewModel extends ChangeNotifier {
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {
-        if (data.containsKey('message')) {
-          // Navigator.pop(context);
-          // EasyLoading.showSuccess(data['message']);
-        }
+        // if (data.containsKey('message')) {
+        fetchAllConversations(1);
+        // Navigator.pop(context);
+        // EasyLoading.showSuccess(data['message']);
+        // }
       }
     }
     EasyLoading.dismiss();
@@ -267,6 +278,7 @@ class ChatDetailsViewModel extends ChangeNotifier {
   fetchAllMessageProfile(String profileId) async {
     EasyLoading.show();
     pageType = "from profile";
+    messages.clear();
     notifyListeners();
     recieverId = profileId;
     print("profile id------$profileId");
@@ -292,5 +304,67 @@ class ChatDetailsViewModel extends ChangeNotifier {
       notifyListeners();
     }
     EasyLoading.dismiss();
+  }
+
+  fetchAllQueryMessages() async {
+    EasyLoading.show();
+    pageType = "lets plan";
+    messages.clear();
+
+    String api = Api.listQueryMessages;
+    Response response =
+        await ApiService().get('$api?pageNumber=1&pageSize=1000');
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = response.data;
+      if (data['status']) {
+        messages = (data['data']['messages'] as List)
+            .map(
+              (e) => ChatMessageModel.fromJson(e),
+            )
+            .toList();
+
+        print('mmmss---$messages');
+      } else {
+        messages.clear();
+      }
+      loading = false;
+      notifyListeners();
+      notifyListeners();
+    }
+    EasyLoading.dismiss();
+  }
+
+  Future<void> sentQuery({required BuildContext context}) async {
+    EasyLoading.show();
+    loading = true;
+    notifyListeners();
+
+    Response response = await ApiService().post(Api.sentQuery, {
+      "content": messageType == 'image'
+          ? selectedUrl
+          : messageType == 'audio'
+              ? audioUrl
+              : message,
+      "messageType": messageType,
+    });
+
+    // log(response.data.toString());
+    if (response.data != null) {
+      Map<String, dynamic> data = response.data;
+
+      print("send mesage-------$data");
+      if (data['status']) {
+        print("Success: $pageType");
+
+        fetchAllQueryMessages();
+      }
+    }
+
+    EasyLoading.dismiss();
+    messageController.clear();
+    message = null;
+    selectedUrl = null;
+    audioUrl = null;
+    notifyListeners();
   }
 }

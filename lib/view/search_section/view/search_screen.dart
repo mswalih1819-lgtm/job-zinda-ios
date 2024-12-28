@@ -41,11 +41,11 @@ class _SearchScreenState extends State<SearchScreen> {
                     shrinkWrap: true,
                     pagingController: searchViewModel.searchController,
                     builderDelegate: PagedChildBuilderDelegate<ProfileModel>(
-                      noItemsFoundIndicatorBuilder: (context) => const Center(
-                          child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 100),
-                        child: Text('No data found'),
-                      )),
+                      noItemsFoundIndicatorBuilder: (context) => Container(
+                        height: 500,
+                        child: const Center(
+                            child: Text('No data found')),
+                      ),
                       itemBuilder: (context, item, index) {
                         return SearchCard(profileModel: item);
                       },

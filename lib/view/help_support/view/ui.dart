@@ -14,17 +14,17 @@ class HelpSupportUi extends StatelessWidget {
       appBar: AppBar(
         title: textWidget(text: "Help and support"),
         actions: [
-          GestureDetector(
-              onTap: () {
-                showBottomSheet(
-                  shape: BeveledRectangleBorder(),
-                  clipBehavior: Clip.hardEdge,
-                  backgroundColor: PColors.black,
-                  context: context,
-                  builder: (context) => HelpBottomsheetUi(),
-                );
-              },
-              child: Icon(Icons.more_vert)),
+          // GestureDetector(
+          //     onTap: () {
+          //       showBottomSheet(
+          //         shape: BeveledRectangleBorder(),
+          //         clipBehavior: Clip.hardEdge,
+          //         backgroundColor: PColors.black,
+          //         context: context,
+          //         builder: (context) => HelpBottomsheetUi(),
+          //       );
+          //     },
+          //     child: Icon(Icons.more_vert)),
           SizedBox(
             width: 10,
           )

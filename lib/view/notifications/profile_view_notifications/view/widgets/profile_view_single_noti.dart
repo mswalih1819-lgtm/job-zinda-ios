@@ -35,19 +35,21 @@ class ProfileViewSingleNotiWidget extends StatelessWidget {
           children: [
             InkWell(
               onTap: () async {
-                await context
+                bool? status = await context
                     .read<PostViewModel>()
                     .fetchOtherUserProfileDetails(
                         userID: notificationModel?.sender?.sId ?? '');
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => OtherUserProfileScreen(),
-                    ));
+                if (status!) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OtherUserProfileScreen(),
+                      ));
+                }
               },
               child: CircleAvatar(
                 radius: 30,
-                backgroundImage:NetworkImage(
+                backgroundImage:notificationModel!.sender!.profileImageUrl!.isEmpty?AssetImage(PImages.profile): NetworkImage(
                     notificationModel?.sender?.profileImageUrl ?? ''),
               ),
             ),
@@ -60,23 +62,24 @@ class ProfileViewSingleNotiWidget extends StatelessWidget {
                       .notificationRead(id: notificationModel?.sId ?? '');
                   if (notificationModel?.notificationType == 'profile_view' ||
                       notificationModel?.notificationType == 'follow') {
-                    await context
+                    bool? status = await context
                         .read<PostViewModel>()
                         .fetchOtherUserProfileDetails(
                             userID: notificationModel?.sender?.sId ?? '');
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OtherUserProfileScreen(),
-                        ));
+                    if (status!) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OtherUserProfileScreen(),
+                          ));
+                    }
                   } else if (notificationModel?.notificationType == 'like' ||
                       notificationModel?.notificationType == 'comment') {
                     PostViewModel postViewModel = context.read<PostViewModel>();
                     postViewModel.postDetails =
                         PostModel(sId: notificationModel?.connectedPostId?.sId);
                     postViewModel.fetchPostDetails();
-                    Navigator.pushNamed(
-                            context, PPages.profilePostDetailsUi);
+                    Navigator.pushNamed(context, PPages.profilePostDetailsUi);
                     // Future.delayed(
                     //   Duration(seconds: 1),
                     //   () => CircularProgressIndicator(),
@@ -120,9 +123,9 @@ class ProfileViewSingleNotiWidget extends StatelessWidget {
                     const SizedBox(
                       height: 7,
                     ),
-                    
                     textWidget(
-                        text: TimeAgoClass.getHoursAgo(notificationModel!.sentOn!),
+                        text: TimeAgoClass.getHoursAgo(
+                            notificationModel!.sentOn!),
                         fontsize: 12,
                         color: PColors.whiteOff.withOpacity(0.4)),
                     const SizedBox(

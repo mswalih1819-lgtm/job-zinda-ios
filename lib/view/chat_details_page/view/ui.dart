@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jora_customer/main.dart';
 import 'package:jora_customer/model/chat_message_model.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/view/chat_details_page/view/widgets/chat_appbar.dart';
@@ -6,6 +7,7 @@ import 'package:jora_customer/view/chat_details_page/view/widgets/chat_bottom_ba
 import 'package:jora_customer/view/chat_details_page/view/widgets/my_chat_widget.dart';
 import 'package:jora_customer/view/chat_details_page/view/widgets/other_user_chat_widget.dart';
 import 'package:jora_customer/view_model/chat_details_view_model.dart';
+import 'package:jora_customer/view_model/chat_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ChatDetailsPageui extends StatelessWidget {
@@ -15,17 +17,25 @@ class ChatDetailsPageui extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ChatDetailsViewModel>(builder: (context, value, child) {
      
-      return Scaffold(
-        appBar: const PreferredSize(
-            preferredSize: Size.fromHeight(80), child: ChatAppbarUi()),
-        bottomNavigationBar: Padding(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: ChatBottomBarUi(),
-        ),
-        body: Container(
-          margin: EdgeInsets.symmetric(horizontal: 16),
-          child: chatList(context),
+      return WillPopScope(
+        onWillPop: () async{
+            navigatorKey.currentContext!
+                .read<ChatViewModel>()
+                .fetchAllConversations();
+                return true;
+        },
+        child: Scaffold(
+          appBar: const PreferredSize(
+              preferredSize: Size.fromHeight(80), child: ChatAppbarUi()),
+          bottomNavigationBar: Padding(
+            padding:
+                EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: ChatBottomBarUi(),
+          ),
+          body: Container(
+            margin: EdgeInsets.symmetric(horizontal: 16),
+            child: chatList(context),
+          ),
         ),
       );
     });
@@ -35,11 +45,14 @@ class ChatDetailsPageui extends StatelessWidget {
     ChatDetailsViewModel chatDetailViewModel =
         context.watch<ChatDetailsViewModel>();
     List<ChatMessageModel> messages = chatDetailViewModel.messages;
+
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: Consumer<ChatDetailsViewModel>(
         builder: (context, value, child) =>
         value.loading?Center(child: CircularProgressIndicator()):
+
          ListView.builder(
             itemCount: messages.length,
             shrinkWrap: true,
@@ -56,20 +69,6 @@ class ChatDetailsPageui extends StatelessWidget {
             }),
       ),
     );
-    // return SingleChildScrollView(
-    //   child: Column(
-    //     children: [
-    //       OtherUserChatWidget(
-    //           text:
-    //               "Hey Elizabeth, which pizza place are we going out to this saturday?",
-    //           time: "12:30"),
-    //       MyChatWidget(
-    //         text: "I’ve got just the spot",
-    //         time: "12:20",
-    //       ),
-    //       MyChatImageWidget()
-    //     ],
-    //   ),
-    // );
+ 
   }
 }

@@ -43,6 +43,7 @@ class HomeAppbar extends StatelessWidget {
         GestureDetector(
           onTap: () {
             context.read<ChatViewModel>().fetchAllConversations();
+
             // Navigator.pushNamed(context, PPages.subscriptionPageUi);
             context.read<ChatViewModel>().updateView(ChatViewStatus.letsPlan);
             Navigator.pushNamed(context, PPages.chatPageUi);

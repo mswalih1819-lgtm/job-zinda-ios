@@ -6,7 +6,6 @@ import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/conversation_model.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
-import 'package:jora_customer/utils/date_formatter.dart';
 import 'package:jora_customer/view_model/chat_details_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -17,18 +16,27 @@ class ChatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final participant = conversationModel.participants!.firstWhere(
-      (participant) => participant.userId!.sId != LoggedInUser.id,
-      orElse: () => Participants(),
-    );
-    print("chat card-----${participant.sId}");
+    var participant;
+
+    if (conversationModel.participants != null ||
+        conversationModel.participants!.isEmpty) {
+      participant = conversationModel.participants!.firstWhere(
+        (participant) => participant.userId == null
+            ? false
+            : participant.userId!.sId != LoggedInUser.id,
+        orElse: () => Participants(),
+      );
+      print("partt-----$participant");
+    }
 
     if (participant.sId == null) {
       return Container();
     }
 
     final name = participant.userId!.name;
+
     final profileImageUrl = participant.userId!.profileImageUrl;
+
     return GestureDetector(
       onTap: () {
         if (conversationModel.unreadCount != 0) {
@@ -41,7 +49,6 @@ class ChatCard extends StatelessWidget {
                   conversationModel.lastMessage!.messageId!.sId.toString(),
               context: context);
 
-          context.read<ChatDetailsViewModel>().fetchAllConversations(1);
           Navigator.pushNamed(context, PPages.chatDetailsPageui);
         } else {
           context
@@ -75,19 +82,17 @@ class ChatCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       textWidget(
-                          text: name,
+                          text: name ?? "",
                           // text: conversationModel
                           //         .participants?.first.userId?.name ??
                           //     '',
                           fontweight: FontWeight.w500),
                       textWidget(
-                          text: convertTo12HourTime(conversationModel
-                              .lastMessage!.messageId!.createdAt
-                              .toString()),
-                          // text: formatDateFromString(
-                          //     conversationModel.lastMessage?.createdAt ?? '',
-                          //     'yyyy-MM-ddThh:mm:ss',
-                          //     'HH:mm'),
+                          text: conversationModel.lastMessage != null
+                              ? convertTo12HourTime(conversationModel
+                                  .lastMessage!.messageId!.createdAt
+                                  .toString())
+                              : "",
                           color: PColors.whiteOff.withOpacity(0.5),
                           fontsize: 11)
                     ],

@@ -6,6 +6,7 @@ import 'package:jora_customer/main.dart';
 import 'package:jora_customer/view/upload_pages/view/ui.dart';
 import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 import 'package:jora_customer/view_model/connect_page_view_model.dart';
+import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +40,12 @@ class BottomNavBar extends StatelessWidget {
                       icon: PSvgs.home,
                       label: "Home",
                       fun: () {
-                         navigatorKey.currentContext!
+                        PostViewModel model =
+                            navigatorKey.currentContext!.read<PostViewModel>();
+                        model.currentPage = 0;
+                        model.fetchPostWithPagination(1);
+                        model.postController.refresh();
+                        navigatorKey.currentContext!
                             .read<WrapperViewModel>()
                             .updatePageView(WrapperViewStatus.home);
                       },
@@ -48,7 +54,7 @@ class BottomNavBar extends StatelessWidget {
                       icon: PSvgs.search,
                       label: "Search",
                       fun: () {
-                         navigatorKey.currentContext!
+                        navigatorKey.currentContext!
                             .read<WrapperViewModel>()
                             .updatePageView(WrapperViewStatus.search);
                       },
@@ -57,7 +63,7 @@ class BottomNavBar extends StatelessWidget {
                       icon: PSvgs.upload,
                       label: "Upload",
                       fun: () {
-                        if ( navigatorKey.currentContext!
+                        if (navigatorKey.currentContext!
                                 .read<ProfileViewModel>()
                                 .profileModel!
                                 .accountType!
@@ -65,7 +71,7 @@ class BottomNavBar extends StatelessWidget {
                             "normal") {
                           print(
                               "smnnmdfnf----${context.read<ProfileViewModel>().profileModel!.accountType!.toLowerCase()}");
-                           navigatorKey.currentContext!
+                          navigatorKey.currentContext!
                               .read<WrapperViewModel>()
                               .updatePageView(WrapperViewStatus.normalProfile);
                         } else {
@@ -77,9 +83,21 @@ class BottomNavBar extends StatelessWidget {
                       icon: PSvgs.connect,
                       label: "Connection",
                       fun: () async {
-                         navigatorKey.currentContext!.read<ProfileViewModel>().fetchProfile();
-                         navigatorKey.currentContext!.read<ConnectPageViewModel>().updateLocation(context.read<ProfileViewModel>().profileModel!.lat!, context.read<ProfileViewModel>().profileModel!.lng!);
-                         navigatorKey.currentContext!
+                        navigatorKey.currentContext!
+                            .read<ProfileViewModel>()
+                            .fetchProfile();
+                        navigatorKey.currentContext!
+                            .read<ConnectPageViewModel>()
+                            .updateLocation(
+                                context
+                                    .read<ProfileViewModel>()
+                                    .profileModel!
+                                    .lat!,
+                                context
+                                    .read<ProfileViewModel>()
+                                    .profileModel!
+                                    .lng!);
+                        navigatorKey.currentContext!
                             .read<ConnectPageViewModel>()
                             .fetchNearestProfiles();
                         await Future.delayed(Duration(milliseconds: 300));
@@ -92,22 +110,22 @@ class BottomNavBar extends StatelessWidget {
                       icon: PSvgs.profile,
                       label: "Profile",
                       fun: () {
-                        // context
-                        //       .read<WrapperViewModel>()
-                        //       .updatePageView(WrapperViewStatus.profile);
-                        if ( navigatorKey.currentContext!
+                        // PostViewModel model =
+                        //     navigatorKey.currentContext!.read<PostViewModel>();
+                        // model.currentPage = 0;
+                        // model.fetchSelfPostWithPagination(1);
+                        // model.selfPostController.refresh();
+                        if (navigatorKey.currentContext!
                                 .read<ProfileViewModel>()
                                 .profileModel!
                                 .accountType!
                                 .toLowerCase() ==
                             "normal") {
-                          print(
-                              "smnnmdfnf----${ navigatorKey.currentContext!.read<ProfileViewModel>().profileModel!.accountType!.toLowerCase()}");
-                           navigatorKey.currentContext!
+                          navigatorKey.currentContext!
                               .read<WrapperViewModel>()
                               .updatePageView(WrapperViewStatus.normalProfile);
                         } else {
-                           navigatorKey.currentContext!
+                          navigatorKey.currentContext!
                               .read<WrapperViewModel>()
                               .updatePageView(WrapperViewStatus.profile);
                         }

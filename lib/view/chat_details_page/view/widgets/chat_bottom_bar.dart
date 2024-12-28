@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
-import 'package:jora_customer/main.dart';
 import 'package:jora_customer/view/chat_details_page/view/widgets/chat_textfeild_sectopn.dart';
 import 'package:jora_customer/view_model/chat_details_view_model.dart';
-import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
@@ -56,27 +54,21 @@ class ChatBottomBarUi extends StatelessWidget {
                 onTap: () {
                   if (chatDetailsViewModel.message != null &&
                       chatDetailsViewModel.message!.isNotEmpty) {
-                    chatDetailsViewModel.sentmessage(context: context);
-                    // if (context.read<ChatDetailsViewModel>().pageType ==
-                    //     "from profile") {
-                    //   // chatDetailsViewModel.fetchAllMessageProfile(navigatorKey
-                    //   //     .currentContext!
-                    //   //     .read<ProfileViewModel>()
-                    //   //     .profileModel!
-                    //   //     .sId
-                    //   //     .toString());
-                    // } else {
-                    //   chatDetailsViewModel.fetchAllConversations(1);
-                    // }
+                    print("jfhjsdfh----${chatDetailsViewModel.pageType}");
+                    if (chatDetailsViewModel.pageType == "lets plan") {
+                      chatDetailsViewModel.sentQuery(context: context);
+                    } else {
+                      chatDetailsViewModel.sentmessage(context: context);
+                    }
                   }
                 },
                 child: Icon(Icons.send_outlined),
               ),
-         
-      if(  chatDetailsViewModel.messageController.text.isNotEmpty)
-      
-          Container()else
-          if (!chatDetailsViewModel.isrecord)
+            if (chatDetailsViewModel.pageType == "lets plan")
+              Container()
+            else if (chatDetailsViewModel.messageController.text.isNotEmpty)
+              Container()
+            else if (!chatDetailsViewModel.isrecord)
               // Send Button
               GestureDetector(
                 onTap: () async {

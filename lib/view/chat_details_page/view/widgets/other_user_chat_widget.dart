@@ -21,24 +21,50 @@ class OtherUserChatWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (message.messageType == "text" || message.messageType == 'text')
-              Container(
-                alignment: Alignment.centerLeft,
-                width: size.width / 1.4,
-                padding: const EdgeInsets.only(
-                    left: 10, right: 10, top: 10, bottom: 10),
-                decoration: BoxDecoration(
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 4.0),
+                padding: const EdgeInsets.all(10.0),
+                constraints: BoxConstraints(
+                  minWidth: 50,
+                  maxWidth: MediaQuery.of(context).size.width * 0.8,
+                ),
+                 decoration: BoxDecoration(
                     color: PColors.black2,
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(20),
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     )),
-                child: textWidget(
+                child:  textWidget(
                     text: message.content,
                     color: PColors.white,
                     fontsize: 12,
                     fontweight: FontWeight.w600),
               ),
+            ),
+              // Container(
+              //   alignment: Alignment.centerRight,
+              //     constraints: BoxConstraints(
+              //        minWidth: 50,
+              //       maxWidth: 200), // 
+              //   width: size.width / 1.4,
+              //   padding: const EdgeInsets.only(
+              //       left: 10, right: 10, top: 10, bottom: 10),
+              //   decoration: BoxDecoration(
+              //       color: PColors.black2,
+              //       borderRadius: BorderRadius.only(
+              //         bottomRight: Radius.circular(20),
+              //         topLeft: Radius.circular(20),
+              //         topRight: Radius.circular(20),
+              //       )),
+              //   child: textWidget(
+              //       text: message.content,
+              //       color: PColors.white,
+              //       fontsize: 12,
+              //       fontweight: FontWeight.w600),
+              // ),
             if (message.messageType == "image" ||
                 message.messageType == 'image')
               Container(
@@ -53,10 +79,12 @@ class OtherUserChatWidget extends StatelessWidget {
                     width: 3,
                   ),
                 ),
-                height: size.height * 0.3,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                  child: Image.network(message.content!)),
+                height: size.height * 0.25,
+                width: size.width * 0.34,
+
+                 child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child:message.content==null || message.content!.isEmpty?CircularProgressIndicator(): Image.network(message.content!,fit: BoxFit.fill,)),
               ),
             if (message.messageType == "audio" ||
                 message.messageType == 'audio')

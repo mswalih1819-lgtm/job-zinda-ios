@@ -25,9 +25,12 @@ class ProfileModel {
   String? coverImage;
   String? district;
   String? state;
-
+  String? referralCode;
+  String? referredBy;
+  int? coinBalance;
 
   bool? isFollowing;
+  bool? isBlocked;
 
   ProfileModel(
       {this.location,
@@ -53,15 +56,18 @@ class ProfileModel {
       this.accountType,
       this.fcmTokens,
       this.createdAt,
-      this.coverImage , this.isFollowing,
+      this.coverImage,
+      this.isFollowing,
       this.district,
-      this.state
-      });
+      this.state,
+      this.isBlocked,
+      this.referralCode,
+      this.coinBalance,
+      this.referredBy});
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
-    location = json['location'] != null
-        ?  Location.fromJson(json['location'])
-        : null;
+    location =
+        json['location'] != null ? Location.fromJson(json['location']) : null;
     sId = json['_id'];
     getNotifications = json['getNotifications'];
     name = json['name'];
@@ -76,7 +82,7 @@ class ProfileModel {
     followersCount = json['followersCount'];
     projectsCount = json['projectsCount'];
     rating = json['rating'];
-    lat =double.parse(json['lat'].toString()) ;
+    lat = double.parse(json['lat'].toString());
     lng = double.parse(json['lng'].toString());
     address = json['address'];
     zipcode = json['zipcode'];
@@ -84,11 +90,14 @@ class ProfileModel {
     accountType = json['accountType'];
     createdAt = json['createdAt'];
     coverImage = json['coverImage'];
-    isFollowing=json['isFollowing'];
-    district=json['district'];
-    state=json['state'];
+    isFollowing = json['isFollowing'];
+    district = json['district'];
+    state = json['state'];
+    isBlocked = json['isBlocked'];
 
-
+    referralCode = json['referralCode'];
+    referredBy = json['referredBy'];
+    coinBalance = json['coinBalance'];
   }
 }
 

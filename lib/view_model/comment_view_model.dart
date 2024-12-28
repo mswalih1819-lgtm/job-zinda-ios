@@ -1,9 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:jora_customer/main.dart';
 import 'package:jora_customer/model/comment_model.dart';
 import 'package:jora_customer/utils/api_service.dart';
 import 'package:jora_customer/utils/api_url.dart';
+import 'package:jora_customer/view_model/post_view_model.dart';
+import 'package:provider/provider.dart';
 
 class CommentViewModel extends ChangeNotifier {
   bool isReply = false;
@@ -101,7 +104,10 @@ class CommentViewModel extends ChangeNotifier {
         final data = response.data;
 
         if (data['status']) {
-          fetchComments(postId); // Reload comments after adding a new one
+          fetchComments(postId);
+          PostViewModel postViewModel = context.read<PostViewModel>();
+          postViewModel.currentPage = 0;
+          postViewModel.postController.refresh();
         }
       }
     } catch (e) {
@@ -120,7 +126,11 @@ class CommentViewModel extends ChangeNotifier {
         final data = response.data;
 
         if (data['status']) {
-          fetchComments(postId); // Reload comments after removal
+          PostViewModel postViewModel =
+              navigatorKey.currentContext!.read<PostViewModel>();
+          postViewModel.currentPage = 0;
+          postViewModel.postController.refresh();
+          fetchComments(postId); 
         } else {
           EasyLoading.showError(data['message']);
         }
@@ -138,25 +148,22 @@ class CommentViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  String getRelativeTime(String apiDate) {
+    // Parse the API-provided date
+    DateTime postDate = DateTime.parse(apiDate);
+    DateTime now = DateTime.now();
 
+    // Calculate the difference
+    Duration difference = now.difference(postDate);
 
-String getRelativeTime(String apiDate) {
-  // Parse the API-provided date
-  DateTime postDate = DateTime.parse(apiDate);
-  DateTime now = DateTime.now();
-
-  // Calculate the difference
-  Duration difference = now.difference(postDate);
-
-  if (difference.inDays >= 1) {
-    return "${difference.inDays} day${difference.inDays > 1 ? 's' : ''} ago";
-  } else if (difference.inHours >= 1) {
-    return "${difference.inHours} hour${difference.inHours > 1 ? 's' : ''} ago";
-  } else if (difference.inMinutes >= 1) {
-    return "${difference.inMinutes} minute${difference.inMinutes > 1 ? 's' : ''} ago";
-  } else {
-    return "Just now";
+    if (difference.inDays >= 1) {
+      return "${difference.inDays} day${difference.inDays > 1 ? 's' : ''} ago";
+    } else if (difference.inHours >= 1) {
+      return "${difference.inHours} hour${difference.inHours > 1 ? 's' : ''} ago";
+    } else if (difference.inMinutes >= 1) {
+      return "${difference.inMinutes} minute${difference.inMinutes > 1 ? 's' : ''} ago";
+    } else {
+      return "Just now";
+    }
   }
-}
-
 }

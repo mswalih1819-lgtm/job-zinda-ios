@@ -27,21 +27,22 @@ class SingleGalleryWidget extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               )
-            :postModel?.mediaType == 'video'? Container(
-               
-                decoration: BoxDecoration(
-                  
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(postModel!.thumbnail.toString()))),
-                alignment: Alignment.center,
-                child: const Icon(
-                  Icons.play_circle,
-                  color: Colors.white,
-                  size: 50,
-                ),
-              ):Container(
-                child: Center(child: Text(postModel!.bio.toString())),
-              ));
+            : postModel?.mediaType == 'video'
+                ? Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image:
+                                NetworkImage(postModel!.thumbnail.toString()))),
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.play_circle,
+                      color: Colors.white,
+                      size: 50,
+                    ),
+                  )
+                : Container(
+                    child: Center(child: Text(postModel!.bio.toString())),
+                  ));
   }
 }

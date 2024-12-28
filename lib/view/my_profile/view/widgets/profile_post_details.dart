@@ -35,14 +35,18 @@ class ProfilePostDetailsUi extends StatelessWidget {
                               child: Text(value.postDetails!.bio.toString()),
                             ),
                           if (value.postDetails!.mediaType == 'image')
-                            Container(
-                              height: 250,
-                              width: double.infinity - 100,
-                              child: Image.network(
-                                  value.postDetails?.mediaUrl ?? '',
-                                  fit: BoxFit.fill,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      Image.asset(PImages.noImage)),
+                            AspectRatio(
+                              aspectRatio: 1.4,
+                              child: Container(
+                                // height: 250,
+                                // width: double.infinity - 100,
+                                child: Image.network(
+                                    value.postDetails?.mediaUrl ?? '',
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            Image.asset(PImages.noImage)),
+                              ),
                             )
                           else if (value.postDetails?.mediaType == 'video')
                             InkWell(
@@ -188,18 +192,16 @@ class ProfilePostDetailsUi extends StatelessWidget {
           ),
           post?.createdAt == null
               ? Container()
-              :   textWidget(
-            text:TimeAgoClass.getHoursAgo( post?.createdAt ?? ''),
-              // text: timeago.format(stringToDateTime(
-              //         date: post?.createdAt ?? '',
-              //         format: 'yyyy-MM-ddThh:mm:ss') ??
-              //     DateTime.now()),
-              color: PColors.whiteOff.withOpacity(0.5),
-              fontsize: 11)
+              : textWidget(
+                  text: TimeAgoClass.getHoursAgo(post?.createdAt ?? ''),
+                  // text: timeago.format(stringToDateTime(
+                  //         date: post?.createdAt ?? '',
+                  //         format: 'yyyy-MM-ddThh:mm:ss') ??
+                  //     DateTime.now()),
+                  color: PColors.whiteOff.withOpacity(0.5),
+                  fontsize: 11)
         ],
       ),
     );
   }
-
-
 }

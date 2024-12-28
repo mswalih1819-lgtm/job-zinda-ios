@@ -6,11 +6,13 @@ import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/profile_model.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../main.dart';
 import '../utils/api_service.dart';
 import '../utils/api_url.dart';
+import 'profile_view_model.dart';
 
 class ConnectPageViewModel extends ChangeNotifier {
-  final Dio dio = Dio();
+
   final MapController mapController = MapController();
   String distanceInKm = "10";
   String searchTag = "";
@@ -47,6 +49,9 @@ class ConnectPageViewModel extends ChangeNotifier {
     gender = "";
     handledProjectsCountFrom = "";
     projects = "";
+    // lat=navigatorKey.currentContext!.read<ProfileViewModel>().profileModel.lat!;
+    // lng=navigatorKey.currentContext!.read<ProfileViewModel>().profileModel.lng!;
+
     rating = "";
     notifyListeners();
     fetchNearestProfiles();

@@ -1,6 +1,7 @@
 import 'package:jora_customer/Settings/widgets/no_internet.dart';
 import 'package:jora_customer/view/chat_details_page/view/ui.dart';
 import 'package:jora_customer/view/chat_section/chat_pages/view/ui.dart';
+import 'package:jora_customer/view/coin_page/coin_screen.dart';
 import 'package:jora_customer/view/connect_pages/filter_freelancers/view/ui.dart';
 import 'package:jora_customer/view/edit_profile/view/edit_profile_screen.dart';
 import 'package:jora_customer/view/freelancer_edit_profile/ui.dart';
@@ -11,6 +12,7 @@ import 'package:jora_customer/view/home_section/home_pages/view/widgets/add_stor
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/display_stories.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/storyView_page.dart';
 import 'package:jora_customer/view/login_section/add_newuser/view/ui.dart';
+import 'package:jora_customer/view/login_section/referal_code/view/ui.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/profile_post_details.dart';
 import 'package:jora_customer/view/profile_analytics/view/profile_analytics_screen.dart';
 import 'package:jora_customer/view/profile_view/view/ui.dart';
@@ -23,6 +25,7 @@ import 'package:jora_customer/view/login_section/login_welcome_screen/view/ui.da
 import 'package:jora_customer/view/login_section/otp_verify/view/ui.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/view/login_screen.dart';
 import 'package:jora_customer/view/notifications/notification_pages/view/notification_screen.dart';
+import 'package:jora_customer/view/referal_page/referal_page_ui.dart';
 import 'package:jora_customer/view/subscription_page/view/ui.dart';
 import 'package:jora_customer/view/upload_pages/view/widgets/add_post_screen.dart';
 import 'package:jora_customer/view/welcome/view/ui.dart';
@@ -170,6 +173,19 @@ class Routes {
       case PPages.adduserpage:
         return MaterialPageRoute(
           builder: (context) => AddUserPage(),
+        );
+      case PPages.referalCodeUi:
+        return MaterialPageRoute(
+          builder: (context) => ReferalCodeUi(),
+        );
+
+      case PPages.referalPageUi:
+        return MaterialPageRoute(
+          builder: (context) => ReferalPageUi(),
+        );
+      case PPages.coinScreenUi:
+        return MaterialPageRoute(
+          builder: (context) => CoinScreenUi(),
         );
 
       default:

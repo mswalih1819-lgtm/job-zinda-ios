@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:jora_customer/model/logged_in_user.dart';
-
 import '../model/conversation_model.dart';
 import '../utils/api_service.dart';
 import '../utils/api_url.dart';
@@ -28,6 +26,45 @@ class ChatViewModel extends ChangeNotifier {
     allUnreadView = val;
     notifyListeners();
   }
+
+  //  late PagingController<int, NotificationModel> notificatonController;
+  // int currentPage = 0;
+  // initNotificationPagination() {
+  //   currentPage = 0;
+  //   notificatonController = PagingController(firstPageKey: 1);
+  //   notificatonController.addPageRequestListener((pageKey) {
+  //     fetchNotificationWithPagination(pageKey);
+  //   });
+  // }
+
+  // Future<void> fetchNotificationWithPagination(int page) async {
+  //   if (currentPage != page) {
+  //     currentPage = page;
+      
+  //     String api = Api.conversationListUrl;
+  //     Response response = await ApiService()
+  //         .get('$api&pageNumber=$page');
+         
+  //     if (response.statusCode == 200) {
+  //       Map<String, dynamic> data = response.data;
+  //       if (data['status']) {
+  //         List<NotificationModel> temp = (data['data']['notifications'] as List)
+  //             .map((e) => NotificationModel.fromJson(e))
+  //             .toList();
+  //         if (data['data']['hasNext']) {
+  //           notificatonController.appendPage(temp, page + 1);
+  //         } else {
+  //           notificatonController.appendLastPage(temp);
+  //         }
+  //       } else {
+  //         notificatonController.appendLastPage([]);
+  //       }
+  //     } else {
+  //       notificatonController.appendLastPage([]);
+  //     }
+  //   }
+  // }
+
 
   List<ConversationModel> conversationList = [];
   Future<void> fetchAllConversations() async {

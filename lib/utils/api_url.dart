@@ -103,4 +103,11 @@ class Api {
   static const removeStory = '$baseurl/api/v1/story/removeStory';
   static const profilebyLocation = '$baseurl/api/v1/user/profiles-by-location';
   static const deleteProfile = '$baseurl/api/v1/user/delete-profile';
+  static const sentQuery = '$baseurl/api/v1/query/sentQuery';
+  static const listQueryMessages =
+      '$baseurl/api/v1/conversation/listAllQueryMessages';
+  static const blockUser = '$baseurl/api/v1/block/block-user';
+  static const unblockUser = '$baseurl/api/v1/block/unblock-user';
+  static const sendFeedback = '$baseurl/api/v1/app-rating/createAppRating';
+  static const fetchReferals = '$baseurl/api/v1/referral/listMyReferrals';
 }

@@ -105,10 +105,22 @@ class _PlanListUiState extends State<PlanListUi> {
             SizedBox(
               height: 10,
             ),
-            textWidget(
-                text: "\u{20B9} ${plan.billableAmount}",
-                fontsize: 24,
-                fontweight: FontWeight.w600),
+            Row(
+              children: [
+                textWidget(
+                    text: "\u{20B9}${plan.billableAmount}",
+                    fontsize: 20,
+                    fontweight: FontWeight.w600),
+                    SizedBox(width: 14,),
+                plan.amountMRP == plan.billableAmount
+                    ? Container()
+                    : Text("\u{20B9}${plan.amountMRP}",
+                        style: TextStyle(
+                            decoration: TextDecoration.lineThrough,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600))
+              ],
+            ),
             SizedBox(
               height: 15,
             ),

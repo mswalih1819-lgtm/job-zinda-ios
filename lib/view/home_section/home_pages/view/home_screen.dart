@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
+import 'package:jora_customer/Settings/until/PPages.dart';
+import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/home_appbar.dart';
@@ -11,6 +14,7 @@ import 'package:jora_customer/view_model/notification_view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,12 +31,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
     super.initState();
   }
-final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Consumer<ProfileViewModel>(
       builder: (context, value, child) => Scaffold(
-        key:scaffoldKey,
+        key: scaffoldKey,
         drawer: Drawer(
           backgroundColor: PColors.black,
           child: ListView(
@@ -55,28 +60,40 @@ final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
                 ),
               ),
               drawerWidget(
+                  title: "Referrals",
+                  icon: SvgPicture.asset(PSvgs.referals),
+                  fun: () {
+                     Navigator.pop(context);
+                    Navigator.pushNamed(context, PPages.referalPageUi);
+                  }),
+              drawerWidget(
+                  title: "Coins",
+                  icon: SvgPicture.asset(PSvgs.coins),
+                  fun: () {
+                     Navigator.pop(context);
+                    Navigator.pushNamed(context, PPages.coinScreenUi);
+                  }),
+              drawerWidget(
+                  title: "Contact",
+                  icon: SvgPicture.asset(PSvgs.contact_page),
+                  fun: () {
+              _makePhoneCall('+919061259261');
+
+                  }),
+              drawerWidget(
                   title: "Terms and Conditions",
-                  icon: Icons.settings,
+                  icon: SvgPicture.asset(PSvgs.terms),
                   fun: () {}),
               drawerWidget(
-                  title: "Logout",
-                  icon: Icons.logout,
+                  title: "Help and Support",
+                  icon: SvgPicture.asset(PSvgs.terms),
                   fun: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => logoutBox(
-                          context: context,
-                          title: "Do you want to logout?",
-                          onTap: () {
-                            context
-                                .read<ProfileViewModel>()
-                                .userLogout(context);
-                          }),
-                    );
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, PPages.helpSupportUi);
                   }),
               drawerWidget(
                   title: "Delete account",
-                  icon: Icons.delete,
+                  icon: Icon(Icons.delete,color: PColors.white,),
                   fun: () {
                     showDialog(
                       context: context,
@@ -90,12 +107,33 @@ final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
                           }),
                     );
                   }),
+              drawerWidget(
+                  title: "Logout",
+                  icon: Icon(
+                    Icons.logout,
+                    color: PColors.red,
+                  ),
+                  fun: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => logoutBox(
+                          context: context,
+                          title: "Do you want to logout?",
+                          onTap: () {
+                            context
+                                .read<ProfileViewModel>()
+                                .userLogout(context);
+                          }),
+                    );
+                  }),
             ],
           ),
         ),
-        appBar:  PreferredSize(
+        appBar: PreferredSize(
           preferredSize: Size.fromHeight(80),
-          child: HomeAppbar(scaffoldKey: scaffoldKey,),
+          child: HomeAppbar(
+            scaffoldKey: scaffoldKey,
+          ),
         ),
         body: Stack(
           children: [
@@ -130,12 +168,12 @@ final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   }
 
   Widget drawerWidget(
-      {required String title,
-      required IconData icon,
-      required Function()? fun}) {
+      {required String title, required Widget icon, required Function()? fun}) {
     return ListTile(
-        leading: Icon(icon, color: PColors.white),
-        title: textWidget(text: title, color: PColors.white),
+        leading: icon,
+        title: textWidget(
+            text: title,
+            color: title == "Logout" ? PColors.red : PColors.white),
         onTap: fun);
   }
 
@@ -188,4 +226,11 @@ final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
       ),
     );
   }
+}
+Future<void> _makePhoneCall(String phoneNumber) async {
+  final Uri launchUri = Uri(
+    scheme: 'tel',
+    path: phoneNumber,
+  );
+  await launchUrl(launchUri);
 }
