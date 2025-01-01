@@ -9,7 +9,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class ChatBottomBarUi extends StatelessWidget {
-  ChatBottomBarUi({super.key});
+  const ChatBottomBarUi({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class ChatBottomBarUi extends StatelessWidget {
                     }
                   }
                 },
-                child: Icon(Icons.send_outlined),
+                child: const Icon(Icons.send_outlined),
               ),
             if (chatDetailsViewModel.pageType == "lets plan")
               Container()
@@ -98,7 +98,7 @@ class ChatBottomBarUi extends StatelessWidget {
                   chatDetailsViewModel.updateISRecord(false);
                   chatDetailsViewModel.stop(context, isRecorderReady: true);
                 },
-                child: Icon(Icons.send_outlined),
+                child: const Icon(Icons.send_outlined),
               ),
             const SizedBox(width: 20)
           ],

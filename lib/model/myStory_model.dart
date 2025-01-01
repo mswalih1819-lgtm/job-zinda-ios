@@ -26,12 +26,12 @@ class MyStoryModel {
 
   MyStoryModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
     notificationType = json['notificationType'];
     if (json['media'] != null) {
       media = <Media>[];
       json['media'].forEach((v) {
-        media!.add(new Media.fromJson(v));
+        media!.add(Media.fromJson(v));
       });
     }
     description = json['description'];
@@ -44,22 +44,22 @@ class MyStoryModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
-    data['notificationType'] = this.notificationType;
-    if (this.media != null) {
-      data['media'] = this.media!.map((v) => v.toJson()).toList();
+    data['notificationType'] = notificationType;
+    if (media != null) {
+      data['media'] = media!.map((v) => v.toJson()).toList();
     }
-    data['description'] = this.description;
-    data['caption'] = this.caption;
-    data['archived'] = this.archived;
-    data['isActive'] = this.isActive;
-    data['createdAt'] = this.createdAt;
-    data['lastUploadedMedia'] = this.lastUploadedMedia;
-    data['__v'] = this.iV;
+    data['description'] = description;
+    data['caption'] = caption;
+    data['archived'] = archived;
+    data['isActive'] = isActive;
+    data['createdAt'] = createdAt;
+    data['lastUploadedMedia'] = lastUploadedMedia;
+    data['__v'] = iV;
     return data;
   }
 }
@@ -78,10 +78,10 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['profileImageUrl'] = this.profileImageUrl;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['name'] = name;
+    data['profileImageUrl'] = profileImageUrl;
     return data;
   }
 }
@@ -104,12 +104,12 @@ class Media {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['mediaType'] = this.mediaType;
-    data['content'] = this.content;
-    data['duration'] = this.duration;
-    data['postedAt'] = this.postedAt;
-    data['_id'] = this.sId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['mediaType'] = mediaType;
+    data['content'] = content;
+    data['duration'] = duration;
+    data['postedAt'] = postedAt;
+    data['_id'] = sId;
     return data;
   }
 }

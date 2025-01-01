@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
-import 'package:jora_customer/view/connect_pages/filter_freelancers/view_model/view_model.dart';
 import 'package:jora_customer/view_model/connect_page_view_model.dart';
 import 'package:provider/provider.dart';
 

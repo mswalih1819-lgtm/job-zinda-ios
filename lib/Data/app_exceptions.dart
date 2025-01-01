@@ -11,21 +11,17 @@ class AppExceptions implements Exception {
 }
 
 class FetchDataException extends AppExceptions {  
-  FetchDataException([String? messages,int? statusCode])
-      : super(messages, statusCode);
+  FetchDataException([String? super.messages,int? super.statusCode]);
 }
 
 class BadRequestException extends AppExceptions {
-  BadRequestException([String? messages,int? statusCode])
-      : super(messages, statusCode);
+  BadRequestException([String? super.messages,int? super.statusCode]);
 }
 
 class UnauthorisedException extends AppExceptions {
-  UnauthorisedException([String? messages,int? statusCode])
-      : super(messages, statusCode);
+  UnauthorisedException([String? super.messages,int? super.statusCode]);
 }
 
 class InavalidInputException extends AppExceptions {
-  InavalidInputException([String? messages,int? statusCode])
-      : super(messages, statusCode);
+  InavalidInputException([String? super.messages,int? super.statusCode]);
 }

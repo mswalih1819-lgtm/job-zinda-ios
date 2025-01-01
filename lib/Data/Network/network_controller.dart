@@ -3,8 +3,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 
 class NetworkController extends GetxController {
@@ -33,7 +31,7 @@ class NetworkController extends GetxController {
               style: TextStyle(fontSize: 14, color: PColors.white),
             ),
             isDismissible: false,
-            duration: Duration(days: 1),
+            duration: const Duration(days: 1),
             backgroundColor: const Color.fromARGB(255, 222, 62, 51),
             icon: Icon(
               Icons.wifi_off,

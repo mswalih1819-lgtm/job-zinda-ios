@@ -57,7 +57,7 @@ class ChatBottomTextfeildSectopn extends StatelessWidget {
   }
 
   Widget prefixIcon() {
-    return Container(
+    return SizedBox(
       width: 40,
       child: Center(
         child: SvgPicture.asset(

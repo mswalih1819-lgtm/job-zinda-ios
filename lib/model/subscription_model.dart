@@ -54,23 +54,23 @@ class Plans {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['planName'] = this.planName;
-    data['documentStatus'] = this.documentStatus;
-    data['amountMRP'] = this.amountMRP;
-    data['amount'] = this.amount;
-    data['billableAmount'] = this.billableAmount;
-    data['planAmountPer'] = this.planAmountPer;
-    data['discountPercentage'] = this.discountPercentage;
-    data['durationDays'] = this.durationDays;
-    data['planType'] = this.planType;
-    data['isSubscribed'] = this.isSubscribed;
-    data['planFeatures'] = this.planFeatures;
-    data['currency'] = this.currency;
-    data['currencySymbol'] = this.currencySymbol;
-    data['planIcon'] = this.planIcon;
-    data['__v'] = this.iV;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['planName'] = planName;
+    data['documentStatus'] = documentStatus;
+    data['amountMRP'] = amountMRP;
+    data['amount'] = amount;
+    data['billableAmount'] = billableAmount;
+    data['planAmountPer'] = planAmountPer;
+    data['discountPercentage'] = discountPercentage;
+    data['durationDays'] = durationDays;
+    data['planType'] = planType;
+    data['isSubscribed'] = isSubscribed;
+    data['planFeatures'] = planFeatures;
+    data['currency'] = currency;
+    data['currencySymbol'] = currencySymbol;
+    data['planIcon'] = planIcon;
+    data['__v'] = iV;
     return data;
   }
 }

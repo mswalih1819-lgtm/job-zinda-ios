@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import '../../../../view_model/post_view_model.dart';
 
 class OtherUserProfileHeadUi extends StatelessWidget {
-  OtherUserProfileHeadUi({super.key});
+  const OtherUserProfileHeadUi({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class OtherUserProfileHeadUi extends StatelessWidget {
           profileModel: profileModel
         ),
         Container(
-            margin: EdgeInsets.symmetric(horizontal: 17, vertical: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 17, vertical: 10),
             child: contentWidget(profileModel))
       ],
     );
@@ -49,7 +49,7 @@ class OtherUserProfileHeadUi extends StatelessWidget {
             color: PColors.white,
             overflow: TextOverflow.ellipsis,
             maxLines: 1),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         textWidget(
@@ -58,19 +58,19 @@ class OtherUserProfileHeadUi extends StatelessWidget {
             fontweight: FontWeight.w300,
             text: profile?.bio ?? '',
             fontsize: 13),
-        SizedBox(
+        const SizedBox(
           height: 18,
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             columnWidget(
                 title: 'Followers', value: '${profile?.followersCount ?? '0'}'),
-            columnWidget(
-                title: 'Projects', value: '${profile?.projectsCount ?? '0'}'),
-            columnWidget(
-                title: 'Feedback',
-                value: profile?.rating?.toStringAsFixed(1) ?? '0'),
+            // columnWidget(
+            //     title: 'Projects', value: '${profile?.projectsCount ?? '0'}'),
+            // columnWidget(
+            //     title: 'Feedback',
+            //     value: profile?.rating?.toStringAsFixed(1) ?? '0'),
           ],
         )
       ],
@@ -82,7 +82,7 @@ class OtherUserProfileHeadUi extends StatelessWidget {
       child: Column(
         children: [
           textWidget(text: value, fontsize: 16, fontweight: FontWeight.w500),
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
           textWidget(

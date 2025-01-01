@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
-import 'package:jora_customer/model/profession_model.dart';
-import 'package:jora_customer/view_model/profile_view_model.dart';
-import 'package:provider/provider.dart';
 
 class StateDropdownWidgetUi extends StatelessWidget {
   String? selected;

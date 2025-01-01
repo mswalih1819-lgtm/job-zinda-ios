@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/view/connect_pages/map_section/view/ui.dart';
-import 'package:jora_customer/view/freelancer_edit_profile/ui.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/home_screen.dart';
 import 'package:jora_customer/view/my_profile/view/profile_screen.dart';
 import 'package:jora_customer/view/other_user_profile/view/other_user_profile_screen.dart';
 import 'package:jora_customer/view/plan_ui/ui.dart';
-import 'package:jora_customer/view/profile_view/view/ui.dart';
 import 'package:jora_customer/view/search_section/view/search_screen.dart';
 import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 import 'package:jora_customer/view_model/location_view_model.dart';
@@ -35,17 +33,17 @@ class WrapperBody extends StatelessWidget {
           case WrapperViewStatus.home:
             return const HomeScreen();
           case WrapperViewStatus.search:
-            return SearchScreen();
+            return const SearchScreen();
           case WrapperViewStatus.upload:
             return Container();
           case WrapperViewStatus.connect:
-            return ConnectPagesUi();
+            return const ConnectPagesUi();
           case WrapperViewStatus.profile:
-            return ProfileScreen();
+            return const ProfileScreen();
           case WrapperViewStatus.normalProfile:
-            return PlanUi();
+            return const PlanUi();
           case WrapperViewStatus.otherProfile:
-            return OtherUserProfileScreen();
+            return const OtherUserProfileScreen();
 
           // case WrapperViewStatus.freelancer_createAccount:
           //   return FreeLancerEditProfileUi();

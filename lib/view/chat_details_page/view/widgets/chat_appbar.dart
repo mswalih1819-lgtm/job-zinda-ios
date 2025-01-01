@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
@@ -94,10 +93,6 @@ class ChatAppbarUi extends StatelessWidget {
           (participant) => participant.userId!.sId != LoggedInUser.id,
           orElse: () => Participants(),
         );
-
-    if (participant == null) {
-      return Text('No participant found.');
-    }
 
     final name = participant.userId!.name;
     final profileImageUrl = participant.userId!.profileImageUrl;

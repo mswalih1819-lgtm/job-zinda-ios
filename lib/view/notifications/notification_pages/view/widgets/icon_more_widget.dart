@@ -12,7 +12,7 @@ class IconMoreWidget extends StatelessWidget {  final NotificationModel? notific
     return GestureDetector(
         onTap: () {
           showBottomSheet(
-            shape: BeveledRectangleBorder(),
+            shape: const BeveledRectangleBorder(),
             clipBehavior: Clip.hardEdge,
             backgroundColor: PColors.black,
             context: context,

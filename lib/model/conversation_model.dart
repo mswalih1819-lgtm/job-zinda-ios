@@ -17,11 +17,11 @@ class ConversationModel {
     if (json['participants'] != null) {
       participants = <Participants>[];
       json['participants'].forEach((v) {
-        participants!.add(new Participants.fromJson(v));
+        participants!.add(Participants.fromJson(v));
       });
     }
     lastMessage = json['lastMessage'] != null
-        ? new LastMessage.fromJson(json['lastMessage'])
+        ? LastMessage.fromJson(json['lastMessage'])
         : null;
     createdUser = json['createdUser'];
     unreadCount = json['unreadCount'];
@@ -37,7 +37,7 @@ class Participants {
 
   Participants.fromJson(Map<String, dynamic> json) {
     userId =
-        json['userId'] != null ? new UserId.fromJson(json['userId']) : null;
+        json['userId'] != null ? UserId.fromJson(json['userId']) : null;
     lastReadMessageId = json['lastReadMessageId'];
     sId = json['_id'];
   }
@@ -72,7 +72,7 @@ class LastMessage {
     createdAt = json['createdAt'];
     content = json['content'];
     messageId = json['messageId'] != null
-        ? new MessageId.fromJson(json['messageId'])
+        ? MessageId.fromJson(json['messageId'])
         : null;
     senderId = json['senderId'];
   }

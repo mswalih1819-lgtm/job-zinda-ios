@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '../../../../view_model/search_view_model.dart';
 
 class SearchButtonUi extends StatefulWidget {
-  SearchButtonUi({super.key});
+  const SearchButtonUi({super.key});
 
   @override
   State<SearchButtonUi> createState() => _SearchButtonUiState();
@@ -47,9 +47,9 @@ class _SearchButtonUiState extends State<SearchButtonUi> {
           searchViewModel.currentPage = 0;
           searchViewModel.searchController.refresh();
         },
-        suffixIcon: Icon(Icons.close),
+        suffixIcon: const Icon(Icons.close),
         borderColor: PColors.seed2,
-        hintText: 'Type a skill, role, or name to search.',
+        hintText: 'Type a role, or name to search.',
         onChanged: (val) {
           SearchViewModel searchViewModel = context.read<SearchViewModel>();
           searchViewModel.searchTag = val ?? '';

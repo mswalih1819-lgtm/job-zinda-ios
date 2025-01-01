@@ -14,7 +14,7 @@ class CoinScreenUi extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text("Coins"),
+          title: const Text("Coins"),
         ),
         body: Container(
           margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -23,7 +23,7 @@ class CoinScreenUi extends StatelessWidget {
               Row(
                 children: [
                   Image.asset(PImages.coin),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   textWidget(
@@ -32,13 +32,13 @@ class CoinScreenUi extends StatelessWidget {
                       fontweight: FontWeight.bold),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Row(
                 children: [
                   Icon(Icons.info_outline, color: PColors.whiteOff.withOpacity(0.5),),
-                  SizedBox(
+                  const SizedBox(
                     width:7,
                   ),
                   Expanded(

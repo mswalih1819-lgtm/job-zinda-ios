@@ -34,9 +34,9 @@ class _NotificationBodySectionState extends State<NotificationBodySection> {
           padding: const EdgeInsets.symmetric(horizontal: 13),
           pagingController: notificationViewModel.notificatonController,
           builderDelegate: PagedChildBuilderDelegate<NotificationModel>(
-            noItemsFoundIndicatorBuilder: (context) => Container(
+            noItemsFoundIndicatorBuilder: (context) => const SizedBox(
               height: 500,
-              child: const Center(child: Text('No data found')),
+              child: Center(child: Text('No data found')),
             ),
             itemBuilder: (context, item, index) {
               return ProfileViewSingleNotiWidget(

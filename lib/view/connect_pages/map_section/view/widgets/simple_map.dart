@@ -9,6 +9,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 
 class SimpleMap extends StatelessWidget {
+  const SimpleMap({super.key});
+
   // final List<LatLng> points = [
   //   LatLng(8.5241, 76.9366), // San Francisco
   //   LatLng(9.9312, 76.2673), // Los Angeles
@@ -37,7 +39,7 @@ class SimpleMap extends StatelessWidget {
             urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
             // urlTemplate: "https://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png",
             userAgentPackageName: "com.example.app",
-            subdomains: ['a', 'b', 'c'],
+            subdomains: const ['a', 'b', 'c'],
             // attributionBuilder: (_) {
             //   return Text("© OpenStreetMap contributors");
             // },

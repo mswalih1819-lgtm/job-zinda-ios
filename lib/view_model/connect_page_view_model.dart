@@ -2,14 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/profile_model.dart';
 import 'package:latlong2/latlong.dart';
 
-import '../main.dart';
 import '../utils/api_service.dart';
 import '../utils/api_url.dart';
-import 'profile_view_model.dart';
 
 class ConnectPageViewModel extends ChangeNotifier {
 
@@ -31,7 +28,7 @@ class ConnectPageViewModel extends ChangeNotifier {
   }
 
   void _zoomToTarget() {
-    Future.delayed(Duration(milliseconds: 100), () {
+    Future.delayed(const Duration(milliseconds: 100), () {
       if (isMapReady) {
         mapController.move(LatLng(lat!, lng!), 10);
       } 

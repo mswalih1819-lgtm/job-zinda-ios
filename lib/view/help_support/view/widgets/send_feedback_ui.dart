@@ -24,7 +24,7 @@ class _SendFeedbackUiState extends State<SendFeedbackUi> {
         title: textWidget(text: "Send feedback"),
       ),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 17),
+        margin: const EdgeInsets.symmetric(horizontal: 17),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -35,13 +35,13 @@ class _SendFeedbackUiState extends State<SendFeedbackUi> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                     textWidget(
                       text: "Write your feedback below",
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     CustomTextFeild(
@@ -51,9 +51,11 @@ class _SendFeedbackUiState extends State<SendFeedbackUi> {
                         hintText: "",
                         onSaved: (val) {},
                         onChanged: (val) {},
-                        validation: (val) {},
+                        validation: (val) {
+                          return null;
+                        },
                         filColor: PColors.seed),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     starSection(context)
@@ -62,7 +64,7 @@ class _SendFeedbackUiState extends State<SendFeedbackUi> {
               ),
             ),
             button(),
-            SizedBox(height: 10,)
+            const SizedBox(height: 10,)
           ],
         ),
       ),
@@ -92,14 +94,14 @@ class _SendFeedbackUiState extends State<SendFeedbackUi> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         textWidget(text: "Optional",color: PColors.white.withOpacity(0.6)),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              margin: EdgeInsets.only(right: 7),
+              margin: const EdgeInsets.only(right: 7),
               child: StarRating(
                 rating: rating,
                 size: 45,
@@ -113,7 +115,7 @@ class _SendFeedbackUiState extends State<SendFeedbackUi> {
             )
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
         textWidget(text: "Rate your experience with Jora")

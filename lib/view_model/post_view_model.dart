@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/utils/api_url.dart';
 import '../model/post_model.dart';
@@ -13,7 +12,7 @@ import '../utils/api_service.dart';
 class PostViewModel with ChangeNotifier {
   late PagingController<int, PostModel> postController;
   int currentPage = 0;
-  List<PostModel> _posts = [];
+  final List<PostModel> _posts = [];
   List<PostModel> get posts => _posts;
   PostViewModel() {
     initSelfPostPagination(); // Ensure initialization
@@ -55,7 +54,7 @@ class PostViewModel with ChangeNotifier {
       if (response.statusCode == 200) {
         Map<String, dynamic> data = response.data;
         if (data['status']) {
-          print("temp----${data}");
+          print("temp----$data");
 
           List<PostModel> temp = (data['data']['posts'] as List)
               .map((e) => PostModel.fromJson(e))
@@ -219,6 +218,7 @@ class PostViewModel with ChangeNotifier {
         return false;
       }
     }
+    return null;
     // EasyLoading.dismiss();
   }
 
@@ -376,6 +376,26 @@ class PostViewModel with ChangeNotifier {
       fetchOtherUserProfileDetails(userID: id);
 
       EasyLoading.showSuccess("User Unblocked");
+    }
+  }
+
+  removePost(
+    BuildContext context, {
+    required String id,
+  }) async {
+    EasyLoading.show();
+    String url = "${Api.removePost}/$id";
+    Response response = await ApiService().delete(
+      url,
+    );
+    print("removeost user----${response.data}");
+    EasyLoading.dismiss();
+
+    if (response.data['status']) {
+      isForYou = true;
+      currentPage = 0;
+      postController.refresh();
+      EasyLoading.showSuccess(response.data['message']);
     }
   }
 }

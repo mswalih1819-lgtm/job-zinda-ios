@@ -15,8 +15,8 @@ class AllChatSection extends StatelessWidget {
     List<ConversationModel> conversationList = chatViewModel.conversationList;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      child: conversationList.length == 0
-          ? Container(
+      child: conversationList.isEmpty
+          ? SizedBox(
             height: 500,
             child: Center(
                 child: Text(

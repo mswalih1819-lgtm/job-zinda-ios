@@ -8,7 +8,6 @@ import 'package:jora_customer/view/login_section/phone_number_ui/view/widgets/lo
 import 'package:jora_customer/view/login_section/phone_number_ui/view_model/view_model.dart';
 
 import 'package:provider/provider.dart';
-import '../../../../utils/validator.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

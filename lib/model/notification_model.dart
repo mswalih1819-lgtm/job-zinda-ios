@@ -10,8 +10,8 @@ class NotificationModel {
   bool? documentStatus;
   ConnectedProfileId? connectedProfileId;
   ConnectedPostId? connectedPostId;
-  Null? connectedCommentId;
-  Null? connectedReplyId;
+  Null connectedCommentId;
+  Null connectedReplyId;
   bool? viewStatus;
   int? iV;
 
@@ -40,7 +40,7 @@ class NotificationModel {
     onTapNavigate = json['onTapNavigate'];
     sentOn = json['sentOn'];
      sender =
-        json['sender'] != null ? new Sender.fromJson(json['sender']) : null;
+        json['sender'] != null ? Sender.fromJson(json['sender']) : null;
     documentStatus = json['documentStatus'];
     connectedProfileId = json['connectedProfileId'] != null
         ? ConnectedProfileId.fromJson(json['connectedProfileId'])

@@ -10,7 +10,7 @@ import 'package:jora_customer/view_model/connect_page_view_model.dart';
 import 'package:provider/provider.dart';
 
 class FreelancerFilterPageUi extends StatelessWidget {
-  FreelancerFilterPageUi({super.key});
+  const FreelancerFilterPageUi({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +28,13 @@ class FreelancerFilterPageUi extends StatelessWidget {
         textColor: PColors.black,
       ),
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Filter",
           style: TextStyle(fontWeight: FontWeight.w400),
         ),
       ),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 17),
+        margin: const EdgeInsets.symmetric(horizontal: 17),
         // child: ChangeNotifierProvider(
         //   create: (context) => FreelancerFilterViewModel(),
         //   builder: (context, child) =>
@@ -45,10 +45,10 @@ class FreelancerFilterPageUi extends StatelessWidget {
               const SizedBox(height: 10),
               GenderFilterUi(),
               const SizedBox(height: 10),
-              ProjectsFilterUi(),
-              const SizedBox(height: 10),
-              RatingFilterUi(),
-              const SizedBox(height: 40),
+              // ProjectsFilterUi(),
+              // const SizedBox(height: 10),
+              // RatingFilterUi(),
+              // const SizedBox(height: 40),
             ],
           ),
         ),

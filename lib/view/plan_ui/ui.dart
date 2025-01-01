@@ -5,10 +5,7 @@ import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
-import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/view/plan_ui/widgets/plan_list.dart';
-import 'package:jora_customer/view/profile_view/view/widgets/profile_view_body.dart';
-import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -72,7 +69,7 @@ class PlanUi extends StatelessWidget {
                       color: PColors.whiteOff.withOpacity(0.3),
                     )
                   : Container(),
-              PlanListUi(),
+              const PlanListUi(),
               const SizedBox(
                 height: 100,
               )

@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:jora_customer/Settings/common/constants/app_url.dart';
 import 'package:jora_customer/utils/api_url.dart';
 
 import '../../../model/logged_in_user.dart';

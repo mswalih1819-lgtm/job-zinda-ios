@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? AssetImage(PImages.profile)
                           : NetworkImage(value.profileModel!.profileImageUrl!),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     textWidget(text: value.profileModel?.name ?? 'Guest User'),
                   ],
                 ),
@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   }),
               drawerWidget(
                   title: "Contact",
-                  icon: SvgPicture.asset(PSvgs.contact_page),
+                  icon: Icon(Icons.call,color: PColors.whiteOff,size: 18,),
                   fun: () {
               _makePhoneCall('+919999999999');
 
@@ -86,14 +86,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   fun: () {}),
               drawerWidget(
                   title: "Help and Support",
-                  icon: SvgPicture.asset(PSvgs.terms),
+                  icon: SvgPicture.asset(PSvgs.support),
                   fun: () {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, PPages.helpSupportUi);
                   }),
               drawerWidget(
                   title: "Delete account",
-                  icon: Icon(Icons.delete,color: PColors.white,),
+                  icon: Icon(Icons.delete,color: PColors.whiteOff,size: 18,),
                   fun: () {
                     showDialog(
                       context: context,
@@ -112,6 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: Icon(
                     Icons.logout,
                     color: PColors.red,
+                    size: 18,
                   ),
                   fun: () {
                     showDialog(
@@ -130,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80),
+          preferredSize: const Size.fromHeight(80),
           child: HomeAppbar(
             scaffoldKey: scaffoldKey,
           ),
@@ -154,8 +155,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Consumer<PostViewModel>(
               builder: (context, value, child) => value.isBottomshetopen
-                  ? SizedBox()
-                  : Positioned(
+                  ? const SizedBox()
+                  : const Positioned(
                       bottom: 10,
                       right: 0,
                       child: HomeFloatingActionButtonUi(),

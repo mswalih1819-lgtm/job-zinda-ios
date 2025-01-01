@@ -5,14 +5,13 @@ import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/post_model.dart';
 import 'package:jora_customer/view/comment_pages/widgets/comment_card.dart';
 import 'package:jora_customer/view_model/comment_view_model.dart';
-import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 class CommentsBottomSheet extends StatelessWidget {
   final PostModel? post;
 
-  CommentsBottomSheet({Key? key, this.post}) : super(key: key);
+  const CommentsBottomSheet({super.key, this.post});
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:jora_customer/main.dart';
 import 'package:jora_customer/model/referal_model.dart';
 import 'package:jora_customer/utils/api_service.dart';
 import 'package:jora_customer/utils/api_url.dart';
@@ -21,7 +20,7 @@ class ReferalViewModel extends ChangeNotifier {
     referlaList.clear();
     String api = "${Api.fetchReferals}?pageNumber=$pageNumber&pageSize=10";
 
-    Response response = await ApiService().get('$api');
+    Response response = await ApiService().get(api);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       print(response.data.toString());
@@ -46,7 +45,7 @@ class ReferalViewModel extends ChangeNotifier {
 
     String api = "${Api.fetchReferals}?pageNumber=$pageNumber&pageSize=10";
 
-    Response response = await ApiService().get('$api');
+    Response response = await ApiService().get(api);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       print(response.data.toString());

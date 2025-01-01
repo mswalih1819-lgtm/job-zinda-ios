@@ -7,7 +7,7 @@ import 'package:jora_customer/view/chat_details_page/view/widgets/audio_widget.d
 
 class OtherUserChatWidget extends StatelessWidget {
   final ChatMessageModel message;
-  OtherUserChatWidget({super.key, required this.message});
+  const OtherUserChatWidget({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class OtherUserChatWidget extends StatelessWidget {
                 ),
                  decoration: BoxDecoration(
                     color: PColors.black2,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       bottomRight: Radius.circular(20),
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
@@ -69,7 +69,7 @@ class OtherUserChatWidget extends StatelessWidget {
                 message.messageType == 'image')
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     bottomRight: Radius.circular(12),
                     topLeft: Radius.circular(12),
                     topRight: Radius.circular(12),
@@ -84,13 +84,13 @@ class OtherUserChatWidget extends StatelessWidget {
 
                  child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child:message.content==null || message.content!.isEmpty?CircularProgressIndicator(): Image.network(message.content!,fit: BoxFit.fill,)),
+                  child:message.content==null || message.content!.isEmpty?const CircularProgressIndicator(): Image.network(message.content!,fit: BoxFit.fill,)),
               ),
             if (message.messageType == "audio" ||
                 message.messageType == 'audio')
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(20),
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),

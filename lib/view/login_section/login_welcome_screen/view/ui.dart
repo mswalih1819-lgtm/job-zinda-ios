@@ -4,10 +4,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
-import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/custom_icon_elevated_button.dart';
-import 'package:jora_customer/Settings/widgets/loadingShow.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/repository/repository.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/view_model/view_model.dart';
@@ -21,12 +19,12 @@ class LoginWelcomeScreenUi extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 17),
+        margin: const EdgeInsets.symmetric(horizontal: 17),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
+            SizedBox(
               height: size.height / 2.1,
               // margin: EdgeInsets.only(top: 100),
               child: Image.asset(
@@ -38,7 +36,7 @@ class LoginWelcomeScreenUi extends StatelessWidget {
               ),
             ),
             textWidget(text: "Sign up or log in", fontsize: 19),
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
             CustomIconElevatedButton(
@@ -62,7 +60,7 @@ class LoginWelcomeScreenUi extends StatelessWidget {
                 EasyLoading.dismiss();
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             CustomElavatedTextButton(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
-import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
@@ -35,7 +34,7 @@ class ResultSheetUi extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
               color: PColors.black,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(23), topRight: Radius.circular(23))),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 16),
@@ -81,11 +80,11 @@ class ResultSheetUi extends StatelessWidget {
                           child: SvgPicture.asset(PSvgs.filter))
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 23,
                   ),
                   ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: connectPageViewModel.nearestProfiles.length,
                       controller: scrollController, // set this too

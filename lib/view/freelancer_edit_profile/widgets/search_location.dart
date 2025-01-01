@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class SearchLocation extends StatelessWidget {
   String? page;
-  SearchLocation({required this.page});
+  SearchLocation({super.key, required this.page});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

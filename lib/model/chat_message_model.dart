@@ -24,7 +24,7 @@ class ChatMessageModel {
     sId = json['_id'];
     conversationId = json['conversationId'];
     senderId = json['senderId'] != null
-        ? new SenderId.fromJson(json['senderId'])
+        ? SenderId.fromJson(json['senderId'])
         : null;
     content = json['content'];
     messageType = json['messageType'];
@@ -39,19 +39,19 @@ class ChatMessageModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['conversationId'] = this.conversationId;
-    if (this.senderId != null) {
-      data['senderId'] = this.senderId!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['conversationId'] = conversationId;
+    if (senderId != null) {
+      data['senderId'] = senderId!.toJson();
     }
-    data['content'] = this.content;
-    data['messageType'] = this.messageType;
+    data['content'] = content;
+    data['messageType'] = messageType;
      if (attachments != null) {
       data['attachments'] = attachments!.map((v) => v).toList();
     }
-    data['createdAt'] = this.createdAt;
-    data['__v'] = this.iV;
+    data['createdAt'] = createdAt;
+    data['__v'] = iV;
     return data;
   }
 }
@@ -70,10 +70,10 @@ class SenderId {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['profileImageUrl'] = this.profileImageUrl;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['name'] = name;
+    data['profileImageUrl'] = profileImageUrl;
     return data;
   }
 }

@@ -6,14 +6,12 @@ import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/Settings/widgets/time_function.dart';
 import 'package:jora_customer/model/post_model.dart';
-import 'package:jora_customer/utils/date_formatter.dart';
 import 'package:jora_customer/view/comment_pages/ui.dart';
 import 'package:jora_customer/view/video_player/video_player.dart';
 import 'package:jora_customer/view_model/comment_view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class ProfilePostDetailsUi extends StatelessWidget {
   const ProfilePostDetailsUi({super.key});
@@ -24,7 +22,7 @@ class ProfilePostDetailsUi extends StatelessWidget {
       appBar: AppBar(),
       body: Consumer<PostViewModel>(
           builder: (context, value, child) => Container(
-                margin: EdgeInsets.symmetric(horizontal: 17),
+                margin: const EdgeInsets.symmetric(horizontal: 17),
                 child: value.postDetails == null
                     ? Container()
                     : Column(
@@ -98,7 +96,7 @@ class ProfilePostDetailsUi extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {
-                context.read<PostViewModel>().postLike(postID: post?.sId ?? '');
+                context.read<PostViewModel>().postLike(postID: post.sId ?? '');
                 // setState(() {
                 //   if (isLiked) {
                 //     likesCount = likesCount - 1;
@@ -126,7 +124,7 @@ class ProfilePostDetailsUi extends StatelessWidget {
                 // commentViewModel.initCommentPagination(post!.sId.toString());
                 context
                     .read<CommentViewModel>()
-                    .fetchComments(post!.sId.toString());
+                    .fetchComments(post.sId.toString());
                 showModalBottomSheet(
                     context: context,
                     isScrollControlled: true,
@@ -158,7 +156,7 @@ class ProfilePostDetailsUi extends StatelessWidget {
                       fontsize: 12),
                   const SizedBox(width: 6),
                   textWidget(
-                      text: '${post?.commentsCount ?? ''} comments',
+                      text: '${post.commentsCount ?? ''} comments',
                       color: PColors.whiteOff.withOpacity(0.6),
                       fontsize: 12),
                 ],

@@ -100,7 +100,7 @@ class BottomNavBar extends StatelessWidget {
                         navigatorKey.currentContext!
                             .read<ConnectPageViewModel>()
                             .fetchNearestProfiles();
-                        await Future.delayed(Duration(milliseconds: 300));
+                        await Future.delayed(const Duration(milliseconds: 300));
                         navigatorKey.currentContext!
                             .read<WrapperViewModel>()
                             .updatePageView(WrapperViewStatus.connect);
@@ -160,7 +160,7 @@ class BottomNavBar extends StatelessWidget {
               // color: selected ? PColors.white : null,
               height: label == 'Upload' ? 50 : 24,
             ),
-            SizedBox(
+            const SizedBox(
               height: 9,
             ),
             label == 'Upload'
@@ -181,10 +181,10 @@ class BottomNavBar extends StatelessWidget {
 
   openBottomseet(BuildContext context) {
     showModalBottomSheet(
-      shape: BeveledRectangleBorder(),
+      shape: const BeveledRectangleBorder(),
       backgroundColor: PColors.black,
       context: context,
-      builder: (context) => UploadPagesUi(),
+      builder: (context) => const UploadPagesUi(),
     );
   }
 }

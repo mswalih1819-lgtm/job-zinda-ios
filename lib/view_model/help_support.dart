@@ -19,7 +19,7 @@ class HelpViewModel extends ChangeNotifier {
     
     Map body = {'rating': rating, 'review': review};
     print("feedback body-----$body");
-    Response response = await ApiService().post("${Api.sendFeedback}", body);
+    Response response = await ApiService().post(Api.sendFeedback, body);
     EasyLoading.dismiss();
 
     if (response.statusCode == 200) {

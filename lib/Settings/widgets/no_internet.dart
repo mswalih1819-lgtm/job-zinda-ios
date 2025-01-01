@@ -18,9 +18,9 @@ class NoInternetWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(Icons.wifi_off),
-              Text("Check your Internet connectivity!!!"),
-              SizedBox(
+              const Icon(Icons.wifi_off),
+              const Text("Check your Internet connectivity!!!"),
+              const SizedBox(
                 height: 20,
               ),
               GestureDetector(
@@ -33,7 +33,7 @@ class NoInternetWidget extends StatelessWidget {
                       }
                     });
                   },
-                  child: Icon(Icons.refresh))
+                  child: const Icon(Icons.refresh))
             ],
           ),
         ),

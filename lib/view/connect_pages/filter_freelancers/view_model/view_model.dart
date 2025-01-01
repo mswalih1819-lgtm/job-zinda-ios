@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 // class FreelancerFilterViewModel extends ChangeNotifier {
 //   String? distance;

@@ -18,9 +18,9 @@ class ChatPageUi extends StatelessWidget {
           child: const Column(
             children: [
               ChatHeadUi(),
-              SizedBox(
-                height: 30,
-              ),
+              // SizedBox(
+              //   height: 30,
+              // ),
               ChatBodyUi()
             ],
           ),

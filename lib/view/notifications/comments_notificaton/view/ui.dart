@@ -7,12 +7,12 @@ class CommentsNotificationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 13),
+      margin: const EdgeInsets.symmetric(horizontal: 13),
       child: ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: 4,
-        itemBuilder: (context, index) => CommentsSingleNotificationwidget(),
+        itemBuilder: (context, index) => const CommentsSingleNotificationwidget(),
       ),
     );
   }

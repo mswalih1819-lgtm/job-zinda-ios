@@ -48,8 +48,8 @@ class FirebaseAuthServices {
 
   Future<UserCredential?> loginwithGoogle() async {
     try {
-      final GoogleSignIn _googleSignIn = GoogleSignIn();
-      await _googleSignIn.signOut();
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+      await googleSignIn.signOut();
       final googleuse = await GoogleSignIn().signIn();
       final googleAuth = await googleuse?.authentication;
       final cred = GoogleAuthProvider.credential(
@@ -62,12 +62,13 @@ class FirebaseAuthServices {
           .checkUserExstsEmail(navigatorKey.currentContext!, email);
       return crede;
     } catch (e) {}
+    return null;
   }
 
   Future<void> signOut() async {
     try {
-      final GoogleSignIn _googleSignIn = GoogleSignIn();
-      await _googleSignIn.signOut();
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+      await googleSignIn.signOut();
       print("User signed out successfully.");
       return;
     } catch (e) {

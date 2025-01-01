@@ -10,7 +10,7 @@ class FollowSingleNotificationUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10),
+      margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
           border: Border(
               bottom: BorderSide(color: PColors.whiteOff.withOpacity(0.5)))),
@@ -23,11 +23,11 @@ class FollowSingleNotificationUi extends StatelessWidget {
               radius: 30,
               backgroundImage: AssetImage(PImages.pro_pic3),
             ),
-            SizedBox(
+            const SizedBox(
               width: 13,
             ),
             Expanded(child: secondColumn()),
-            Column(
+            const Column(
               children: [IconMoreWidget()],
             )
           ],
@@ -40,26 +40,26 @@ class FollowSingleNotificationUi extends StatelessWidget {
     return RichText(
       overflow: TextOverflow.ellipsis,
       maxLines: 1,
-      text: new TextSpan(
-        style: new TextStyle(fontSize: 13, fontWeight: FontWeight.w500
+      text: TextSpan(
+        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500
             // color: Colors.black,
             ),
         children: [
-          new TextSpan(text: 'James Mathew '),
-          WidgetSpan(
+          const TextSpan(text: 'James Mathew '),
+          const WidgetSpan(
               child: SizedBox(
             width: 10,
           )),
-          new TextSpan(
+          const TextSpan(
               text: 'Started Following you',
-              style: new TextStyle(fontWeight: FontWeight.w300, fontSize: 12)),
-          WidgetSpan(
+              style: TextStyle(fontWeight: FontWeight.w300, fontSize: 12)),
+          const WidgetSpan(
               child: SizedBox(
             width: 10,
           )),
-          new TextSpan(
+          TextSpan(
               text: '5h',
-              style: new TextStyle(
+              style: TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 12,
                   color: PColors.whiteOff.withOpacity(0.4))),
@@ -73,11 +73,11 @@ class FollowSingleNotificationUi extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 11,
         ),
         richTextWidget(),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         CustomElavatedTextButton(

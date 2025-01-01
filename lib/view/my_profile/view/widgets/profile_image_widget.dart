@@ -16,7 +16,7 @@ import '../../../../view_model/file_view_model.dart';
 class ProfileImageWidget extends StatelessWidget {
   final String? icon;
   final ProfileModel? profileModel;
-  ProfileImageWidget(
+  const ProfileImageWidget(
       {super.key,  this.icon, required this.profileModel});
 
   @override

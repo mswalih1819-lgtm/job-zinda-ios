@@ -6,11 +6,8 @@ import 'package:jora_customer/Settings/until/PText_styles.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
-import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/utils/validator.dart';
-import 'package:jora_customer/view/edit_profile/view/widgets/image_edit_section.dart';
 import 'package:jora_customer/view/freelancer_edit_profile/widgets/dropdown_widget.dart';
-import 'package:jora_customer/view/freelancer_edit_profile/widgets/state_dropdown.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -55,7 +52,7 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
       appBar: AppBar(),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Form(
             key: _formKey,
             child: Column(
@@ -66,44 +63,44 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
                     text: "Create your account",
                     fontsize: 18,
                     fontweight: FontWeight.bold),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 nameTextField(),
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
                 professionTextField(),
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
                 bioTextField(),
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
                 // emailTextField(),
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
                 mobileTextField(),
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
                 genderWidget(),
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
                 locationField(),
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
                 cityTextField(),
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
                 // stateWidget(),
                 stateTextField(),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 CustomElavatedTextButton(
@@ -311,8 +308,8 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
                   });
                 },
               ),
-              Text('Male'),
-              SizedBox(width: 20),
+              const Text('Male'),
+              const SizedBox(width: 20),
               Radio<String>(
                 value: 'Female',
                 groupValue: value.selectedGender,
@@ -322,7 +319,7 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
                   });
                 },
               ),
-              Text('Female'),
+              const Text('Female'),
             ],
           ),
         ],

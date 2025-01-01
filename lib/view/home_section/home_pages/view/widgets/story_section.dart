@@ -31,14 +31,14 @@ class _StorySectionState extends State<StorySection> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AddstorywidgetUi(),
+          const AddstorywidgetUi(),
           Expanded(
             child: PagedListView(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 pagingController: storyViewModel.storyController,
                 builderDelegate: PagedChildBuilderDelegate<StoryModel>(
-                  noItemsFoundIndicatorBuilder: (context) => SizedBox(),
+                  noItemsFoundIndicatorBuilder: (context) => const SizedBox(),
                   itemBuilder: (context, item, index) {
                     return StorySingleWidgetUi(story: item);
                   },

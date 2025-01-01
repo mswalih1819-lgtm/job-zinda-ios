@@ -7,7 +7,6 @@ import 'package:jora_customer/view/comment_pages/ui.dart';
 import 'package:jora_customer/view_model/comment_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
-import 'package:timeago/timeago.dart' as timeago;
 import '../../../../../Settings/until/PColors.dart';
 import '../../../../../Settings/until/PImages.dart';
 import '../../../../../Settings/until/PSvgs.dart';
@@ -51,7 +50,7 @@ class _PostCardState extends State<PostCard> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => OtherUserProfileScreen(),
+                    builder: (context) => const OtherUserProfileScreen(),
                   ));
             }
           },
@@ -78,7 +77,17 @@ class _PostCardState extends State<PostCard> {
               )),
           trailing: widget.post?.user?.sId == null ||
                   widget.post?.user?.sId == LoggedInUser.id
-              ? const SizedBox()
+              ? IconButton(
+                  onPressed: () async {
+                    await context
+                        .read<PostViewModel>()
+                        .removePost(context, id: widget.post!.sId.toString());
+                  },
+                  icon: Icon(
+                    Icons.delete,
+                    color: PColors.white,
+                    size: 18,
+                  ))
               : IconButton(
                   onPressed: () async {
                     await context

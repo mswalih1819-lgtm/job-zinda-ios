@@ -1,7 +1,5 @@
-import 'package:jora_customer/model/analytics_model.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/view_model/view_model.dart';
 import 'package:jora_customer/view/login_section/referal_code/view_model/view_model.dart';
-import 'package:jora_customer/view/profile_view/view/widgets/profile_view_body.dart';
 import 'package:jora_customer/view_model/chat_details_view_model.dart';
 import 'package:jora_customer/view_model/comment_view_model.dart';
 import 'package:jora_customer/view_model/connect_page_view_model.dart';

@@ -80,12 +80,12 @@ class StoryViewModel with ChangeNotifier {
 
   Future<void> fetchMyStory(BuildContext context) async {
     String api = Api.getMyStory;
-    Response response = await ApiService().get('$api');
+    Response response = await ApiService().get(api);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       print(response.data.toString());
       isMyProfile = true;
-          print("dnsdnd-----${data}");
+          print("dnsdnd-----$data");
 
       if (data['status']) {
         if (data['data']['story'] != null) {
@@ -168,7 +168,7 @@ class StoryViewModel with ChangeNotifier {
       'caption': '',
       'archived': archived
     });
-    print("story out pit ---${archived}");
+    print("story out pit ---$archived");
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {
@@ -208,7 +208,7 @@ class StoryViewModel with ChangeNotifier {
       required BuildContext context}) async {
     String url = Api.removeStory;
     Response response = await ApiService().delete(
-      "${url}/$storyId/$mediaId",
+      "$url/$storyId/$mediaId",
     );
     print("delte story----${response.data}");
     if (response.statusCode == 200) {

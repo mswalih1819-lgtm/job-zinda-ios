@@ -14,7 +14,7 @@ class HelpBottomsheetUi extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(height: 5,),
+            const SizedBox(height: 5,),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -22,8 +22,8 @@ class HelpBottomsheetUi extends StatelessWidget {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: Icon(Icons.close)),
-                    SizedBox(width: 10,)
+                    child: const Icon(Icons.close)),
+                    const SizedBox(width: 10,)
               ],
             ),
             itemWidget(title: "Terms of service", fun: () {}),

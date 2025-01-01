@@ -4,10 +4,8 @@ import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/comment_model.dart';
-import 'package:jora_customer/utils/date_formatter.dart';
 import 'package:jora_customer/view_model/comment_view_model.dart';
 import 'package:provider/provider.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class CommentCard extends StatelessWidget {
   final bool showReply;
@@ -43,14 +41,14 @@ class CommentCard extends StatelessWidget {
                   RichText(
                       text: TextSpan(
                           text: comment.commentedBy!.name.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
                               color: Color(0xffE6E6E6)),
                           children: [
                         TextSpan(
                           text: 'commented : ${comment.comment.toString()}',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
                               color: Color(0xffE6E6E6)),

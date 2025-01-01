@@ -27,7 +27,7 @@ class _SelfGallerySectionState extends State<SelfGallerySection> {
     PostViewModel postViewModel = context.watch<PostViewModel>();
 
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 10),
         child: PagedGridView(
             padding: const EdgeInsets.all(0),
             shrinkWrap: true,
@@ -35,9 +35,9 @@ class _SelfGallerySectionState extends State<SelfGallerySection> {
             pagingController: postViewModel.selfPostController,
             builderDelegate: PagedChildBuilderDelegate<PostModel>(
               newPageProgressIndicatorBuilder: (_) => Container(),
-              noItemsFoundIndicatorBuilder: (context) => Center(
+              noItemsFoundIndicatorBuilder: (context) => const Center(
                   child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 100),
+                padding: EdgeInsets.symmetric(vertical: 100),
                 child: Text(
                   'No posts found',
                 ),
@@ -46,7 +46,7 @@ class _SelfGallerySectionState extends State<SelfGallerySection> {
                 return SingleGalleryWidget(postModel: item);
               },
             ),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisSpacing: 3,
                 mainAxisSpacing: 3,
                 crossAxisCount: 3,

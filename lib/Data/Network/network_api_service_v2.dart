@@ -2,10 +2,8 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart' as dio;
 import 'package:jora_customer/Data/Network/base_api_service.dart';
 import 'package:jora_customer/Data/app_exceptions.dart';
-import 'package:jora_customer/Settings/common/constants/app_url.dart';
+import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/utils/api_url.dart';
-
-import '../../model/logged_in_user.dart';
 
 class NetworkApiServiceV2 implements BaseApiService {
   late dio.Dio adapter;
@@ -17,10 +15,10 @@ class NetworkApiServiceV2 implements BaseApiService {
         receiveTimeout: const Duration(minutes: 60)));
     adapter.interceptors.add(dio.InterceptorsWrapper(
       onRequest: (options, handler) {
+        options.contentType = 'application/json';
         if (LoggedInUser.accessToken != null) {
           options.headers['Authorization'] =
               'Bearer ${LoggedInUser.accessToken}';
-          options.contentType = 'application/json';
           return handler.next(options);
         }
       },
@@ -154,6 +152,9 @@ class NetworkApiServiceV2 implements BaseApiService {
   }) async {
     try {
       var newEndPoint = appned == null ? endPoint : "$endPoint/$appned";
+      if (headers != null) {
+        adapter.options.headers.addAll(headers);
+      }
       dio.Response res = await adapter.get(
         newEndPoint,
         data: {},
@@ -186,6 +187,9 @@ class NetworkApiServiceV2 implements BaseApiService {
       String? appned}) async {
     try {
       var newEndPoint = appned == null ? endPoint : "$endPoint/$appned";
+      if (headers != null) {
+        adapter.options.headers.addAll(headers);
+      }
       dio.Response res = await adapter.post(
         newEndPoint,
         data: body,
@@ -193,6 +197,8 @@ class NetworkApiServiceV2 implements BaseApiService {
       );
       return dioReturnResponse(res);
     } catch (e) {
+      print('------------- API issuess ---------------');
+      print(e);
       rethrow;
     }
   }
@@ -206,6 +212,9 @@ class NetworkApiServiceV2 implements BaseApiService {
       String? appned}) async {
     try {
       var newEndPoint = appned == null ? endpoint : "$endpoint/$appned";
+      if (headers != null) {
+        adapter.options.headers.addAll(headers);
+      }
       dio.Response res = await adapter.put(
         newEndPoint,
         queryParameters: queryParameters,
@@ -226,6 +235,9 @@ class NetworkApiServiceV2 implements BaseApiService {
       String? appned}) async {
     try {
       var newEndPoint = appned == null ? endpoint : "$endpoint/$appned";
+      if (headers != null) {
+        adapter.options.headers.addAll(headers);
+      }
       dio.Response res = await adapter.delete(
         newEndPoint,
         queryParameters: queryParameters,

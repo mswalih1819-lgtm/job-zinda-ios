@@ -16,7 +16,7 @@ class ReferalHeadUi extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         textWidget(text: "Your Referral ID", color: PColors.whiteOff),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Container(
@@ -30,7 +30,7 @@ class ReferalHeadUi extends StatelessWidget {
             child: Row(
               children: [
                 textWidget(text: profileViewModel.profileModel!.referralCode.toString()),
-                Spacer(),
+                const Spacer(),
                 GestureDetector(
                   onTap: ()async{
                         try {
@@ -46,13 +46,13 @@ class ReferalHeadUi extends StatelessWidget {
                       );
                     }
                   },
-                  child: Icon(Icons.copy)),
-                SizedBox(width: 8,),
+                  child: const Icon(Icons.copy)),
+                const SizedBox(width: 8,),
                 GestureDetector(
                   onTap: (){
                      Share.share(profileViewModel.profileModel!.referralCode.toString());
                   },
-                  child: Icon(Icons.share))
+                  child: const Icon(Icons.share))
               ],
             ),
           ),

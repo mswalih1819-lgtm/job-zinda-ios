@@ -13,29 +13,29 @@ class ChatHeadUi extends StatelessWidget {
       selector: (p0, p1) => p1.view,
       builder: (context, value, child) => Column(
         children: [
-          Row(
-            children: [
-              button(
-                  btn: "Primary",
-                  fun: () {
-                    context
-                        .read<ChatViewModel>()
-                        .updateView(ChatViewStatus.primary);
-                  },
-                  selected: value == ChatViewStatus.primary),
-              SizedBox(
-                width: 5,
-              ),
-              button(
-                  btn: "Lets plan",
-                  fun: () {
-                    context
-                        .read<ChatViewModel>()
-                        .updateView(ChatViewStatus.letsPlan);
-                  },
-                  selected: value == ChatViewStatus.letsPlan),
-            ],
-          )
+          // Row(
+          //   children: [
+          //     button(
+          //         btn: "Primary",
+          //         fun: () {
+          //           context
+          //               .read<ChatViewModel>()
+          //               .updateView(ChatViewStatus.primary);
+          //         },
+          //         selected: value == ChatViewStatus.primary),
+          //     const SizedBox(
+          //       width: 5,
+          //     ),
+          //     button(
+          //         btn: "Lets plan",
+          //         fun: () {
+          //           context
+          //               .read<ChatViewModel>()
+          //               .updateView(ChatViewStatus.letsPlan);
+          //         },
+          //         selected: value == ChatViewStatus.letsPlan),
+          //   ],
+          // )
         ],
       ),
     );

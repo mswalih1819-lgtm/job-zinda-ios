@@ -4,8 +4,11 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/main.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/add_story_screen.dart';
+import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
+import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:jora_customer/view_model/story_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -35,10 +38,25 @@ class AddstorywidgetUi extends StatelessWidget {
                   ),
                   child: InkWell(
                     onTap: () {
-                      StoryViewModel storyViewModel =
+
+                       if (navigatorKey.currentContext!
+                                .read<ProfileViewModel>()
+                                .profileModel!
+                                .accountType!
+                                .toLowerCase() ==
+                            "normal") {
+                          print(
+                              "smnnmdfnf----${context.read<ProfileViewModel>().profileModel!.accountType!.toLowerCase()}");
+                          navigatorKey.currentContext!
+                              .read<WrapperViewModel>()
+                              .updatePageView(WrapperViewStatus.normalProfile);
+                        } else {
+                           StoryViewModel storyViewModel =
                           context.read<StoryViewModel>();
                       storyViewModel.selectedUrl = null;
                       Navigator.pushNamed(context, AddStoryScreen.route);
+                        }
+                     
                     },
                     child: Center(
                       child: Column(

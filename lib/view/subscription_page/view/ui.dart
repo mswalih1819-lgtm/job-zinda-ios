@@ -22,7 +22,7 @@ class SubscriptionPageUi extends StatelessWidget {
                 Icons.close,
                 color: PColors.white.withOpacity(0.6),
               )),
-          SizedBox(
+          const SizedBox(
             width: 20,
           )
         ],
@@ -38,22 +38,22 @@ class SubscriptionPageUi extends StatelessWidget {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 17),
+            margin: const EdgeInsets.symmetric(horizontal: 17),
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Image.asset(
                   PImages.open_gift_box,
                   height: 200,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
-                SubscriptionHeading(),
-                SubscriptionBodyUi(),
-                SizedBox(
+                const SubscriptionHeading(),
+                const SubscriptionBodyUi(),
+                const SizedBox(
                   height: 100,
                 )
               ],

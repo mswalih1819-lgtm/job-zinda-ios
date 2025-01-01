@@ -14,25 +14,25 @@ class GrowthSectionUi extends StatelessWidget {
       ProfileAnalyticsViewModel profileAnalyticsViewModel = context.watch<ProfileAnalyticsViewModel>();
     AnalyticsModel? analyticsModel =profileAnalyticsViewModel.analyticsModel;
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 19),
+          const SizedBox(height: 19),
 
           textWidget(
             text:'Growth',
             color: PColors.white,fontsize: 18,fontweight: FontWeight.w600
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           itemWidget(title: 'Total new followers', value: '${analyticsModel?.filteredFollowers??'0'}'),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           itemWidget(title: 'Unfollows', value: '${analyticsModel?.unFollowCount??'0'}'),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
 
           itemWidget(title: 'Profile view', value:'${analyticsModel?.totalProfileViews??'0'}'),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
         ],
       ),
     );
@@ -44,11 +44,11 @@ class GrowthSectionUi extends StatelessWidget {
       children: [
         Text(
           title,
-          style: TextStyle(color: Colors.grey),
+          style: const TextStyle(color: Colors.grey),
         ),
         Text(
           value,
-          style: TextStyle(color: Colors.white,fontSize: 16),
+          style: const TextStyle(color: Colors.white,fontSize: 16),
         ),
       ],
     );

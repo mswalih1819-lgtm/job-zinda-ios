@@ -8,6 +8,7 @@ import 'package:jora_customer/view/login_section/phone_number_ui/view/widgets/lo
 class LoginSplash2Ui extends StatelessWidget {
   const LoginSplash2Ui({super.key});
 
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -22,18 +23,18 @@ class LoginSplash2Ui extends StatelessWidget {
                 Icons.close,
                 color: PColors.whiteOff.withOpacity(0.5),
               )),
-          SizedBox(
+          const SizedBox(
             width: 20,
           )
         ],
       ),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 17),
+        margin: const EdgeInsets.symmetric(horizontal: 17),
         child: Column(
           children: [
             Expanded(
               child: Center(
-                child: Container(
+                child: SizedBox(
                   height: size.height * 0.47,
                   child: Image(
                     image: AssetImage(PImages.login2),
@@ -46,7 +47,7 @@ class LoginSplash2Ui extends StatelessWidget {
               description:
                   "Get real-time updates on new freelancer profiles, project milestones, and important messages.\n\nEnable notifications to stay in the loop and seize every opportunity.",
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             buttons(context)
@@ -69,7 +70,7 @@ class LoginSplash2Ui extends StatelessWidget {
           bgcolor: PColors.black2,
           textColor: PColors.white,
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         CustomElavatedTextButton(
@@ -82,7 +83,7 @@ class LoginSplash2Ui extends StatelessWidget {
           bgcolor: PColors.white,
           textColor: PColors.black,
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
       ],

@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
-import 'package:jora_customer/model/myStory_model.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/linear_progress_indicator.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/views_sheet.dart';
 // import 'package:jora_customer/model/myStory_model.dart';
@@ -14,6 +13,8 @@ import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 class StoryViewer extends StatefulWidget {
+  const StoryViewer({super.key});
+
   @override
   _StoryViewerState createState() => _StoryViewerState();
 }
@@ -43,14 +44,14 @@ class _StoryViewerState extends State<StoryViewer> {
 
   void _startAutoScrollTimer() {
     _progress = 0.0;
-    _timer = Timer.periodic(Duration(milliseconds: 50), (timer) {
+    _timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
       setState(() {
         if (_videoController != null &&
             _videoController!.value.isInitialized &&
             !_isVideoLoading) {
           final position = _videoController!.value.position.inMilliseconds;
           final duration =
-              _videoController!.value.duration?.inMilliseconds ?? 0;
+              _videoController!.value.duration.inMilliseconds ?? 0;
 
           if (duration > 0) {
             _progress = position / duration;
@@ -78,7 +79,7 @@ class _StoryViewerState extends State<StoryViewer> {
             _currentPage++;
             _pageController.animateToPage(
               _currentPage,
-              duration: Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
             );
             // if (context.read<StoryViewModel>().isMyProfile) {
@@ -175,7 +176,7 @@ class _StoryViewerState extends State<StoryViewer> {
       });
       _pageController.animateToPage(
         _currentPage,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
       _initializeVideo();
@@ -193,7 +194,7 @@ class _StoryViewerState extends State<StoryViewer> {
             isMyProfile ? value.myStoryModel.media : value.storyModel.media;
 
         if (mediaList == null || mediaList.isEmpty) {
-          return Center(child: Text("No stories available"));
+          return const Center(child: Text("No stories available"));
         }
 
         return Stack(
@@ -231,10 +232,10 @@ class _StoryViewerState extends State<StoryViewer> {
                         ? (_videoController != null &&
                                 _videoController!.value.isInitialized
                             ? VideoPlayer(_videoController!)
-                            : Center(child: CircularProgressIndicator()))
+                            : const Center(child: CircularProgressIndicator()))
                         : (story.mediaType == "image"
                             ? Image.network(story.content!)
-                            : Center(child: Text("Invalid"))),
+                            : const Center(child: Text("Invalid"))),
                   );
                 },
               ),
@@ -250,7 +251,7 @@ class _StoryViewerState extends State<StoryViewer> {
                     isVideoLoading: _isVideoLoading,
                     progress: _progress,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
                       CircleAvatar(
@@ -267,23 +268,23 @@ class _StoryViewerState extends State<StoryViewer> {
                                         value.storyModel.userProfileImg!))
                                 as ImageProvider,
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Text(
                         isMyProfile
                             ? value.myStoryModel.user?.name ?? ""
                             : value.storyModel.userName ?? "",
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                  isMyProfile?     GestureDetector(
                           onTap: () {
                             _deleteStory(context);
                           },
-                          child: Icon(Icons.delete)):Container()
+                          child: const Icon(Icons.delete)):Container()
                     ],
                   ),
                 ],
@@ -314,7 +315,7 @@ class _StoryViewerState extends State<StoryViewer> {
             : () {
                 showBottomSheet(
                   context: context,
-                  builder: (context) => StoryViewsSheetUi(),
+                  builder: (context) => const StoryViewsSheetUi(),
                 );
               },
         child: Container(
@@ -328,7 +329,7 @@ class _StoryViewerState extends State<StoryViewer> {
             padding: const EdgeInsets.all(8.0),
             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               SvgPicture.asset(PSvgs.eye),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Text(
@@ -359,7 +360,7 @@ class _StoryViewerState extends State<StoryViewer> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Story deleted successfully")),
+        const SnackBar(content: Text("Story deleted successfully")),
       );
 
       if (storyViewModel.myStoryModel.media!.isEmpty) {
@@ -367,7 +368,7 @@ class _StoryViewerState extends State<StoryViewer> {
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Failed to delete story")),
+        const SnackBar(content: Text("Failed to delete story")),
       );
     }
   }

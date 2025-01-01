@@ -15,7 +15,7 @@ class UploadPagesUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 180,
       child: Padding(
         padding: const EdgeInsets.all(8.0),

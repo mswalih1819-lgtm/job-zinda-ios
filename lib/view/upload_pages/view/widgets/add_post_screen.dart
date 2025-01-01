@@ -48,7 +48,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       ? AssetImage(PImages.profile)
                       : NetworkImage(LoggedInUser.profilePic ?? ''),
                 ),
-                title: Container(
+                title: SizedBox(
                   width: 100.0,
                   child: ButtonTheme(
                     alignedDropdown: true,

@@ -108,7 +108,7 @@ class ReferredList extends StatelessWidget {
                 ? AssetImage(PImages.profile)
                 : NetworkImage(referal.referredUser!.profileImageUrl!),
           ),
-          SizedBox(
+          const SizedBox(
             width: 8,
           ),
           Flexible(
@@ -121,7 +121,7 @@ class ReferredList extends StatelessWidget {
                     fontsize: 15,
                     fontweight: FontWeight.bold,
                     color: PColors.white),
-                SizedBox(
+                const SizedBox(
                   height: 6,
                 ),
                 Container(

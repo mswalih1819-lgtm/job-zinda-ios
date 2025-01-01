@@ -7,17 +7,20 @@ class AppUrl {
 
   static String get baseurl {
     if (isProduction == false) {
+      // return "http://13.203.140.81:4001/";
+
       return "http://3.110.26.51:4001/";
     } else {
-      return "http://3.110.26.51:4001/";
+      return "http://13.203.140.81:4001/";
     }
   }
 
   static String get httpBaseUrl {
     if (isProduction == false) {
       return '3.110.26.51:4001';
+      // return '13.203.140.81:4001';
     } else {
-      return '3.110.26.51:4001';
+      return '13.203.140.81:4001';
     }
   }
 
@@ -34,6 +37,7 @@ class Api {
     return {'Authorization': 'Bearer ${LoggedInUser.accessToken}'};
   }
 
+  // static const baseurl = 'http://13.203.140.81:4001';
   static const baseurl = 'http://3.110.26.51:4001';
 
   // static const loginUrl = '$baseurl/api/v1/auth/user-auth';
@@ -84,6 +88,8 @@ class Api {
   static const viewComments = '$baseurl/api/v1/postComment/viewComments';
   static const addComments = '$baseurl/api/v1/postComment/addComment';
   static const removeComments = '$baseurl/api/v1/postComment/removeComment';
+  static const removePost = '$baseurl/api/v1/post/removeMyPost';
+
   static const addReply = '$baseurl/api/v1/postComment/reply/addReply';
   static const getMyStory = '$baseurl/api/v1/story/getMyStory';
   static const getStoryViews = '$baseurl/api/v1/story/getStoryViewCount';

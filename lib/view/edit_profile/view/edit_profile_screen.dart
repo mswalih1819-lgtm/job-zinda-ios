@@ -57,20 +57,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Form(
             key: _formKey,
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
-                ImageEditSection(),
-                SizedBox(
+                const ImageEditSection(),
+                const SizedBox(
                   height: 30,
                 ),
                 nameTextField(),
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
                 // emailTextField(),

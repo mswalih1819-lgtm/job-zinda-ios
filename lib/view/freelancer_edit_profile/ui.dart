@@ -25,7 +25,7 @@ class FreeLancerEditProfileUi extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back)),
+            icon: const Icon(Icons.arrow_back)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -39,11 +39,11 @@ class FreeLancerEditProfileUi extends StatelessWidget {
                     text: "Create your account",
                     fontsize: 18,
                     fontweight: FontWeight.bold),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 textWidget(text: "Profile Photo"),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 value.profileModel!.profileImageUrl == null ||value.profileModel!.profileImageUrl!.isEmpty
@@ -52,11 +52,11 @@ class FreeLancerEditProfileUi extends StatelessWidget {
                         imageurl: value.profileModel!.profileImageUrl!,
                         type: "profile",
                         context: context),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 textWidget(text: "Cover Photo"),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 value.profileModel!.coverImage == null||value.profileModel!.coverImage!.isEmpty
@@ -66,7 +66,7 @@ class FreeLancerEditProfileUi extends StatelessWidget {
                         type: "cover",
                         context: context),
                 // Expanded(child: Container()),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 button(context)
               ],
             ),
@@ -102,22 +102,22 @@ class FreeLancerEditProfileUi extends StatelessWidget {
       },
       child: DottedBorder(
         borderType: BorderType.Rect,
-        dashPattern: [4, 4, 4, 4],
+        dashPattern: const [4, 4, 4, 4],
         color: PColors.whiteOff.withOpacity(0.4),
-        radius: Radius.circular(0),
-        padding: EdgeInsets.all(25),
+        radius: const Radius.circular(0),
+        padding: const EdgeInsets.all(25),
         child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(12)),
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SvgPicture.asset(PSvgs.upload_image),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 textWidget(text: "Upload Image"),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 textWidget(
@@ -139,7 +139,7 @@ class FreeLancerEditProfileUi extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Container(
+          SizedBox(
             height: 200,
             width: 200,
             child: Image.network(
@@ -172,7 +172,7 @@ class FreeLancerEditProfileUi extends StatelessWidget {
                   }
                 }
               },
-              child: Icon(Icons.edit))
+              child: const Icon(Icons.edit))
         ],
       ),
     );
@@ -193,7 +193,7 @@ class FreeLancerEditProfileUi extends StatelessWidget {
           },
           textColor: PColors.black,
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         CustomElavatedTextButton(

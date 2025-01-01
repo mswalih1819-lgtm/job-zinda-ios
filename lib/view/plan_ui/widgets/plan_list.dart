@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
-import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/custom_icon_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/errorMsg.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
@@ -59,18 +58,26 @@ class _PlanListUiState extends State<PlanListUi> {
   @override
   Widget build(BuildContext context) {
     return Consumer<SubscriptionViewmodel>(
-      builder: (context, value, child) => ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: value.planList.length,
-        itemBuilder: (context, index) => plan(value.planList[index]),
-      ),
+      builder: (context, value, child) =>
+          value.planList.isEmpty || value.planList == null
+              ? Center(
+                  child: Text(
+                    "No Data!!!",
+                    style: TextStyle(color: PColors.white),
+                  ),
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: value.planList.length,
+                  itemBuilder: (context, index) => plan(value.planList[index]),
+                ),
     );
   }
 
   Widget plan(Plans plan) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: PColors.seed.withOpacity(0.7)),
@@ -81,15 +88,7 @@ class _PlanListUiState extends State<PlanListUi> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              margin: EdgeInsets.only(bottom: 20),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
-                child: textWidget(
-                    text: "${plan.planAmountPer}ly",
-                    color: PColors.black,
-                    fontsize: 12),
-              ),
+              margin: const EdgeInsets.only(bottom: 20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(18),
                 gradient: LinearGradient(
@@ -101,8 +100,16 @@ class _PlanListUiState extends State<PlanListUi> {
                   ],
                 ),
               ),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+                child: textWidget(
+                    text: "${plan.planAmountPer}ly",
+                    color: PColors.black,
+                    fontsize: 12),
+              ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Row(
@@ -111,30 +118,32 @@ class _PlanListUiState extends State<PlanListUi> {
                     text: "\u{20B9}${plan.billableAmount}",
                     fontsize: 20,
                     fontweight: FontWeight.w600),
-                    SizedBox(width: 14,),
+                const SizedBox(
+                  width: 14,
+                ),
                 plan.amountMRP == plan.billableAmount
                     ? Container()
                     : Text("\u{20B9}${plan.amountMRP}",
-                        style: TextStyle(
+                        style: const TextStyle(
                             decoration: TextDecoration.lineThrough,
                             fontSize: 20,
                             fontWeight: FontWeight.w600))
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             textWidget(
                 text: plan.planName, color: PColors.whiteOff.withOpacity(0.5)),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             textWidget(text: "Features :"),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             features(plan.planFeatures!),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             button(plan)
@@ -169,14 +178,14 @@ class _PlanListUiState extends State<PlanListUi> {
     return ListView.builder(
       itemCount: features.length,
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => Row(
         children: [
-          Icon(
+          const Icon(
             Icons.done,
             color: Colors.grey,
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           textWidget(text: features[index])

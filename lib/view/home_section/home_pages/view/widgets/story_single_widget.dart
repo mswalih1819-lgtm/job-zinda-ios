@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/story_model.dart';
 import 'package:jora_customer/view_model/story_view_model.dart';
@@ -46,7 +45,7 @@ class StorySingleWidgetUi extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 35,
               ),
               Expanded(

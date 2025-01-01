@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_thumbnail_video/index.dart';
@@ -158,12 +157,10 @@ Future<void> getImage(ImageSource source) async {
       PostViewModel postProvider = context.read<PostViewModel>();
 
       Uint8List thumbnailPath = await _generateThumbnail(result.path);
-      if (thumbnailPath != null) {
-        setState(() {
-          postProvider.selectedThumbanilFile = thumbnailPath;
-        });
-      }
-      // final Uint8List fileBytes = pickedFile.files.first.bytes ?? Uint8List(0);
+      setState(() {
+        postProvider.selectedThumbanilFile = thumbnailPath;
+      });
+          // final Uint8List fileBytes = pickedFile.files.first.bytes ?? Uint8List(0);
       FileUploadViewModel provider = context.read<FileUploadViewModel>();
       XFile xfile = await createTempXFile(thumbnailPath, 'thumbnail.png');
 
@@ -173,7 +170,7 @@ Future<void> getImage(ImageSource source) async {
 
       postProvider.selectedUrl = await provider.pickedVideoUpload(
           await File(result.path).readAsBytes(), result.path.split('/').last);
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(const Duration(seconds: 5));
       EasyLoading.dismiss();
       print("dnsdnms------${postProvider.selectedUrl}");
     } else {

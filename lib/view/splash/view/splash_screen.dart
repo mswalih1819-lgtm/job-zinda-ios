@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
-import 'package:jora_customer/view_model/profile_view_model.dart';
-import 'package:provider/provider.dart';
 
 import '../../../Settings/until/PPages.dart';
 import '../../../model/logged_in_user.dart';

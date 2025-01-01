@@ -4,7 +4,6 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
-import 'package:jora_customer/view/login_section/add_newuser/view_model/view_model.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/view/widgets/login_head.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/view_model/view_model.dart';
 import 'package:jora_customer/view/login_section/referal_code/view_model/view_model.dart';
@@ -43,7 +42,7 @@ class _AddUserPageState extends State<AddUserPage> {
                         const SizedBox(
                           height: 100,
                         ),
-                        Icon(
+                        const Icon(
                           Icons.person,
                           size: 150,
                         ),
@@ -60,7 +59,7 @@ class _AddUserPageState extends State<AddUserPage> {
                           height: 20,
                         ),
                         nameField(context),
-                        SizedBox(
+                        const SizedBox(
                           height: 13,
                         ),
                         value.signintype == "email"

@@ -22,7 +22,7 @@ class YourPostWidgetUi extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Container(
+                  child: SizedBox(
                     height: 56,
                     width: 50,
                     child: Image.asset(
@@ -33,7 +33,7 @@ class YourPostWidgetUi extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 15,
                 ),
                 Expanded(

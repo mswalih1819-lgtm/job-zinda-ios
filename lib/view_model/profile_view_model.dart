@@ -11,7 +11,6 @@ import 'package:jora_customer/utils/api_service.dart';
 import 'package:jora_customer/utils/api_url.dart';
 import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 import 'package:jora_customer/view_model/location_view_model.dart';
-import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ProfileViewModel with ChangeNotifier {
@@ -90,7 +89,7 @@ class ProfileViewModel with ChangeNotifier {
     // Response response = await ApiService().get(url);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
-      print("professionList---${data}");
+      print("professionList---$data");
 
       if (data['status']) {
         // print("professionList---${data['data']['categories'] }");

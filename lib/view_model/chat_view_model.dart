@@ -69,7 +69,7 @@ class ChatViewModel extends ChangeNotifier {
   List<ConversationModel> conversationList = [];
   Future<void> fetchAllConversations() async {
     EasyLoading.show();
-    Response response = await ApiService().get("${Api.conversationListUrl}");
+    Response response = await ApiService().get(Api.conversationListUrl);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
             print("converstaion -----$data");

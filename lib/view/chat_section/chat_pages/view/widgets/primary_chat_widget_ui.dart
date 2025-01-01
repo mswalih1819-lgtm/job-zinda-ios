@@ -11,7 +11,7 @@ class PrimaryChatWidgetUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [ChatFilterUi(), main()],
+      children: [const ChatFilterUi(), main()],
     );
   }
 
@@ -21,12 +21,12 @@ class PrimaryChatWidgetUi extends StatelessWidget {
       builder: (context, value, child) {
         switch (value) {
           case ChatViewStatus.all:
-            return AllChatSection();
+            return const AllChatSection();
           case ChatViewStatus.unread:
-            return UnreadChatSection();
+            return const UnreadChatSection();
 
           default:
-            return AllChatSection();
+            return const AllChatSection();
         }
       },
     );

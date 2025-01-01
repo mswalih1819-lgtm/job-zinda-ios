@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_thumbnail_video/index.dart';
@@ -11,7 +10,6 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
-import 'package:jora_customer/main.dart';
 import 'package:jora_customer/utils/validator.dart';
 import 'package:jora_customer/view_model/file_view_model.dart';
 import 'package:jora_customer/view_model/story_view_model.dart';
@@ -55,7 +53,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                   context: context,
                   backgroundColor: PColors.seed2,
                   builder: (ctx) {
-                    return Container(
+                    return SizedBox(
                       width: 360,
                       height: 250,
                       child: Padding(
@@ -280,12 +278,10 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
       StoryViewModel storyViewModel = context.read<StoryViewModel>();
 
       Uint8List thumbnailPath = await _generateThumbnail(result.path);
-      if (thumbnailPath != null) {
-        setState(() {
-          storyViewModel.selectedThumbanilFile = thumbnailPath;
-        });
-      }
-
+      setState(() {
+        storyViewModel.selectedThumbanilFile = thumbnailPath;
+      });
+    
       FileUploadViewModel provider = context.read<FileUploadViewModel>();
       XFile xfile = await createTempXFile(thumbnailPath, 'thumbnail.png');
 

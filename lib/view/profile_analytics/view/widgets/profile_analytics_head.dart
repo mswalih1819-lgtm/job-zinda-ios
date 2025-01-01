@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
-import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/analytics_model.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/utils/date_formatter.dart';
-import 'package:jora_customer/view/wrapper/view/widgets/wrapper_body.dart';
 import 'package:jora_customer/view_model/profile_analytics_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ProfileAnalyticsHeadUi extends StatefulWidget {
-  ProfileAnalyticsHeadUi({super.key});
+  const ProfileAnalyticsHeadUi({super.key});
 
   @override
   State<ProfileAnalyticsHeadUi> createState() => _ProfileAnalyticsHeadUiState();
@@ -27,13 +25,13 @@ class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
     String today =
         formatDateFromDate(dateTime: DateTime.now(), format: 'MMM dd');
     String beforeOneMonth = formatDateFromDate(
-        dateTime: DateTime.now().subtract(Duration(days: 30)),
+        dateTime: DateTime.now().subtract(const Duration(days: 30)),
         format: 'MMM dd');
     String beforeOneWeek = formatDateFromDate(
-        dateTime: DateTime.now().subtract(Duration(days: 7)), format: 'MMM dd');
+        dateTime: DateTime.now().subtract(const Duration(days: 7)), format: 'MMM dd');
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
           Row(
@@ -42,11 +40,11 @@ class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
               dropdownWidget(),
               Text(
                 '${dropdownValue == 'Last 7 days' ? beforeOneWeek : beforeOneMonth} - $today',
-                style: TextStyle(color: Colors.grey),
+                style: const TextStyle(color: Colors.grey),
               ),
             ],
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Row(
             children: [
               CircleAvatar(
@@ -57,7 +55,7 @@ class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
                     backgroundImage:
                         NetworkImage(LoggedInUser.profilePic ?? '')),
               ),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -69,7 +67,7 @@ class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
                     children: [
                       Text(
                         '${analyticsModel?.totalFollowers ?? '0'} ',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
@@ -78,7 +76,7 @@ class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
                       CircleAvatar(
                         radius: 8,
                         backgroundColor: Colors.green[100],
-                        child: Center(
+                        child: const Center(
                           child: Icon(
                             Icons.arrow_upward,
                             color: Colors.green,
@@ -88,7 +86,7 @@ class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
                       ),
                       Text(
                         ' ${analyticsModel?.followersGrowth ?? '0%'}',
-                        style: TextStyle(color: Colors.green),
+                        style: const TextStyle(color: Colors.green),
                       ),
                     ],
                   ),
@@ -96,7 +94,7 @@ class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
               ),
             ],
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
         ],
       ),
     );

@@ -7,12 +7,11 @@ import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:jora_customer/view_model/chat_view_model.dart';
 import 'package:jora_customer/view_model/notification_view_model.dart';
-import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeAppbar extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
-  HomeAppbar({super.key, required this.scaffoldKey});
+  const HomeAppbar({super.key, required this.scaffoldKey});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +30,7 @@ class HomeAppbar extends StatelessWidget {
                   //     .currentState
                   //     ?.openDrawer();
                 },
-                child: Icon(
+                child: const Icon(
                   Icons.menu,
                   weight: 10,
                 )),
@@ -51,11 +50,11 @@ class HomeAppbar extends StatelessWidget {
           child: badges.Badge(
             badgeStyle: badges.BadgeStyle(badgeColor: PColors.badgeColor),
             position: badges.BadgePosition.topEnd(top: -12, end: -4),
-            badgeContent: Text(''),
+            badgeContent: const Text(''),
             child: SvgPicture.asset(PSvgs.lets_plan),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 16,
         ),
 
@@ -69,11 +68,11 @@ class HomeAppbar extends StatelessWidget {
           child: badges.Badge(
             badgeStyle: badges.BadgeStyle(badgeColor: PColors.badgeColor),
             position: badges.BadgePosition.topEnd(top: -12, end: -4),
-            badgeContent: Text(''),
+            badgeContent: const Text(''),
             child: SvgPicture.asset(PSvgs.message),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 16,
         ),
         GestureDetector(
@@ -83,7 +82,7 @@ class HomeAppbar extends StatelessWidget {
           child: badges.Badge(
             badgeStyle: badges.BadgeStyle(badgeColor: PColors.badgeColor),
             position: badges.BadgePosition.topEnd(top: -12, end: -4),
-            badgeContent: Text(''),
+            badgeContent: const Text(''),
             showBadge:
                 context.read<NotificationViewModel>().notificationCount > 0,
             child: SvgPicture.asset(PSvgs.notification),

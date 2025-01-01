@@ -25,11 +25,12 @@ class AddNewUserRepository {
         },
       );
       var json = jsonDecode(result);
+      print("add user----$json");
+
       if (json['status'] == false) {
         throw json['message'];
       }
 
-      print("add user----$json");
       return json;
     } catch (e) {
       rethrow;
@@ -41,7 +42,6 @@ class AddNewUserRepository {
     String? countryCode,
     required String email,
     required String referralCode,
-
     String? name,
   }) async {
     try {
@@ -54,7 +54,6 @@ class AddNewUserRepository {
           'name': name,
           'email': email,
           'referralCode': referralCode
-
         },
       );
       var json = jsonDecode(result);

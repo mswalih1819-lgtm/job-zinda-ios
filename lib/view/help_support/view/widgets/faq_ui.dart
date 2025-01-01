@@ -12,14 +12,14 @@ class FaqUi extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-            margin: EdgeInsets.only(left: 17, bottom: 20, top: 20),
+            margin: const EdgeInsets.only(left: 17, bottom: 20, top: 20),
             child: textWidget(text: "FAQ’s", color: PColors.whiteOff)),
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
           child: ListView.builder(
             shrinkWrap: true,
             itemCount: 10,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return singleCard();
             },
@@ -47,7 +47,7 @@ class FaqUi extends StatelessWidget {
                   color: PColors.whiteOff.withOpacity(0.5),
                   fontsize: 13),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             )
           ],

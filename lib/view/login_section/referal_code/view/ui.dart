@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
-import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/view/widgets/login_head.dart';
@@ -11,7 +9,7 @@ import 'package:jora_customer/view/login_section/referal_code/view_model/view_mo
 import 'package:provider/provider.dart';
 
 class ReferalCodeUi extends StatelessWidget {
-  ReferalCodeUi({
+  const ReferalCodeUi({
     super.key,
   });
 

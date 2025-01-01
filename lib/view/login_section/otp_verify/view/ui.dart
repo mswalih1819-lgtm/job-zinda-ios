@@ -22,7 +22,7 @@ class OtpPageUi extends StatelessWidget {
           automaticallyImplyLeading: true,
         ),
         body: Container(
-          margin: EdgeInsets.symmetric(horizontal: 18),
+          margin: const EdgeInsets.symmetric(horizontal: 18),
           height: size.height,
           child: Column(
             // crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,8 +47,8 @@ class OtpPageUi extends StatelessWidget {
                   const OtpNumberFeild(),
                 ],
               )),
-              OtpButtonsUi(),
-              SizedBox(
+              const OtpButtonsUi(),
+              const SizedBox(
                 height: 10,
               ),
             ],

@@ -3,7 +3,6 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/view/help_support/view/widgets/contact_us.dart';
 import 'package:jora_customer/view/help_support/view/widgets/faq_ui.dart';
-import 'package:jora_customer/view/help_support/view/widgets/help_bottom_sheet.dart';
 
 class HelpSupportUi extends StatelessWidget {
   const HelpSupportUi({super.key});
@@ -13,7 +12,7 @@ class HelpSupportUi extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: textWidget(text: "Help and support"),
-        actions: [
+        actions: const [
           // GestureDetector(
           //     onTap: () {
           //       showBottomSheet(
@@ -33,11 +32,11 @@ class HelpSupportUi extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ContactUsUi(),
+            const ContactUsUi(),
             Divider(
               color: PColors.white.withOpacity(0.3),
             ),
-            FaqUi()
+            const FaqUi()
           ],
         ),
       ),

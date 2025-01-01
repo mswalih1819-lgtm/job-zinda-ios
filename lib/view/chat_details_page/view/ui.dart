@@ -30,10 +30,10 @@ class ChatDetailsPageui extends StatelessWidget {
           bottomNavigationBar: Padding(
             padding:
                 EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: ChatBottomBarUi(),
+            child: const ChatBottomBarUi(),
           ),
           body: Container(
-            margin: EdgeInsets.symmetric(horizontal: 16),
+            margin: const EdgeInsets.symmetric(horizontal: 16),
             child: chatList(context),
           ),
         ),
@@ -51,7 +51,7 @@ class ChatDetailsPageui extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: Consumer<ChatDetailsViewModel>(
         builder: (context, value, child) =>
-        value.loading?Center(child: CircularProgressIndicator()):
+        value.loading?const Center(child: CircularProgressIndicator()):
 
          ListView.builder(
             itemCount: messages.length,

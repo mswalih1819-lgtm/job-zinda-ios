@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
-import 'package:jora_customer/Settings/until/PPages.dart';
-import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/view/login_section/otp_verify/view_model/view_model.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';

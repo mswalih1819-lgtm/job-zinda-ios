@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart' as dio;
 import 'package:jora_customer/Data/Network/base_api_service.dart';
 import 'package:jora_customer/Data/app_exceptions.dart';
-import 'package:jora_customer/Settings/common/constants/app_url.dart';
 import 'package:jora_customer/utils/api_url.dart';
 
 class NetworkApiService implements BaseApiService {
@@ -44,19 +44,19 @@ class NetworkApiService implements BaseApiService {
     String? token,
     String? appned,
   }) async {
+    print("hrade-----$headers");
     try {
       bool isHttps = AppUrl.isProduction;
       var newEndPoint = appned == null ? endPoint : "$endPoint/$appned";
-      // print("uri-----$newEndPoint----$isHttps");
-
       var uri = isHttps
           ? Uri.https(AppUrl.httpBaseUrl, newEndPoint, queryParameters)
-          : Uri.http(domain ?? AppUrl.httpBaseUrl, newEndPoint, queryParameters);
-
+          : Uri.http(
+              domain ?? AppUrl.httpBaseUrl, newEndPoint, queryParameters);
       // var uri = appned == null
       //     ? Uri.http(domain ?? AppUrl.httpBaseUrl, endPoint, queryParameters)
       //     : Uri.http(
       //         domain ?? AppUrl.httpBaseUrl, '$endPoint/$appned', queryParameters);
+
       Response? response = await http.post(
         uri,
         body: body != null ? jsonEncode(body) : null,

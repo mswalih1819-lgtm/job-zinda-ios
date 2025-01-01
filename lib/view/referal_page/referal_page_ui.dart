@@ -8,7 +8,7 @@ class ReferalPageUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Referrals"),),
+      appBar: AppBar(title: const Text("Referrals"),),
       body: Container(
           margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           child: const Column(

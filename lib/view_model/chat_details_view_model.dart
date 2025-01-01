@@ -6,14 +6,9 @@ import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:jora_customer/Settings/widgets/loadingShow.dart';
-import 'package:jora_customer/main.dart';
 import 'package:jora_customer/model/chat_message_model.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
-import 'package:jora_customer/view_model/chat_view_model.dart';
 import 'package:jora_customer/view_model/file_view_model.dart';
-import 'package:jora_customer/view_model/post_view_model.dart';
-import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -147,7 +142,7 @@ class ChatDetailsViewModel extends ChangeNotifier {
       if (response.statusCode == 200) {
         Map<String, dynamic> data = response.data;
 
-        print("all msg------${data}");
+        print("all msg------$data");
 
         if (data['status']) {
           messages = (data['data']['messages'] as List)
@@ -181,7 +176,7 @@ class ChatDetailsViewModel extends ChangeNotifier {
               (participant) => participant.userId?.sId != LoggedInUser.id,
               orElse: () => Participants(),
             )
-            ?.userId
+            .userId
             ?.sId;
 
     if (id == null) {
@@ -234,7 +229,7 @@ notifyListeners();
   Future<void> updatemessage(
       {required String lastMessageId, required BuildContext context}) async {
     EasyLoading.show();
-    print("dataa-------${conversationModel!.sId}----${lastMessageId}");
+    print("dataa-------${conversationModel!.sId}----$lastMessageId");
 
     Response response = await ApiService().post(Api.updateChat, {
       "conversationId": conversationModel!.sId,
@@ -285,7 +280,7 @@ notifyListeners();
 
     String api = Api.listProfileMessages;
     Response response =
-        await ApiService().get('$api/${profileId}?pageNumber=1&pageSize=1000');
+        await ApiService().get('$api/$profileId?pageNumber=1&pageSize=1000');
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
       if (data['status']) {

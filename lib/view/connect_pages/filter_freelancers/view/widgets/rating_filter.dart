@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
-import 'package:jora_customer/view/connect_pages/filter_freelancers/view_model/view_model.dart';
 import 'package:jora_customer/view_model/connect_page_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -16,11 +15,11 @@ class RatingFilterUi extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         textWidget(text: "Rating"),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         starFilter(size, context),

@@ -27,7 +27,7 @@ class WelcomePageUi extends StatelessWidget {
           )),
       body: Container(
         height: size.height,
-        margin: EdgeInsets.symmetric(horizontal: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
@@ -40,39 +40,39 @@ class WelcomePageUi extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 30,),
+            const SizedBox(height: 30,),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   RichText(
-                    text: new TextSpan(
-                      style: new TextStyle(fontSize: 28, letterSpacing: 1.5
+                    text: const TextSpan(
+                      style: TextStyle(fontSize: 28, letterSpacing: 1.5
                           // color: Colors.black,
                           ),
                       children: [
-                        new TextSpan(text: 'Where'),
+                        TextSpan(text: 'Where'),
                         WidgetSpan(
                             child: SizedBox(
                           width: 10,
                         )),
-                        new TextSpan(
+                        TextSpan(
                             text: 'Talent',
-                            style: new TextStyle(fontWeight: FontWeight.bold)),
+                            style: TextStyle(fontWeight: FontWeight.bold)),
                         TextSpan(text: '\n'),
                         TextSpan(text: 'Meets'),
                         WidgetSpan(
                             child: SizedBox(
                           width: 10,
                         )),
-                        new TextSpan(
+                        TextSpan(
                             text: 'Opportunity',
-                            style: new TextStyle(fontWeight: FontWeight.bold)),
+                            style: TextStyle(fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   description(),
@@ -83,7 +83,7 @@ class WelcomePageUi extends StatelessWidget {
             //   height: 50,
             // ),
             getStartButton(context),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
           ],

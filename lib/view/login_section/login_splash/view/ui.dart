@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
-import 'package:jora_customer/Settings/until/Pfonts.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/view/widgets/login_head.dart';
 
@@ -17,12 +16,12 @@ class LoginSplashUi extends StatelessWidget {
         automaticallyImplyLeading: true,
       ),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 17),
+        margin: const EdgeInsets.symmetric(horizontal: 17),
         child: Column(
           children: [
             Expanded(
               child: Center(
-                child: Container(
+                child: SizedBox(
                   height: size.height * 0.47,
                   child: Image(
                     image: AssetImage(PImages.login1),
@@ -35,7 +34,7 @@ class LoginSplashUi extends StatelessWidget {
               description:
                   "Your profile is ready, and you're just one step away from exploring and connecting with talented freelancers or hiring members.",
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             CustomElavatedTextButton(
@@ -48,7 +47,7 @@ class LoginSplashUi extends StatelessWidget {
               bgcolor: PColors.white,
               textColor: PColors.black,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
           ],

@@ -20,14 +20,14 @@ class StoryViewsSheetUi extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 4,
               ),
               title(),
-              SizedBox(
+              const SizedBox(
                 height: 4,
               ),
-              Divider(),
+              const Divider(),
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: value.storeyViews.length,
@@ -46,7 +46,7 @@ class StoryViewsSheetUi extends StatelessWidget {
                                       .toString(),
                                 ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     textWidget(
@@ -68,19 +68,19 @@ class StoryViewsSheetUi extends StatelessWidget {
       builder: (context, value, child) => Row(
         children: [
           SvgPicture.asset(PSvgs.eye),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Text(
             "${value.storyCount.toString()} Views",
             style: TextStyle(color: PColors.white, fontWeight: FontWeight.w500),
           ),
-          Spacer(),
+          const Spacer(),
           GestureDetector(
               onTap: () {
                 Navigator.pop(context);
               },
-              child: Icon(Icons.close))
+              child: const Icon(Icons.close))
         ],
       ),
     );

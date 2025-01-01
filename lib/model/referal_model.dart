@@ -26,7 +26,7 @@ class Referrals {
     referralCode = json['referralCode'];
     referrer = json['referrer'];
     referredUser = json['referredUser'] != null
-        ? new ReferredUser.fromJson(json['referredUser'])
+        ? ReferredUser.fromJson(json['referredUser'])
         : null;
     referralCoins = json['referralCoins'];
     claimStatus = json['claimStatus'];
@@ -35,18 +35,18 @@ class Referrals {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['documentStatus'] = this.documentStatus;
-    data['referralCode'] = this.referralCode;
-    data['referrer'] = this.referrer;
-    if (this.referredUser != null) {
-      data['referredUser'] = this.referredUser!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['documentStatus'] = documentStatus;
+    data['referralCode'] = referralCode;
+    data['referrer'] = referrer;
+    if (referredUser != null) {
+      data['referredUser'] = referredUser!.toJson();
     }
-    data['referralCoins'] = this.referralCoins;
-    data['claimStatus'] = this.claimStatus;
-    data['createdAt'] = this.createdAt;
-    data['__v'] = this.iV;
+    data['referralCoins'] = referralCoins;
+    data['claimStatus'] = claimStatus;
+    data['createdAt'] = createdAt;
+    data['__v'] = iV;
     return data;
   }
 }
@@ -74,12 +74,12 @@ class ReferredUser {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['profileImageUrl'] = this.profileImageUrl;
-    data['referralCode'] = this.referralCode;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['name'] = name;
+    data['email'] = email;
+    data['profileImageUrl'] = profileImageUrl;
+    data['referralCode'] = referralCode;
     return data;
   }
 }

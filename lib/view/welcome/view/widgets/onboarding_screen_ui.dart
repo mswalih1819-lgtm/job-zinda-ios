@@ -1,4 +1,3 @@
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
@@ -30,7 +29,7 @@ class _OnboardingScreensUiState extends State<OnboardingScreensUi> {
       // crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Center(
-          child: Container(
+          child: SizedBox(
             height: size.height * 0.45,
             // margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
             child: Image(
@@ -38,7 +37,7 @@ class _OnboardingScreensUiState extends State<OnboardingScreensUi> {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
         Expanded(
@@ -46,15 +45,15 @@ class _OnboardingScreensUiState extends State<OnboardingScreensUi> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             pageIndicator(size),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             columnWidget(title, title2, dis, size),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
           ],
@@ -113,7 +112,7 @@ class _OnboardingScreensUiState extends State<OnboardingScreensUi> {
         automaticallyImplyLeading: true,
       ),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         height: size.height,
         child: PageView(
           controller: controller,
@@ -165,7 +164,7 @@ class _OnboardingScreensUiState extends State<OnboardingScreensUi> {
           height: 2,
           decoration: BoxDecoration(color:page==0|| page==1||page==2? PColors.white:PColors.white.withOpacity(0.3)),
         ),
-        SizedBox(
+        const SizedBox(
           width: 4,
         ),
         Container(
@@ -173,7 +172,7 @@ class _OnboardingScreensUiState extends State<OnboardingScreensUi> {
           height: 2,
           decoration: BoxDecoration(color: page==1||page==2? PColors.white:PColors.white.withOpacity(0.3)),
         ),
-        SizedBox(
+        const SizedBox(
           width: 4,
         ),
         Container(

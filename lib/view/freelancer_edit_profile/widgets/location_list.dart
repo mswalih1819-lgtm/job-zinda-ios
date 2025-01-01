@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 class LocationListUi extends StatelessWidget {
   String? page;
-  LocationListUi({required this.page});
+  LocationListUi({super.key, required this.page});
 
   @override
   Widget build(BuildContext context) {

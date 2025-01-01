@@ -3,7 +3,6 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/gallery_section.dart';
 import 'package:jora_customer/view/other_user_profile/view/widgets/other_user_profile_button.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
-import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 import '../../my_profile/view/widgets/other_user_profile_head_ui.dart';
 
@@ -21,7 +20,7 @@ class OtherUserProfileScreen extends StatelessWidget {
               postViewModel.postController.refresh();
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back)),
+            icon: const Icon(Icons.arrow_back)),
         actions: [
           Consumer<PostViewModel>(
             builder: (context, value, child) => PopupMenuButton<String>(
@@ -56,13 +55,13 @@ class OtherUserProfileScreen extends StatelessWidget {
           child: Consumer<PostViewModel>(
             builder: (context, value, child) => Column(
               children: [
-                OtherUserProfileHeadUi(),
+                const OtherUserProfileHeadUi(),
                 const SizedBox(
                   height: 5,
                 ),
                 value.otherUser!.isBlocked!
                     ? Container()
-                    : OtherUserProfileButtonUi(),
+                    : const OtherUserProfileButtonUi(),
                 const SizedBox(
                   height: 5,
                 ),

@@ -8,8 +8,8 @@ class ProfileViewBodyUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 17),
-      child: Column(
+      margin: const EdgeInsets.symmetric(horizontal: 17),
+      child: const Column(
         children: [
           SizedBox(
             height: 20,

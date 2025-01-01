@@ -6,7 +6,6 @@ import 'package:jora_customer/Settings/widgets/errorMsg.dart';
 import 'package:jora_customer/Settings/widgets/loadingShow.dart';
 import 'package:jora_customer/main.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
-import 'package:jora_customer/view/login_section/add_newuser/repository/repository.dart';
 import 'package:jora_customer/view/login_section/referal_code/repository/repository.dart';
 
 class AddReferalViewModel extends ChangeNotifier {
@@ -25,47 +24,28 @@ class AddReferalViewModel extends ChangeNotifier {
     NetConnection.networkConnection(context).then((value) async {
       if (value == true) {
         try {
-          loading = true;
-          notifyListeners();
-          print(
-              "body----${LoggedInUser.phoneNumber}---${LoggedInUser.countryCode!}---$name");
-
-          // LoadingShow.load(context);
           var result = await repo.addNewUser(
-              phone: LoggedInUser.phoneNumber ?? '',
-              countryCode: LoggedInUser.countryCode!.split('+').last,
-              name: name,
-              referralCode: referralCode!);
+            phone: LoggedInUser.phoneNumber ?? '',
+            countryCode: LoggedInUser.countryCode!.split('+').last,
+            name: name,
+            referralCode: referralCode!,
+          );
 
-          // LoadingShow.stopLoad(context);
-          LoggedInUser.login(result['data']);
-          // LoggedInUser.profile(
-          //   LoggedInUser.phoneNumber,
-          //   LoggedInUser.countryCode,
-          //   result['data']['tokens']['access']['token'],
-          //   result['data']['tokens']['refresh']['token'],
-          //   result['data']['user']['orgId'],
-          // );
+          if (result['status'] == true) {
+            LoggedInUser.login(result['data']);
+            Navigator.pushReplacementNamed(
+              context,
+              PPages.loginSplashUi,
+            );
+          } else {
+            ErrorMsg.showSnakError(context, result['message']);
+          }
+        } catch (e) {
+          print("Error in addNewUser: $e");
+          ErrorMsg.showSnakError(context, "An error occurred: $e");
+        } finally {
           loading = false;
           notifyListeners();
-          print("New User login-----------------Succuss");
-
-          print(result['data']['tokens']['access']['token']);
-          print(result['data']['tokens']['refresh']['token']);
-
-          // ignore: use_build_context_synchronously
-          Navigator.pushNamed(
-            navigatorKey.currentContext!,
-            PPages.loginSplashUi,
-          );
-        } catch (e) {
-          isError = true;
-          notifyListeners();
-          if (isError) {
-            LoadingShow.stopLoad(navigatorKey.currentContext!);
-          }
-          // ignore: use_build_context_synchronously
-          // ErrorMsg.showSnakError(context, e.toString());
         }
       } else {
         Navigator.pushReplacementNamed(context, PPages.noIntenet);

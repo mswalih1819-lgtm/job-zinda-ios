@@ -4,14 +4,12 @@ import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/view/connect_pages/map_section/view/widgets/result_image_widgets.dart';
 import 'package:jora_customer/view/other_user_profile/view/other_user_profile_screen.dart';
-import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
-import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ResultFreelancersSingleUi extends StatelessWidget {
   final ProfileModel profileModel;
-  ResultFreelancersSingleUi({super.key, required this.profileModel});
+  const ResultFreelancersSingleUi({super.key, required this.profileModel});
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +26,11 @@ class ResultFreelancersSingleUi extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => OtherUserProfileScreen(),
+              builder: (context) => const OtherUserProfileScreen(),
             ));
       },
       child: Container(
-        margin: EdgeInsets.only(bottom: 20),
+        margin: const EdgeInsets.only(bottom: 20),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10), color: PColors.seed2),
         child: Padding(
@@ -65,7 +63,7 @@ class ResultFreelancersSingleUi extends StatelessWidget {
             color: PColors.whiteOff.withOpacity(0.6),
             overflow: TextOverflow.ellipsis,
             maxLines: 1),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Row(
@@ -74,22 +72,22 @@ class ResultFreelancersSingleUi extends StatelessWidget {
             columnWidget(
                 title: "Followers",
                 value: profileModel.followersCount!.toString()),
-            Container(
-                height: 40,
-                child: VerticalDivider(
-                  color: PColors.whiteOff.withOpacity(0.2),
-                )),
-            columnWidget(
-                title: "Projects",
-                value: profileModel.projectsCount!.toString()),
-            Container(
-                height: 40,
-                child: VerticalDivider(
-                  color: PColors.whiteOff.withOpacity(0.2),
-                )),
-            columnWidget(
-                title: "Feedback",
-                value: profileModel.rating!.toStringAsFixed(1)),
+            // SizedBox(
+            //     height: 40,
+            //     child: VerticalDivider(
+            //       color: PColors.whiteOff.withOpacity(0.2),
+            //     )),
+            // columnWidget(
+            //     title: "Projects",
+            //     value: profileModel.projectsCount!.toString()),
+            // SizedBox(
+            //     height: 40,
+            //     child: VerticalDivider(
+            //       color: PColors.whiteOff.withOpacity(0.2),
+            //     )),
+            // columnWidget(
+            //     title: "Feedback",
+            //     value: profileModel.rating!.toStringAsFixed(1)),
           ],
         )
       ],
@@ -101,7 +99,7 @@ class ResultFreelancersSingleUi extends StatelessWidget {
       child: Column(
         children: [
           textWidget(text: value, fontsize: 16, fontweight: FontWeight.w500),
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
           textWidget(

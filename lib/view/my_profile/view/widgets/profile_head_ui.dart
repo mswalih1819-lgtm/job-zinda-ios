@@ -11,7 +11,7 @@ class ProfileHeadUi extends StatelessWidget {
   final Map? map;
   final String icon;
   final ProfileModel? profileModel;
-  ProfileHeadUi({super.key, this.map, required this.icon, this.profileModel});
+  const ProfileHeadUi({super.key, this.map, required this.icon, this.profileModel});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class ProfileHeadUi extends StatelessWidget {
           icon: icon,
         ),
         Container(
-            margin: EdgeInsets.symmetric(horizontal: 17, vertical: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 17, vertical: 10),
             child: contentWidget(profileModel))
       ],
     );
@@ -50,7 +50,7 @@ class ProfileHeadUi extends StatelessWidget {
             color: PColors.white,
             overflow: TextOverflow.ellipsis,
             maxLines: 1),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         textWidget(
@@ -59,7 +59,7 @@ class ProfileHeadUi extends StatelessWidget {
             fontweight: FontWeight.w300,
             text: profile?.bio ?? '',
             fontsize: 13),
-        SizedBox(
+        const SizedBox(
           height: 18,
         ),
         Row(
@@ -83,7 +83,7 @@ class ProfileHeadUi extends StatelessWidget {
       child: Column(
         children: [
           textWidget(text: value, fontsize: 16, fontweight: FontWeight.w500),
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
           textWidget(

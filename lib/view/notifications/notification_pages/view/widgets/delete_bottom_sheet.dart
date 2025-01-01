@@ -4,7 +4,6 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/notification_model.dart';
-import 'package:jora_customer/view/notifications/notification_pages/view/widgets/notification_body_section.dart';
 import 'package:jora_customer/view_model/notification_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +20,7 @@ class DeleteBottomSheet extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Row(
@@ -31,8 +30,8 @@ class DeleteBottomSheet extends StatelessWidget {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: Icon(Icons.close)),
-                SizedBox(
+                    child: const Icon(Icons.close)),
+                const SizedBox(
                   width: 10,
                 )
               ],

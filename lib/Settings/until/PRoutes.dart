@@ -7,9 +7,7 @@ import 'package:jora_customer/view/edit_profile/view/edit_profile_screen.dart';
 import 'package:jora_customer/view/freelancer_edit_profile/ui.dart';
 import 'package:jora_customer/view/freelancer_edit_profile/widgets/bio_page.dart';
 import 'package:jora_customer/view/freelancer_edit_profile/widgets/search_location.dart';
-import 'package:jora_customer/view/home_section/home_pages/view/post_details_screen.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/add_story_screen.dart';
-import 'package:jora_customer/view/home_section/home_pages/view/widgets/display_stories.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/storyView_page.dart';
 import 'package:jora_customer/view/login_section/add_newuser/view/ui.dart';
 import 'package:jora_customer/view/login_section/referal_code/view/ui.dart';
@@ -18,7 +16,6 @@ import 'package:jora_customer/view/profile_analytics/view/profile_analytics_scre
 import 'package:jora_customer/view/profile_view/view/ui.dart';
 import 'package:jora_customer/view/help_support/view/ui.dart';
 import 'package:jora_customer/view/help_support/view/widgets/send_feedback_ui.dart';
-import 'package:jora_customer/view/home_section/home_pages/view/home_screen.dart';
 import 'package:jora_customer/view/login_section/login_splash/view/ui.dart';
 import 'package:jora_customer/view/login_section/login_splash/view/widgets/login_splash_2.dart';
 import 'package:jora_customer/view/login_section/login_welcome_screen/view/ui.dart';
@@ -57,7 +54,7 @@ class Routes {
         );
       case PPages.phoneNumberUi:
         return MaterialPageRoute(
-          builder: (context) => LoginScreen(),
+          builder: (context) => const LoginScreen(),
         );
       case PPages.otpPageUi:
         {
@@ -75,7 +72,7 @@ class Routes {
         );
       case PPages.storyViewer:
         return MaterialPageRoute(
-          builder: (context) => StoryViewer(),
+          builder: (context) => const StoryViewer(),
         );
       case PPages.loginSplash2Ui:
         return MaterialPageRoute(
@@ -129,11 +126,11 @@ class Routes {
         );
       case PPages.freelancerFilterPageUi:
         return MaterialPageRoute(
-          builder: (context) => FreelancerFilterPageUi(),
+          builder: (context) => const FreelancerFilterPageUi(),
         );
       case PPages.profileAnalyticsPageUi:
         return MaterialPageRoute(
-          builder: (context) => ProfileAnalyticsScreen(),
+          builder: (context) => const ProfileAnalyticsScreen(),
         );
       case PPages.subscriptionPageUi:
         return MaterialPageRoute(
@@ -154,7 +151,7 @@ class Routes {
 
       case PPages.freelancerBioPageUi:
         return MaterialPageRoute(
-          builder: (context) => FreelancerBioPageUi(),
+          builder: (context) => const FreelancerBioPageUi(),
         );
       case PPages.searchLocation:
         {
@@ -168,24 +165,24 @@ class Routes {
 
       case PPages.noIntenet:
         return MaterialPageRoute(
-          builder: (context) => NoInternetWidget(),
+          builder: (context) => const NoInternetWidget(),
         );
       case PPages.adduserpage:
         return MaterialPageRoute(
-          builder: (context) => AddUserPage(),
+          builder: (context) => const AddUserPage(),
         );
       case PPages.referalCodeUi:
         return MaterialPageRoute(
-          builder: (context) => ReferalCodeUi(),
+          builder: (context) => const ReferalCodeUi(),
         );
 
       case PPages.referalPageUi:
         return MaterialPageRoute(
-          builder: (context) => ReferalPageUi(),
+          builder: (context) => const ReferalPageUi(),
         );
       case PPages.coinScreenUi:
         return MaterialPageRoute(
-          builder: (context) => CoinScreenUi(),
+          builder: (context) => const CoinScreenUi(),
         );
 
       default:

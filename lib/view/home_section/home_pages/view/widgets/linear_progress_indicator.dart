@@ -30,7 +30,7 @@ class LinearProgressIndicatorUi extends StatelessWidget {
                         ? progress
                         : 0.0,
                 backgroundColor: Colors.grey[300],
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
                 minHeight: 5,
               ),
             ),
@@ -52,7 +52,7 @@ class LinearProgressIndicatorUi extends StatelessWidget {
                         ? progress
                         : 0.0,
                 backgroundColor: Colors.grey[300],
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
                 minHeight: 5,
               ),
             ),

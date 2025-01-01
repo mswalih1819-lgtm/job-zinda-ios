@@ -20,20 +20,20 @@ class SubscriptionHeading extends StatelessWidget {
               color: PColors.white,
               height: 26,
             ),
-            SizedBox(
+            const SizedBox(
               width: 4,
             ),
             textWidget(text: "Premium", fontweight: FontWeight.w600),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         textWidget(text: 'Unlock exclusive features that', fontsize: 20),
         Row(
           children: [
             textWidget(text: "help you", fontsize: 20),
-            SizedBox(
+            const SizedBox(
               width: 5,
             ),
             GradientText(

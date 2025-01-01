@@ -6,6 +6,8 @@ import 'package:jora_customer/view/profile_analytics/view/widgets/growth_section
 import 'package:jora_customer/view/profile_analytics/view/widgets/profile_analytics_head.dart';
 
 class ProfileAnalyticsScreen extends StatelessWidget {
+  const ProfileAnalyticsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,24 +20,24 @@ class ProfileAnalyticsScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          ProfileAnalyticsHeadUi(),
+          const ProfileAnalyticsHeadUi(),
           Divider(
             color: PColors.whiteOff.withOpacity(0.4),
           ),
-          GrowthSectionUi(),
+          const GrowthSectionUi(),
           Divider(
             color: PColors.whiteOff.withOpacity(0.4),
           ),
-          FeedbackSectionUi(),
-          SizedBox(
-            height: 20,
-          ),
-          Divider(
-            color: PColors.whiteOff.withOpacity(0.4),
-          ),
+          // const FeedbackSectionUi(),
+          // const SizedBox(
+          //   height: 20,
+          // ),
+          // Divider(
+          //   color: PColors.whiteOff.withOpacity(0.4),
+          // ),
         ],
       ),
     );

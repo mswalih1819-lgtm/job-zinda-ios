@@ -13,7 +13,7 @@ class CommentsSingleNotificationwidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10),
+      margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
           border: Border(
               bottom: BorderSide(color: PColors.whiteOff.withOpacity(0.5)))),
@@ -27,11 +27,11 @@ class CommentsSingleNotificationwidget extends StatelessWidget {
               radius: 30,
               backgroundImage: AssetImage(PImages.pro_pic3),
             ),
-            SizedBox(
+            const SizedBox(
               width: 13,
             ),
             Flexible(child: secondColumn()),
-            Column(
+            const Column(
               children: [IconMoreWidget()],
             )
           ],
@@ -45,19 +45,19 @@ class CommentsSingleNotificationwidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 11,
         ),
         richTextWidget(),
-        SizedBox(
+        const SizedBox(
           height: 4,
         ),
         textWidget(text: "5h ", color: PColors.whiteOff.withOpacity(0.6)),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
-        YourPostWidgetUi(),
-        SizedBox(
+        const YourPostWidgetUi(),
+        const SizedBox(
           height: 9,
         ),
         likeReplyRow()
@@ -74,7 +74,7 @@ class CommentsSingleNotificationwidget extends StatelessWidget {
               PSvgs.like,
               height: 15,
             ),
-            SizedBox(
+            const SizedBox(
               width: 6,
             ),
             textWidget(
@@ -83,13 +83,13 @@ class CommentsSingleNotificationwidget extends StatelessWidget {
                 fontsize: 13)
           ],
         ),
-        SizedBox(
+        const SizedBox(
           width: 8,
         ),
         Row(
           children: [
             SvgPicture.asset(PSvgs.reply, height: 15),
-            SizedBox(
+            const SizedBox(
               width: 6,
             ),
             textWidget(
@@ -106,23 +106,23 @@ class CommentsSingleNotificationwidget extends StatelessWidget {
     return RichText(
       overflow: TextOverflow.ellipsis,
       maxLines: 1,
-      text: new TextSpan(
-        style: new TextStyle(fontSize: 13, fontWeight: FontWeight.w500
+      text: const TextSpan(
+        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500
             // color: Colors.black,
             ),
         children: [
-          new TextSpan(text: 'James Mathew'),
+          TextSpan(text: 'James Mathew'),
           WidgetSpan(
               child: SizedBox(
             width: 10,
           )),
-          new TextSpan(
+          TextSpan(
               text: 'commented',
-              style: new TextStyle(fontWeight: FontWeight.w300, fontSize: 13)),
+              style: TextStyle(fontWeight: FontWeight.w300, fontSize: 13)),
           TextSpan(text: ' : '),
           TextSpan(
               text: 'Nice',
-              style: new TextStyle(fontWeight: FontWeight.w300, fontSize: 13)),
+              style: TextStyle(fontWeight: FontWeight.w300, fontSize: 13)),
           WidgetSpan(
               child: SizedBox(
             width: 10,

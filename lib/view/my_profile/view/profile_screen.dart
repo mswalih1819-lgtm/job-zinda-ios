@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
-import 'package:jora_customer/view/my_profile/view/widgets/gallery_section.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/my_profile_button.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/profile_head_ui.dart';
-import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 

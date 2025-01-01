@@ -12,10 +12,10 @@ class ProfessionModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['sortNumber'] = this.sortNumber;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['name'] = name;
+    data['sortNumber'] = sortNumber;
     return data;
   }
 }

@@ -12,7 +12,7 @@ class MyProfileButtonUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: [
           button(
@@ -22,7 +22,7 @@ class MyProfileButtonUi extends StatelessWidget {
                 Navigator.pushNamed(context, PPages.freeLancerEditProfileUi);
               },
               selected: false),
-          SizedBox(
+          const SizedBox(
             width: 6,
           ),
           button(

@@ -37,7 +37,7 @@ class SubscriptionPaymentModel {
     currency = json['currency'];
     entity = json['entity'];
     id = json['id'];
-    notes = json['notes'] != null ? new Notes.fromJson(json['notes']) : null;
+    notes = json['notes'] != null ? Notes.fromJson(json['notes']) : null;
     offerId = json['offer_id'];
     receipt = json['receipt'];
     status = json['status'];
@@ -45,22 +45,22 @@ class SubscriptionPaymentModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['amount'] = this.amount;
-    data['amount_due'] = this.amountDue;
-    data['amount_paid'] = this.amountPaid;
-    data['attempts'] = this.attempts;
-    data['created_at'] = this.createdAt;
-    data['currency'] = this.currency;
-    data['entity'] = this.entity;
-    data['id'] = this.id;
-    if (this.notes != null) {
-      data['notes'] = this.notes!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['amount'] = amount;
+    data['amount_due'] = amountDue;
+    data['amount_paid'] = amountPaid;
+    data['attempts'] = attempts;
+    data['created_at'] = createdAt;
+    data['currency'] = currency;
+    data['entity'] = entity;
+    data['id'] = id;
+    if (notes != null) {
+      data['notes'] = notes!.toJson();
     }
-    data['offer_id'] = this.offerId;
-    data['receipt'] = this.receipt;
-    data['status'] = this.status;
-    data['key_id'] = this.keyId;
+    data['offer_id'] = offerId;
+    data['receipt'] = receipt;
+    data['status'] = status;
+    data['key_id'] = keyId;
     return data;
   }
 }
@@ -81,11 +81,11 @@ class Notes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['email'] = this.email;
-    data['fullName'] = this.fullName;
-    data['phone'] = this.phone;
-    data['userId'] = this.userId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['email'] = email;
+    data['fullName'] = fullName;
+    data['phone'] = phone;
+    data['userId'] = userId;
     return data;
   }
 }

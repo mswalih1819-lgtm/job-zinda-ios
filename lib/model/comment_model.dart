@@ -18,7 +18,7 @@ class Comments {
     sId = json['_id'];
     post = json['post'];
     commentedBy = json['commentedBy'] != null
-        ? new CommentedBy.fromJson(json['commentedBy'])
+        ? CommentedBy.fromJson(json['commentedBy'])
         : null;
     createdAt = json['createdAt'];
     comment = json['comment'];
@@ -26,15 +26,15 @@ class Comments {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['post'] = this.post;
-    if (this.commentedBy != null) {
-      data['commentedBy'] = this.commentedBy!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['post'] = post;
+    if (commentedBy != null) {
+      data['commentedBy'] = commentedBy!.toJson();
     }
-    data['createdAt'] = this.createdAt;
-    data['comment'] = this.comment;
-    data['__v'] = this.iV;
+    data['createdAt'] = createdAt;
+    data['comment'] = comment;
+    data['__v'] = iV;
     return data;
   }
 }
@@ -53,10 +53,10 @@ class CommentedBy {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['profileImageUrl'] = this.profileImageUrl;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['name'] = name;
+    data['profileImageUrl'] = profileImageUrl;
     return data;
   }
 }

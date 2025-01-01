@@ -5,7 +5,7 @@ import 'package:video_player/video_player.dart';
 class VideoViewScreen extends StatefulWidget {
   final String videoUrl;
 
-  VideoViewScreen({required this.videoUrl});
+  const VideoViewScreen({super.key, required this.videoUrl});
 
   @override
   _VideoViewScreenState createState() => _VideoViewScreenState();
@@ -61,7 +61,7 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
         child: videoPlayerController != null &&
                 videoPlayerController!.value.isInitialized
             ? Chewie(controller: chewieController!)
-            : CircularProgressIndicator(),
+            : const CircularProgressIndicator(),
       ),
     );
   }

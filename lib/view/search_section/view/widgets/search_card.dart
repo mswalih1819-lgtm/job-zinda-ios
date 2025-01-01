@@ -22,7 +22,7 @@ class SearchCard extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => OtherUserProfileScreen(),
+              builder: (context) => const OtherUserProfileScreen(),
             ));
         // context
         //     .read<WrapperViewModel>()
@@ -50,7 +50,7 @@ class SearchCard extends StatelessWidget {
                     color: PColors.whiteOff.withOpacity(0.6),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -59,22 +59,22 @@ class SearchCard extends StatelessWidget {
                     columnWidget(
                         title: 'Followers',
                         value: '${profileModel.followersCount ?? '0'}'),
-                    Container(
-                        height: 30,
-                        child: VerticalDivider(
-                          color: PColors.whiteOff.withOpacity(0.2),
-                        )),
-                    columnWidget(
-                        title: 'Projects',
-                        value: '${profileModel.projectsCount ?? '0'}'),
-                    Container(
-                        height: 30,
-                        child: VerticalDivider(
-                          color: PColors.whiteOff.withOpacity(0.2),
-                        )),
-                    columnWidget(
-                        title: 'Feedback',
-                        value: profileModel.rating?.toStringAsFixed(1) ?? '0'),
+                    // SizedBox(
+                    //     height: 30,
+                    //     child: VerticalDivider(
+                    //       color: PColors.whiteOff.withOpacity(0.2),
+                    //     )),
+                    // columnWidget(
+                    //     title: 'Projects',
+                    //     value: '${profileModel.projectsCount ?? '0'}'),
+                    // SizedBox(
+                    //     height: 30,
+                    //     child: VerticalDivider(
+                    //       color: PColors.whiteOff.withOpacity(0.2),
+                    //     )),
+                    // columnWidget(
+                    //     title: 'Feedback',
+                    //     value: profileModel.rating?.toStringAsFixed(1) ?? '0'),
                   ],
                 )
               ],
@@ -90,7 +90,7 @@ class SearchCard extends StatelessWidget {
       child: Column(
         children: [
           textWidget(text: value, fontsize: 10, fontweight: FontWeight.w500),
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
           textWidget(

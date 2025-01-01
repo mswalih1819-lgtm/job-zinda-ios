@@ -45,7 +45,7 @@ class ChatFilterUi extends StatelessWidget {
       required bool selected}) {
     return GestureDetector(
       onTap: fun,
-      child: Container(
+      child: SizedBox(
           width: size.width / 4,
           child: Column(
             children: [
@@ -57,7 +57,7 @@ class ChatFilterUi extends StatelessWidget {
                       : PColors.whiteOff.withOpacity(0.8),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Container(
@@ -68,10 +68,10 @@ class ChatFilterUi extends StatelessWidget {
                           : [PColors.black, PColors.black],
                       begin: const FractionalOffset(0.0, 0.0),
                       end: const FractionalOffset(1.0, 0.0),
-                      stops: [0.0, 1.0],
+                      stops: const [0.0, 1.0],
                       tileMode: TileMode.clamp),
                 ),
-                margin: EdgeInsets.symmetric(vertical: 6, horizontal: 5),
+                margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 5),
                 // width: size.width / 4,
                 height: 2,
               )

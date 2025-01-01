@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
@@ -11,6 +10,8 @@ import 'package:jora_customer/view_model/connect_page_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ConnectPagesUi extends StatefulWidget {
+  const ConnectPagesUi({super.key});
+
   @override
   _ConnectPagesUiState createState() => _ConnectPagesUiState();
 }
@@ -33,7 +34,7 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
       body: Stack(
         children: [
           // Map widget
-          SimpleMap(),
+          const SimpleMap(),
 
           // Positioned Row with TextField and Icon
           Positioned(
@@ -45,12 +46,12 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
                 Expanded(
                   child: CustomTextFeild(
                     suffixIcon: Visibility(
+                      visible: true,
                       child: Icon(
                         Icons.close,
                         size: 18,
                         color: PColors.white,
                       ),
-                      visible: true,
                     ),
                     sufixfn: () {
                       txetController.clear();
@@ -79,11 +80,13 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
                         builder: (context) => ResultSheetUi(),
                       );
                     },
-                    validation: (val) {},
+                    validation: (val) {
+                      return null;
+                    },
                     filColor: PColors.textFieldColor,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
                 GestureDetector(
@@ -113,7 +116,7 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
             top: 115, // Adjust this value based on where you want it
             left: 10,
             right: 10,
-            child: Container(
+            child: SizedBox(
               height: 40,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -126,7 +129,7 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
                       });
                       await connectPageViewModel
                           .updateDistanceInKm(list[index]);
-                      await Future.delayed(Duration(seconds: 1));
+                      await Future.delayed(const Duration(seconds: 1));
                       showModalBottomSheet(
                         isScrollControlled: true,
                         context: context,
@@ -148,7 +151,7 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
   Widget kmWidget({required String title, required bool selected}) {
     return Container(
       width: 130,
-      margin: EdgeInsets.only(right: 6),
+      margin: const EdgeInsets.only(right: 6),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: selected ? PColors.black : PColors.kmColor.withOpacity(0.7),

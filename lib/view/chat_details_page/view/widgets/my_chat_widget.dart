@@ -7,7 +7,7 @@ import 'package:jora_customer/view/chat_details_page/view/widgets/audio_widget.d
 
 class MyChatWidget extends StatelessWidget {
   final ChatMessageModel message;
-  MyChatWidget({
+  const MyChatWidget({
     super.key,
     required this.message,
   });
@@ -23,7 +23,7 @@ class MyChatWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             if (message.messageType == "text" || message.messageType == 'text')
@@ -39,7 +39,7 @@ class MyChatWidget extends StatelessWidget {
                 ),
                  decoration: BoxDecoration(
                     color: PColors.white,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(20),
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
@@ -76,7 +76,7 @@ class MyChatWidget extends StatelessWidget {
               Container(
                 
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(12),
                     topLeft: Radius.circular(12),
                     topRight: Radius.circular(12),
@@ -90,7 +90,7 @@ class MyChatWidget extends StatelessWidget {
                 width: size.width * 0.34,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child:message.content==null || message.content!.isEmpty?CircularProgressIndicator(): Image.network(message.content!,fit: BoxFit.fill,)),
+                  child:message.content==null || message.content!.isEmpty?const CircularProgressIndicator(): Image.network(message.content!,fit: BoxFit.fill,)),
               ),
             if (message.messageType == "audio" ||
                 message.messageType == 'audio')
@@ -101,7 +101,7 @@ class MyChatWidget extends StatelessWidget {
                     left: 10, right: 10, top: 10, bottom: 10),
                 decoration: BoxDecoration(
                     color: PColors.white,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(20),
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),

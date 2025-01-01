@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
-import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/view/login_section/otp_verify/view_model/view_model.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/view_model/view_model.dart';
@@ -29,7 +28,7 @@ class OtpButtonsUi extends StatelessWidget {
               // Navigator.pop(context);
             },
             borderRadius: 0),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Selector<OtpPageViewModel, bool>(

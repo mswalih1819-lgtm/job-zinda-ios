@@ -27,7 +27,7 @@ class ImageEditSection extends StatelessWidget {
              NetworkImage(LoggedInUser.profilePic ?? ''),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         ),
         TextButton(
@@ -46,7 +46,7 @@ class ImageEditSection extends StatelessWidget {
           },
           child: Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.add,
                 color: Colors.white,
               ),

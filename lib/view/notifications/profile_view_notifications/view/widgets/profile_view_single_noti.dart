@@ -8,12 +8,9 @@ import 'package:jora_customer/model/notification_model.dart';
 import 'package:jora_customer/model/post_model.dart';
 import 'package:jora_customer/view/notifications/notification_pages/view/widgets/icon_more_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../../../utils/date_formatter.dart';
 import '../../../../../view_model/notification_view_model.dart';
 import '../../../../../view_model/post_view_model.dart';
-import '../../../../home_section/home_pages/view/post_details_screen.dart';
 import '../../../../other_user_profile/view/other_user_profile_screen.dart';
 
 class ProfileViewSingleNotiWidget extends StatelessWidget {
@@ -43,7 +40,7 @@ class ProfileViewSingleNotiWidget extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => OtherUserProfileScreen(),
+                        builder: (context) => const OtherUserProfileScreen(),
                       ));
                 }
               },
@@ -70,7 +67,7 @@ class ProfileViewSingleNotiWidget extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => OtherUserProfileScreen(),
+                            builder: (context) => const OtherUserProfileScreen(),
                           ));
                     }
                   } else if (notificationModel?.notificationType == 'like' ||

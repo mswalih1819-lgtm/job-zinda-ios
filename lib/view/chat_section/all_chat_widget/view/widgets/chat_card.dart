@@ -16,7 +16,7 @@ class ChatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var participant;
+    Participants participant=Participants();
 
     if (conversationModel.participants != null ||
         conversationModel.participants!.isEmpty) {
@@ -111,7 +111,7 @@ class ChatCard extends StatelessWidget {
                         width: 7,
                       ),
                       conversationModel.unreadCount == 0
-                          ? Icon(
+                          ? const Icon(
                               Icons.done,
                               size: 14,
                             )
