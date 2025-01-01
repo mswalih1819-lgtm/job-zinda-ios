@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FaqUi extends StatelessWidget {
   const FaqUi({super.key});
@@ -11,20 +13,31 @@ class FaqUi extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-            margin: const EdgeInsets.only(left: 17, bottom: 20, top: 20),
-            child: textWidget(text: "FAQ’s", color: PColors.whiteOff)),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10),
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: 10,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return singleCard();
-            },
-          ),
-        )
+          
+        CustomElavatedTextButton(
+          bgcolor: PColors.yellow,
+          textColor: PColors.black,
+          text: "Faq's",onPressed: (){
+
+           launchUrl(
+                  Uri.parse('https://www.joraappfreelancers.com/faq'),
+                );
+        },)
+        
+        // Container(
+        //     margin: const EdgeInsets.only(left: 17, bottom: 20, top: 20),
+        //     child: textWidget(text: "FAQ’s", color: PColors.whiteOff)),
+        // Container(
+        //   margin: const EdgeInsets.symmetric(horizontal: 10),
+        //   child: ListView.builder(
+        //     shrinkWrap: true,
+        //     itemCount: 10,
+        //     physics: const NeverScrollableScrollPhysics(),
+        //     itemBuilder: (context, index) {
+        //       return singleCard();
+        //     },
+        //   ),
+        // )
       ],
     );
   }

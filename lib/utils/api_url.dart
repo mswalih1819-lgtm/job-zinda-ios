@@ -3,24 +3,21 @@ import '../model/logged_in_user.dart';
 class AppUrl {
   static const String scurity = 'https';
 
-  static const isProduction = false;
+  static const isProduction = true;
 
   static String get baseurl {
     if (isProduction == false) {
-      // return "http://13.203.140.81:4001/";
-
       return "http://3.110.26.51:4001/";
     } else {
-      return "http://13.203.140.81:4001/";
+      return "https://server.joraappfreelancers.com";
     }
   }
 
   static String get httpBaseUrl {
     if (isProduction == false) {
       return '3.110.26.51:4001';
-      // return '13.203.140.81:4001';
     } else {
-      return '13.203.140.81:4001';
+      return 'server.joraappfreelancers.com';
     }
   }
 
@@ -38,7 +35,7 @@ class Api {
   }
 
   // static const baseurl = 'http://13.203.140.81:4001';
-  static const baseurl = 'http://3.110.26.51:4001';
+  static const baseurl = 'https://server.joraappfreelancers.com';
 
   // static const loginUrl = '$baseurl/api/v1/auth/user-auth';
   static const storiesListUrl =

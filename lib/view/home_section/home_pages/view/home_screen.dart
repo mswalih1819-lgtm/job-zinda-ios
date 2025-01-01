@@ -63,27 +63,35 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: "Referrals",
                   icon: SvgPicture.asset(PSvgs.referals),
                   fun: () {
-                     Navigator.pop(context);
+                    Navigator.pop(context);
                     Navigator.pushNamed(context, PPages.referalPageUi);
                   }),
               drawerWidget(
                   title: "Coins",
                   icon: SvgPicture.asset(PSvgs.coins),
                   fun: () {
-                     Navigator.pop(context);
+                    Navigator.pop(context);
                     Navigator.pushNamed(context, PPages.coinScreenUi);
                   }),
               drawerWidget(
                   title: "Contact",
-                  icon: Icon(Icons.call,color: PColors.whiteOff,size: 18,),
+                  icon: Icon(
+                    Icons.call,
+                    color: PColors.whiteOff,
+                    size: 18,
+                  ),
                   fun: () {
-              _makePhoneCall('+919999999999');
-
+                    _makePhoneCall('+919544741808');
                   }),
               drawerWidget(
                   title: "Terms and Conditions",
                   icon: SvgPicture.asset(PSvgs.terms),
-                  fun: () {}),
+                  fun: () {
+                    launchUrl(
+                      Uri.parse(
+                          'https://www.joraappfreelancers.com/terms-and-conditions'),
+                    );
+                  }),
               drawerWidget(
                   title: "Help and Support",
                   icon: SvgPicture.asset(PSvgs.support),
@@ -93,7 +101,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   }),
               drawerWidget(
                   title: "Delete account",
-                  icon: Icon(Icons.delete,color: PColors.whiteOff,size: 18,),
+                  icon: Icon(
+                    Icons.delete,
+                    color: PColors.whiteOff,
+                    size: 18,
+                  ),
                   fun: () {
                     showDialog(
                       context: context,
@@ -228,6 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
 Future<void> _makePhoneCall(String phoneNumber) async {
   final Uri launchUri = Uri(
     scheme: 'tel',
