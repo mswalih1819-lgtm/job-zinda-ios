@@ -30,7 +30,8 @@ class PPages {
   static const String referalCodeUi= "/referalcode";
   static const String referalPageUi= "/referalPageUi";
   static const String coinScreenUi= "/coinScreenUi";
-
+  static const String followersScreen= "/followersScreen";
+  static const String feedbackScreen= "/feedbackScreen";
 
 
 

@@ -2,15 +2,20 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/main.dart';
+import 'package:jora_customer/model/feedback_model.dart';
+import 'package:jora_customer/model/followers_model.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
+import 'package:jora_customer/model/notification_model.dart';
 import 'package:jora_customer/model/profession_model.dart';
 import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/utils/api_service.dart';
 import 'package:jora_customer/utils/api_url.dart';
 import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 import 'package:jora_customer/view_model/location_view_model.dart';
+import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ProfileViewModel with ChangeNotifier {
@@ -32,7 +37,10 @@ class ProfileViewModel with ChangeNotifier {
   ProfileModel? profileModel;
   List<String> stateList = [];
   // String? selectedState;
-
+  bool isLoadingMore = false;
+  int currentPage = 1;
+  final int pageSize = 10;
+  bool hasMoreData = true;
   Future<void> fetchProfile() async {
     // if (profileModel == null) {
     EasyLoading.show();
@@ -189,9 +197,8 @@ class ProfileViewModel with ChangeNotifier {
           // navigatorKey.currentContext!
           //     .read<PostViewModel>()
           //     .initSelfPostPagination();
-         Navigator.pop(context);
-         Navigator.pop(context);
-
+          Navigator.pop(context);
+          Navigator.pop(context);
 
           navigatorKey.currentContext!
               .read<WrapperViewModel>()
@@ -246,6 +253,124 @@ class ProfileViewModel with ChangeNotifier {
       LoggedInUser.clearUserData();
       Navigator.pop(context);
       Navigator.pushReplacementNamed(context, PPages.loginWelcomeScreenUi);
+    }
+  }
+
+  Future<void> addProfileRating(
+      {required String rating,
+      required String review,
+      required String profileId,
+      required BuildContext context}) async {
+    EasyLoading.show();
+
+    Map body = {'rating': rating, 'review': review, 'profileId': profileId};
+    Response response = await ApiService().post(Api.profileRating, body);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = response.data;
+
+      print('rating-----$data');
+      if (data['status']) {
+        //
+        if (data.containsKey('message')) {
+          EasyLoading.showSuccess(data['message']);
+          context
+              .read<PostViewModel>()
+              .fetchOtherUserProfileDetails(userID: profileId);
+
+          notifyListeners();
+        }
+      } else {
+        EasyLoading.showError(data['message']);
+      }
+    }
+    EasyLoading.dismiss();
+    Navigator.pop(context);
+  }
+
+  String _searchKeyword = "";
+  String get searchKeyword => _searchKeyword;
+  set searchKeyword(String value) {
+    _searchKeyword = value;
+    notifyListeners();
+  }
+
+  late PagingController<int, Followers> followersController;
+  // int currentPage = 0;
+  initFollowersPagination({required String id}) {
+    currentPage = 0;
+    followersController = PagingController(firstPageKey: 1);
+    followersController.addPageRequestListener((pageKey) {
+      fetchFollowerWithPagination(pageKey, userID: id);
+    });
+  }
+
+  Future<void> fetchFollowerWithPagination(int page, {String? userID}) async {
+    if (currentPage != page) {
+      currentPage = page;
+      // if (searchKeyword == "") {
+      //   searchKeyword = "";
+      // }
+      String url =
+          "${Api.listAllFollowers}?profileId=$userID&pageNumber=$currentPage&pageSize=$pageSize&searchTag=$searchKeyword";
+
+      Response response = await ApiService().get(url);
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        if (data['status']) {
+          List<Followers> temp = (data['data']['followers'] as List)
+              .map((e) => Followers.fromJson(e))
+              .toList();
+          if (data['data']['hasNext']) {
+            followersController.appendPage(temp, page + 1);
+          } else {
+            followersController.appendLastPage(temp);
+          }
+        } else {
+          followersController.appendLastPage([]);
+        }
+      } else {
+        followersController.appendLastPage([]);
+      }
+    }
+  }
+
+  late PagingController<int, FeedBacks> feedbackController;
+  // int currentPage = 0;
+  initFeedbackPagination({required String id}) {
+    currentPage = 0;
+    feedbackController = PagingController(firstPageKey: 1);
+    feedbackController.addPageRequestListener((pageKey) {
+      fetchFeedbackPagination(pageKey, userID: id);
+    });
+  }
+
+  Future<void> fetchFeedbackPagination(int page, {String? userID}) async {
+    if (currentPage != page) {
+      currentPage = page;
+
+      String url =
+          "${Api.listAllFeedbacks}?profileId=$userID&pageNumber=$currentPage&pageSize=$pageSize";
+
+      Response response = await ApiService().get(url);
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        if (data['status']) {
+          List<FeedBacks> temp = (data['data']['feedBacks'] as List)
+              .map((e) => FeedBacks.fromJson(e))
+              .toList();
+          if (data['data']['hasNext']) {
+            feedbackController.appendPage(temp, page + 1);
+          } else {
+            feedbackController.appendLastPage(temp);
+          }
+        } else {
+          feedbackController.appendLastPage([]);
+        }
+      } else {
+        feedbackController.appendLastPage([]);
+      }
     }
   }
 }

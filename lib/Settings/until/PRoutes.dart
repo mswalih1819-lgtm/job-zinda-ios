@@ -4,6 +4,8 @@ import 'package:jora_customer/view/chat_section/chat_pages/view/ui.dart';
 import 'package:jora_customer/view/coin_page/coin_screen.dart';
 import 'package:jora_customer/view/connect_pages/filter_freelancers/view/ui.dart';
 import 'package:jora_customer/view/edit_profile/view/edit_profile_screen.dart';
+import 'package:jora_customer/view/followers_list/view/ui.dart';
+import 'package:jora_customer/view/followers_list/view/widgets/feedback_list.dart';
 import 'package:jora_customer/view/freelancer_edit_profile/ui.dart';
 import 'package:jora_customer/view/freelancer_edit_profile/widgets/bio_page.dart';
 import 'package:jora_customer/view/freelancer_edit_profile/widgets/search_location.dart';
@@ -184,6 +186,24 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => const CoinScreenUi(),
         );
+      case PPages.followersScreen:
+        {
+          var id = settings.arguments;
+          return MaterialPageRoute(
+            builder: (context) => FollowersScreen(
+              profileId: id as String,
+            ),
+          );
+        }
+      case PPages.feedbackScreen:
+        {
+          var id = settings.arguments;
+          return MaterialPageRoute(
+            builder: (context) => FeedbackListUI(
+              profileId: id as String,
+            ),
+          );
+        }
 
       default:
         return null;

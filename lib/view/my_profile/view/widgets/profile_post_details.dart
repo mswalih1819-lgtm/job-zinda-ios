@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
+import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/Settings/widgets/time_function.dart';
+import 'package:jora_customer/main.dart';
+import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/post_model.dart';
 import 'package:jora_customer/view/comment_pages/ui.dart';
 import 'package:jora_customer/view/video_player/video_player.dart';
+import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 import 'package:jora_customer/view_model/comment_view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
@@ -16,77 +20,108 @@ import 'package:readmore/readmore.dart';
 class ProfilePostDetailsUi extends StatelessWidget {
   const ProfilePostDetailsUi({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Consumer<PostViewModel>(
-          builder: (context, value, child) => Container(
-                margin: const EdgeInsets.symmetric(horizontal: 17),
-                child: value.postDetails == null
-                    ? Container()
-                    : Column(
-                        children: [
-                          if (value.postDetails?.mediaType == "text")
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              child: Text(value.postDetails!.bio.toString()),
-                            ),
-                          if (value.postDetails!.mediaType == 'image')
-                            AspectRatio(
-                              aspectRatio: 1.4,
-                              child: Container(
-                                // height: 250,
-                                // width: double.infinity - 100,
-                                child: Image.network(
-                                    value.postDetails?.mediaUrl ?? '',
-                                    fit: BoxFit.cover,
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            Image.asset(PImages.noImage)),
-                              ),
-                            )
-                          else if (value.postDetails?.mediaType == 'video')
-                            InkWell(
-                                onTap: () {
-                                  context
-                                      .read<PostViewModel>()
-                                      .fetchPostDetails();
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => VideoViewScreen(
-                                              videoUrl:
-                                                  value.postDetails!.mediaUrl ??
-                                                      '')));
-                                },
-                                child: Container(
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(value
-                                              .postDetails!.thumbnail
-                                              .toString()))),
-                                  alignment: Alignment.center,
-                                  child: const Icon(
-                                    Icons.play_circle,
-                                    color: Colors.white,
-                                    size: 50,
-                                  ),
-                                )),
-                          const SizedBox(height: 4),
-                          value.postDetails == null
-                              ? Container()
-                              : actionWidget(value.postDetails, context),
-                          value.postDetails == null
-                              ? Container()
-                              : captionWidget(value.postDetails)
-                        ],
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(),
+    body: Consumer<PostViewModel>(
+      builder: (context, value, child) {
+        final postDetails = value.postDetails;
+
+        if (postDetails == null) {
+          return Center(child: Text("No post details available"));
+        }
+
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 17),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if (postDetails.user?.sId == LoggedInUser.id)
+                      IconButton(
+                        onPressed: () async {
+                          await context.read<PostViewModel>().removePost(
+                                context,
+                                id: postDetails.sId.toString(),
+                                page: "detail",
+                              );
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          color: PColors.white,
+                          size: 18,
+                        ),
+                      )
+                  ],
+                ),
+                if (postDetails.mediaType == "text")
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(postDetails.bio.toString()),
+                  ),
+                if (postDetails.mediaType == 'image')
+            
+                
+                  AspectRatio(
+                    aspectRatio:.7,
+                    child: Image.network(
+                      postDetails.mediaUrl ?? '',
+                      fit: BoxFit.fill,
+                      errorBuilder: (context, error, stackTrace) =>
+                          Image.asset(PImages.noImage),
+                    ),
+                  ),
+                if (postDetails.mediaType == 'video')
+
+                 
+                  InkWell(
+                    onTap: () {
+                      context.read<PostViewModel>().fetchPostDetails();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VideoViewScreen(
+                            videoUrl: postDetails.mediaUrl ?? '',
+                          ),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      height: 300,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                            postDetails.thumbnail.toString(),
+                          ),
+                        ),
                       ),
-              )),
-    );
-  }
+                      alignment: Alignment.center,
+                      child: const Icon(
+                        Icons.play_circle,
+                        color: Colors.white,
+                        size: 50,
+                      ),
+                    ),
+                  ),
+                const SizedBox(height: 4),
+                actionWidget(postDetails, context),
+                captionWidget(postDetails),
+              ],
+            ),
+          ),
+        );
+      },
+    ),
+  );
+}
+
 
   Widget actionWidget(PostModel? post, BuildContext context) {
     return Row(

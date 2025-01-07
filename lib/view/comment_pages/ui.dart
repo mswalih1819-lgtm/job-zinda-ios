@@ -72,7 +72,7 @@ class CommentsBottomSheet extends StatelessWidget {
                         return CommentCard(
                           showReply: index == 0,
                           comment: commentViewModel.commentList[index],
-                          postId: post!.sId.toString(),
+                          post: post!
                         );
                       } else if (commentViewModel.isPaginationLoading) {
                         return const Padding(
@@ -136,6 +136,8 @@ class CommentsBottomSheet extends StatelessWidget {
           Expanded(
             child: Consumer<CommentViewModel>(
               builder: (context, commentViewModel, child) {
+           
+
                 return SizedBox(
                   height: 40,
                   child: TextField(
@@ -148,19 +150,40 @@ class CommentsBottomSheet extends StatelessWidget {
                           if (commentViewModel.controller.text
                               .trim()
                               .isNotEmpty) {
-                            commentViewModel.addComment(
-                              postId: post!.sId.toString(),
-                              comment: commentViewModel.controller.text.trim(),
-                              context: context,
-                            );
+                            String replyText =
+                                commentViewModel.controller.text.trim();
+
+                            if (replyText.startsWith('@')) {
+                              context.read<CommentViewModel>().addReply(
+                                  commentId: commentViewModel.postComment.sId!,
+                                  context: context);
+
+                                  
+                            } else {
+                              commentViewModel.addComment(
+                                postId: post!.sId.toString(),
+                                comment:
+                                    commentViewModel.controller.text.trim(),
+                                context: context,
+                              );
+                            }
+                            // if (commentViewModel.isReply) {
+                            //   context.read<CommentViewModel>().addReply(
+                            //       commentId: commentViewModel.postComment.sId!,
+                            //       context: context);
+                            // } else {
+                            //   commentViewModel.addComment(
+                            //     postId: post!.sId.toString(),
+                            //     comment:
+                            //         commentViewModel.controller.text.trim(),
+                            //     context: context,
+                            //   );
+                            // }
                             commentViewModel.controller.clear();
                           }
                         },
-                        child: const Icon(
-                          Icons.send,
-                          color: Colors.white,
-                          size: 15,
-                        ),
+                        child: const Icon(Icons.send,
+                            color: Colors.white, size: 15),
                       ),
                       filled: true,
                       hintText: 'Share your comment here',

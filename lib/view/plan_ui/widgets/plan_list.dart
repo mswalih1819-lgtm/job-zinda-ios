@@ -162,12 +162,15 @@ class _PlanListUiState extends State<PlanListUi> {
         ),
         bgcolor: PColors.white,
         onPressed: () {
-          var model = context.read<SubscriptionViewmodel>();
+          if (!plan.isSubscribed!) {
+            var model = context.read<SubscriptionViewmodel>();
 
-          model.updateRazorpay(
-              razorpay: _razorpay,
-              context: context,
-              packageId: plan.sId.toString());
+            model.updateRazorpay(
+                razorpay: _razorpay,
+                context: context,
+                packageId: plan.sId.toString());
+          }
+
           // model.createPackagePayment(context, plan.sId.toString());
         },
         textColor: PColors.black,

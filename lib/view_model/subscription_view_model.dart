@@ -64,21 +64,22 @@ class SubscriptionViewmodel extends ChangeNotifier {
           };
           Response response =
               await ApiService().post(Api.createSubscriptionPayment, body);
-          print("subscription resposne------${response.data}");
+          print("subscription resposne--$body----${response.data}");
           if (response.statusCode == 200) {
             Map<String, dynamic> data = response.data;
             if (data['status']) {
               paymentOrderModel = SubscriptionPaymentModel.fromJson(
                   data['data']['subscription']);
+                  print("sdhhsd----${paymentOrderModel.keyId}");
+          if (paymentOrderModel.keyId != null) {
+            openRazorPay();
+          }
             } else {
               ErrorMsg.showSnakError(context, data['message']);
             }
           }
 
-          print("sdhhsd----${paymentOrderModel.keyId}");
-          if (paymentOrderModel.keyId != null) {
-            openRazorPay();
-          }
+          
 
           // ignore: use_build_context_synchronously
           LoadingShow.stopLoad(context);

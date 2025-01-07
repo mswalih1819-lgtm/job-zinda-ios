@@ -45,7 +45,8 @@ class AddNewUserRepository {
     String? name,
   }) async {
     try {
-      print("ad nw user email------$countryCode---$phone---$name---$email");
+      print(
+          "ad nw user email------$countryCode---$phone---$name---$email---$referralCode");
       var result = await apiService.getPostApiResponse(
         AppUrl.loginEmail,
         body: {
@@ -57,11 +58,12 @@ class AddNewUserRepository {
         },
       );
       var json = jsonDecode(result);
-      if (json['status'] == false) {
-        throw json['message'];
-      }
-
       print("add user-- email--$json");
+
+      // if (json['status'] == false) {
+      //   throw json['message'];
+      // }
+
       return json;
     } catch (e) {
       rethrow;

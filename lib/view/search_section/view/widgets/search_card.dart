@@ -53,6 +53,15 @@ class SearchCard extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
+                //  textWidget(
+                //     text: profileModel.bio ?? '',
+                //     fontsize: 12,
+                //     color: PColors.whiteOff.withOpacity(0.6),
+                //     overflow: TextOverflow.ellipsis,
+                //     maxLines: 1),
+                // const SizedBox(
+                //   height: 10,
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -67,14 +76,14 @@ class SearchCard extends StatelessWidget {
                     // columnWidget(
                     //     title: 'Projects',
                     //     value: '${profileModel.projectsCount ?? '0'}'),
-                    // SizedBox(
-                    //     height: 30,
-                    //     child: VerticalDivider(
-                    //       color: PColors.whiteOff.withOpacity(0.2),
-                    //     )),
-                    // columnWidget(
-                    //     title: 'Feedback',
-                    //     value: profileModel.rating?.toStringAsFixed(1) ?? '0'),
+                    SizedBox(
+                        height: 30,
+                        child: VerticalDivider(
+                          color: PColors.whiteOff.withOpacity(0.2),
+                        )),
+                    columnWidget(
+                        title: 'Feedback',
+                        value: profileModel.rating?.toStringAsFixed(1) ?? '0'),
                   ],
                 )
               ],

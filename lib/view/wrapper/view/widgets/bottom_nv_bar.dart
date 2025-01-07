@@ -40,11 +40,11 @@ class BottomNavBar extends StatelessWidget {
                       icon: PSvgs.home,
                       label: "Home",
                       fun: () {
-                        PostViewModel model =
-                            navigatorKey.currentContext!.read<PostViewModel>();
-                        model.currentPage = 0;
-                        model.fetchPostWithPagination(1);
-                        model.postController.refresh();
+                        // PostViewModel model =
+                        //     navigatorKey.currentContext!.read<PostViewModel>();
+                        // model.currentPage = 0;
+                        // model.fetchPostWithPagination(1);
+                        // model.postController.refresh();
                         navigatorKey.currentContext!
                             .read<WrapperViewModel>()
                             .updatePageView(WrapperViewStatus.home);

@@ -80,14 +80,14 @@ class ResultFreelancersSingleUi extends StatelessWidget {
             // columnWidget(
             //     title: "Projects",
             //     value: profileModel.projectsCount!.toString()),
-            // SizedBox(
-            //     height: 40,
-            //     child: VerticalDivider(
-            //       color: PColors.whiteOff.withOpacity(0.2),
-            //     )),
-            // columnWidget(
-            //     title: "Feedback",
-            //     value: profileModel.rating!.toStringAsFixed(1)),
+            SizedBox(
+                height: 40,
+                child: VerticalDivider(
+                  color: PColors.whiteOff.withOpacity(0.2),
+                )),
+            columnWidget(
+                title: "Feedback",
+                value: profileModel.rating!.toStringAsFixed(1)),
           ],
         )
       ],

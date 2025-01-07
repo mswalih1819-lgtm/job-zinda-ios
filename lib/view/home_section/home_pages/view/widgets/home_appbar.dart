@@ -39,55 +39,83 @@ class HomeAppbar extends StatelessWidget {
         ),
       ),
       actions: [
-        GestureDetector(
-          onTap: () {
-            context.read<ChatViewModel>().fetchAllConversations();
+        // GestureDetector(
+        //   onTap: () {
+        //     context.read<ChatViewModel>().fetchAllConversations();
 
-            // Navigator.pushNamed(context, PPages.subscriptionPageUi);
-            context.read<ChatViewModel>().updateView(ChatViewStatus.letsPlan);
-            Navigator.pushNamed(context, PPages.chatPageUi);
-          },
-          child: badges.Badge(
-            badgeStyle: badges.BadgeStyle(badgeColor: PColors.badgeColor),
-            position: badges.BadgePosition.topEnd(top: -12, end: -4),
-            badgeContent: const Text(''),
-            child: SvgPicture.asset(PSvgs.lets_plan),
-          ),
+        //     // Navigator.pushNamed(context, PPages.subscriptionPageUi);
+        //     context.read<ChatViewModel>().updateView(ChatViewStatus.letsPlan);
+        //     Navigator.pushNamed(context, PPages.chatPageUi);
+        //   },
+        //   child: badges.Badge(
+        //     badgeStyle: badges.BadgeStyle(badgeColor: PColors.badgeColor),
+        //     position: badges.BadgePosition.topEnd(top: -12, end: -4),
+        //     badgeContent: const Text(''),
+        //     child: SvgPicture.asset(PSvgs.lets_plan),
+        //   ),
+        // ),
+
+        GestureDetector(
+            onTap: () {
+              context.read<ChatViewModel>().fetchAllConversations();
+
+              // Navigator.pushNamed(context, PPages.subscriptionPageUi);
+              context.read<ChatViewModel>().updateView(ChatViewStatus.letsPlan);
+              Navigator.pushNamed(context, PPages.chatPageUi);
+            },
+            child: SvgPicture.asset(PSvgs.lets_plan)),
+        const SizedBox(
+          width: 16,
         ),
+
+        // GestureDetector(
+        //   onTap: () {
+        //     context.read<ChatViewModel>().fetchAllConversations();
+        //     context.read<ChatViewModel>().updateView(ChatViewStatus.primary);
+
+        //     Navigator.pushNamed(context, PPages.chatPageUi);
+        //   },
+        //   child: badges.Badge(
+        //     badgeStyle: badges.BadgeStyle(badgeColor: PColors.badgeColor),
+        //     position: badges.BadgePosition.topEnd(top: -12, end: -4),
+        //     badgeContent: const Text(''),
+        //     child: SvgPicture.asset(PSvgs.message),
+        //   ),
+        // ),
+
+        GestureDetector(
+            onTap: () {
+              context.read<ChatViewModel>().fetchAllConversations();
+              context.read<ChatViewModel>().updateView(ChatViewStatus.primary);
+
+              Navigator.pushNamed(context, PPages.chatPageUi);
+            },
+            child: SvgPicture.asset(PSvgs.message)),
         const SizedBox(
           width: 16,
         ),
 
         GestureDetector(
-          onTap: () {
-            context.read<ChatViewModel>().fetchAllConversations();
-            context.read<ChatViewModel>().updateView(ChatViewStatus.primary);
+            onTap: () {
+              Navigator.pushNamed(context, PPages.notificationsUi);
+            },
+            child: SvgPicture.asset(PSvgs.notification)),
+        // Consumer<NotificationViewModel>(
 
-            Navigator.pushNamed(context, PPages.chatPageUi);
-          },
-          child: badges.Badge(
-            badgeStyle: badges.BadgeStyle(badgeColor: PColors.badgeColor),
-            position: badges.BadgePosition.topEnd(top: -12, end: -4),
-            badgeContent: const Text(''),
-            child: SvgPicture.asset(PSvgs.message),
-          ),
-        ),
-        const SizedBox(
-          width: 16,
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, PPages.notificationsUi);
-          },
-          child: badges.Badge(
-            badgeStyle: badges.BadgeStyle(badgeColor: PColors.badgeColor),
-            position: badges.BadgePosition.topEnd(top: -12, end: -4),
-            badgeContent: const Text(''),
-            showBadge:
-                context.read<NotificationViewModel>().notificationCount > 0,
-            child: SvgPicture.asset(PSvgs.notification),
-          ),
-        ),
+        //   builder: (context, value, child) => GestureDetector(
+        //     onTap: () {
+        //       Navigator.pushNamed(context, PPages.notificationsUi);
+        //     },
+        //     child: badges.Badge(
+        //       badgeStyle: badges.BadgeStyle(badgeColor: PColors.badgeColor),
+        //       position: badges.BadgePosition.topEnd(top: -12, end: -4),
+        //       badgeContent: const Text(''),
+        //       showBadge:
+        //           value.notificationCount > 0,
+        //       child: SvgPicture.asset(PSvgs.notification),
+        //     ),
+        //   ),
+        // ),
         // GestureDetector(
         //     onTap: () {
         //       Navigator.pushNamed(context, PPages.helpSupportUi);

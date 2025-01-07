@@ -31,9 +31,10 @@ class ReferalViewModel extends ChangeNotifier {
               .map((e) => Referrals.fromJson(e))
               .toList();
         }
+        print("refrla list---$referlaList");
       }
     }
-
+loading=false;
     notifyListeners();
   }
 

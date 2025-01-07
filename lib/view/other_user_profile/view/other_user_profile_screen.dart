@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/gallery_section.dart';
 import 'package:jora_customer/view/other_user_profile/view/widgets/other_user_profile_button.dart';
+import 'package:jora_customer/view/other_user_profile/view/widgets/review_widget.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
 import '../../my_profile/view/widgets/other_user_profile_head_ui.dart';
@@ -26,6 +27,16 @@ class OtherUserProfileScreen extends StatelessWidget {
             builder: (context, value, child) => PopupMenuButton<String>(
               color: PColors.black,
               onSelected: (val) {
+                if (val == "rating") {
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    isDismissible: false,
+                    context: context,
+                    builder: (mycontext) => ReviewWidgetui(
+                      profileId: value.otherUser!.sId.toString(),
+                    ),
+                  );
+                }
                 if (val == 'block') {
                   value.blockUser(context, id: value.otherUser!.sId.toString());
                 } else if (val == "unblock") {
@@ -41,6 +52,13 @@ class OtherUserProfileScreen extends StatelessWidget {
                       value.otherUser!.isBlocked!
                           ? 'Unblock User'
                           : 'Block User',
+                      style: TextStyle(color: PColors.white),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: 'rating',
+                    child: Text(
+                      "Rate Profile",
                       style: TextStyle(color: PColors.white),
                     ),
                   ),

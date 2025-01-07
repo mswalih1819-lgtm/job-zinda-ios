@@ -13,6 +13,7 @@ import 'package:jora_customer/view/home_section/home_pages/view/widgets/story_se
 import 'package:jora_customer/view_model/notification_view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
+import 'package:jora_customer/view_model/referal_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -59,14 +60,33 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              drawerWidget(
-                  title: "Referrals",
-                  icon: SvgPicture.asset(PSvgs.referals),
-                  fun: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, PPages.referalPageUi);
-                  }),
-              drawerWidget(
+              context.read<ProfileViewModel>().profileModel == null
+                  ? Container()
+                  : context
+                              .read<ProfileViewModel>()
+                              .profileModel!
+                              .accountType!
+                              .toLowerCase() ==
+                          "normal"
+                      ? Container()
+                      : drawerWidget(
+                          title: "Referrals",
+                          icon: SvgPicture.asset(PSvgs.referals),
+                          fun: () {
+                            context.read<ReferalViewModel>().fetchReferlaList(context);
+                            Navigator.pop(context);
+                            Navigator.pushNamed(context, PPages.referalPageUi);
+                          }),
+             context.read<ProfileViewModel>().profileModel == null
+                  ? Container()
+                  : context
+                              .read<ProfileViewModel>()
+                              .profileModel!
+                              .accountType!
+                              .toLowerCase() ==
+                          "normal"
+                      ? Container()
+                      :  drawerWidget(
                   title: "Coins",
                   icon: SvgPicture.asset(PSvgs.coins),
                   fun: () {

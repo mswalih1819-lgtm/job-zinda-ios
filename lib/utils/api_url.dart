@@ -7,7 +7,7 @@ class AppUrl {
 
   static String get baseurl {
     if (isProduction == false) {
-      return "http://3.110.26.51:4001/";
+      return "http://3.110.26.51:4001";
     } else {
       return "https://server.joraappfreelancers.com";
     }
@@ -34,7 +34,7 @@ class Api {
     return {'Authorization': 'Bearer ${LoggedInUser.accessToken}'};
   }
 
-  // static const baseurl = 'http://13.203.140.81:4001';
+  // static const baseurl = 'http://3.110.26.51:4001';
   static const baseurl = 'https://server.joraappfreelancers.com';
 
   // static const loginUrl = '$baseurl/api/v1/auth/user-auth';
@@ -113,4 +113,11 @@ class Api {
   static const unblockUser = '$baseurl/api/v1/block/unblock-user';
   static const sendFeedback = '$baseurl/api/v1/app-rating/createAppRating';
   static const fetchReferals = '$baseurl/api/v1/referral/listMyReferrals';
+  static const listBanners = '$baseurl/api/v1/banner/listBannersUser';
+  static const listReplies =
+      '$baseurl/api/v1/postComment/reply/listRepliesUser';
+  static const deleteReply = '$baseurl/api/v1/postComment/reply/deleteReply';
+  static const profileRating = '$baseurl/api/v1/user/add-profile-rating';
+  static const listAllFollowers = '$baseurl/api/v1/follower/listAllFollowers';
+  static const listAllFeedbacks = '$baseurl/api/v1/user/list-profile-feedBacks';
 }

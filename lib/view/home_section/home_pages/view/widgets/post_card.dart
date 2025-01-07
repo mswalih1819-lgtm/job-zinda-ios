@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jora_customer/Settings/widgets/time_function.dart';
+import 'package:jora_customer/main.dart';
+import 'package:jora_customer/model/comment_model.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/post_model.dart';
 import 'package:jora_customer/view/comment_pages/ui.dart';
@@ -48,7 +50,7 @@ class _PostCardState extends State<PostCard> {
 
             if (status!) {
               Navigator.push(
-                  context,
+                  navigatorKey.currentContext!,
                   MaterialPageRoute(
                     builder: (context) => const OtherUserProfileScreen(),
                   ));
@@ -75,41 +77,41 @@ class _PostCardState extends State<PostCard> {
                             widget.post?.user?.userProfilePicture ?? ''),
                     fit: BoxFit.cover),
               )),
-          trailing: widget.post?.user?.sId == null ||
-                  widget.post?.user?.sId == LoggedInUser.id
-              ? IconButton(
-                  onPressed: () async {
-                    await context
-                        .read<PostViewModel>()
-                        .removePost(context, id: widget.post!.sId.toString());
-                  },
-                  icon: Icon(
-                    Icons.delete,
-                    color: PColors.white,
-                    size: 18,
-                  ))
-              : IconButton(
-                  onPressed: () async {
-                    await context
-                        .read<PostViewModel>()
-                        .fetchOtherUserProfileDetails(
-                            userID: widget.post?.user?.sId ?? '');
-                    await context
-                        .read<PostViewModel>()
-                        .updateBottomsheetoen(true);
-                    showBottomSheet(
-                      shape: const BeveledRectangleBorder(),
-                      // clipBehavior: Clip.hardEdge,
-                      backgroundColor: PColors.black,
-                      context: context,
-                      builder: (context) =>
-                          HomeBottomsheetUi(post: widget.post),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.more_horiz,
-                    color: PColors.white,
-                  )),
+          trailing: widget.post?.user?.sId == null
+              ? Container()
+              : widget.post?.user?.sId == LoggedInUser.id
+                  ? IconButton(
+                      onPressed: () async {
+                        await context.read<PostViewModel>().removePost(context,
+                            id: widget.post!.sId.toString(), page: "post");
+                      },
+                      icon: Icon(
+                        Icons.delete,
+                        color: PColors.white,
+                        size: 18,
+                      ))
+                  : IconButton(
+                      onPressed: () async {
+                        await context
+                            .read<PostViewModel>()
+                            .fetchOtherUserProfileDetails(
+                                userID: widget.post?.user?.sId ?? '');
+                        await context
+                            .read<PostViewModel>()
+                            .updateBottomsheetoen(true);
+                        showBottomSheet(
+                          shape: const BeveledRectangleBorder(),
+                          // clipBehavior: Clip.hardEdge,
+                          backgroundColor: PColors.black,
+                          context: context,
+                          builder: (context) =>
+                              HomeBottomsheetUi(post: widget.post),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.more_horiz,
+                        color: PColors.white,
+                      )),
         ),
         if (widget.post?.mediaType == "text")
           Container(
@@ -117,17 +119,15 @@ class _PostCardState extends State<PostCard> {
             child: Text(widget.post!.bio!),
           ),
         if (widget.post?.mediaType == 'image')
-          AspectRatio(
-            aspectRatio: 1.4,
-            child: Container(
-              // height: 250,
-              // width: double.infinity - 100,
-              child: Image.network(widget.post?.mediaUrl ?? '',
-                  // fit: BoxFit.cover,
-                  fit: BoxFit.cover, // Choose your preferred BoxFit option.
-
-                  errorBuilder: (context, error, stackTrace) =>
-                      Image.asset(PImages.noImage)),
+          // Image.network(widget.post?.mediaUrl ?? '', fit: BoxFit.fitWidth,)
+          Container(
+            width: double.infinity, // Takes the full width of the parent
+            child: Image.network(
+              widget.post?.mediaUrl ?? '',
+              fit: BoxFit
+                  .contain, // Adjust to the natural size of the image while maintaining aspect ratio
+              filterQuality:
+                  FilterQuality.high, // For high-resolution rendering
             ),
           )
         else if (widget.post?.mediaType == 'video')
@@ -141,7 +141,7 @@ class _PostCardState extends State<PostCard> {
                             videoUrl: widget.post?.mediaUrl ?? '')));
               },
               child: Container(
-                height: 200,
+                height: 300,
                 width: double.infinity - 100,
                 // color: Colors.transparent,
                 decoration: BoxDecoration(
@@ -200,6 +200,10 @@ class _PostCardState extends State<PostCard> {
                 //     context.read<CommentViewModel>();
                 // commentViewModel.currentPage = 0;
                 // commentViewModel.initCommentPagination(post!.sId.toString());
+
+                context
+                    .read<CommentViewModel>()
+                    .updateIsReply(false, Comments());
                 context
                     .read<CommentViewModel>()
                     .fetchComments(post!.sId.toString());

@@ -31,29 +31,32 @@ class StoryViewsSheetUi extends StatelessWidget {
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: value.storeyViews.length,
-                itemBuilder: (context, index) => Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundImage:
-                          value.storeyViews[index].user!.profileImageUrl ==
-                                      null ||
-                                  value.storeyViews[index].user!
-                                      .profileImageUrl!.isEmpty
-                              ? AssetImage(PImages.profile)
-                              : NetworkImage(
-                                  value.storeyViews[index].user!.profileImageUrl
-                                      .toString(),
-                                ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    textWidget(
-                        text: value.storeyViews[index].user!.name,
-                        fontweight: FontWeight.bold,
-                        color: PColors.white)
-                  ],
+                itemBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundImage:
+                            value.storeyViews[index].user!.profileImageUrl ==
+                                        null ||
+                                    value.storeyViews[index].user!
+                                        .profileImageUrl!.isEmpty
+                                ? AssetImage(PImages.profile)
+                                : NetworkImage(
+                                    value.storeyViews[index].user!.profileImageUrl
+                                        .toString(),
+                                  ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      textWidget(
+                          text: value.storeyViews[index].user!.name,
+                          fontweight: FontWeight.bold,
+                          color: PColors.white)
+                    ],
+                  ),
                 ),
               )
             ],

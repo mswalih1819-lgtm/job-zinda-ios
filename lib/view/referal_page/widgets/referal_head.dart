@@ -11,7 +11,7 @@ class ReferalHeadUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ProfileViewModel profileViewModel=context.read<ProfileViewModel>();
+    ProfileViewModel profileViewModel = context.read<ProfileViewModel>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -29,30 +29,38 @@ class ReferalHeadUi extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                textWidget(text: profileViewModel.profileModel!.referralCode.toString()),
+                textWidget(
+                    text:
+                        profileViewModel.profileModel!.referralCode.toString()),
                 const Spacer(),
                 GestureDetector(
-                  onTap: ()async{
-                        try {
-                      await Clipboard.setData(
-                          ClipboardData(text: profileViewModel.profileModel!.referralCode.toString()));
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Copied to clipboard!!!'),
-                      ));
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Failed to copy to clipboard.')),
-                      );
-                    }
-                  },
-                  child: const Icon(Icons.copy)),
-                const SizedBox(width: 8,),
+                    onTap: () async {
+                      try {
+                        await Clipboard.setData(ClipboardData(
+                            text:
+                                "download the app with my referral link https://play.google.com/store/apps/details?id=com.jora.customers and referral ID ${profileViewModel.profileModel!.referralCode.toString()}"));
+
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text('Copied to clipboard!!!'),
+                        ));
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Failed to copy to clipboard.')),
+                        );
+                      }
+                    },
+                    child: const Icon(Icons.copy)),
+                const SizedBox(
+                  width: 8,
+                ),
                 GestureDetector(
-                  onTap: (){
-                     Share.share(profileViewModel.profileModel!.referralCode.toString());
-                  },
-                  child: const Icon(Icons.share))
+                    onTap: () {
+                      Share.share(
+                          "download the app with my referral link https://play.google.com/store/apps/details?id=com.jora.customers and referral ID ${profileViewModel.profileModel!.referralCode.toString()}");
+                    },
+                    child: const Icon(Icons.share))
               ],
             ),
           ),

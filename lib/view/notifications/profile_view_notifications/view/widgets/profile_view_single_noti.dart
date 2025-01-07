@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
@@ -75,7 +76,10 @@ class ProfileViewSingleNotiWidget extends StatelessWidget {
                     PostViewModel postViewModel = context.read<PostViewModel>();
                     postViewModel.postDetails =
                         PostModel(sId: notificationModel?.connectedPostId?.sId);
+                        EasyLoading.show();
                     postViewModel.fetchPostDetails();
+                        EasyLoading.dismiss();
+
                     Navigator.pushNamed(context, PPages.profilePostDetailsUi);
                     // Future.delayed(
                     //   Duration(seconds: 1),

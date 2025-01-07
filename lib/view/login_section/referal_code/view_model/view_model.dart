@@ -52,7 +52,7 @@ class AddReferalViewModel extends ChangeNotifier {
       }
     });
   }
-
+///////////////////////////////////////////////////////////////////
   addNewUserEmail(
       BuildContext context, String phone, String countryCode) async {
     NetConnection.networkConnection(context).then((value) async {
@@ -60,7 +60,8 @@ class AddReferalViewModel extends ChangeNotifier {
         try {
           loading = true;
           notifyListeners();
-          print("body----${LoggedInUser.email}---$phone--$name--$countryCode");
+          print(
+              "body----${LoggedInUser.email}---$phone--$name--$countryCode----$referralCode");
 
           // LoadingShow.load(context);
           var result = await repo.addNewUserEmail(
@@ -71,20 +72,20 @@ class AddReferalViewModel extends ChangeNotifier {
               name: name);
 
           // LoadingShow.stopLoad(context);
-          LoggedInUser.login(result['data']);
 
           loading = false;
           notifyListeners();
-          print("New User login-----------------Succuss");
+          print("New User login----------------${result}");
 
-          // print(result['data']['tokens']['access']['token']);
-          // print(result['data']['tokens']['refresh']['token']);
-
-          // ignore: use_build_context_synchronously
-          Navigator.pushNamed(
-            navigatorKey.currentContext!,
-            PPages.loginSplashUi,
-          );
+          if (result['status'] == true) {
+            LoggedInUser.login(result['data']);
+            Navigator.pushReplacementNamed(
+              context,
+              PPages.loginSplashUi,
+            );
+          } else {
+            ErrorMsg.showSnakError(context, result['message']);
+          }
         } catch (e) {
           isError = true;
           notifyListeners();
