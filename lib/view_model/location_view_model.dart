@@ -18,7 +18,10 @@ class LocationViewModel extends ChangeNotifier {
 
   List<Map<String, dynamic>> locationList = [];
 
-  final String apiKey = 'AIzaSyBoACDW_61MW8Py611Sb7A9yfKwWqMZTTA';
+  // final String apiKey = 'AIzaSyBoACDW_61MW8Py611Sb7A9yfKwWqMZTTA';
+ final String apiKey = 'AIzaSyDHFJgpV9vPufFFuEE1xukRAZJkucpYOjE';
+
+
   Future<List<Map<String, dynamic>>> getLocationSuggestions(
       String query) async {
     final encodedQuery = Uri.encodeComponent(query.trim());
@@ -155,21 +158,6 @@ class LocationViewModel extends ChangeNotifier {
         }
       }
 
-      // Get current position
-      // Position position = await Geolocator.getCurrentPosition(
-      //     desiredAccuracy: LocationAccuracy.high);
-      // latitude = position.latitude;
-      // longitude = position.longitude;
-
-      // List<Placemark> placemarks =
-      //     await placemarkFromCoordinates(position.latitude, position.longitude);
-
-      // if (placemarks.isNotEmpty) {
-      //   Placemark place = placemarks[0];
-      //   stateList = [place.administrativeArea!];
-      //   selectedState = place.administrativeArea!;
-      //   cityController.text = place.locality!;
-      // }
     } catch (e) {}
   }
 }

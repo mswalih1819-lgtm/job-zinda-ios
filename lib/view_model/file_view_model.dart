@@ -130,28 +130,28 @@ class FileUploadViewModel with ChangeNotifier {
     return null;
   }
 
-  Future<CustomXFile> convertUint8ListToCustomXFile(
-      Uint8List data, String fileName) async {
-    if (data.isEmpty) {
-      print("Data is empty. Cannot create XFile.");
-      throw ArgumentError("Data cannot be empty");
-    }
+//   Future<CustomXFile> convertUint8ListToCustomXFile(
+//       Uint8List data, String fileName) async {
+//     if (data.isEmpty) {
+//       print("Data is empty. Cannot create XFile.");
+//       throw ArgumentError("Data cannot be empty");
+//     }
 
-    print("Creating XFile from Uint8List...");
+//     print("Creating XFile from Uint8List...");
 
-    final xfile = XFile.fromData(
-      data,
-      mimeType: 'image/png', // Specify MIME type.
-    );
+//     final xfile = XFile.fromData(
+//       data,
+//       mimeType: 'image/png', // Specify MIME type.
+//     );
 
-    print("CustomXFile created with name: $fileName");
-    return CustomXFile(xfile, fileName);
-  }
+//     print("CustomXFile created with name: $fileName");
+//     return CustomXFile(xfile, fileName);
+//   }
 }
 
-class CustomXFile {
-  final XFile xfile;
-  final String name;
+// class CustomXFile {
+//   final XFile xfile;
+//   final String name;
 
-  CustomXFile(this.xfile, this.name);
-}
+//   CustomXFile(this.xfile, this.name);
+// }

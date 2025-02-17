@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:jora_customer/view_model/chat_view_model.dart';
-import 'package:jora_customer/view_model/notification_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeAppbar extends StatelessWidget {
