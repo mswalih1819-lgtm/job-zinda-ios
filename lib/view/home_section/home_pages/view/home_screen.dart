@@ -86,7 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               .toLowerCase() ==
                           "normal"
                       ? Container()
-                      :  drawerWidget(
+                      :
+                      
+                        drawerWidget(
                   title: "Coins",
                   icon: SvgPicture.asset(PSvgs.coins),
                   fun: () {

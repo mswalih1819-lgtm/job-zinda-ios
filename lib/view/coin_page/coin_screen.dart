@@ -18,38 +18,75 @@ class CoinScreenUi extends StatelessWidget {
         ),
         body: Container(
           margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Image.asset(PImages.coin),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  textWidget(
-                      text: "${profileViewModel.profileModel!.coinBalance.toString()} Coins",
-                      fontsize: 20,
-                      fontweight: FontWeight.bold),
-                ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Image.asset(PImages.coin),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    textWidget(
+                        text: "${profileViewModel.profileModel!.coinBalance.toString()} Coins",
+                        fontsize: 20,
+                        fontweight: FontWeight.bold),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                     Text(
+                "You will receive 100 Jora coins after a successful referral...",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(
-                height: 20,
+              SizedBox(height: 20), // Spacing
+            
+              Text(
+                "Now, this feature can only be used by registered Jora promoters...",
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
               ),
-              Row(
-                children: [
-                  Icon(Icons.info_outline, color: PColors.whiteOff.withOpacity(0.5),),
-                  const SizedBox(
-                    width:7,
-                  ),
-                  Expanded(
-                    child: textWidget(
-                      color: PColors.whiteOff.withOpacity(0.5),
-                        text:
-                            "Coins will be credited at the month end and the balance will be updated"),
-                  ),
-                ],
-              )
-            ],
+              SizedBox(height: 15),
+            
+              Text(
+                "To register:",
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.blue),
+              ),
+              SizedBox(height: 10),
+            
+              Text(
+                "• Chat with a current Jora promoter, or\n"
+                "• Chat with the official Jora account...",
+                style: TextStyle(fontSize: 13),
+              ),
+              SizedBox(height: 20),
+            
+              Text(
+                "100 Jora coins = 10 Rupees",
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.green),
+              ),
+              SizedBox(height: 10),
+            
+              Text(
+                "(Coin value will change when demand increases..)",
+                style: TextStyle(fontSize: 13, fontStyle: FontStyle.italic),
+              ),
+              SizedBox(height: 20),
+            
+              Text(
+                "You can withdraw Jora coins by chatting with the official Jora account..",
+                style: TextStyle(fontSize: 13),
+              ),
+              SizedBox(height: 20),
+            
+              Text(
+                "Any fraudulent activity will result in the removal of your account from the app... without any warning...",
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.red),
+              ),
+              ],
+            ),
           ),
         ));
   }
