@@ -1,0 +1,2 @@
+D:/trilia_projects/jora-flutter/android/app/.cxx/RelWithDebInfo/3w445e1y/x86_64/CMakeFiles/edit_cache.dir
+D:/trilia_projects/jora-flutter/android/app/.cxx/RelWithDebInfo/3w445e1y/x86_64/CMakeFiles/rebuild_cache.dir

@@ -22,7 +22,7 @@ class ContactUsUi extends StatelessWidget {
             icon: PSvgs.call,
             title: 'Call',
             onTap: () {
-              _makePhoneCall('+919544741808');
+              _makePhoneCall('+919847561998');
             }),
         contentWidget(
             icon: PSvgs.mail,
@@ -54,7 +54,7 @@ class ContactUsUi extends StatelessWidget {
 Future<void> sendEmail() async {
   final Uri emailUri = Uri(
     scheme: 'mailto',
-    path: 'joramedia214@gmail.com',
+    path: 'jobzinda@gmail.com',
     query: 'subject=&body=',
   );
 
