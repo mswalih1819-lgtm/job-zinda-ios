@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
@@ -18,11 +17,14 @@ class WelcomePageUi extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-          leadingWidth: 120,
+          leadingWidth: 160,
           leading: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 19.0),
             child: Image.asset(
               PImages.logo,
+              width: 160,
+              fit: BoxFit.cover,
+              height: 150,
             ),
           )),
       body: Container(
@@ -40,7 +42,9 @@ class WelcomePageUi extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 30,),
+            const SizedBox(
+              height: 30,
+            ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,7 +111,7 @@ class WelcomePageUi extends StatelessWidget {
 
   Widget description() {
     return Text(
-      "JORA is your gateway to finding skilled freelancers and offering your talent to the world. Whether you're a hiring manager or a freelancer, we make connecting easy, efficient, and professional.",
+      "JOB ZINDA is your gateway to finding skilled freelancers and offering your talent to the world. Whether you're a hiring manager or a freelancer, we make connecting easy, efficient, and professional.",
       textAlign: TextAlign.left,
       style: TextStyle(
         fontSize: 14,

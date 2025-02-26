@@ -80,7 +80,7 @@ class LoginPhoneNumberViewModel extends ChangeNotifier {
 
   onVerifyOTp(BuildContext context) async {
     signintype = "phone";
-
+    print("dbnmsdbnmsbdnsdnsndb");
     var result = await otpRepo.checkProfile(
       phoneNumber!,
       countryCode!.split('+').last,
@@ -112,19 +112,17 @@ class LoginPhoneNumberViewModel extends ChangeNotifier {
         try {
           if (signintype == "phone") {
             result = await repo.addNewUser(
-              phone: phoneNumber!,
-              countryCode: countryCode!.split('+').last,
-              name: '',
-              referralCode: ''
-            );
+                phone: phoneNumber!,
+                countryCode: countryCode!.split('+').last,
+                name: '',
+                referralCode: '');
           } else {
             result = await repo.addNewUserEmail(
-              email: email!,
-              phone: '',
-              countryCode: '',
-              name: '',
-              referralCode: ''
-            );
+                email: email!,
+                phone: '',
+                countryCode: '',
+                name: '',
+                referralCode: '');
           }
 
           print("User login-----------------${result['data']['user']}");

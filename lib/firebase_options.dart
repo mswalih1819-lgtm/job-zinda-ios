@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBCWFV48z4BLIeno4r7RuNTFNhBR9EwvNc',
-    appId: '1:1094867649764:android:b49d5c49820b39ea9818f1',
+    appId: '1:1094867649764:android:8c39701e8a40f4699818f1',
     messagingSenderId: '1094867649764',
     projectId: 'jora-87133',
     storageBucket: 'jora-87133.firebasestorage.app',

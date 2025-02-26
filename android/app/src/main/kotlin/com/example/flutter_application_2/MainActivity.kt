@@ -1,4 +1,4 @@
-package com.jora.customers
+package com.jobZinda.customers
 
 import io.flutter.embedding.android.FlutterActivity
 

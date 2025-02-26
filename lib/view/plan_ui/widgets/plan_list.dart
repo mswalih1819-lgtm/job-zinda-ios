@@ -112,24 +112,26 @@ class _PlanListUiState extends State<PlanListUi> {
             const SizedBox(
               height: 10,
             ),
-            Row(
-              children: [
-                textWidget(
-                    text: "\u{20B9}${plan.billableAmount}",
-                    fontsize: 20,
-                    fontweight: FontWeight.w600),
-                const SizedBox(
-                  width: 14,
-                ),
-                plan.amountMRP == plan.billableAmount
-                    ? Container()
-                    : Text("\u{20B9}${plan.amountMRP}",
-                        style: const TextStyle(
-                            decoration: TextDecoration.lineThrough,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600))
-              ],
-            ),
+            plan.planType?.toLowerCase() == "free"
+                ? Container()
+                : Row(
+                    children: [
+                      textWidget(
+                          text: "\u{20B9}${plan.billableAmount}",
+                          fontsize: 20,
+                          fontweight: FontWeight.w600),
+                      const SizedBox(
+                        width: 14,
+                      ),
+                      plan.amountMRP == plan.billableAmount
+                          ? Container()
+                          : Text("\u{20B9}${plan.amountMRP}",
+                              style: const TextStyle(
+                                  decoration: TextDecoration.lineThrough,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600))
+                    ],
+                  ),
             const SizedBox(
               height: 15,
             ),
@@ -138,6 +140,18 @@ class _PlanListUiState extends State<PlanListUi> {
             const SizedBox(
               height: 10,
             ),
+            plan.planType?.toLowerCase() == "free"
+                ? Column(
+                    children: [
+                      textWidget(
+                          text: "FREE Plan",
+                          color: PColors.white),
+                           const SizedBox(
+              height: 10,
+            ),
+                    ],
+                  )
+                : Container(),
             textWidget(text: "Features :"),
             const SizedBox(
               height: 20,
@@ -164,14 +178,16 @@ class _PlanListUiState extends State<PlanListUi> {
         onPressed: () {
           if (!plan.isSubscribed!) {
             var model = context.read<SubscriptionViewmodel>();
-
-            model.updateRazorpay(
-                razorpay: _razorpay,
-                context: context,
-                packageId: plan.sId.toString());
+            if (plan.planType?.toLowerCase() == "free") {
+              ErrorMsg.showSnakError(
+                  context, "Your free plan has expired.!!");
+            } else {
+              model.updateRazorpay(
+                  razorpay: _razorpay,
+                  context: context,
+                  packageId: plan.sId.toString());
+            }
           }
-
-          // model.createPackagePayment(context, plan.sId.toString());
         },
         textColor: PColors.black,
         text: plan.isSubscribed! ? "Subscribed" : "Upgrade Plan");

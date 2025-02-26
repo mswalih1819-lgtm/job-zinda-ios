@@ -21,13 +21,14 @@ class LetsPlanChatWidgetUi extends StatelessWidget {
         Navigator.pushNamed(context, PPages.chatDetailsPageui);
       },
         title: Text(
-          "Jora Admin",
+          "Job Zinda Admin",
           style: TextStyle(color: PColors.white),
         ),
         leading: CircleAvatar(
-          backgroundColor: PColors.red,
-          child: Image.asset(
+          backgroundColor: Colors.blue,
+          backgroundImage: AssetImage(
             PImages.logo,
+            
           ),
         ));
     // return Selector<ChatViewModel, String>(

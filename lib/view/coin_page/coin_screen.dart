@@ -39,13 +39,13 @@ class CoinScreenUi extends StatelessWidget {
                   height: 20,
                 ),
                      Text(
-                "You will receive 100 Jora coins after a successful referral...",
+                "You will receive 100 Job Zinda coins after a successful referral...",
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20), // Spacing
             
               Text(
-                "Now, this feature can only be used by registered Jora promoters...",
+                "Now, this feature can only be used by registered Job Zinda promoters...",
                 style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 15),
@@ -57,14 +57,14 @@ class CoinScreenUi extends StatelessWidget {
               SizedBox(height: 10),
             
               Text(
-                "• Chat with a current Jora promoter, or\n"
-                "• Chat with the official Jora account...",
+                "• Chat with a current Job Zinda promoter, or\n"
+                "• Chat with the official Job Zinda account...",
                 style: TextStyle(fontSize: 13),
               ),
               SizedBox(height: 20),
             
               Text(
-                "100 Jora coins = 10 Rupees",
+                "100 Job Zinda coins = 10 Rupees",
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.green),
               ),
               SizedBox(height: 10),
@@ -76,7 +76,7 @@ class CoinScreenUi extends StatelessWidget {
               SizedBox(height: 20),
             
               Text(
-                "You can withdraw Jora coins by chatting with the official Jora account..",
+                "You can withdraw Job Zinda coins by chatting with the official Job Zinda account..",
                 style: TextStyle(fontSize: 13),
               ),
               SizedBox(height: 20),

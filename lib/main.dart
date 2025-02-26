@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: navigatorKey,
-      title: 'Jora Customer',
+      title: 'Job Zinda',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         highlightColor: Colors.transparent,

@@ -73,11 +73,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: "Referrals",
                           icon: SvgPicture.asset(PSvgs.referals),
                           fun: () {
-                            context.read<ReferalViewModel>().fetchReferlaList(context);
+                            context
+                                .read<ReferalViewModel>()
+                                .fetchReferlaList(context);
                             Navigator.pop(context);
                             Navigator.pushNamed(context, PPages.referalPageUi);
                           }),
-             context.read<ProfileViewModel>().profileModel == null
+              context.read<ProfileViewModel>().profileModel == null
                   ? Container()
                   : context
                               .read<ProfileViewModel>()
@@ -86,15 +88,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               .toLowerCase() ==
                           "normal"
                       ? Container()
-                      :
-                      
-                        drawerWidget(
-                  title: "Coins",
-                  icon: SvgPicture.asset(PSvgs.coins),
-                  fun: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, PPages.coinScreenUi);
-                  }),
+                      : drawerWidget(
+                          title: "Coins",
+                          icon: SvgPicture.asset(PSvgs.coins),
+                          fun: () {
+                            Navigator.pop(context);
+                            Navigator.pushNamed(context, PPages.coinScreenUi);
+                          }),
               drawerWidget(
                   title: "Contact",
                   icon: Icon(

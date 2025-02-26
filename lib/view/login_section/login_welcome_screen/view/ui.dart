@@ -31,7 +31,7 @@ class LoginWelcomeScreenUi extends StatelessWidget {
                 PImages.logo,
                 height: 100,
                 // height: 130,
-                width: size.width / 2.2,
+                width: size.width /1.4,
                 // fit: BoxFit.contain,
               ),
             ),

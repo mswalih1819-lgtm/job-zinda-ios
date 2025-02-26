@@ -118,7 +118,7 @@ class _SendFeedbackUiState extends State<SendFeedbackUi> {
         const SizedBox(
           height: 30,
         ),
-        textWidget(text: "Rate your experience with Jora")
+        textWidget(text: "Rate your experience with Job Zinda")
       ],
     );
   }

@@ -14,9 +14,9 @@ class HomeAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leadingWidth: 150,
+      leadingWidth: 200,
       leading: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.only(left: 10),
         child: Row(
           children: [
             GestureDetector(
@@ -32,7 +32,7 @@ class HomeAppbar extends StatelessWidget {
                   Icons.menu,
                   weight: 10,
                 )),
-            Image.asset(PImages.logo),
+            Image.asset(PImages.logo,width: 140,fit: BoxFit.fitWidth,height: 100,),
           ],
         ),
       ),

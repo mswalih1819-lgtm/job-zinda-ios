@@ -31,6 +31,7 @@ class OtpPageRepository {
 
   Future<dynamic> checkProfileEmail(String email) async {
     try {
+      print('------------------ CHECK email------------- ');
 
       var result = await apiService.getPostApiResponse(
         AppUrl.checkUserExistEmail,
@@ -38,8 +39,7 @@ class OtpPageRepository {
           'email': email,
         },
       );
-      print('------------------ CHECK email------------- ');
-      print(result);
+      print("jora email------");
       var json = jsonDecode(result);
       if (json['status'] == false &&
           json['message'] != "User not registered!") {

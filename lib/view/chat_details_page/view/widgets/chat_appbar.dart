@@ -70,14 +70,14 @@ class ChatAppbarUi extends StatelessWidget {
         ),
         const SizedBox(width: 10),
         CircleAvatar(
-          backgroundColor: PColors.red,
+          backgroundColor: Colors.blue,
           child: Image.asset(
             PImages.logo,
           ),
         ),
         const SizedBox(width: 10),
         textWidget(
-          text: "Jora Admin",
+          text: "Job Zinda Admin",
           color: PColors.white,
         ),
       ],
