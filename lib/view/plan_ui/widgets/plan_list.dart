@@ -113,7 +113,7 @@ class _PlanListUiState extends State<PlanListUi> {
               height: 10,
             ),
             plan.planType?.toLowerCase() == "free"
-                ? Container()
+                ? textWidget(text: "FREE Plan", color: PColors.white)
                 : Row(
                     children: [
                       textWidget(
@@ -136,22 +136,21 @@ class _PlanListUiState extends State<PlanListUi> {
               height: 15,
             ),
             textWidget(
-                text: plan.planName, color: PColors.whiteOff.withOpacity(0.5)),
+                text: plan.planName,
+                color: PColors.whiteOff.withOpacity(0.9),fontweight: FontWeight.bold),
             const SizedBox(
               height: 10,
             ),
-            plan.planType?.toLowerCase() == "free"
-                ? Column(
-                    children: [
-                      textWidget(
-                          text: "FREE Plan",
-                          color: PColors.white),
-                           const SizedBox(
-              height: 10,
-            ),
-                    ],
-                  )
-                : Container(),
+            // plan.planType?.toLowerCase() == "free"
+            //     ? Column(
+            //         children: [
+            //           textWidget(text: "FREE Plan", color: PColors.white),
+            //           const SizedBox(
+            //             height: 10,
+            //           ),
+            //         ],
+            //       )
+            //     : Container(),
             textWidget(text: "Features :"),
             const SizedBox(
               height: 20,
@@ -179,8 +178,7 @@ class _PlanListUiState extends State<PlanListUi> {
           if (!plan.isSubscribed!) {
             var model = context.read<SubscriptionViewmodel>();
             if (plan.planType?.toLowerCase() == "free") {
-              ErrorMsg.showSnakError(
-                  context, "Your free plan has expired.!!");
+              ErrorMsg.showSnakError(context, "Your free plan has expired.!!");
             } else {
               model.updateRazorpay(
                   razorpay: _razorpay,

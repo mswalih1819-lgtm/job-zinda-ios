@@ -70,7 +70,7 @@ class ChatAppbarUi extends StatelessWidget {
         ),
         const SizedBox(width: 10),
         CircleAvatar(
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.black,
           child: Image.asset(
             PImages.logo,
           ),

@@ -25,7 +25,7 @@ class LetsPlanChatWidgetUi extends StatelessWidget {
           style: TextStyle(color: PColors.white),
         ),
         leading: CircleAvatar(
-          backgroundColor: Colors.blue,
+          backgroundColor: PColors.black,
           backgroundImage: AssetImage(
             PImages.logo,
             
