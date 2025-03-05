@@ -114,6 +114,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           'https://www.joraappfreelancers.com/terms-and-conditions'),
                     );
                   }),
+                   drawerWidget(
+                  title: "Privacy Policy",
+                  icon: SvgPicture.asset(PSvgs.privacy_policy,color:PColors.white),
+                  fun: () {
+                    launchUrl(
+                      Uri.parse(
+                          'https://www.joraappfreelancers.com/privacy-policy'),
+                    );
+                  }),
               drawerWidget(
                   title: "Help and Support",
                   icon: SvgPicture.asset(PSvgs.support),

@@ -12,6 +12,8 @@ class PSvgs {
   static String get navigation => "assets/svgs/navigation.svg";
   static String get upload => "assets/svgs/upload.svg";
   static String get feedback => "assets/svgs/feedback.svg";
+  static String get privacy_policy => "assets/svgs/privacy_policy.svg";
+
   static String get audio_call => "assets/svgs/audio_call.svg";
 
   static String get mail => "assets/svgs/mail.svg";

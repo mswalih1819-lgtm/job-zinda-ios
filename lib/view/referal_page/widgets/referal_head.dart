@@ -38,7 +38,7 @@ class ReferalHeadUi extends StatelessWidget {
                       try {
                         await Clipboard.setData(ClipboardData(
                             text:
-                                "download the app with my referral link https://play.google.com/store/apps/details?id=com.jora.customers and referral ID ${profileViewModel.profileModel!.referralCode.toString()}"));
+                                "download the app with my referral link https://play.google.com/store/apps/details?id=com.jobZinda.customers&pcampaignid=web_share and referral ID ${profileViewModel.profileModel!.referralCode.toString()}"));
 
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
@@ -58,7 +58,7 @@ class ReferalHeadUi extends StatelessWidget {
                 GestureDetector(
                     onTap: () {
                       Share.share(
-                          "download the app with my referral link https://play.google.com/store/apps/details?id=com.jora.customers and referral ID ${profileViewModel.profileModel!.referralCode.toString()}");
+                          "download the app with my referral link https://play.google.com/store/apps/details?id=com.jobZinda.customers&pcampaignid=web_share and referral ID ${profileViewModel.profileModel!.referralCode.toString()}");
                     },
                     child: const Icon(Icons.share))
               ],
