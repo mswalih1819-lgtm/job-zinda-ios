@@ -63,16 +63,16 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBCWFV48z4BLIeno4r7RuNTFNhBR9EwvNc',
-    appId: '1:1094867649764:ios:38e482da0e1ace9a9818f1',
+    appId: '1:1094867649764:ios:ceef7ce15b9c97289818f1',
     messagingSenderId: '1094867649764',
     projectId: 'jora-87133',
     storageBucket: 'jora-87133.firebasestorage.app',
-    iosBundleId: 'com.example.joraCustomer',
+    iosBundleId: 'com.jobZinda.jora-customer',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyDvob-hI2AQCM568tRQFu3Jo5VuXSpxWYg',
-    appId: '1:339130305640:ios:f9dcf7ff526f4613dfbfdd',
+    appId: '1:1094867649764:android:8c39701e8a40f4699818f1',
     messagingSenderId: '339130305640',
     projectId: 'bizire-35301',
     storageBucket: 'bizire-35301.appspot.com',
