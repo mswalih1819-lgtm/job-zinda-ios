@@ -39,30 +39,30 @@ class LoginWelcomeScreenUi extends StatelessWidget {
             const SizedBox(
               height: 25,
             ),
-            CustomIconElevatedButton(
-              width: double.infinity,
-              borderRadius: 0,
-              bgcolor: PColors.white,
-              text: 'Continue with Google',
-              icon: Image.asset(PImages.google),
-              textColor: PColors.black,
-              onPressed: () async {
-                FirebaseAuthServices services = FirebaseAuthServices();
-                UserCredential? cred = await services.loginwithGoogle();
-                final email = cred?.user?.email;
-                EasyLoading.show();
-                print("email----$email");
-                // if (email != null) {
-                //   context
-                //       .read<LoginPhoneNumberViewModel>()
-                //       .checkUserExstsEmail(context, email);
-                // }
-                EasyLoading.dismiss();
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
+            // CustomIconElevatedButton(
+            //   width: double.infinity,
+            //   borderRadius: 0,
+            //   bgcolor: PColors.white,
+            //   text: 'Continue with Google',
+            //   icon: Image.asset(PImages.google),
+            //   textColor: PColors.black,
+            //   onPressed: () async {
+            //     FirebaseAuthServices services = FirebaseAuthServices();
+            //     UserCredential? cred = await services.loginwithGoogle();
+            //     final email = cred?.user?.email;
+            //     EasyLoading.show();
+            //     print("email----$email");
+            //     // if (email != null) {
+            //     //   context
+            //     //       .read<LoginPhoneNumberViewModel>()
+            //     //       .checkUserExstsEmail(context, email);
+            //     // }
+            //     EasyLoading.dismiss();
+            //   },
+            // ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
             CustomElavatedTextButton(
               width: double.infinity,
               borderRadius: 0,
