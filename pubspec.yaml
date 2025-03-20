@@ -2,7 +2,7 @@ name: jora_customer
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+10
+version: 1.0.4+14
 
 environment:
   sdk: ^3.5.3
@@ -31,7 +31,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   audio_waveforms: ^1.1.1
@@ -41,7 +40,7 @@ dependencies:
   firebase_auth: ^5.3.0
   firebase_messaging: ^15.1.2
   flutter_spinkit: ^5.2.1
-  flutter_launcher_icons: 
+  flutter_launcher_icons:
   flutter_svg: ^2.0.10+1
   get: ^4.6.6
   just_audio: ^0.9.42
@@ -55,7 +54,7 @@ dependencies:
   # mobile_number: ^2.1.1
   readmore: ^3.0.0
   image_picker: ^1.1.2
-  google_maps_flutter: ^2.9.0
+  google_maps_flutter: ^2.10.1
   geolocator: ^13.0.1
   flutter_map: ^7.0.2
   latlong2: ^0.9.1
@@ -81,12 +80,10 @@ dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/logo.png"
+  image_path: "assets/images/AppIcon.jpg"
   min_sdk_android: 21 # Required for Android 12 support
-  adaptive_icon_background: "#000000" 
-  adaptive_icon_foreground: "assets/images/app_logo.png"
-
-  
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "assets/images/AppIcon.jpg"
 
   http: any
   flutter_launcher_icons: ^0.14.3
@@ -106,7 +103,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
