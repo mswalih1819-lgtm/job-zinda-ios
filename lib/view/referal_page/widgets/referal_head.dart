@@ -38,7 +38,7 @@ class ReferalHeadUi extends StatelessWidget {
                       try {
                         await Clipboard.setData(ClipboardData(
                             text:
-                                "download the app with my referral link https://play.google.com/store/apps/details?id=com.jobZinda.customers&pcampaignid=web_share and referral ID ${profileViewModel.profileModel!.referralCode.toString()}"));
+                                 profileViewModel.profileModel!.referralCode.toString()));
 
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
