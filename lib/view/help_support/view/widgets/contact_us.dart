@@ -28,7 +28,7 @@ class ContactUsUi extends StatelessWidget {
             icon: PSvgs.mail,
             title: 'Email',
             onTap: () {
-             sendEmail();
+              sendEmail();
             }),
         contentWidget(
             icon: PSvgs.feedback,
@@ -51,6 +51,7 @@ class ContactUsUi extends StatelessWidget {
     );
   }
 }
+
 Future<void> sendEmail() async {
   final Uri emailUri = Uri(
     scheme: 'mailto',

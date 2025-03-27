@@ -6,7 +6,6 @@ import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/view/widgets/login_head.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/view_model/view_model.dart';
-
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -18,11 +17,12 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> form_key = GlobalKey<FormState>();
+  final FocusNode _focusNode = FocusNode();
 
   @override
-  void initState() {
-    // _numberController.text = '';
-    super.initState();
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -36,131 +36,99 @@ class _LoginScreenState extends State<LoginScreen> {
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 100,
-                    ),
-                    Image.asset(
-                      PImages.phone,
-                      height: 150,
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
+                    const SizedBox(height: 100),
+                    Image.asset(PImages.phone, height: 150),
+                    const SizedBox(height: 40),
                     LoginHeadingUi(
-                        title: "What’s your phone number ?",
-                        description:
-                            "We need to make sure you’re you. Please let us know what number to send a code to"),
-                    const SizedBox(
-                      height: 20,
+                      title: "What’s your phone number ?",
+                      description:
+                          "We need to make sure you’re you. Please let us know what number to send a code to",
                     ),
+                    const SizedBox(height: 20),
                     phonenUmberField(),
                   ],
                 ),
               ),
             ),
             button(context),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
           ],
         ),
       ),
     );
-    // return ChangeNotifierProvider(
-    //   create: (context) => LoginPhoneNumberViewModel(),
-    //   builder: (context, child) {
-    //     var model = context.read<LoginPhoneNumberViewModel>();
-
-    //   },
-    // );
   }
 
   Widget phonenUmberField() {
-    // var model = context.read<LoginPhoneNumberViewModel>();
     return Form(
-        key: form_key,
-        child: Consumer<LoginPhoneNumberViewModel>(
-          builder: (context, value, child) => CustomTextFeild(
-              controller: value.numberController,
-              keyboardType: TextInputType.phone,
-              borderColor: PColors.textFeildBorderColor,
-              borderRadius: 0,
-              hintText: 'Phone number',
-              // validation: Validator.mobile,
-              prefixIcon: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                child: Text(
-                  "+91",
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                ),
-              ),
-              onChanged: (val) {
-                print("vall--$val");
-                value.savePhoneNumber(val!);
-              },
-              prefixfn: () {},
-              // onSaved: (val) {
-              //   print("vall--$val");
-              //   model.savePhoneNumber(val!);
-              // },
-              onSubmitted: (val) {
-                print("vall--$val");
-                value.savePhoneNumber(val!);
-              },
-              maxLength: 10,
-              validation: (val) {
-                if (val == null || val.isEmpty) {
-                  return "Please enter the phone number";
-                }
-                if (value.phoneDigitCount != val.length) {
-                  return "Invalid phone number";
-                }
-                try {
-                  int.parse(val);
-                } catch (e) {
-                  return "Invalid phone number";
-                }
-                return null;
-              },
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly
-              ],
-              filColor: PColors.seed),
-        ));
+      key: form_key,
+      child: Consumer<LoginPhoneNumberViewModel>(
+        builder: (context, value, child) => CustomTextFeild(
+          controller: value.numberController,
+          focusNode: _focusNode,
+          keyboardType: TextInputType.phone,
+          borderColor: PColors.textFeildBorderColor,
+          borderRadius: 0,
+          hintText: 'Phone number',
+          prefixIcon: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+            child: Text(
+              "+91",
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+            ),
+          ),
+          prefixfn: () {},
+          onChanged: (val) => value.savePhoneNumber(val!),
+          onSubmitted: (val) => value.savePhoneNumber(val!),
+          onTap: () {
+            FocusScope.of(context).requestFocus(_focusNode);
+          },
+          maxLength: 10,
+          validation: (val) {
+            if (val == null || val.isEmpty) {
+              return "Please enter the phone number";
+            }
+            if (value.phoneDigitCount != val.length) {
+              return "Invalid phone number";
+            }
+            try {
+              int.parse(val);
+            } catch (e) {
+              return "Invalid phone number";
+            }
+            return null;
+          },
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(10),
+          ],
+          filColor: PColors.seed,
+        ),
+      ),
+    );
   }
 
   Widget button(BuildContext context) {
     var model = context.read<LoginPhoneNumberViewModel>();
-
     return Selector<LoginPhoneNumberViewModel, bool>(
-      selector: (p0, p1) => p1.loading,
-      builder: (context, value, child) {
-        if (value) {
-          return Center(
-            child: CircularProgressIndicator(
-              color: PColors.white,
-            ),
-          );
-        } else {
-          return CustomElavatedTextButton(
-            width: double.infinity,
-            text: 'Send code',
-            onPressed: () {
-              if (form_key.currentState?.validate() ?? false) {
-                form_key.currentState!.save();
-
-                model.sendCode(context);
-              }
-              // Navigator.pushNamed(context, PPages.otpPageUi);
-            },
-            bgcolor: PColors.white,
-            borderRadius: 0,
-            textColor: PColors.black,
-          );
-        }
+      selector: (_, vm) => vm.loading,
+      builder: (context, isLoading, child) {
+        return isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : CustomElavatedTextButton(
+                width: double.infinity,
+                text: 'Send code',
+                onPressed: () {
+                  if (form_key.currentState?.validate() ?? false) {
+                    form_key.currentState!.save();
+                    model.sendCode(context);
+                  }
+                },
+                bgcolor: PColors.white,
+                borderRadius: 0,
+                textColor: PColors.black,
+              );
       },
     );
   }
