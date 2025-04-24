@@ -114,9 +114,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           'https://www.joraappfreelancers.com/terms-and-conditions'),
                     );
                   }),
-                   drawerWidget(
+              drawerWidget(
                   title: "Privacy Policy",
-                  icon: SvgPicture.asset(PSvgs.privacy_policy,color:PColors.white),
+                  icon: SvgPicture.asset(PSvgs.privacy_policy,
+                      color: PColors.white),
                   fun: () {
                     launchUrl(
                       Uri.parse(
@@ -181,21 +182,41 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: Stack(
           children: [
-            SingleChildScrollView(
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  children: [
-                    const StorySection(),
-                    Divider(
-                      color: PColors.whiteOff.withOpacity(0.3),
-                    ),
-                    const PostSection(),
-                    const SizedBox(height: 100),
-                  ],
+            // SingleChildScrollView(
+            //   child: Container(
+            //     margin: const EdgeInsets.symmetric(horizontal: 10),
+            //     child: Column(
+            //       children: [
+            //         const StorySection(),
+            //         Divider(
+            //           color: PColors.whiteOff.withOpacity(0.3),
+            //         ),
+            //         const PostSection(),
+            //         const SizedBox(height: 100),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            RefreshIndicator(
+              onRefresh: () async {
+                await context.read<PostViewModel>().refreshPosts();
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    children: [
+                      const StorySection(),
+                      Divider(color: PColors.whiteOff.withOpacity(0.3)),
+                      const PostSection(),
+                      const SizedBox(height: 100),
+                    ],
+                  ),
                 ),
               ),
             ),
+
             Consumer<PostViewModel>(
               builder: (context, value, child) => value.isBottomshetopen
                   ? const SizedBox()
@@ -270,6 +291,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  
 }
 
 Future<void> _makePhoneCall(String phoneNumber) async {

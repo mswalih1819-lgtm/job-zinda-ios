@@ -14,48 +14,75 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+ void _onScroll() {
+  if (_scrollController.position.pixels >=
+      _scrollController.position.maxScrollExtent - 200) {
+    context.read<SearchViewModel>().fetchSearchList();
+  }
+}
+
+
   @override
   void initState() {
-    SearchViewModel searchViewModel = context.read<SearchViewModel>();
-    searchViewModel.currentPage = 0;
-    searchViewModel.initSearchPagination();
     super.initState();
+    _scrollController.addListener(_onScroll); // <-- Add this line
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<SearchViewModel>().pageNumber = 1;
+      context.read<SearchViewModel>().fetchSearchList();
+    });
   }
+ 
 
   @override
   Widget build(BuildContext context) {
-    SearchViewModel searchViewModel = context.watch<SearchViewModel>();
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
-            child: Column(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
+          child: Consumer<SearchViewModel>(
+            builder: (context, value, child) => Column(
               children: [
                 const SearchButtonUi(),
                 const SizedBox(
                   height: 30,
                 ),
-                PagedGridView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    pagingController: searchViewModel.searchController,
-                    builderDelegate: PagedChildBuilderDelegate<ProfileModel>(
-                      noItemsFoundIndicatorBuilder: (context) => const SizedBox(
-                        height: 500,
-                        child: Center(
-                            child: Text('No data found')),
-                      ),
-                      itemBuilder: (context, item, index) {
-                        return SearchCard(profileModel: item);
-                      },
-                    ),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 7,
-                            mainAxisSpacing: 7,
-                            childAspectRatio: .82))
+                Expanded(
+                  child: GridView.builder(
+                      controller: _scrollController,
+                      shrinkWrap: true,
+                      itemCount: value.searchList.length,
+                      itemBuilder: (context, index) =>
+                          SearchCard(profileModel: value.searchList[index]),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 7,
+                        mainAxisSpacing: 7,
+                        childAspectRatio: .82,
+                      )),
+                )
+                // PagedGridView(
+                //     physics: const NeverScrollableScrollPhysics(),
+                //     shrinkWrap: true,
+                //     pagingController: searchViewModel.searchController,
+                //     builderDelegate: PagedChildBuilderDelegate<ProfileModel>(
+                //       noItemsFoundIndicatorBuilder: (context) => const SizedBox(
+                //         height: 500,
+                //         child: Center(
+                //             child: Text('No data found')),
+                //       ),
+                //       itemBuilder: (context, item, index) {
+                //         return SearchCard(profileModel: item);
+                //       },
+                //     ),
+                //     gridDelegate:
+                //         const SliverGridDelegateWithFixedCrossAxisCount(
+                //             crossAxisCount: 2,
+                //             crossAxisSpacing: 7,
+                //             mainAxisSpacing: 7,
+                //             childAspectRatio: .82))
               ],
             ),
           ),

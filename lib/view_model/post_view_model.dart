@@ -15,6 +15,11 @@ class PostViewModel with ChangeNotifier {
 
   late PagingController<int, dynamic> postController =
       PagingController(firstPageKey: 0);
+  Future<void> refreshPosts() async {
+    currentPage = 0;
+    postController.refresh();
+    // initPostPagination();
+  }
 
   int currentPage = 0;
   final List<PostModel> _posts = [];
@@ -92,8 +97,6 @@ class PostViewModel with ChangeNotifier {
     }
   }
 
-  
-
   // List<dynamic> _mergePostsAndBanners(
   //     List<PostModel> posts, List<Banners> banners) {
   //   List<dynamic> combinedList = [];
@@ -124,40 +127,40 @@ class PostViewModel with ChangeNotifier {
   //   return combinedList;
   // }
 
-List<dynamic> _mergePostsAndBanners(
-    List<PostModel> posts, List<Banners> banners) {
-  List<dynamic> combinedList = [];
-  int postIndex = 0;
+  List<dynamic> _mergePostsAndBanners(
+      List<PostModel> posts, List<Banners> banners) {
+    List<dynamic> combinedList = [];
+    int postIndex = 0;
 
-  // If there are no posts, return an empty list, no need to display banners
-  if (posts.isEmpty) {
-    return combinedList;
-  }
+    // If there are no posts, return an empty list, no need to display banners
+    if (posts.isEmpty) {
+      return combinedList;
+    }
 
-  // Sort banners by their index to ensure correct order
-  banners.sort((a, b) => (a.indexNumber ?? 0).compareTo(b.indexNumber ?? 0));
+    // Sort banners by their index to ensure correct order
+    banners.sort((a, b) => (a.indexNumber ?? 0).compareTo(b.indexNumber ?? 0));
 
-  for (var banner in banners) {
-    int bannerPosition = banner.indexNumber ?? 0;
+    for (var banner in banners) {
+      int bannerPosition = banner.indexNumber ?? 0;
 
-    // Add posts up to the banner position
-    while (postIndex < posts.length && combinedList.length < bannerPosition) {
+      // Add posts up to the banner position
+      while (postIndex < posts.length && combinedList.length < bannerPosition) {
+        combinedList.add(posts[postIndex]);
+        postIndex++;
+      }
+
+      // Add the banner at the specified position
+      combinedList.add(banner);
+    }
+
+    // Add any remaining posts after banners
+    while (postIndex < posts.length) {
       combinedList.add(posts[postIndex]);
       postIndex++;
     }
 
-    // Add the banner at the specified position
-    combinedList.add(banner);
+    return combinedList;
   }
-
-  // Add any remaining posts after banners
-  while (postIndex < posts.length) {
-    combinedList.add(posts[postIndex]);
-    postIndex++;
-  }
-
-  return combinedList;
-}
 
   // Future<void> fetchPostWithPagination(int page) async {
   //   if (currentPage != page) {
@@ -404,7 +407,6 @@ List<dynamic> _mergePostsAndBanners(
   ProfileModel? otherUser;
   Future<bool?> fetchOtherUserProfileDetails({required String userID}) async {
     EasyLoading.show();
-
     Response response =
         await ApiService().get('${Api.otherUserProfileDetailsUrl}/$userID');
     if (response.statusCode == 200) {
@@ -427,7 +429,6 @@ List<dynamic> _mergePostsAndBanners(
   }
 
   Future<void> visitProfile({required String userID}) async {
-
     print("shasjhsjd---${userID}");
     await ApiService().post(Api.profileVisitUrl, {'profileId': userID});
   }

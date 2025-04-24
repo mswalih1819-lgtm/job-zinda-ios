@@ -29,114 +29,124 @@ class ProfileImageWidget extends StatelessWidget {
   }
 
   Widget buildCoverImage(
-      double coverHeight, double profileHeight, BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      alignment: Alignment.center,
-      children: [
-        Container(
-          margin: EdgeInsets.only(bottom: profileHeight / 1.4),
-          child: Stack(
-            children: [
-              SizedBox(
-                  height: coverHeight,
-                  width: double.infinity,
-                  child: profileModel!.coverImage!.isEmpty?Container(
-
-                    child: Center(child: Text("No cover Image",style: TextStyle(color: PColors.white),)),
-                  ): Image.network(
-                    profileModel?.coverImage ?? '',
-                    fit: BoxFit.fill,
-                  )),
-                  if(icon!=null)
+    double coverHeight, double profileHeight, BuildContext context) {
+  return Stack(
+    clipBehavior: Clip.none,
+    alignment: Alignment.center,
+    children: [
+      Container(
+        margin: EdgeInsets.only(bottom: profileHeight / 1.4),
+        child: Stack(
+          children: [
+            SizedBox(
+              height: coverHeight,
+              width: double.infinity,
+              child: profileModel?.coverImage?.isEmpty ?? true
+                  ? Container(
+                      color: Colors.black,
+                      child: Center(
+                        child: Text(
+                          "No cover image",
+                          style: TextStyle(color: PColors.white),
+                        ),
+                      ),
+                    )
+                  : Image.network(
+                      profileModel!.coverImage!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Colors.black,
+                          child: Center(
+                            child: Text(
+                              "Failed to load image",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+            ),
+            if (icon != null)
               Align(
                 alignment: Alignment.topRight,
                 child: IconButton(
-                    onPressed: () async {
-                      XFile? image = await ImagePicker()
-                          .pickImage(source: ImageSource.gallery);
-
-                      if (image != null) {
-                        String url = await context
-                                .read<FileUploadViewModel>()
-                                .pickedImageUpload(image, 'Cover') ??
-                            '';
-
-                        context
-                            .read<ProfileViewModel>()
-                            .updateCoverImage(url: url);
-                      }
-                    },
-                    icon: Container(
-                      height: 40,
-                      width: 40,
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                          color: Colors.black, shape: BoxShape.circle),
-                      child: const Icon(
-                        Icons.edit,
-                        color: Colors.white,
-                        size: 18,
-                      ),
-                    )),
+                  onPressed: () async {
+                    XFile? image = await ImagePicker()
+                        .pickImage(source: ImageSource.gallery);
+                    if (image != null) {
+                      String url = await context
+                              .read<FileUploadViewModel>()
+                              .pickedImageUpload(image, 'Cover') ??
+                          '';
+                      context.read<ProfileViewModel>().updateCoverImage(url: url);
+                    }
+                  },
+                  icon: Container(
+                    height: 40,
+                    width: 40,
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                        color: Colors.black, shape: BoxShape.circle),
+                    child: const Icon(Icons.edit, color: Colors.white, size: 18),
+                  ),
+                ),
               ),
+          ],
+        ),
+      ),
+      Positioned(
+        left: 20,
+        top: coverHeight - (profileHeight / 1.4),
+        child: CircleAvatar(
+          radius: profileHeight / 1.4,
+          backgroundColor: PColors.white,
+          child: CircleAvatar(
+            radius: profileHeight / 1.5,
+            backgroundImage: (profileModel?.profileImageUrl?.isNotEmpty ?? false)
+                ? NetworkImage(profileModel!.profileImageUrl!)
+                : AssetImage(PImages.profile) as ImageProvider,
+            onBackgroundImageError: (_, __) {
+              // This gets triggered silently – optionally log it or update state if needed
+            },
+          ),
+        ),
+      ),
+      Positioned(
+        top: coverHeight + 10,
+        right: 10,
+        child: Selector<WrapperViewModel, String>(
+          selector: (p0, p1) => p1.viewStatus,
+          builder: (context, value, child) => Row(
+            children: [
+              if (icon != null)
+                GestureDetector(
+                  onTap: () async {
+                    await context
+                        .read<ProfileAnalyticsViewModel>()
+                        .fetchProfileAnalytics(filter: '7days');
+                    Navigator.pushNamed(context, PPages.profileAnalyticsPageUi);
+                  },
+                  child: SvgPicture.asset(icon!, height: 30),
+                ),
+              const SizedBox(width: 10),
+              WrapperViewStatus.profile == value
+                  ? GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, PPages.helpSupportUi);
+                      },
+                      child: SvgPicture.asset(PSvgs.help, height: 30),
+                    )
+                  : Container(),
+              WrapperViewStatus.profile == value
+                  ? const SizedBox(width: 10)
+                  : Container(),
             ],
           ),
         ),
-        Positioned(
-            left: 20,
-            top: coverHeight - (profileHeight / 1.4),
-            child: CircleAvatar(
-              radius: profileHeight / 1.4,
-              backgroundColor: PColors.white,
-              child: CircleAvatar(
-                radius: profileHeight / 1.5,
-                backgroundImage:
-                profileModel!.profileImageUrl!.isEmpty?AssetImage(PImages.profile):    NetworkImage(profileModel?.profileImageUrl ?? ''),
-              ),
-            )),
-        Positioned(
-            top: coverHeight + 10,
-            right: 10,
-            child: Selector<WrapperViewModel, String>(
-              selector: (p0, p1) => p1.viewStatus,
-              builder: (context, value, child) => Row(
-                children: [
-                  if(icon!=null)
-                  GestureDetector(
-                      onTap: () async {
-                        await context
-                            .read<ProfileAnalyticsViewModel>()
-                            .fetchProfileAnalytics(filter: '7days');
-                        Navigator.pushNamed(
-                            context, PPages.profileAnalyticsPageUi);
-                      },
-                      child: SvgPicture.asset(
-                        icon!,
-                        height: 30,
-                      )),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  WrapperViewStatus.profile == value
-                      ? GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, PPages.helpSupportUi);
-                          },
-                          child: SvgPicture.asset(
-                            PSvgs.help,
-                            height: 30,
-                          ))
-                      : Container(),
-                  WrapperViewStatus.profile == value
-                      ? const SizedBox(
-                          width: 10,
-                        )
-                      : Container(),
-                ],
-              ),
-            )),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
+
 }

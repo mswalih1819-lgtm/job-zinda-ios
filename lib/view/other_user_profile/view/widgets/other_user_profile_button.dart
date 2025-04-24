@@ -38,10 +38,6 @@ class OtherUserProfileButtonUi extends StatelessWidget {
           button(
               btn: 'Send message',
               fun: () {
-                // PostViewModel postViewModel = context.watch<PostViewModel>();
-                // navigatorKey.currentContext!
-                //     .read<ChatDetailsViewModel>()
-                //     .updateRecieverId(postViewModel.otherUser!.sId.toString());
 
                 print("user anme-----${postViewModel.otherUser!.sId}");
                 navigatorKey.currentContext!

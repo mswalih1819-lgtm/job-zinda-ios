@@ -52,11 +52,7 @@ class NetworkApiService implements BaseApiService {
           ? Uri.https(AppUrl.httpBaseUrl, newEndPoint, queryParameters)
           : Uri.http(
               domain ?? AppUrl.httpBaseUrl, newEndPoint, queryParameters);
-      // var uri = appned == null
-      //     ? Uri.http(domain ?? AppUrl.httpBaseUrl, endPoint, queryParameters)
-      //     : Uri.http(
-      //         domain ?? AppUrl.httpBaseUrl, '$endPoint/$appned', queryParameters);
-
+    
       Response? response = await http.post(
         uri,
         body: body != null ? jsonEncode(body) : null,

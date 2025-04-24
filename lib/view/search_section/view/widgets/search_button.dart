@@ -44,8 +44,10 @@ class _SearchButtonUiState extends State<SearchButtonUi> {
           });
           SearchViewModel searchViewModel = context.read<SearchViewModel>();
           searchViewModel.searchTag = '';
-          searchViewModel.currentPage = 0;
-          searchViewModel.searchController.refresh();
+          searchViewModel.pageNumber =1;
+          searchViewModel.fetchSearchList();
+
+          // searchViewModel.searchController.refresh();
         },
         suffixIcon: const Icon(Icons.close),
         borderColor: PColors.seed2,
@@ -53,8 +55,9 @@ class _SearchButtonUiState extends State<SearchButtonUi> {
         onChanged: (val) {
           SearchViewModel searchViewModel = context.read<SearchViewModel>();
           searchViewModel.searchTag = val ?? '';
-          searchViewModel.currentPage = 0;
-          searchViewModel.searchController.refresh();
+          searchViewModel.pageNumber =1;
+          searchViewModel.fetchSearchList();
+          // searchViewModel.searchController.refresh();
         },
         filColor: PColors.seed2);
   }

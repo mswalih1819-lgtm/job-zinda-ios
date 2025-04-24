@@ -33,9 +33,9 @@ class ChatCard extends StatelessWidget {
       return Container();
     }
 
-    final name = participant.userId!.name;
+    final name = participant.userId?.name??"";
 
-    final profileImageUrl = participant.userId!.profileImageUrl;
+    final profileImageUrl = participant.userId?.profileImageUrl??"";
 
     return GestureDetector(
       onTap: () {

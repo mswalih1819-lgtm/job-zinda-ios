@@ -15,17 +15,16 @@ class ChatAppbarUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ChatDetailsViewModel chatDetailViewModel =
-        context.read<ChatDetailsViewModel>();
-
-    print("tyepp------${chatDetailViewModel.pageType}");
+    ChatDetailsViewModel chatDetailViewModel = context.read<ChatDetailsViewModel>();
     return Consumer<ChatDetailsViewModel>(
       builder: (context, value, child) => AppBar(
-          automaticallyImplyLeading: false,
-          // leadingWidth: 45,
-          title: value.pageType == "from profile"
-              ? profileChat(context)
-              :value.pageType == "lets plan"?letsPlanAppbar(context): chatappbar(context)),
+        automaticallyImplyLeading: false,
+        title: value.pageType == "from profile"
+            ? profileChat(context)
+            : value.pageType == "lets plan"
+                ? letsPlanAppbar(context)
+                : chatappbar(context),
+      ),
     );
   }
 
@@ -33,25 +32,24 @@ class ChatAppbarUi extends StatelessWidget {
     return Row(
       children: [
         GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
+          onTap: () => Navigator.pop(context),
           child: const Icon(Icons.arrow_back),
         ),
         const SizedBox(width: 10),
         Consumer<PostViewModel>(
-          builder: (context, value, child) => CircleAvatar(
-            backgroundImage: value.otherUser!.profileImageUrl!.isEmpty
-                ? AssetImage(PImages.profile)
-                : NetworkImage(
-                    value.otherUser!.profileImageUrl!,
-                  ),
-          ),
+          builder: (context, value, child) {
+            final profileImage = value.otherUser?.profileImageUrl ?? '';
+            return CircleAvatar(
+              backgroundImage: profileImage.isEmpty
+                  ? AssetImage(PImages.profile)
+                  : NetworkImage(profileImage) as ImageProvider,
+            );
+          },
         ),
         const SizedBox(width: 10),
         Consumer<PostViewModel>(
           builder: (context, value, child) => textWidget(
-            text: value.otherUser!.name,
+            text: value.otherUser?.name ?? "Unknown",
             color: PColors.white,
           ),
         ),
@@ -63,17 +61,13 @@ class ChatAppbarUi extends StatelessWidget {
     return Row(
       children: [
         GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
+          onTap: () => Navigator.pop(context),
           child: const Icon(Icons.arrow_back),
         ),
         const SizedBox(width: 10),
         CircleAvatar(
           backgroundColor: Colors.black,
-          child: Image.asset(
-            PImages.logo,
-          ),
+          child: Image.asset(PImages.logo),
         ),
         const SizedBox(width: 10),
         textWidget(
@@ -85,19 +79,17 @@ class ChatAppbarUi extends StatelessWidget {
   }
 
   Widget chatappbar(BuildContext context) {
-    final participant = context
-        .read<ChatDetailsViewModel>()
-        .conversationModel!
-        .participants!
-        .firstWhere(
-          (participant) => participant.userId!.sId != LoggedInUser.id,
+    final chatModel = context.read<ChatDetailsViewModel>().conversationModel;
+    final participant = chatModel?.participants?.firstWhere(
+          (p) => p.userId?.sId != LoggedInUser.id,
           orElse: () => Participants(),
         );
 
-    final name = participant.userId!.name;
-    final profileImageUrl = participant.userId!.profileImageUrl;
-    return Consumer<ChatDetailsViewModel>(
-      builder: (context, value, child) => Row(children: [
+    final name = participant?.userId?.name ?? "Unknown";
+    final profileImageUrl = participant?.userId?.profileImageUrl ?? "";
+
+    return Row(
+      children: [
         GestureDetector(
           onTap: () {
             navigatorKey.currentContext!
@@ -109,16 +101,16 @@ class ChatAppbarUi extends StatelessWidget {
         ),
         const SizedBox(width: 10),
         CircleAvatar(
-          backgroundImage: profileImageUrl!.isEmpty
+          backgroundImage: profileImageUrl.isEmpty
               ? AssetImage(PImages.profile)
-              : NetworkImage(profileImageUrl ?? ''),
+              : NetworkImage(profileImageUrl) as ImageProvider,
         ),
         const SizedBox(width: 10),
         textWidget(
           text: name,
           color: PColors.white,
         ),
-      ]),
+      ],
     );
   }
 }

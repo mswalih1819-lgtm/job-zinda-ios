@@ -3,7 +3,7 @@ import '../model/logged_in_user.dart';
 class AppUrl {
   static const String scurity = 'https';
 
-  static const isProduction = true;
+  static const isProduction = false;
 
   static String get baseurl {
     if (isProduction == false) {
@@ -34,8 +34,8 @@ class Api {
     return {'Authorization': 'Bearer ${LoggedInUser.accessToken}'};
   }
 
-  // static const baseurl = 'http://3.110.26.51:4001';
-  static const baseurl = 'https://server.joraappfreelancers.com';
+  static const baseurl = 'http://3.110.26.51:4001';
+  // static const baseurl = 'https://server.joraappfreelancers.com';
 
   // static const loginUrl = '$baseurl/api/v1/auth/user-auth';
   static const storiesListUrl =

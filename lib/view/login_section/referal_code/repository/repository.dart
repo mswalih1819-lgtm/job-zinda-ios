@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:jora_customer/Data/Network/base_api_service.dart';
+import 'package:jora_customer/notification_service.dart';
 import 'package:jora_customer/utils/api_url.dart';
 
 class AddNewUserRepository {
@@ -14,9 +15,12 @@ class AddNewUserRepository {
     String? name,
   }) async {
     try {
-      print("refeee-----$phone----$countryCode---$referralCode--$name");
+      print("refeee-----$phone----$countryCode---${FCMService().fcmToken}--$name");
       var result = await apiService.getPostApiResponse(
         AppUrl.loginUrl,
+         headers: {
+          "fcm-token": FCMService().fcmToken??""
+        },
         body: {
           'countryCode': countryCode,
           'mobileNumber': phone,
@@ -49,6 +53,9 @@ class AddNewUserRepository {
           "ad nw user email------$countryCode---$phone---$name---$email---$referralCode");
       var result = await apiService.getPostApiResponse(
         AppUrl.loginEmail,
+         headers: {
+          "fcm-token": FCMService().fcmToken??""
+        },
         body: {
           'countryCode': countryCode,
           'mobileNumber': phone,

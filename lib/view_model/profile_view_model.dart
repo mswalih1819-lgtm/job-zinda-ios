@@ -50,7 +50,7 @@ class ProfileViewModel with ChangeNotifier {
       Map<String, dynamic> data = response.data;
       if (data['status']) {
         profileModel = ProfileModel.fromJson(data['data']['profileDetails']);
-        print("hhh----${profileModel!.accountType}");
+        print("hhh----${profileModel!.sId}");
         LoggedInUser.profile(data['data']['profileDetails']);
         notifyListeners();
       }

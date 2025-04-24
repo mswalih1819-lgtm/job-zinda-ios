@@ -18,7 +18,13 @@ import '../utils/api_url.dart';
 
 class ChatDetailsViewModel extends ChangeNotifier {
   ConversationModel? conversationModel;
-  String pageType = "from profile";
+  String _pageType = "from profile";
+  String get pageType => _pageType;
+  set pageType(String value) {
+    _pageType = value;
+    notifyListeners();
+  }
+
   String messageType = '';
   String? message;
   String? selectedUrl;
@@ -87,14 +93,7 @@ class ChatDetailsViewModel extends ChangeNotifier {
 
   updateConversationModel(ConversationModel val) {
     conversationModel = val;
-    // recieverId = conversationModel!.participants!
-    //     .firstWhere(
-    //       (participant) => participant.userId!.sId != LoggedInUser.id,
-    //       orElse: () =>
-    //           Participants(), // Provide a fallback in case no match is found
-    //     )
-    //     ?.userId
-    //     ?.sId;
+
     notifyListeners();
   }
 
@@ -164,7 +163,7 @@ class ChatDetailsViewModel extends ChangeNotifier {
   }
 
   Future<void> sentmessage({required BuildContext context}) async {
-    EasyLoading.show();
+    // EasyLoading.show();
     loading = true;
     notifyListeners();
 
@@ -196,7 +195,7 @@ class ChatDetailsViewModel extends ChangeNotifier {
     });
     EasyLoading.dismiss();
     loading = false;
-notifyListeners();
+    notifyListeners();
     // log(response.data.toString());
     if (response.data != null) {
       Map<String, dynamic> data = response.data;
@@ -330,7 +329,7 @@ notifyListeners();
   }
 
   Future<void> sentQuery({required BuildContext context}) async {
-    EasyLoading.show();
+    // EasyLoading.show();
     loading = true;
     notifyListeners();
 

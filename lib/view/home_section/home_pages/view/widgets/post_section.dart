@@ -25,24 +25,6 @@ class _PostSectionState extends State<PostSection> {
     super.initState();
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   PostViewModel postViewModel = context.watch<PostViewModel>();
-  //   return PagedListView(
-  //       physics: const NeverScrollableScrollPhysics(),
-  //       shrinkWrap: true,
-  //       pagingController: postViewModel.postController,
-  //       builderDelegate: PagedChildBuilderDelegate<PostModel>(
-  //         noItemsFoundIndicatorBuilder: (context) => const Center(child: Padding(
-  //           padding: EdgeInsets.symmetric(vertical: 100),
-  //           child: Text('No posts found'),
-  //         )),
-  //         itemBuilder: (context, item, index) {
-  //           return PostCard(post: item,);
-  //         },
-  //       ));
-  // }
-
   @override
   Widget build(BuildContext context) {
     PostViewModel postViewModel = context.watch<PostViewModel>();
@@ -77,10 +59,11 @@ class _PostSectionState extends State<PostSection> {
                 child: GestureDetector(
                   onTap: () {
                     // Handle banner tap action
-                    if (item.bannerOnTapAction!.toLowerCase() =="subscription") {
-                       navigatorKey.currentContext!
-                              .read<WrapperViewModel>()
-                              .updatePageView(WrapperViewStatus.normalProfile);
+                    if (item.bannerOnTapAction!.toLowerCase() ==
+                        "subscription") {
+                      navigatorKey.currentContext!
+                          .read<WrapperViewModel>()
+                          .updatePageView(WrapperViewStatus.normalProfile);
                     }
                   },
                   child: Stack(
@@ -102,25 +85,6 @@ class _PostSectionState extends State<PostSection> {
                           ),
                         ),
                       ),
-                      // Banner title overlay
-                      // if (item.title != null && item.title!.isNotEmpty)
-                      //   Positioned(
-                      //     bottom: 10,
-                      //     left: 10,
-                      //     right: 10,
-                      //     child: Container(
-                      //       color: Colors.black.withOpacity(0.5),
-                      //       padding: const EdgeInsets.all(8),
-                      //       child: Text(
-                      //         item.title!,
-                      //         style: const TextStyle(
-                      //           color: Colors.white,
-                      //           fontSize: 16,
-                      //           fontWeight: FontWeight.bold,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
                     ],
                   ),
                 ),

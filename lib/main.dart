@@ -6,6 +6,7 @@ import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PRoutes.dart';
 import 'package:jora_customer/Settings/until/PText_styles.dart';
 import 'package:jora_customer/firebase_options.dart';
+import 'package:jora_customer/notification_service.dart';
 import 'package:jora_customer/utils/providers.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +14,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // checkPermission();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await FCMService().initialize();
+
   configLoading();
+
+   
   runApp(
     MultiProvider(
       providers: providers,

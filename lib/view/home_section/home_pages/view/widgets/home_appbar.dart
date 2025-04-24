@@ -22,11 +22,7 @@ class HomeAppbar extends StatelessWidget {
             GestureDetector(
                 onTap: () {
                   scaffoldKey.currentState?.openDrawer();
-                  // context
-                  //     .read<ProfileViewModel>()
-                  //     .scaffoldKey
-                  //     .currentState
-                  //     ?.openDrawer();
+                 
                 },
                 child: const Icon(
                   Icons.menu,
