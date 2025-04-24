@@ -48,7 +48,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                Expanded(
+               value.searchList.isEmpty?
+               Expanded(child: Center(child: Text("No Data!!!",style: TextStyle(color: Colors.white),)))
+               :  Expanded(
                   child: GridView.builder(
                       controller: _scrollController,
                       shrinkWrap: true,
