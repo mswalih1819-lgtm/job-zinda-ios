@@ -4,15 +4,6 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>To upload photos and videos from your gallery, we need access to your device's media. This will allow you to share your favorite moments with your friends and community.Your privacy is important to us. We only access the media you choose to upload and nothing else.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>This app needs access to your microphone to record audio. Your privacy is important to us..</string>
-	
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to your location at all times to provide location-based services. The location is only used to provide location based recommadation</string>
-	<key>NSCameraUsageDescription</key>
-	<string>To upload photos and videos from your camera, we need access to your device's camera. This will allow you to share your favorite moments with your friends and community.Your privacy is important to us. We only access the media you choose to upload and nothing else</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -69,6 +60,14 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>To upload photos and videos from your camera, we need access to your device's camera. This will allow you to share your favorite moments with your friends and community.Your privacy is important to us. We only access the media you choose to upload and nothing else</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to your location at all times to provide location-based services. The location is only used to provide location based recommadation</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app needs access to your microphone to record audio. Your privacy is important to us..</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To upload photos and videos from your gallery, we need access to your device's media. This will allow you to share your favorite moments with your friends and community.Your privacy is important to us. We only access the media you choose to upload and nothing else.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
