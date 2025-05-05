@@ -7,6 +7,7 @@ import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/model/conversation_model.dart';
 import 'package:jora_customer/model/post_model.dart';
 import 'package:jora_customer/view/other_user_profile/view/other_user_profile_screen.dart';
+import 'package:jora_customer/view_model/chat_badge_viewmodel.dart';
 import 'package:jora_customer/view_model/chat_details_view_model.dart';
 import 'package:jora_customer/view_model/chat_view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
@@ -50,8 +51,45 @@ class FCMService {
     print("FCM Token: $fcmToken");
 
     // Foreground message
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //   // context.read<NotificationViewModel>().incrementNotificationCount();
+    //   _showNotification(message);
+    // });
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      final data = message.data;
+      final type = data['type'];
+      final actionId = data['actionId'];
+
+      // Show the notification popup
       _showNotification(message);
+
+      final context = navigatorKey.currentContext!;
+      final postViewModel = context.read<PostViewModel>();
+      final chatDetailsVM = context.read<ChatDetailsViewModel>();
+
+      switch (type) {
+        case 'comment':
+        case 'like':
+        case 'profileView':
+        case 'follow':
+          context.read<BadgeViewModel>().setNewNotificationReceived();
+          break;
+
+        case 'message':
+          context.read<BadgeViewModel>().setNewMessageReceived();
+          break;
+
+        case 'adminMessage':
+          context.read<BadgeViewModel>().setNewLetsPlanMessageReceived();
+          break;
+
+        case 'subscription':
+          // Optional: trigger a subscription update
+          break;
+
+        default:
+          print("Unhandled notification type: $type");
+      }
     });
 
     // When the app is opened from a notification

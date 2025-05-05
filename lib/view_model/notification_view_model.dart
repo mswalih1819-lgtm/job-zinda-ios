@@ -96,4 +96,8 @@ class NotificationViewModel extends ChangeNotifier {
 await ApiService().patch('${Api.notificationRead}/$id');
    fetchNotificationCount();
   }
+
+
+
+ 
 }

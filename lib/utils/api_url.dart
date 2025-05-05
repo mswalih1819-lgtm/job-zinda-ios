@@ -36,8 +36,6 @@ class Api {
 
   // static const baseurl = 'http://3.110.26.51:4001';
   static const baseurl = 'https://server.joraappfreelancers.com';
-
-  // static const loginUrl = '$baseurl/api/v1/auth/user-auth';
   static const storiesListUrl =
       '$baseurl/api/v1/story/listStories?pageLimit=10';
   static const suggestedPostsListUrl =
