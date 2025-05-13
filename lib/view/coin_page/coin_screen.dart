@@ -64,7 +64,7 @@ class CoinScreenUi extends StatelessWidget {
               SizedBox(height: 20),
             
               Text(
-                "100 Job Zinda coins = 10 Rupees",
+                "100 Job Zinda coins = 20 Rupees",
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.green),
               ),
               SizedBox(height: 10),
@@ -76,7 +76,7 @@ class CoinScreenUi extends StatelessWidget {
               SizedBox(height: 20),
             
               Text(
-                "You can withdraw Job Zinda coins by chatting with the official Job Zinda account..",
+                "You can withdraw Job Zinda Coins through referrals and earn account  more by chatting with the official Job Zinda account.",
                 style: TextStyle(fontSize: 13),
               ),
               SizedBox(height: 20),

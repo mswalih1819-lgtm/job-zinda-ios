@@ -6,6 +6,7 @@ import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/conversation_model.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
+import 'package:jora_customer/view_model/chat_badge_viewmodel.dart';
 import 'package:jora_customer/view_model/chat_details_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +17,7 @@ class ChatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Participants participant=Participants();
+    Participants participant = Participants();
 
     if (conversationModel.participants != null ||
         conversationModel.participants!.isEmpty) {
@@ -33,9 +34,9 @@ class ChatCard extends StatelessWidget {
       return Container();
     }
 
-    final name = participant.userId?.name??"";
+    final name = participant.userId?.name ?? "";
 
-    final profileImageUrl = participant.userId?.profileImageUrl??"";
+    final profileImageUrl = participant.userId?.profileImageUrl ?? "";
 
     return GestureDetector(
       onTap: () {
@@ -43,7 +44,7 @@ class ChatCard extends StatelessWidget {
           context
               .read<ChatDetailsViewModel>()
               .updateConversationModel(conversationModel);
-
+          // context.read<BadgeViewModel>().updatemessage(context: context);
           context.read<ChatDetailsViewModel>().updatemessage(
               lastMessageId:
                   conversationModel.lastMessage!.messageId!.sId.toString(),

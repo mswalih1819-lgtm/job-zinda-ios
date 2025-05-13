@@ -12,7 +12,7 @@ import 'package:jora_customer/view_model/chat_details_view_model.dart';
 import 'package:jora_customer/view_model/chat_view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
-import 'main.dart'; // Make sure this imports your `navigatorKey`
+import 'main.dart'; // Make sure this imports your navigatorKey
 
 class FCMService {
   static final FCMService _instance = FCMService._internal();
@@ -21,8 +21,8 @@ class FCMService {
   bool _isRequestingPermission = false;
 
   static const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel', // id
-    'High Importance Notifications', // title
+    'high_importance_channel',
+    'High Importance Notifications',
     description: 'This channel is used for important notifications.',
     importance: Importance.high,
   );
@@ -37,68 +37,65 @@ class FCMService {
   FCMService._internal();
 
   Future<void> initialize() async {
-    // Initialize local notifications for Android
+    // Local notifications channel
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
-    // Request notification permissions
     await _requestPermissions();
 
-    // Get the FCM token
     fcmToken = await _firebaseMessaging.getToken();
     print("FCM Token: $fcmToken");
 
-    // Foreground message
-    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    //   // context.read<NotificationViewModel>().incrementNotificationCount();
-    //   _showNotification(message);
-    // });
+    // Show foreground notification only; don't navigate or call APIs here
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       final data = message.data;
       final type = data['type'];
       final actionId = data['actionId'];
 
-      // Show the notification popup
-      _showNotification(message);
-
       final context = navigatorKey.currentContext!;
       final postViewModel = context.read<PostViewModel>();
-      final chatDetailsVM = context.read<ChatDetailsViewModel>();
 
       switch (type) {
         case 'comment':
         case 'like':
         case 'profileView':
         case 'follow':
-          context.read<BadgeViewModel>().setNewNotificationReceived();
+          context.read<BadgeViewModel>().fetchNotificationCount();
+          if (actionId != null) {
+            postViewModel.postDetails = PostModel(sId: actionId);
+            await postViewModel.fetchPostDetails(); // ✅ Call API in foreground
+          }
           break;
 
         case 'message':
-          context.read<BadgeViewModel>().setNewMessageReceived();
+          context.read<BadgeViewModel>().fetchUserMessageMessageCount();
+          if (actionId != null) {
+            await context
+                .read<ChatDetailsViewModel>()
+                .fetchAllMessageProfile(actionId); // ✅
+          }
           break;
 
         case 'adminMessage':
-          context.read<BadgeViewModel>().setNewLetsPlanMessageReceived();
+          context.read<BadgeViewModel>().fetchAdminMessageCount();
+          await context
+              .read<ChatDetailsViewModel>()
+              .fetchAllQueryMessages(); // ✅
           break;
-
-        case 'subscription':
-          // Optional: trigger a subscription update
-          break;
-
-        default:
-          print("Unhandled notification type: $type");
       }
+
+      _showNotification(message); // Still show local notification
     });
 
-    // When the app is opened from a notification
+    // Navigate only when user taps the notification
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print("Opened app from notification: ${message.notification?.title}");
       _handleNavigation(message.data);
     });
 
-    // When the app is opened from a terminated state
+    // Handle notification that launched the app (from terminated)
     RemoteMessage? initialMessage =
         await _firebaseMessaging.getInitialMessage();
     if (initialMessage != null) {
@@ -152,21 +149,19 @@ class FCMService {
     }
   }
 
-  // 🔁 Navigate based on `type` and `actionId`
   void _handleNavigation(Map<String, dynamic> data) async {
     final String? type = data['type'];
     final String? actionId = data['actionId'];
+
     if (type == 'subscription') {
       print("Subscription notification received.");
-      return; // Do nothing or navigate to a subscription page if needed
+      return;
     }
 
-    // Prevent navigation for null or unrecognized types
     if (type == null || actionId == null) return;
+
     final context = navigatorKey.currentContext!;
     final postViewModel = context.read<PostViewModel>();
-
-    if (type == null || actionId == null) return;
 
     switch (type) {
       case 'comment':
@@ -175,7 +170,7 @@ class FCMService {
         EasyLoading.show(status: "Loading post...");
         await postViewModel.fetchPostDetails();
         EasyLoading.dismiss();
-
+        context.read<BadgeViewModel>().notificationRead();
         if (context.mounted) {
           Navigator.pushNamed(context, PPages.profilePostDetailsUi);
         }
@@ -186,8 +181,8 @@ class FCMService {
         EasyLoading.show(status: "Loading profile...");
         bool? status =
             await postViewModel.fetchOtherUserProfileDetails(userID: actionId);
+        context.read<BadgeViewModel>().notificationRead();
         EasyLoading.dismiss();
-
         if (status == true && context.mounted) {
           Navigator.push(
             context,
@@ -202,29 +197,32 @@ class FCMService {
         context
             .read<PostViewModel>()
             .fetchOtherUserProfileDetails(userID: actionId);
-
         context.read<ChatDetailsViewModel>().pageType = "from profile";
-        navigatorKey.currentContext!
-            .read<ChatDetailsViewModel>()
-            .fetchAllMessageProfile(actionId);
+        context.read<ChatDetailsViewModel>().fetchAllMessageProfile(actionId);
+       
+
         if (context.mounted) {
           Navigator.pushNamed(context, PPages.chatDetailsPageui);
         }
         break;
+
       case 'adminMessage':
         context.read<ChatDetailsViewModel>().pageType = "lets plan";
         context.read<ChatDetailsViewModel>().fetchAllQueryMessages();
+        
+
         if (context.mounted) {
           Navigator.pushNamed(context, PPages.chatDetailsPageui);
         }
         break;
+
       default:
         print("Unhandled notification type: $type");
     }
   }
 }
 
-// Background message handler (must be a top-level function)
+// Background message handler
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
 }

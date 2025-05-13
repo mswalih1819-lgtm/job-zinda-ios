@@ -7,7 +7,6 @@ import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:jora_customer/view_model/chat_badge_viewmodel.dart';
 import 'package:jora_customer/view_model/chat_view_model.dart';
-import 'package:jora_customer/view_model/notification_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeAppbar extends StatelessWidget {
@@ -43,14 +42,14 @@ class HomeAppbar extends StatelessWidget {
         Consumer<BadgeViewModel>(
           builder: (context, chatBadge, child) => GestureDetector(
             onTap: () {
-              context.read<BadgeViewModel>().clearLetsPlanBadge();
+              // context.read<BadgeViewModel>().clearLetsPlanBadge();
               context.read<ChatViewModel>().fetchAllConversations();
 
               // Navigator.pushNamed(context, PPages.subscriptionPageUi);
               context.read<ChatViewModel>().updateView(ChatViewStatus.letsPlan);
               Navigator.pushNamed(context, PPages.chatPageUi);
             },
-            child: chatBadge.hasNewLetsPlanMessage
+            child: chatBadge.adminMessageCount > 0
                 ? badges.Badge(
                     badgeStyle:
                         badges.BadgeStyle(badgeColor: PColors.badgeColor),
@@ -61,21 +60,19 @@ class HomeAppbar extends StatelessWidget {
                 : SvgPicture.asset(PSvgs.lets_plan),
           ),
         ),
-
         const SizedBox(
           width: 16,
         ),
-
         Consumer<BadgeViewModel>(
           builder: (context, chatBadge, child) => GestureDetector(
             onTap: () {
-              context.read<BadgeViewModel>().clearMessageBadge();
+              // context.read<BadgeViewModel>().clearMessageBadge();
               context.read<ChatViewModel>().fetchAllConversations();
               context.read<ChatViewModel>().updateView(ChatViewStatus.primary);
 
               Navigator.pushNamed(context, PPages.chatPageUi);
             },
-            child: chatBadge.hasNewMessage
+            child: chatBadge.userMessageCount > 0
                 ? badges.Badge(
                     badgeStyle:
                         badges.BadgeStyle(badgeColor: PColors.badgeColor),
@@ -86,17 +83,16 @@ class HomeAppbar extends StatelessWidget {
                 : SvgPicture.asset(PSvgs.message),
           ),
         ),
-
         const SizedBox(
           width: 16,
         ),
- Consumer<BadgeViewModel>(
+        Consumer<BadgeViewModel>(
           builder: (context, chatBadge, child) => GestureDetector(
             onTap: () {
-              context.read<BadgeViewModel>().clearNotificationBadge();
-           Navigator.pushNamed(context, PPages.notificationsUi);
+              context.read<BadgeViewModel>().notificationRead();
+              Navigator.pushNamed(context, PPages.notificationsUi);
             },
-            child: chatBadge.hasNewNotification
+            child: chatBadge.notificationCount > 0
                 ? badges.Badge(
                     badgeStyle:
                         badges.BadgeStyle(badgeColor: PColors.badgeColor),
@@ -107,7 +103,6 @@ class HomeAppbar extends StatelessWidget {
                 : SvgPicture.asset(PSvgs.notification),
           ),
         ),
-       
         SizedBox(
           width: 20,
         ),

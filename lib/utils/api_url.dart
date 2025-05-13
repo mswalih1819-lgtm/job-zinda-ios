@@ -73,6 +73,9 @@ class Api {
   static const fetchNotificationCount =
       '$baseurl/api/v1/notification/getNotificationCount';
   static const notificationRead = '$baseurl/api/v1/notification/markAsRead';
+  static const allNnotificationRead =
+      '$baseurl/api/v1/notification/markAllAsRead';
+
   static const postLikeUrl = '$baseurl/api/v1/post/addALike';
 
   static const getAllMessage = '$baseurl/api/v1/conversation/getAllMessage';
@@ -118,4 +121,9 @@ class Api {
   static const profileRating = '$baseurl/api/v1/user/add-profile-rating';
   static const listAllFollowers = '$baseurl/api/v1/follower/listAllFollowers';
   static const listAllFeedbacks = '$baseurl/api/v1/user/list-profile-feedBacks';
+
+  static const userMessageUnreadCount =
+      '$baseurl/api/v1/conversation/user-message-unread-count';
+  static const letsplanUnreadCount =
+      '$baseurl/api/v1/conversation/admin-message-unread-count';
 }

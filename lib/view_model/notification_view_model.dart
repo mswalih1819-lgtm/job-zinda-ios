@@ -46,7 +46,7 @@ class NotificationViewModel extends ChangeNotifier {
       String api = Api.fetchNotificationsUrl;
       Response response = await ApiService()
           .get('$api&pageNumber=$page&notificationType=$action');
-          log(response.data.toString());
+      log(response.data.toString());
       if (response.statusCode == 200) {
         Map<String, dynamic> data = response.data;
         if (data['status']) {
@@ -92,12 +92,10 @@ class NotificationViewModel extends ChangeNotifier {
       }
     }
   }
-    Future<void> notificationRead({required String id}) async {
-await ApiService().patch('${Api.notificationRead}/$id');
-   fetchNotificationCount();
+
+  Future<void> notificationRead({required String id}) async {
+    await ApiService().patch('${Api.notificationRead}/$id');
+    fetchNotificationCount();
   }
 
-
-
- 
 }

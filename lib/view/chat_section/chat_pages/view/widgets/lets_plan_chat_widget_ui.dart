@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
+import 'package:jora_customer/view_model/chat_badge_viewmodel.dart';
 import 'package:jora_customer/view_model/chat_details_view_model.dart';
 import 'package:provider/provider.dart';
 class LetsPlanChatWidgetUi extends StatelessWidget {
@@ -17,6 +18,10 @@ class LetsPlanChatWidgetUi extends StatelessWidget {
   Widget main(BuildContext context) {
     return ListTile(
       onTap: (){
+
+         context
+              .read<BadgeViewModel>()
+              .updatemessage(context: context);
         context.read<ChatDetailsViewModel>().fetchAllQueryMessages();
         Navigator.pushNamed(context, PPages.chatDetailsPageui);
       },

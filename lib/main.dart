@@ -8,17 +8,16 @@ import 'package:jora_customer/Settings/until/PText_styles.dart';
 import 'package:jora_customer/firebase_options.dart';
 import 'package:jora_customer/notification_service.dart';
 import 'package:jora_customer/utils/providers.dart';
+import 'package:jora_customer/view_model/chat_badge_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // checkPermission();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await FCMService().initialize();
 
   configLoading();
 
-   
   runApp(
     MultiProvider(
       providers: providers,
@@ -26,12 +25,45 @@ void main() async {
     ),
   );
 }
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   // This widget is the root of your application.
+  @override
+  void initState() {
+    super.initState();
+    print("jhh");
+    context.read<BadgeViewModel>().fetchNotificationCount();
+    context.read<BadgeViewModel>().fetchAdminMessageCount();
+    context.read<BadgeViewModel>().fetchUserMessageMessageCount();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    print("jhh");
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      print("jhh");
+      context.read<BadgeViewModel>().fetchNotificationCount();
+      context.read<BadgeViewModel>().fetchAdminMessageCount();
+      context.read<BadgeViewModel>().fetchUserMessageMessageCount();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

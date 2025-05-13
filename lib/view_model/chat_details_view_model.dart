@@ -6,8 +6,10 @@ import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:jora_customer/main.dart';
 import 'package:jora_customer/model/chat_message_model.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
+import 'package:jora_customer/view_model/chat_badge_viewmodel.dart';
 import 'package:jora_customer/view_model/file_view_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -149,6 +151,16 @@ class ChatDetailsViewModel extends ChangeNotifier {
                 (e) => ChatMessageModel.fromJson(e),
               )
               .toList();
+          navigatorKey.currentContext!
+              .read<BadgeViewModel>()
+              .setLastMessageId(messages.last.sId ?? "");
+          navigatorKey.currentContext!
+              .read<BadgeViewModel>()
+              .setConversationId(messages.last.conversationId ?? "");
+
+          navigatorKey.currentContext!
+              .read<BadgeViewModel>()
+              .updatemessage(context: navigatorKey.currentContext!);
           notifyListeners();
         } else {
           messages.clear();
@@ -288,11 +300,23 @@ class ChatDetailsViewModel extends ChangeNotifier {
               (e) => ChatMessageModel.fromJson(e),
             )
             .toList();
+        navigatorKey.currentContext!
+            .read<BadgeViewModel>()
+            .setLastMessageId(messages.last.sId ?? "");
+        navigatorKey.currentContext!
+            .read<BadgeViewModel>()
+            .setConversationId(messages.last.conversationId ?? "");
 
+        navigatorKey.currentContext!
+            .read<BadgeViewModel>()
+            .updatemessage(context: navigatorKey.currentContext!);
         print('mmmss---$messages');
       } else {
         messages.clear();
       }
+
+      messages[0].conversationId;
+
       loading = false;
       notifyListeners();
       notifyListeners();
@@ -318,6 +342,16 @@ class ChatDetailsViewModel extends ChangeNotifier {
             .toList();
 
         print('mmmss---$messages');
+        navigatorKey.currentContext!
+            .read<BadgeViewModel>()
+            .setLastMessageId(messages.last.sId ?? "");
+        navigatorKey.currentContext!
+            .read<BadgeViewModel>()
+            .setConversationId(messages.last.conversationId ?? "");
+
+        navigatorKey.currentContext!
+            .read<BadgeViewModel>()
+            .updatemessage(context: navigatorKey.currentContext!);
       } else {
         messages.clear();
       }

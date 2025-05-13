@@ -200,7 +200,7 @@ class _PostCardState extends State<PostCard> {
                 //     context.read<CommentViewModel>();
                 // commentViewModel.currentPage = 0;
                 // commentViewModel.initCommentPagination(post!.sId.toString());
-
+print("dfdjfdjf----${post!.sId}");
                 context
                     .read<CommentViewModel>()
                     .updateIsReply(false, Comments());

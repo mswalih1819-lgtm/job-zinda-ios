@@ -10,6 +10,7 @@ import 'package:jora_customer/view/home_section/home_pages/view/widgets/home_app
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/post_section.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/home_floating_action.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/story_section.dart';
+import 'package:jora_customer/view_model/chat_badge_viewmodel.dart';
 import 'package:jora_customer/view_model/notification_view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
@@ -24,14 +25,30 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   @override
   void initState() {
-    context.read<NotificationViewModel>().fetchNotificationCount();
-    // context.read<ProfileViewModel>().fetchProfile();
-
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+
+    // Also check once on first load
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   context.read<BadgeViewModel>().checkForPendingNotification(context);
+    // });
   }
+
+  // @override
+  // void dispose() {
+  //   WidgetsBinding.instance.removeObserver(this);
+  //   super.dispose();
+  // }
+
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   if (state == AppLifecycleState.resumed) {
+  //     context.read<BadgeViewModel>().checkForPendingNotification(context);
+  //   }
+  // }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   @override
@@ -291,8 +308,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  
 }
 
 Future<void> _makePhoneCall(String phoneNumber) async {
