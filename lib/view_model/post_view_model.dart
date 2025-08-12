@@ -7,6 +7,8 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jora_customer/model/banners_model.dart';
 import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/utils/api_url.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../model/post_model.dart';
 import '../utils/api_service.dart';
 
@@ -25,11 +27,15 @@ class PostViewModel with ChangeNotifier {
   final List<PostModel> _posts = [];
   List<PostModel> get posts => _posts;
   PostViewModel() {
+    initPostPagination();
     initSelfPostPagination(); // Ensure initialization
   }
-  initPostPagination() {
+  initPostPagination() async {
     currentPage = 0;
     postController = PagingController(firstPageKey: 1);
+    notifyListeners();
+
+    // Add listener for pagination
     postController.addPageRequestListener((pageKey) {
       fetchPostWithPagination(pageKey);
     });
@@ -71,16 +77,22 @@ class PostViewModel with ChangeNotifier {
               .map((e) => PostModel.fromJson(e))
               .toList();
 
-          Response response = await ApiService().get(Api.listBanners);
-          // Map<String, dynamic> data = response.data;
 
-          print("banner list----${response.data['data']['banners'].length}");
-          List<Banners> banners = (response.data['data']['banners'] as List?)
-                  ?.map((e) => Banners.fromJson(e))
-                  .toList() ??
-              [];
 
-          // Merge posts and banners based on indices
+          // Fetch banners only on the first page to avoid unnecessary
+          // network calls on subsequent paginated requests. This
+          // significantly reduces payload size and improves initial
+          // rendering time on low-end devices or slow networks.
+          List<Banners> banners = [];
+          if (page == 1) {
+            final bannerRes = await ApiService().get(Api.listBanners);
+            banners = (bannerRes.data['data']['banners'] as List?)
+                    ?.map((e) => Banners.fromJson(e))
+                    .toList() ??
+                [];
+          }
+
+          // Merge posts and banners (if any) based on indices
           List<dynamic> combinedList = _mergePostsAndBanners(posts, banners);
 
           if (data['data']['hasNext']) {
@@ -335,67 +347,38 @@ class PostViewModel with ChangeNotifier {
   }
 
   Future<void> fetchSelfPostWithPagination(int page) async {
-    EasyLoading.show();
-    if (currentPageForSelfPost != page) {
-      currentPageForSelfPost = page;
-      String api = Api.loginUserPostsListUrl;
-      Response response = await ApiService().get('$api&pageNumber=$page');
-      if (response.statusCode == 200) {
-        Map<String, dynamic> data = response.data;
+    // The PagingController handles its own loading indicators, so a global EasyLoading
+    // call is not needed here and can cause conflicting spinners.
+    try {
+      if (currentPageForSelfPost != page) {
+        currentPageForSelfPost = page;
+        String api = Api.loginUserPostsListUrl;
+        Response response = await ApiService().get('$api&pageNumber=$page');
+        if (response.statusCode == 200) {
+          Map<String, dynamic> data = response.data;
 
-        if (data['status']) {
-          List<PostModel> temp = (data['data']['posts'] as List)
-              .map((e) => PostModel.fromJson(e))
-              .toList();
-          print("data--------${temp.length}");
+          if (data['status']) {
+            List<PostModel> temp = (data['data']['posts'] as List)
+                .map((e) => PostModel.fromJson(e))
+                .toList();
 
-          // Check if there is another page and handle pagination accordingly
-          if (data['data']['hasNext']) {
-            selfPostController.appendPage(temp, page + 1);
+            if (data['data']['hasNext']) {
+              selfPostController.appendPage(temp, page + 1);
+            } else {
+              selfPostController.appendLastPage(temp);
+            }
           } else {
-            selfPostController.appendLastPage(temp);
+            selfPostController.error = data['message'] ?? 'Failed to load posts';
           }
         } else {
-          selfPostController.appendLastPage([]);
+          selfPostController.error = 'Failed to load posts';
         }
-      } else {
-        selfPostController.appendLastPage([]);
       }
+    } catch (e) {
+      print('Error fetching self posts: $e');
+      selfPostController.error = e;
     }
-
-    EasyLoading.dismiss();
   }
-
-  // Future<void> fetchSelfPostWithPagination(int page) async {
-  //   EasyLoading.show();
-  //   if (currentPageForSelfPost != page) {
-  //     currentPageForSelfPost = page;
-  //     String api = Api.loginUserPostsListUrl;
-  //     Response response = await ApiService().get('$api&pageNumber=$page');
-  //     if (response.statusCode == 200) {
-  //       Map<String, dynamic> data = response.data;
-
-  //       if (data['status']) {
-  //         List<PostModel> temp = (data['data']['posts'] as List)
-  //             .map((e) => PostModel.fromJson(e))
-  //             .toList();
-  //         print("data--------${temp.length}");
-
-  //         if (data['data']['hasNext']) {
-  //           selfPostController.appendPage(temp, page + 1);
-  //         } else {
-  //           selfPostController.appendLastPage(temp);
-  //         }
-  //       } else {
-  //         selfPostController.appendLastPage([]);
-  //       }
-  //     } else {
-  //       selfPostController.appendLastPage([]);
-  //     }
-  //   }
-
-  //   EasyLoading.dismiss();
-  // }
 
   bool _isFollowed = false;
   bool get isFollowed => _isFollowed;
@@ -405,32 +388,55 @@ class PostViewModel with ChangeNotifier {
   }
 
   ProfileModel? otherUser;
-  Future<bool?> fetchOtherUserProfileDetails({required String userID}) async {
-    EasyLoading.show();
-    Response response =
-        await ApiService().get('${Api.otherUserProfileDetailsUrl}/$userID');
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = response.data;
-      EasyLoading.dismiss();
-      print("delted data----$data");
-      if (data['status']) {
-        otherUser = ProfileModel.fromJson(data['data']['profileDetails']);
-        isFollowed = otherUser?.isFollowing ?? false;
-        visitProfile(userID: userID);
-        notifyListeners();
-        return true;
+
+  PostModel? postDetails;
+
+  String? otherUserProfileError;
+
+  Future<bool> fetchOtherUserProfileDetails({required String userID}) async {
+    print('[fetchOtherUserProfileDetails] called for userID: $userID');
+    EasyLoading.show(status: 'Loading profile...');
+  otherUserProfileError = null;
+    try {
+      final String url = '${Api.otherUserProfileDetailsUrl}/$userID';
+      print('[fetchOtherUserProfileDetails] Request URL: $url');
+      Response response = await ApiService().get(url);
+      print('[fetchOtherUserProfileDetails] HTTP ${response.statusCode}, response.data: ' + response.data.toString());
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        if (data['status']) {
+          otherUser = ProfileModel.fromJson(data['data']['profileDetails']);
+          isFollowed = otherUser?.isFollowing ?? false;
+          visitProfile(userID: userID);
+          notifyListeners();
+          return true;
+        } else {
+          otherUserProfileError = data['message'] ?? 'Failed to load profile.';
+          EasyLoading.showError(otherUserProfileError!);
+          return false;
+        }
       } else {
-        EasyLoading.showError(data['message']);
+        otherUserProfileError = 'Failed to load profile.';
+        EasyLoading.showError(otherUserProfileError!);
         return false;
       }
+    } catch (e) {
+      otherUserProfileError = 'Error: $e';
+      print('[fetchOtherUserProfileDetails] Exception: $e');
+      EasyLoading.showError('An error occurred.');
+      return false;
+    } finally {
+      EasyLoading.dismiss();
     }
-    return null;
-    // EasyLoading.dismiss();
   }
 
   Future<void> visitProfile({required String userID}) async {
-    print("shasjhsjd---${userID}");
-    await ApiService().post(Api.profileVisitUrl, {'profileId': userID});
+    try {
+      await ApiService().post(Api.profileVisitUrl, {'profileId': userID});
+    } catch (e) {
+      print('Error tracking profile visit for $userID: $e');
+    }
   }
 
   late PagingController<int, PostModel> otherUserPostController;
@@ -445,90 +451,195 @@ class PostViewModel with ChangeNotifier {
   }
 
   Future<void> fetchOtherUserPostWithPagination(int page) async {
-    if (currentPageOtherUserPost != page) {
-      currentPageOtherUserPost = page;
-      String api = Api.otherUserPostsListUrl;
-      Response response = await ApiService()
-          .get('$api&pageNumber=$page&&profileId=${otherUser?.sId}');
-      print(response.data.toString());
-      if (response.statusCode == 200) {
-        Map<String, dynamic> data = response.data;
-        if (data['status']) {
-          List<PostModel> temp = (data['data']['posts'] as List)
-              .map((e) => PostModel.fromJson(e))
-              .toList();
+    try {
+      if (currentPageOtherUserPost != page) {
+        currentPageOtherUserPost = page;
+        String api = Api.otherUserPostsListUrl;
+        Response response = await ApiService()
+            .get('$api&pageNumber=$page&&profileId=${otherUser?.sId}');
+        if (response.statusCode == 200) {
+          Map<String, dynamic> data = response.data;
+          if (data['status']) {
+            List<PostModel> temp = (data['data']['posts'] as List)
+                .map((e) => PostModel.fromJson(e))
+                .toList();
 
-          if (data['data']['hasNext']) {
-            otherUserPostController.appendPage(temp, page + 1);
+            if (data['data']['hasNext']) {
+              otherUserPostController.appendPage(temp, page + 1);
+            } else {
+              otherUserPostController.appendLastPage(temp);
+            }
           } else {
-            otherUserPostController.appendLastPage(temp);
+            otherUserPostController.error = data['message'] ?? 'Failed to load posts.';
           }
         } else {
-          otherUserPostController.appendLastPage([]);
+          otherUserPostController.error = 'Failed to load posts.';
         }
-      } else {
-        otherUserPostController.appendLastPage([]);
       }
+    } catch(e) {
+        otherUserPostController.error = e;
     }
   }
 
   Future<void> followUser({String? userID}) async {
-    Response response =
-        await ApiService().post(Api.followUrl, {'profileId': otherUser?.sId});
-    log(response.data.toString());
-    if (userID != null) {
-      currentPage = 0;
-      postController.refresh();
+    EasyLoading.show(status: 'Following...');
+    try {
+      Response response =
+          await ApiService().post(Api.followUrl, {'profileId': otherUser?.sId});
+      if (response.data['status']) {
+        EasyLoading.showSuccess("Followed");
+        if (userID != null) {
+          currentPage = 0;
+          postController.refresh();
+        }
+        await fetchOtherUserProfileDetails(userID: otherUser?.sId ?? "");
+      } else {
+        EasyLoading.showError(response.data['message'] ?? 'Failed to follow.');
+      }
+    } catch (e) {
+      print('Error following user: $e');
+      EasyLoading.showError('An error occurred.');
+    } finally {
+      EasyLoading.dismiss();
     }
-    fetchOtherUserProfileDetails(userID: otherUser?.sId ?? "");
-    EasyLoading.showSuccess("Followed");
   }
 
   Future<void> unFollowUser({String? userID}) async {
-    String? id = userID ?? otherUser?.sId;
-    Response response =
-        await ApiService().post(Api.unfollowUrl, {'profileId': id});
-
-    log(response.data.toString());
-
-    print("useridd------$userID");
-    if (userID != null) {
-      currentPage = 0;
-      postController.refresh();
+    EasyLoading.show(status: 'Unfollowing...');
+    try {
+      String? id = userID ?? otherUser?.sId;
+      Response response =
+          await ApiService().post(Api.unfollowUrl, {'profileId': id});
+      if(response.data['status']) {
+        EasyLoading.showSuccess("Unfollowed");
+        if (userID != null) {
+          currentPage = 0;
+          postController.refresh();
+        }
+        await fetchOtherUserProfileDetails(userID: otherUser?.sId ?? "");
+      } else {
+        EasyLoading.showError(response.data['message'] ?? 'Failed to unfollow.');
+      }
+    } catch(e) {
+      print('Error unfollowing user: $e');
+      EasyLoading.showError('An error occurred.');
+    } finally {
+        EasyLoading.dismiss();
     }
-    fetchOtherUserProfileDetails(userID: otherUser?.sId ?? "");
-
-    EasyLoading.showSuccess("Unfollowed");
   }
 
   Future<void> postLike({required String postID}) async {
-    await ApiService().post(Api.postLikeUrl, {'postId': postID});
-    fetchPostDetails();
-    // currentPage = 0;
-    // postController.refresh();
+    try {
+      await ApiService().post(Api.postLikeUrl, {'postId': postID});
+      await fetchPostDetails();
+    } catch (e) {
+      print('Error liking post: $e');
+    }
   }
 
-  PostModel? postDetails;
   Future<void> fetchPostDetails() async {
     EasyLoading.show();
-
-    print("postttt-----${postDetails?.sId}");
-    Response response =
-        await ApiService().get('${Api.fetchPostDetails}/${postDetails?.sId}');
-    log(response.realUri.toString());
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = response.data;
-      if (data['status']) {
-        postDetails = PostModel.fromJson(data['data']['post']);
-        postDetails!.user!.sId = data['data']['post']['user'];
-        notifyListeners();
+    try {
+      Response response =
+          await ApiService().get('${Api.fetchPostDetails}?postId=${postDetails?.sId}');
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        if (data['status']) {
+          postDetails = PostModel.fromJson(data['data']['post']);
+          notifyListeners();
+          EasyLoading.dismiss();
+        } else {
+          EasyLoading.showError(data['message'] ?? 'Failed to load post.');
+        }
+      } else {
+        // EasyLoading.showError('Failed to load post.');
       }
+    } catch (e) {
+      print('Error fetching post details: $e');
+      EasyLoading.showError('An error occurred.');
+    } finally {
+      EasyLoading.dismiss();
     }
-    EasyLoading.dismiss();
   }
 
-  Future<void> reportProfile(
-      {required String profileId, required BuildContext context}) async {
+  Future<List<ProfileModel>> getUsersForMap() async {
+    EasyLoading.show(status: 'Loading users...');
+    try {
+      String api = Api.getNearestProfiles;
+      Response response = await ApiService().get(api);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        if (data['status']) {
+          List<ProfileModel> temp = (data['data']['users'] as List)
+              .map((e) => ProfileModel.fromJson(e))
+              .toList();
+          return temp;
+        }
+      }
+      return [];
+    } catch (e) {
+      print('Error getting users for map: $e');
+      EasyLoading.showError('Failed to load users.');
+      return [];
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  Future<void> removePost(BuildContext context, String postId) async {
+    EasyLoading.show(status: 'Deleting Post...');
+    try {
+      final response = await ApiService().delete('${Api.removePost}/$postId');
+      if (response.statusCode == 200) {
+        EasyLoading.showSuccess('Post deleted successfully');
+        postController.refresh();
+        selfPostController.refresh();
+      } else {
+        EasyLoading.showError('Failed to delete post');
+      }
+    } catch (e) {
+      EasyLoading.showError('An error occurred while deleting the post.');
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  Future<void> blockUser(BuildContext context, {required String id}) async {
+    EasyLoading.show(status: 'Blocking User...');
+    try {
+      final response = await ApiService().post(Api.blockUser, {'userId': id});
+      if (response.statusCode == 200 && response.data['status']) {
+        EasyLoading.showSuccess('User blocked successfully');
+        await fetchOtherUserProfileDetails(userID: id);
+      } else {
+        EasyLoading.showError(response.data['message'] ?? 'Failed to block user');
+      }
+    } catch (e) {
+      EasyLoading.showError('An error occurred while blocking the user.');
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  Future<void> unblockUser(BuildContext context, {required String id}) async {
+    EasyLoading.show(status: 'Unblocking User...');
+    try {
+      final response = await ApiService().post(Api.unblockUser, {'userId': id});
+      if (response.statusCode == 200 && response.data['status']) {
+        EasyLoading.showSuccess('User unblocked successfully');
+        await fetchOtherUserProfileDetails(userID: id);
+      } else {
+        EasyLoading.showError(response.data['message'] ?? 'Failed to unblock user');
+      }
+    } catch (e) {
+      EasyLoading.showError('An error occurred while unblocking the user.');
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+Future<void> reportProfile(
+    {required String profileId, required BuildContext context}) async {
     EasyLoading.show();
     Map body = {'profileId': profileId, 'reason': ''};
 
@@ -549,118 +660,5 @@ class PostViewModel with ChangeNotifier {
       }
     }
     EasyLoading.dismiss();
-  }
-
-  blockUser(
-    BuildContext context, {
-    required String id,
-  }) async {
-    EasyLoading.show();
-    Map body = {"blockedAccountId": id, "selectedReasons": ""};
-
-    Response response = await ApiService().post(Api.blockUser, body);
-    print("block user--$body--${response.data}");
-    EasyLoading.dismiss();
-
-    if (response.data['status']) {
-      fetchOtherUserProfileDetails(userID: id);
-
-      EasyLoading.showSuccess("User blocked");
-    }
-  }
-
-  unblockUser(
-    BuildContext context, {
-    required String id,
-  }) async {
-    EasyLoading.show();
-
-    Map body = {"blockedAccountId": id};
-
-    Response response = await ApiService().delete(Api.unblockUser, body);
-    print("unblock user----${response.data}");
-    EasyLoading.dismiss();
-    if (response.data['status']) {
-      fetchOtherUserProfileDetails(userID: id);
-
-      EasyLoading.showSuccess("User Unblocked");
-    }
-  }
-
-  // removePost(BuildContext context,
-  //     {required String id, required String page}) async {
-  //   EasyLoading.show();
-  //   String url = "${Api.removePost}/$id";
-  //   Response response = await ApiService().delete(
-  //     url,
-  //   );
-
-  //   print("removeost user----${response.data}");
-  //   EasyLoading.dismiss();
-
-  //   if (response.data['status']) {
-  //     // _posts.removeWhere((post) => post.sId == id);
-  //     // notifyListeners();
-
-  //     if (page == "post") {
-  //       isForYou = true;
-  //       currentPage = 0;
-  //       postController.refresh();
-  //     } else {
-  //       currentPageForSelfPost = 0;
-  //       selfPostController.refresh();
-  //       // _posts.removeWhere((post) => post.sId == id);
-
-  //       // // Update the page to avoid duplicate data
-  //       // List<PostModel> updatedPosts =
-  //       //     _posts; // Assuming _posts holds the full list of posts
-
-  //       // // Manually refresh the page content
-  //       // if (_posts.isNotEmpty) {
-  //       //   selfPostController.appendPage(updatedPosts, currentPage + 1);
-  //       // } else {
-  //       //   selfPostController.appendLastPage([]);
-  //       // }
-  //     }
-
-  //     EasyLoading.showSuccess(response.data['message']);
-  //     notifyListeners();
-  //   }
-  // }
-
-  removePost(BuildContext context,
-      {required String id, required String page}) async {
-    EasyLoading.show();
-    String url = "${Api.removePost}/$id";
-    Response response = await ApiService().delete(url);
-
-    print("removePost user----${response.data}");
-    EasyLoading.dismiss();
-
-    if (response.data['status']) {
-      // After deletion, reset pagination to ensure no duplicate posts are shown
-      if (page == "post") {
-        isForYou = true;
-        currentPage = 0;
-        postController.refresh(); // Refreshing the main feed
-      } else {
-        // Reset self posts pagination and remove the post from the list
-        currentPageForSelfPost = 0;
-        selfPostController.refresh(); // Refresh pagination after post removal
-
-        _posts.removeWhere((post) => post.sId == id);
-        notifyListeners();
-
-        // Append the updated list of posts after removal
-        // if (_posts.isNotEmpty) {
-        //   selfPostController.appendPage(_posts, currentPageForSelfPost + 1);
-        // } else {
-        //   selfPostController.appendLastPage([]);
-        // }
-      }
-
-      EasyLoading.showSuccess(response.data['message']);
-      notifyListeners();
-    }
   }
 }

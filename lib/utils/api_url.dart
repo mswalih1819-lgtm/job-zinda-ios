@@ -3,21 +3,25 @@ import '../model/logged_in_user.dart';
 class AppUrl {
   static const String scurity = 'https';
 
-  static const isProduction = true;
+  // static const isProduction = true;
+  // For local development, set to false and use your LAN IP below:
+  static const isProduction = false;
 
   static String get baseurl {
     if (isProduction == false) {
-      return "http://3.110.26.51:4001";
+      return "http://192.168.1.8:4001"; // <-- Local backend for development
+    //   return "http://ec2-3-110-26-51.ap-south-1.compute.amazonaws.com:4001";
     } else {
-      return "https://server.joraappfreelancers.com";
+      return "https://server.jobzinda.com"; // <-- Production backend
     }
   }
 
   static String get httpBaseUrl {
     if (isProduction == false) {
-      return '3.110.26.51:4001';
+      return '192.168.1.8:4001'; // <-- Local backend for development
+    //   return 'ec2-3-110-26-51.ap-south-1.compute.amazonaws.com:4001';
     } else {
-      return 'server.joraappfreelancers.com';
+      return 'server.jobzinda.com'; // <-- Production backend
     }
   }
 
@@ -35,7 +39,10 @@ class Api {
   }
 
   // static const baseurl = 'http://3.110.26.51:4001';
-  static const baseurl = 'https://server.joraappfreelancers.com';
+//   static const baseurl = 'https://server.jobzinda.com';
+  // For local dev, use:
+  static const baseurl = 'http://192.168.1.8:4001'; // <-- Local backend for development
+//   static const baseurl = 'http://ec2-3-110-26-51.ap-south-1.compute.amazonaws.com:4001'; // <-- Local backend for development
   static const storiesListUrl =
       '$baseurl/api/v1/story/listStories?pageLimit=10';
   static const suggestedPostsListUrl =

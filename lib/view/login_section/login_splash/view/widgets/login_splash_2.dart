@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
@@ -17,7 +19,7 @@ class LoginSplash2Ui extends StatelessWidget {
         actions: [
           GestureDetector(
               onTap: () {
-              Navigator.pushNamedAndRemoveUntil(context, PPages.wrapperView , (route) => false,) ;
+              context.go('/home') ;
               },
               child: Icon(
                 Icons.close,
@@ -65,7 +67,7 @@ class LoginSplash2Ui extends StatelessWidget {
           borderRadius: 0,
           text: "Not now",
           onPressed: () {
-             Navigator.pushNamedAndRemoveUntil(context, PPages.wrapperView , (route) => false,) ;
+             context.go('/home') ;
           },
           bgcolor: PColors.black2,
           textColor: PColors.white,
@@ -78,7 +80,7 @@ class LoginSplash2Ui extends StatelessWidget {
           borderRadius: 0,
           text: "Sure",
           onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(context, PPages.wrapperView , (route) => false,) ;
+            context.go('/home') ;
           },
           bgcolor: PColors.white,
           textColor: PColors.black,

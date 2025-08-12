@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:jora_customer/widgets/safe_cached_network_image.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
-import 'package:jora_customer/main.dart';
 import 'package:jora_customer/model/conversation_model.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/view_model/chat_details_view_model.dart';
@@ -42,7 +42,7 @@ class ChatAppbarUi extends StatelessWidget {
             return CircleAvatar(
               backgroundImage: profileImage.isEmpty
                   ? AssetImage(PImages.profile)
-                  : NetworkImage(profileImage) as ImageProvider,
+                  : safeImageProvider(profileImage, placeholderAsset: PImages.profile),
             );
           },
         ),
@@ -92,7 +92,7 @@ class ChatAppbarUi extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            navigatorKey.currentContext!
+            context
                 .read<ChatViewModel>()
                 .fetchAllConversations();
             Navigator.pop(context);
@@ -103,7 +103,7 @@ class ChatAppbarUi extends StatelessWidget {
         CircleAvatar(
           backgroundImage: profileImageUrl.isEmpty
               ? AssetImage(PImages.profile)
-              : NetworkImage(profileImageUrl) as ImageProvider,
+              : safeImageProvider(profileImageUrl, placeholderAsset: PImages.profile),
         ),
         const SizedBox(width: 10),
         textWidget(

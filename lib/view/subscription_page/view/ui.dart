@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
@@ -33,7 +35,9 @@ class SubscriptionPageUi extends StatelessWidget {
         borderRadius: 0,
         textColor: PColors.black,
         text: "Lets go",
-        onPressed: () {},
+        onPressed: () {
+          context.pushNamed(PPages.planListUi);
+        },
       ),
       body: SingleChildScrollView(
         child: SafeArea(

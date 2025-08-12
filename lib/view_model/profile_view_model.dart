@@ -4,7 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
-import 'package:jora_customer/main.dart';
+import 'package:jora_customer/main.dart' as main_app;
 import 'package:jora_customer/model/feedback_model.dart';
 import 'package:jora_customer/model/followers_model.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
@@ -17,6 +17,7 @@ import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 import 'package:jora_customer/view_model/location_view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileViewModel with ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
@@ -42,42 +43,66 @@ class ProfileViewModel with ChangeNotifier {
   final int pageSize = 10;
   bool hasMoreData = true;
   Future<void> fetchProfile() async {
-    // if (profileModel == null) {
-    EasyLoading.show();
-    // }
-    Response response = await ApiService().get(Api.profileDetailsUrl);
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = response.data;
-      if (data['status']) {
-        profileModel = ProfileModel.fromJson(data['data']['profileDetails']);
-        print("hhh----${profileModel!.sId}");
-        LoggedInUser.profile(data['data']['profileDetails']);
-        notifyListeners();
-      }
+    EasyLoading.show(status: 'Loading Profile...');
+    try {
+      Response response = await ApiService().get(Api.profileDetailsUrl);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        if (data['status']) {
+          profileModel = ProfileModel.fromJson(data['data']['profileDetails']);
+          LoggedInUser.profile(data['data']['profileDetails']);
+          
+          // Update controllers after successfully fetching data
+          nameController.text = profileModel!.name ?? '';
+          selectedProfession = profileModel!.profession ?? "";
+          selectedProfessionId = profileModel!.professionId ?? "";
+          phoneController.text = profileModel!.mobileNumber ?? '';
+          bioController.text = profileModel!.bio ?? '';
+          emailController.text = profileModel!.email ?? '';
+          selectedGender = profileModel!.gender ?? "";
+          addressController.text = profileModel!.address ?? '';
+          cityController.text = profileModel!.district ?? '';
 
-      nameController.text = profileModel!.name ?? '';
-      selectedProfession = profileModel!.profession ?? "";
-      print("seleceted----$selectedProfession");
-      selectedProfessionId = profileModel!.professionId ?? "";
-      phoneController.text = profileModel!.mobileNumber ?? '';
-      bioController.text = profileModel!.bio ?? '';
-      emailController.text = profileModel!.email ?? '';
-      selectedGender = profileModel!.gender ?? "";
-      addressController.text = profileModel!.address ?? '';
-      cityController.text = profileModel!.district ?? '';
-      stateController.text = profileModel!.state ?? "";
-      if (profileModel!.lat == 0 && profileModel!.lng == 0) {
-        Position position = await Geolocator.getCurrentPosition(
-          forceAndroidLocationManager: true,
-          desiredAccuracy: LocationAccuracy.medium,
-        );
+          // Immediately dismiss loading after profile data is parsed so UI is responsive.
+          EasyLoading.dismiss();
+          stateController.text = profileModel!.state ?? "";
 
-        profileModel!.lat = position.latitude;
-        profileModel!.lng = position.longitude;
+          if (profileModel!.lat == 0 && profileModel!.lng == 0) {
+            Position? position;
+            try {
+              LocationPermission permission = await Geolocator.checkPermission();
+              if (permission == LocationPermission.denied) {
+                permission = await Geolocator.requestPermission();
+              }
+
+              if (permission == LocationPermission.denied ||
+                  permission == LocationPermission.deniedForever) {
+                debugPrint('[fetchProfile] Location permission denied. Using fallback coordinates.');
+              } else {
+                position = await Geolocator.getCurrentPosition(
+                  forceAndroidLocationManager: true,
+                  desiredAccuracy: LocationAccuracy.medium,
+                );
+              }
+            } catch (e) {
+              debugPrint('[fetchProfile] Error getting location: $e');
+            }
+
+            if (position != null) {
+              profileModel!.lat = position.latitude;
+              profileModel!.lng = position.longitude;
+            }
+          }
+        }
       }
+    } catch (e) {
+      debugPrint('Error fetching profile: $e');
+      // Optionally show an error message
+      // EasyLoading.showError('Failed to load profile.');
+    } finally {
+      EasyLoading.dismiss();
       notifyListeners();
     }
-    EasyLoading.dismiss();
   }
 
   updateState(String val) {
@@ -85,148 +110,176 @@ class ProfileViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+
+
   Future<void> fetchProfession() async {
-    if (profileModel == null) {
-      EasyLoading.show();
-    }
-
-    // String url = '${Api.getProfession}?pageNumber=&pageSize=&searchTag=';
-
-    Response response = await ApiService()
-        .get('${Api.getProfession}?pageNumber=1&pageSize=100&searchTag=');
-    // Response response = await ApiService().get(url);
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = response.data;
-      print("professionList---$data");
-
-      if (data['status']) {
-        // print("professionList---${data['data']['categories'] }");
-
-        professionList = (data['data']['categories'] as List)
-            .map(
-              (e) => ProfessionModel.fromJson(e),
-            )
-            .toList();
-
-        notifyListeners();
+    EasyLoading.show(status: 'Loading Professions...');
+    try {
+      Response response = await ApiService()
+          .get('${Api.getProfession}?pageNumber=1&pageSize=100&searchTag=');
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        if (data['status']) {
+          professionList = (data['data']['categories'] as List)
+              .map(
+                (e) => ProfessionModel.fromJson(e),
+              )
+              .toList();
+        }
       }
+    } catch (e) {
+      print('Error fetching professions: $e');
+      EasyLoading.showError('Failed to load professions.');
+    } finally {
+      EasyLoading.dismiss();
+      notifyListeners();
     }
-    EasyLoading.dismiss();
   }
 
   Future<void> updateProfileImage({required String url}) async {
-    EasyLoading.show();
-    Response response = await ApiService()
-        .put(Api.updateProfileImage, {'profileImageUrl': url});
+    EasyLoading.show(status: 'Updating...');
+    try {
+      Response response =
+          await ApiService().put(Api.updateProfileImage, {'profileImageUrl': url});
 
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = response.data;
-      if (data['status']) {
-        if (data.containsKey('message')) {
-          EasyLoading.showSuccess(data['message']);
-          LoggedInUser.profile(data['data']['profileDetails']);
-          fetchProfile();
-
-          notifyListeners();
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        if (data['status']) {
+          if (data.containsKey('message')) {
+            EasyLoading.showSuccess(data['message']);
+            LoggedInUser.profile(data['data']['profileDetails']);
+            await fetchProfile(); // This already calls notifyListeners
+          }
+        } else {
+          EasyLoading.showError(data['message'] ?? 'Failed to update image.');
         }
+      } else {
+        EasyLoading.showError('Failed to update image.');
       }
+    } catch (e) {
+      print('Error updating profile image: $e');
+      EasyLoading.showError('An error occurred.');
+    } finally {
+      EasyLoading.dismiss();
     }
-    EasyLoading.dismiss();
   }
 
   Future<void> updateNormalProfile(
       {required String name,
       required String email,
       required BuildContext context}) async {
-    EasyLoading.show();
-
-    Map body = {
-      'name': name,
-      'email': email,
-    };
-    Response response = await ApiService().put(Api.updateProfile, body);
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = response.data;
-      if (data['status']) {
-        //
-        if (data.containsKey('message')) {
-          EasyLoading.showSuccess(data['message']);
-          LoggedInUser.profile(data['data']['profileDetails']);
-          fetchProfile();
-          notifyListeners();
+    EasyLoading.show(status: 'Updating Profile...');
+    try {
+      Map body = {
+        'name': name,
+        'email': email,
+      };
+      Response response = await ApiService().put(Api.updateProfile, body);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        if (data['status']) {
+          if (data.containsKey('message')) {
+            EasyLoading.showSuccess(data['message']);
+            LoggedInUser.profile(data['data']['profileDetails']);
+            await fetchProfile(); // This calls notifyListeners
+            if (context.mounted) Navigator.pop(context);
+          }
+        } else {
+          EasyLoading.showError(data['message'] ?? 'Failed to update profile.');
         }
+      } else {
+        EasyLoading.showError('Failed to update profile.');
       }
+    } catch (e) {
+      print('Error updating normal profile: $e');
+      EasyLoading.showError('An error occurred.');
+    } finally {
+      EasyLoading.dismiss();
     }
-    EasyLoading.dismiss();
-    Navigator.pop(context);
   }
 
-  updateProfession(String profession, String professionId) {
-    selectedProfession = profession;
+  updateSelectedProfession(String professionId) {
     selectedProfessionId = professionId;
+    if (professionList.any((p) => p.sId == professionId)) {
+      selectedProfession = professionList.firstWhere((p) => p.sId == professionId).name;
+    }
     notifyListeners();
   }
 
   Future<void> updateFreelancerProfile({required BuildContext context}) async {
-    EasyLoading.show();
+    EasyLoading.show(status: 'Updating Profile...');
+    try {
+      Map body = {
+        'name': nameController.text,
+        'email': emailController.text,
+        "gender": selectedGender,
+        "lat": context.read<LocationViewModel>().latitude,
+        "profession": selectedProfession,
+        "lng": context.read<LocationViewModel>().longitude,
+        "bio": bioController.text,
+        "address": addressController.text,
+        "zipcode": zipCodeController.text,
+        "professionId": selectedProfessionId,
+        'state': stateController.text,
+        'district': cityController.text
+      };
+      Response response = await ApiService().put(Api.updateProfile, body);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        if (data['status']) {
+          if (data.containsKey('message')) {
+            LoggedInUser.profile(data['data']['profileDetails']);
+            EasyLoading.showSuccess(data['message']);
 
-    Map body = {
-      'name': nameController.text,
-      'email': emailController.text,
-      "gender": selectedGender,
-      "lat": context.read<LocationViewModel>().latitude,
-      "profession": selectedProfession,
-      "lng": context.read<LocationViewModel>().longitude,
-      "bio": bioController.text,
-      "address": addressController.text,
-      "zipcode": zipCodeController.text,
-      "professionId": selectedProfessionId,
-      'state': stateController.text,
-      'district': cityController.text
-    };
-    print("freelancer ----$body");
-    Response response = await ApiService().put(Api.updateProfile, body);
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = response.data;
-      if (data['status']) {
-        // Navigator.pop(context);
-        if (data.containsKey('message')) {
-          LoggedInUser.profile(data['data']['profileDetails']);
-          EasyLoading.showSuccess(data['message']);
-          // navigatorKey.currentContext!.read<PostViewModel>().currentPage = 0;
-          // navigatorKey.currentContext!
-          //     .read<PostViewModel>()
-          //     .initSelfPostPagination();
-          Navigator.pop(context);
-          Navigator.pop(context);
-
-          navigatorKey.currentContext!
-              .read<WrapperViewModel>()
-              .updatePageView(WrapperViewStatus.profile);
-          // Navigator.pushNamed(navigatorKey.currentContext!, PPages.wrapperView);
-          notifyListeners();
+            if (context.mounted) {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              context
+                  .read<WrapperViewModel>()
+                  .updatePageView(WrapperViewStatus.profile);
+            }
+            notifyListeners(); // Manual notify since we are not calling fetchProfile
+          }
+        } else {
+          EasyLoading.showError(data['message'] ?? 'Failed to update profile.');
         }
+      } else {
+        EasyLoading.showError('Failed to update profile.');
       }
+    } catch (e) {
+      print('Error updating freelancer profile: $e');
+      EasyLoading.showError('An error occurred.');
+    } finally {
+      EasyLoading.dismiss();
     }
-    EasyLoading.dismiss();
   }
 
   Future<void> updateCoverImage({required String url}) async {
-    EasyLoading.show();
-    Response response =
-        await ApiService().put(Api.updateCoverImage, {'coverImage': url});
+    EasyLoading.show(status: 'Updating Cover Image...');
+    try {
+      Response response =
+          await ApiService().put(Api.updateCoverImage, {'coverImage': url});
 
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = response.data;
-      if (data['status']) {
-        if (data.containsKey('message')) {
-          EasyLoading.showSuccess(data['message']);
-          fetchProfile();
-          notifyListeners();
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        if (data['status']) {
+          if (data.containsKey('message')) {
+            EasyLoading.showSuccess(data['message']);
+            await fetchProfile(); // This calls notifyListeners
+          }
+        } else {
+          EasyLoading.showError(
+              data['message'] ?? 'Failed to update cover image.');
         }
+      } else {
+        EasyLoading.showError('Failed to update cover image.');
       }
+    } catch (e) {
+      print('Error updating cover image: $e');
+      EasyLoading.showError('An error occurred.');
+    } finally {
+      EasyLoading.dismiss();
     }
-    EasyLoading.dismiss();
   }
 
   userLogout(BuildContext context) async {
@@ -237,22 +290,30 @@ class ProfileViewModel with ChangeNotifier {
 
     if (response.data['status']) {
       LoggedInUser.clearUserData();
-      Navigator.pushReplacementNamed(context, PPages.loginWelcomeScreenUi);
+      context.goNamed(PPages.loginWelcomeScreenUi);
     }
   }
 
   deleteProfile(BuildContext context) async {
-    EasyLoading.show();
-    Response response = await ApiService().patch(
-      Api.deleteProfile,
-    );
-    EasyLoading.dismiss();
-    if (response.data['status']) {
-      EasyLoading.showSuccess(response.data['message']);
-
-      LoggedInUser.clearUserData();
-      Navigator.pop(context);
-      Navigator.pushReplacementNamed(context, PPages.loginWelcomeScreenUi);
+    EasyLoading.show(status: 'Deleting Profile...');
+    try {
+      Response response = await ApiService().patch(
+        Api.deleteProfile,
+      );
+      if (response.data['status']) {
+        EasyLoading.showSuccess(response.data['message']);
+        LoggedInUser.clearUserData();
+        if (context.mounted) {
+          context.goNamed(PPages.loginWelcomeScreenUi);
+        }
+      } else {
+        EasyLoading.showError(response.data['message'] ?? 'Failed to delete profile.');
+      }
+    } catch (e) {
+      print('Error deleting profile: $e');
+      EasyLoading.showError('An error occurred.');
+    } finally {
+      EasyLoading.dismiss();
     }
   }
 
@@ -261,30 +322,35 @@ class ProfileViewModel with ChangeNotifier {
       required String review,
       required String profileId,
       required BuildContext context}) async {
-    EasyLoading.show();
-
-    Map body = {'rating': rating, 'review': review, 'profileId': profileId};
-    Response response = await ApiService().post(Api.profileRating, body);
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = response.data;
-
-      print('rating-----$data');
-      if (data['status']) {
-        //
-        if (data.containsKey('message')) {
-          EasyLoading.showSuccess(data['message']);
-          context
-              .read<PostViewModel>()
-              .fetchOtherUserProfileDetails(userID: profileId);
-
-          notifyListeners();
+    EasyLoading.show(status: 'Submitting Rating...');
+    try {
+      Map body = {'rating': rating, 'review': review, 'profileId': profileId};
+      Response response = await ApiService().post(Api.profileRating, body);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        if (data['status']) {
+          if (data.containsKey('message')) {
+            EasyLoading.showSuccess(data['message']);
+            context
+                .read<PostViewModel>()
+                .fetchOtherUserProfileDetails(userID: profileId);
+            notifyListeners();
+          }
+        } else {
+          EasyLoading.showError(data['message'] ?? 'Failed to submit rating.');
         }
       } else {
-        EasyLoading.showError(data['message']);
+        EasyLoading.showError('Failed to submit rating.');
+      }
+    } catch (e) {
+      print('Error adding profile rating: $e');
+      EasyLoading.showError('An error occurred.');
+    } finally {
+      EasyLoading.dismiss();
+      if (context.mounted) {
+        Navigator.pop(context);
       }
     }
-    EasyLoading.dismiss();
-    Navigator.pop(context);
   }
 
   String _searchKeyword = "";

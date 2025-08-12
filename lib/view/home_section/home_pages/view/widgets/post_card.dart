@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:jora_customer/widgets/safe_cached_network_image.dart';
+import 'package:jora_customer/Settings/until/PImages.dart';
+import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/time_function.dart';
-import 'package:jora_customer/main.dart';
 import 'package:jora_customer/model/comment_model.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/post_model.dart';
@@ -9,10 +13,9 @@ import 'package:jora_customer/view/comment_pages/ui.dart';
 import 'package:jora_customer/view_model/comment_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
-import '../../../../../Settings/until/PColors.dart';
-import '../../../../../Settings/until/PImages.dart';
-import '../../../../../Settings/until/PSvgs.dart';
+
 import '../../../../../Settings/widgets/text_widget.dart';
+import '../../../../../Settings/widgets/verified_text.dart';
 import '../../../../../view_model/post_view_model.dart';
 import '../../../../other_user_profile/view/other_user_profile_screen.dart';
 import '../../../../video_player/video_player.dart';
@@ -39,51 +42,50 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
+    final profileUrl = widget.post?.user?.userProfilePicture;
+    final mediaUrl = widget.post?.mediaUrl;
+
     return Column(
       children: [
         ListTile(
-          onTap: () async {
-            bool? status = await context
-                .read<PostViewModel>()
-                .fetchOtherUserProfileDetails(
-                    userID: widget.post?.user?.sId ?? '');
-
-            if (status!) {
+          onTap: () {
+            if (widget.post?.user?.sId != null) {
               Navigator.push(
-                  navigatorKey.currentContext!,
-                  MaterialPageRoute(
-                    builder: (context) => const OtherUserProfileScreen(),
-                  ));
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      OtherUserProfileScreen(userId: widget.post!.user!.sId),
+                ),
+              );
             }
           },
           contentPadding: EdgeInsets.zero,
           title: widget.post?.user == null
               ? const SizedBox()
-              : textWidget(
+              : VerifiedText(
                   text: widget.post?.user?.userName ?? '',
-                  color: PColors.white),
+                  isVerified: widget.post?.user?.isVerified ?? false,
+                  style: TextStyle(
+                      color: PColors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                ),
           subtitle: textWidget(
               text: widget.post?.user?.professionName ?? '',
               color: PColors.whiteOff.withOpacity(0.5)),
-          leading: Container(
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    image: widget.post!.user!.userProfilePicture!.isEmpty
-                        ? AssetImage(PImages.profile)
-                        : NetworkImage(
-                            widget.post?.user?.userProfilePicture ?? ''),
-                    fit: BoxFit.cover),
-              )),
+          leading: CircleAvatar(
+            radius: 20,
+            backgroundImage: safeImageProvider(profileUrl, placeholderAsset: PImages.profile),
+            onBackgroundImageError: (exception, stackTrace) {
+              debugPrint('Profile image load error: $exception');
+            },
+          ),
           trailing: widget.post?.user?.sId == null
               ? Container()
               : widget.post?.user?.sId == LoggedInUser.id
                   ? IconButton(
                       onPressed: () async {
-                        await context.read<PostViewModel>().removePost(context,
-                            id: widget.post!.sId.toString(), page: "post");
+                        await context.read<PostViewModel>().removePost(context, widget.post!.sId!);
                       },
                       icon: Icon(
                         Icons.delete,
@@ -101,7 +103,6 @@ class _PostCardState extends State<PostCard> {
                             .updateBottomsheetoen(true);
                         showBottomSheet(
                           shape: const BeveledRectangleBorder(),
-                          // clipBehavior: Clip.hardEdge,
                           backgroundColor: PColors.black,
                           context: context,
                           builder: (context) =>
@@ -118,20 +119,23 @@ class _PostCardState extends State<PostCard> {
             alignment: Alignment.centerLeft,
             child: Text(widget.post!.bio!),
           ),
-        if (widget.post?.mediaType == 'image')
-          // Image.network(widget.post?.mediaUrl ?? '', fit: BoxFit.fitWidth,)
-          Container(
-            width: double.infinity, // Takes the full width of the parent
-            child: Image.network(
-              widget.post?.mediaUrl ?? '',
-              fit: BoxFit
-                  .contain, // Adjust to the natural size of the image while maintaining aspect ratio
-              filterQuality:
-                  FilterQuality.high, // For high-resolution rendering
+        if (widget.post?.mediaType == 'image' &&
+            mediaUrl != null &&
+            mediaUrl.isNotEmpty)
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: CachedNetworkImage(
+              imageUrl: mediaUrl,
+              fit: BoxFit.cover,
+              memCacheWidth: 800,
+              memCacheHeight: 800,
+              placeholder: (context, url) => const SizedBox(height: 200),
+              errorWidget: (context, url, error) => const SizedBox(),
             ),
           )
-        else if (widget.post?.mediaType == 'video')
-          // Text(widget.post!.thumbnail.toString()),
+        else if (widget.post?.mediaType == 'video' &&
+            mediaUrl != null &&
+            mediaUrl.isNotEmpty)
           InkWell(
               onTap: () {
                 Navigator.push(
@@ -143,7 +147,6 @@ class _PostCardState extends State<PostCard> {
               child: Container(
                 height: 300,
                 width: double.infinity - 100,
-                // color: Colors.transparent,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.cover,
@@ -151,7 +154,11 @@ class _PostCardState extends State<PostCard> {
                           widget.post!.thumbnail != null
                               ? widget.post!.thumbnail.toString()
                               : "",
-                        ))),
+                        ),
+                        onError: (exception, stackTrace) {
+                          // Avoid propagating the error to FlutterError.
+                          debugPrint('Thumbnail load error: $exception');
+                        })),
                 alignment: Alignment.center,
                 child: const Icon(
                   Icons.play_circle,

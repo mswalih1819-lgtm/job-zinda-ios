@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
+import 'package:jora_customer/services/app_link_service.dart';
 
 import '../../../Settings/until/PPages.dart';
 import '../../../model/logged_in_user.dart';
+import 'package:provider/provider.dart';
+import '../../../view_model/location_view_model.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,23 +23,31 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   checkLogin() async {
-    await LoggedInUser.getUserDetails();
-    // await Future.delayed(const Duration(seconds: 2));
-    print("sndnfndf---${LoggedInUser.refreshToken}");
-    if (LoggedInUser.refreshToken == null) {
-      // ignore: use_build_context_synchronously
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pushReplacementNamed(context, PPages.welcomePageUi);
-      });
-      return;
+    // It's crucial to handle permissions before any other async operations that might conflict.
+    if (mounted) {
+      await Provider.of<LocationViewModel>(context, listen: false).checkLocation(context);
     }
-    if (LoggedInUser.accessToken != '') {
-      // context.read<ProfileViewModel>().fetchProfile();
-      // Future.delayed(Duration(seconds: 3));
-      Navigator.pushReplacementNamed(context, PPages.wrapperView);
+    if (!mounted) return;
+
+    // First, ensure user details are loaded.
+    await LoggedInUser.getUserDetails();
+    if (!mounted) return;
+
+    // Signal to the AppLinkService that initialization is complete and get any pending deep link path.
+    final appLinkService = AppLinkService();
+    final String? deepLinkPath = await appLinkService.completeInitializationAndGetPath();
+
+    if (!mounted) return;
+
+    // Determine navigation target
+    if (LoggedInUser.refreshToken == null) {
+      context.replace(PPages.welcomePageUi);
+    } else if (LoggedInUser.accessToken != '') {
+      // If logged in, go to WrapperView. Pass the deep link path if it exists.
+      debugPrint("SplashScreen: Navigating to WrapperView with deep link path: $deepLinkPath");
+      context.replace('/', extra: deepLinkPath);
     } else {
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacementNamed(context, PPages.adduserpage);
+      context.replace(PPages.adduserpage);
     }
   }
 

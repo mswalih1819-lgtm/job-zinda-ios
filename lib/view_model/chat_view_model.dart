@@ -27,52 +27,13 @@ class ChatViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  //  late PagingController<int, NotificationModel> notificatonController;
-  // int currentPage = 0;
-  // initNotificationPagination() {
-  //   currentPage = 0;
-  //   notificatonController = PagingController(firstPageKey: 1);
-  //   notificatonController.addPageRequestListener((pageKey) {
-  //     fetchNotificationWithPagination(pageKey);
-  //   });
-  // }
-
-  // Future<void> fetchNotificationWithPagination(int page) async {
-  //   if (currentPage != page) {
-  //     currentPage = page;
-      
-  //     String api = Api.conversationListUrl;
-  //     Response response = await ApiService()
-  //         .get('$api&pageNumber=$page');
-         
-  //     if (response.statusCode == 200) {
-  //       Map<String, dynamic> data = response.data;
-  //       if (data['status']) {
-  //         List<NotificationModel> temp = (data['data']['notifications'] as List)
-  //             .map((e) => NotificationModel.fromJson(e))
-  //             .toList();
-  //         if (data['data']['hasNext']) {
-  //           notificatonController.appendPage(temp, page + 1);
-  //         } else {
-  //           notificatonController.appendLastPage(temp);
-  //         }
-  //       } else {
-  //         notificatonController.appendLastPage([]);
-  //       }
-  //     } else {
-  //       notificatonController.appendLastPage([]);
-  //     }
-  //   }
-  // }
-
-
   List<ConversationModel> conversationList = [];
   Future<void> fetchAllConversations() async {
     EasyLoading.show();
     Response response = await ApiService().get(Api.conversationListUrl);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = response.data;
-            print("converstaion -----$data");
+      print("converstaion -----$data");
 
       if (data['status']) {
         conversationList = (data['data']['conversations'] as List)
@@ -81,6 +42,8 @@ class ChatViewModel extends ChangeNotifier {
             )
             .toList();
 
+        // Debugging: Print the number of conversations fetched
+        print("Total conversations fetched: ${conversationList.length}");
       } else {
         conversationList.clear();
       }

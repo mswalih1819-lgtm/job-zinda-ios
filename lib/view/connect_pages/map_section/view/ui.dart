@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
@@ -91,8 +92,7 @@ class _ConnectPagesUiState extends State<ConnectPagesUi> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, PPages.searchLocation,
-                        arguments: "map");
+                    context.pushNamed(PPages.searchLocation, extra: "map");
                   },
                   child: Container(
                     height: 52,

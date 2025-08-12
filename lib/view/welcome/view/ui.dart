@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/Pfonts.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 
@@ -28,7 +29,6 @@ class WelcomePageUi extends StatelessWidget {
             ),
           )),
       body: Container(
-        height: size.height,
         margin: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,49 +46,51 @@ class WelcomePageUi extends StatelessWidget {
               height: 30,
             ),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  RichText(
-                    text: const TextSpan(
-                      style: TextStyle(fontSize: 28, letterSpacing: 1.5
-                          // color: Colors.black,
-                          ),
-                      children: [
-                        TextSpan(text: 'Where'),
-                        WidgetSpan(
-                            child: SizedBox(
-                          width: 10,
-                        )),
-                        TextSpan(
-                            text: 'Talent',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        TextSpan(text: '\n'),
-                        TextSpan(text: 'Meets'),
-                        WidgetSpan(
-                            child: SizedBox(
-                          width: 10,
-                        )),
-                        TextSpan(
-                            text: 'Opportunity',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      ],
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    RichText(
+                      text: const TextSpan(
+                        style: TextStyle(fontSize: 28, letterSpacing: 1.5
+                            // color: Colors.black,
+                            ),
+                        children: [
+                          TextSpan(text: 'Where'),
+                          WidgetSpan(
+                              child: SizedBox(
+                            width: 10,
+                          )),
+                          TextSpan(
+                              text: 'Talent',
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          TextSpan(text: '\n'),
+                          TextSpan(text: 'Meets'),
+                          WidgetSpan(
+                              child: SizedBox(
+                            width: 10,
+                          )),
+                          TextSpan(
+                              text: 'Opportunity',
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  description(),
-                ],
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    description(),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    getStartButton(context),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            // SizedBox(
-            //   height: 50,
-            // ),
-            getStartButton(context),
-            const SizedBox(
-              height: 10,
             ),
           ],
         ),
@@ -104,7 +106,7 @@ class WelcomePageUi extends StatelessWidget {
       textColor: PColors.seed,
       text: "Get Started",
       onPressed: () {
-        Navigator.pushNamed(context, PPages.onboardingScreensUi);
+        context.replaceNamed(PPages.onboardingScreensUi);
       },
     );
   }

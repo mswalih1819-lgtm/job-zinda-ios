@@ -7,9 +7,9 @@ class LoadingBar {
       SpinKitWaveSpinner(color: PColors.white, size: 40);
 
   static Widget loading() {
-    return SpinKitWave(
-      size: 30,
+    return SpinKitFadingCircle(
       color: PColors.seed,
+      size: 50.0,
     );
   }
 

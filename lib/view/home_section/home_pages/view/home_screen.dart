@@ -2,21 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/home_appbar.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/post_section.dart';
-import 'package:jora_customer/view/home_section/home_pages/view/widgets/home_floating_action.dart';
+
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/story_section.dart';
 import 'package:jora_customer/view_model/chat_badge_viewmodel.dart';
 import 'package:jora_customer/view_model/notification_view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:jora_customer/view_model/referal_view_model.dart';
+
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'dart:async';
+import 'package:flutter/rendering.dart';
+import 'package:jora_customer/view/home_section/home_pages/view/widgets/home_floating_action.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,36 +31,95 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    // Also check once on first load
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   context.read<BadgeViewModel>().checkForPendingNotification(context);
-    // });
+    _postViewModel = context.read<PostViewModel>();
+    _postViewModel.addListener(_onPostsUpdated);
+
+    // Initial load after frame is built
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeData();
+    });
+
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
+
+
   }
 
-  // @override
-  // void dispose() {
-  //   WidgetsBinding.instance.removeObserver(this);
-  //   super.dispose();
-  // }
+  Future<void> _initializeData() async {
+    if (!mounted) return;
+    final postViewModel = context.read<PostViewModel>();
+    postViewModel.currentPage = 0;
+    await postViewModel.refreshPosts();
 
-  // @override
-  // void didChangeAppLifecycleState(AppLifecycleState state) {
-  //   if (state == AppLifecycleState.resumed) {
-  //     context.read<BadgeViewModel>().checkForPendingNotification(context);
-  //   }
-  // }
+    // Fetch profile data when the screen loads, mirroring the profile screen's behavior.
+    context.read<ProfileViewModel>().fetchProfile();
+
+    // Show hint after posts have loaded
+    _showAssistantHint();
+  }
+
+  void _onPostsUpdated() {
+    // Currently not used, kept for future enhancements.
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+        _postViewModel.removeListener(_onPostsUpdated);
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  late ScrollController _scrollController;
+  bool _isFabVisible = true;
+
+  void _scrollListener() {
+    if (!mounted) return;
+    final direction = _scrollController.position.userScrollDirection;
+    if (direction == ScrollDirection.reverse) {
+      if (_isFabVisible) setState(() => _isFabVisible = false);
+    } else if (direction == ScrollDirection.forward) {
+      if (!_isFabVisible) setState(() => _isFabVisible = true);
+    }
+  }
+
+  bool _assistantHintVisible = false;
+  late PostViewModel _postViewModel;
+  bool _wasPostsLoading = true;
+
+  Future<void> _showAssistantHint() async {
+    if (!mounted) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        setState(() {
+          _assistantHintVisible = true;
+        });
+        // Hide after 4 seconds
+        Timer(const Duration(seconds: 4), () {
+          if (mounted) {
+            setState(() {
+              _assistantHintVisible = false;
+            });
+          }
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ProfileViewModel>(
       builder: (context, value, child) => Scaffold(
+
         key: scaffoldKey,
         drawer: Drawer(
           backgroundColor: PColors.black,
@@ -63,20 +128,58 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             children: [
               DrawerHeader(
                 decoration: BoxDecoration(color: PColors.seed2),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: (value.profileModel?.profileImageUrl ??
-                                  '')
-                              .isEmpty
-                          ? AssetImage(PImages.profile)
-                          : NetworkImage(value.profileModel!.profileImageUrl!),
-                    ),
-                    const SizedBox(width: 10),
-                    textWidget(text: value.profileModel?.name ?? 'Guest User'),
-                  ],
-                ),
+                child: value.profileModel == null
+                    ? Row(
+                        children: [
+                          // Skeleton avatar
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          // Skeleton text
+                          Container(
+                            width: 100,
+                            height: 16,
+                            color: Colors.grey.shade300,
+                          ),
+                        ],
+                      )
+                    : Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: (value.profileModel?.profileImageUrl ?? '')
+                                    .isEmpty
+                                ? AssetImage(PImages.profile)
+                                : NetworkImage(value.profileModel!.profileImageUrl!) as ImageProvider,
+                          ),
+                          const SizedBox(width: 10),
+                          textWidget(text: value.profileModel!.name ?? 'Guest User'),
+                        ],
+                      ),
               ),
+              context.read<ProfileViewModel>().profileModel == null
+                  ? Container()
+                  : drawerWidget(
+                      title: "Task Corner",
+                      icon: Icon(Icons.task_outlined, color: PColors.whiteOff),
+                      fun: () {
+                        Navigator.pop(context);
+                        context.pushNamed(PPages.taskCornerAssignments);
+                      }),
+              context.read<ProfileViewModel>().profileModel == null
+                  ? Container()
+                  : drawerWidget(
+                      title: "Wallet",
+                      icon: Icon(Icons.account_balance_wallet_outlined, color: PColors.whiteOff),
+                      fun: () {
+                        Navigator.pop(context);
+                        context.push(PPages.wallet);
+                      }),
               context.read<ProfileViewModel>().profileModel == null
                   ? Container()
                   : context
@@ -94,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 .read<ReferalViewModel>()
                                 .fetchReferlaList(context);
                             Navigator.pop(context);
-                            Navigator.pushNamed(context, PPages.referalPageUi);
+                            context.pushNamed(PPages.referalPageUi);
                           }),
               context.read<ProfileViewModel>().profileModel == null
                   ? Container()
@@ -110,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           icon: SvgPicture.asset(PSvgs.coins),
                           fun: () {
                             Navigator.pop(context);
-                            Navigator.pushNamed(context, PPages.coinScreenUi);
+                            context.pushNamed(PPages.coinScreenUi);
                           }),
               drawerWidget(
                   title: "Contact",
@@ -146,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                   icon: SvgPicture.asset(PSvgs.support),
                   fun: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, PPages.helpSupportUi);
+                    context.pushNamed(PPages.helpSupportUi);
                   }),
               drawerWidget(
                   title: "Delete account",
@@ -219,6 +322,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                 await context.read<PostViewModel>().refreshPosts();
               },
               child: SingleChildScrollView(
+                controller: _scrollController,
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -234,14 +338,88 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
               ),
             ),
 
-            Consumer<PostViewModel>(
-              builder: (context, value, child) => value.isBottomshetopen
-                  ? const SizedBox()
-                  : const Positioned(
-                      bottom: 10,
-                      right: 0,
-                      child: HomeFloatingActionButtonUi(),
+            // Assistant hint bubble
+            if (_assistantHintVisible)
+              Positioned(
+                bottom: 140,
+                right: 80,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade700,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Text(
+                        'For technical assistance, chat with us',
+                        style: TextStyle(color: Colors.white, fontSize: 12),
+                      ),
                     ),
+                    // Triangle pointer
+                    Transform.translate(
+                      offset: const Offset(8, -1),
+                      child: Transform.rotate(
+                        angle: 3.14 / 4,
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          color: Colors.green.shade700,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+                        AnimatedSlide(
+              duration: const Duration(milliseconds: 300),
+              offset: _isFabVisible ? Offset.zero : const Offset(0, 2),
+              child: Consumer<PostViewModel>(
+                builder: (context, value, child) => value.isBottomshetopen
+                    ? const SizedBox()
+                    : Stack(
+                        children: [
+                          // Main FAB for creating posts
+                          Positioned(
+                            bottom: 10,
+                            right: 0,
+                            child: FloatingActionButton(
+                              shape: const CircleBorder(),
+                              heroTag: 'createPost',
+                              backgroundColor: PColors.yellow,
+                              onPressed: () {
+                                final profile = context.read<ProfileViewModel>().profileModel;
+                                final accountType = profile?.accountType?.toLowerCase().trim() ?? 'normal';
+                                if (accountType == 'freelancer' || accountType == 'premium') {
+                                                                  showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  builder: (context) => const HomeFloatingActionButtonUi(),
+                                );
+                                } else {
+                                  context.pushNamed(PPages.planListUi);
+                                }
+                              },
+                              child: const Icon(Icons.add, color: Colors.black),
+                            ),
+                          ),
+                          // Assistant WhatsApp FAB
+                          Positioned(
+                            bottom: 80,
+                            right: 0,
+                            child: FloatingActionButton(
+                              shape: const CircleBorder(),
+                              heroTag: 'whatsappAssistant',
+                              backgroundColor: const Color(0xFFFFD700),
+                              onPressed: () => _openWhatsApp('+919847561998'),
+                              child: const Icon(Icons.chat, color: Colors.black),
+                            ),
+                          ),
+                        ],
+                      ),
+              ),
             ),
           ],
         ),
@@ -308,6 +486,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       ),
     );
   }
+}
+
+Future<void> _openWhatsApp(String phoneNumber) async {
+  // Attempt to open WhatsApp directly; if not installed, fallback to web.
+  Uri uri = Uri.parse('whatsapp://send?phone=$phoneNumber');
+  if (await canLaunchUrl(uri)) {
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+    return;
+  }
+  uri = Uri.parse('https://wa.me/${phoneNumber.replaceAll('+', '')}');
+  if (await launchUrl(uri, mode: LaunchMode.externalApplication)) return;
+
+  EasyLoading.showError('Could not open WhatsApp');
 }
 
 Future<void> _makePhoneCall(String phoneNumber) async {

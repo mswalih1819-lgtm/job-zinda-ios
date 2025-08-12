@@ -1,4 +1,5 @@
 class PPages {
+  static const String taskCornerAssignments = '/task-corner-assignments';
   static const String splash = "/splash";
   static const String welcomePageUi = "/welcomePageUi";
   static const String onboardingScreensUi = "/onboardingScreensUi";
@@ -7,7 +8,7 @@ class PPages {
   static const String otpPageUi = "/otpPageUi";
   static const String loginSplashUi = "/loginSplashUi";
   static const String loginSplash2Ui = "/loginSplash2Ui";
-  static const String wrapperView = "/wrapperView";
+
   static const String helpSupportUi = "/helpSupportUi";
   static const String sendFeedbackUi = "/sendFeedbackUi";
   static const String notificationsUi = "/notificationsUi";
@@ -15,7 +16,7 @@ class PPages {
   static const String addPostUi = "/addPostUi";
   static const String chatDetailsPageui = "/chatDetailsPageui";
   static const String editProfileUi = "/editProfileUi";
-  static const String profileView = "/profileView";
+  static const String profileView = "/profile";
   static const String freelancerFilterPageUi = "/freelancerFilterPageUi";
   static const String profileAnalyticsPageUi = "/profileAnalyticsPageUi";
   static const String subscriptionPageUi = "/subscriptionPageUi";
@@ -30,15 +31,11 @@ class PPages {
   static const String referalCodeUi= "/referalcode";
   static const String referalPageUi= "/referalPageUi";
   static const String coinScreenUi= "/coinScreenUi";
+  static const String addStoryScreenUi = "/add-story-screen";
   static const String followersScreen= "/followersScreen";
   static const String feedbackScreen= "/feedbackScreen";
+  static const String planListUi = '/planListUi';
+  static const String wallet = '/wallet';
+  static const String coursePurchaseUi = '/course-purchase';
 
-
-
-
-
-
-
-
-  
 }

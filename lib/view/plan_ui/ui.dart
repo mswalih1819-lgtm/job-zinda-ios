@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
@@ -69,11 +70,7 @@ class PlanUi extends StatelessWidget {
                       color: PColors.whiteOff.withOpacity(0.3),
                     )
                   : Container(),
-              // context.read<ProfileViewModel>().profileModel?.mobileNumber ==
-              //         "8888888888"
-              //     ? Container()
-              //     :
-                   PlanListUi(),
+              PlanListUi(),
               const SizedBox(
                 height: 100,
               )
@@ -129,7 +126,7 @@ class PlanUi extends StatelessWidget {
               children: [
                 GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, PPages.editProfileUi);
+                      context.pushNamed(PPages.editProfileUi);
                     },
                     child: SvgPicture.asset(PSvgs.edit_profile)),
                 const SizedBox(height: 10),

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
-import 'package:jora_customer/main.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/add_story_screen.dart';
 import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
@@ -39,23 +39,24 @@ class AddstorywidgetUi extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
 
-                       if (navigatorKey.currentContext!
-                                .read<ProfileViewModel>()
-                                .profileModel!
-                                .accountType!
-                                .toLowerCase() ==
-                            "normal") {
-                          print(
-                              "smnnmdfnf----${context.read<ProfileViewModel>().profileModel!.accountType!.toLowerCase()}");
-                          navigatorKey.currentContext!
-                              .read<WrapperViewModel>()
-                              .updatePageView(WrapperViewStatus.normalProfile);
-                        } else {
-                           StoryViewModel storyViewModel =
-                          context.read<StoryViewModel>();
-                      storyViewModel.selectedUrl = null;
-                      Navigator.pushNamed(context, AddStoryScreen.route);
-                        }
+                       final profileVM = context.read<ProfileViewModel>();
+                       final profileType = profileVM.profileModel?.accountType?.toLowerCase();
+                       if (profileType == null) {
+                         // Profile not yet loaded; show a snackbar.
+                         ScaffoldMessenger.of(context).showSnackBar(
+                           const SnackBar(content: Text('Please wait, profile loading…')),
+                         );
+                       } else if (profileType.isEmpty || profileType == "normal") {
+                         // Normal users are routed to upgrade screen
+                         context
+                             .read<WrapperViewModel>()
+                             .updatePageView(WrapperViewStatus.normalProfile);
+                       } else {
+                         // Freelancer or premium can add story
+                         final storyVM = context.read<StoryViewModel>();
+                         storyVM.selectedUrl = null;
+                         context.pushNamed(AddStoryScreen.route);
+                       }
                      
                     },
                     child: Center(
@@ -100,16 +101,11 @@ class AddstorywidgetUi extends StatelessWidget {
                 height: 46.0,
                 width: 46.0,
                 decoration: BoxDecoration(
-                    // color: LoggedInUser.profilePic?.isEmpty ?? true
-                    //     ? const Color.fromARGB(255, 247, 204, 237)
-                    //     : null,
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                        image: LoggedInUser.profilePic!.isEmpty
-                            ? AssetImage(PImages.profile)
-                            : NetworkImage(
-                                LoggedInUser.profilePic ?? '',
-                              ),
+                        image: (LoggedInUser.profilePic?.isNotEmpty ?? false)
+                            ? NetworkImage(LoggedInUser.profilePic!)
+                            : AssetImage(PImages.profile),
                         fit: BoxFit.cover)),
               ),
             ),

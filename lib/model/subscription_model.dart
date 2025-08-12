@@ -13,7 +13,7 @@ class Plans {
   String? currency;
   String? currencySymbol;
   String? planIcon;
-  bool? isSubscribed;
+  bool isSubscribed;
   int? iV;
 
   Plans(
@@ -31,27 +31,28 @@ class Plans {
       this.currency,
       this.currencySymbol,
       this.planIcon,
-      this.isSubscribed,
+      this.isSubscribed = false,
       this.iV});
 
-  Plans.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    planName = json['planName'];
-    documentStatus = json['documentStatus'];
-    amountMRP = double.parse(json['amountMRP'].toString());
-    amount = double.parse(json['amount'].toString());
-    billableAmount = double.parse(json['billableAmount'].toString());
-    planAmountPer = json['planAmountPer'];
-    discountPercentage = double.parse(json['discountPercentage'].toString());
-    durationDays = json['durationDays'];
-    planType = json['planType'];
-    planFeatures = json['planFeatures'].cast<String>();
-    currency = json['currency'];
-    isSubscribed = json['isSubscribed'];
-    currencySymbol = json['currencySymbol'];
-    planIcon = json['planIcon'];
-    iV = json['__v'];
-  }
+  Plans.fromJson(Map<String, dynamic> json)
+      : sId = json['_id'],
+        planName = json['planName'],
+        documentStatus = json['documentStatus'],
+        amountMRP = double.parse(json['amountMRP'].toString()),
+        amount = double.parse(json['amount'].toString()),
+        billableAmount = double.parse(json['billableAmount'].toString()),
+        planAmountPer = json['planAmountPer'],
+        discountPercentage = double.parse(json['discountPercentage'].toString()),
+        durationDays = json['durationDays'],
+        planType = json['planType'],
+        planFeatures = json['planFeatures'] != null
+            ? List<String>.from(json['planFeatures'])
+            : null,
+        currency = json['currency'],
+        isSubscribed = json['isSubscribed'] ?? false,
+        currencySymbol = json['currencySymbol'],
+        planIcon = json['planIcon'],
+        iV = json['__v'];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

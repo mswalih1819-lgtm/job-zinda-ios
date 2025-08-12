@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:jora_customer/main.dart';
+import 'package:jora_customer/main.dart' as main_app;
 import 'package:jora_customer/model/comment_model.dart';
 import 'package:jora_customer/model/reply_model.dart';
 import 'package:jora_customer/utils/api_service.dart';
@@ -176,7 +176,7 @@ class CommentViewModel extends ChangeNotifier {
 
         if (data['status']) {
           PostViewModel postViewModel =
-              navigatorKey.currentContext!.read<PostViewModel>();
+              main_app.navigatorKey.currentContext!.read<PostViewModel>();
           postViewModel.currentPage = 0;
           postViewModel.postController.refresh();
           fetchComments(postId);
@@ -202,7 +202,7 @@ class CommentViewModel extends ChangeNotifier {
 
         if (data['status']) {
           PostViewModel postViewModel =
-              navigatorKey.currentContext!.read<PostViewModel>();
+              main_app.navigatorKey.currentContext!.read<PostViewModel>();
           postViewModel.currentPage = 0;
           postViewModel.postController.refresh();
           fetchReplies(commentId);

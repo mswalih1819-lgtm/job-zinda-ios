@@ -4,9 +4,10 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 // import 'package:get/get.dart';
 import 'package:jora_customer/Data/Network/network_controller.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
+import 'package:jora_customer/main.dart' as main_app;
 import 'package:jora_customer/Settings/widgets/errorMsg.dart';
 import 'package:jora_customer/Settings/widgets/loadingShow.dart';
-import 'package:jora_customer/main.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/subscription_model.dart';
 import 'package:jora_customer/model/subscription_payment_model.dart';
@@ -20,30 +21,36 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 class SubscriptionViewmodel extends ChangeNotifier {
   List<Plans> planList = [];
   final Dio dio = Dio();
+  bool isLoadingPlans = false;
 
   late Razorpay _razorpay;
   SubscriptionPaymentModel paymentOrderModel = SubscriptionPaymentModel();
 
   Future<void> fetchPlans() async {
-    EasyLoading.show();
-    planList.clear();
-    String url = "${Api.getPlans}?pageNumber=1&pageSize=10";
-    Response response = await ApiService().get(url);
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = response.data;
-      print("plan olist------$data");
-      if (data['status']) {
-        planList = (data['data']['plans'] as List)
-            .map(
-              (e) => Plans.fromJson(e),
-            )
-            .toList();
-      } else {
-        // planList.clear();
+    isLoadingPlans = true;
+    notifyListeners();
+    
+    try {
+      planList.clear();
+      String url = "${Api.getPlans}?pageNumber=1&pageSize=10";
+      Response response = await ApiService().get(url);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        print("plan olist------$data");
+        if (data['status']) {
+          planList = (data['data']['plans'] as List)
+              .map(
+                (e) => Plans.fromJson(e),
+              )
+              .toList();
+        }
       }
+    } catch (e) {
+      print("Error fetching plans: $e");
+    } finally {
+      isLoadingPlans = false;
       notifyListeners();
     }
-    EasyLoading.dismiss();
   }
 
   updateRazorpay(
@@ -92,7 +99,7 @@ class SubscriptionViewmodel extends ChangeNotifier {
           ErrorMsg.showSnakError(context, e.toString());
         }
       } else {
-        Navigator.pushReplacementNamed(context, PPages.noIntenet);
+        context.replaceNamed(PPages.noIntenet);
       }
     });
   }
@@ -122,13 +129,13 @@ class SubscriptionViewmodel extends ChangeNotifier {
   }
 
   verifyPackagePayment({
+    required BuildContext context,
     required String orderId,
     required String paymentId,
     required String razorpay_signature,
   }) async {
+    EasyLoading.show(status: 'Verifying Payment...');
     try {
-      print(
-          "verify payment-------$paymentId--$orderId-----$razorpay_signature--");
       Map<String, dynamic> headers = {
         "x-razorpay-signature": razorpay_signature,
         'Authorization': "Bearer ${LoggedInUser.accessToken}",
@@ -142,18 +149,22 @@ class SubscriptionViewmodel extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         Map<String, dynamic> data = response.data;
-        print("verify payment-------$data-");
         if (data['status']) {
-          fetchPlans();
-          navigatorKey.currentContext!.read<ProfileViewModel>().fetchProfile();
+          EasyLoading.showSuccess("Payment Successful!");
+          await fetchPlans();
+          await context.read<ProfileViewModel>().fetchProfile();
+          if (context.mounted) {
+            context.pushNamed(PPages.freeLancerEditProfileUi);
+          }
+        } else {
+          EasyLoading.showError(data['message'] ?? 'Payment Verification Failed');
         }
-        Navigator.pushNamed(
-            navigatorKey.currentContext!, PPages.freeLancerEditProfileUi);
-
         notifyListeners();
       }
     } catch (e) {
-      rethrow;
+      EasyLoading.showError(e.toString());
+    } finally {
+      EasyLoading.dismiss();
     }
   }
 }

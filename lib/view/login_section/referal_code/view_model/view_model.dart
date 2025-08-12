@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Data/Network/network_api_service.dart';
 import 'package:jora_customer/Data/Network/network_controller.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
@@ -33,10 +34,7 @@ class AddReferalViewModel extends ChangeNotifier {
 
           if (result['status'] == true) {
             LoggedInUser.login(result['data']);
-            Navigator.pushReplacementNamed(
-              context,
-              PPages.loginSplashUi,
-            );
+            context.replaceNamed(PPages.loginSplashUi);
           } else {
             ErrorMsg.showSnakError(context, result['message']);
           }
@@ -48,7 +46,7 @@ class AddReferalViewModel extends ChangeNotifier {
           notifyListeners();
         }
       } else {
-        Navigator.pushReplacementNamed(context, PPages.noIntenet);
+        context.replaceNamed(PPages.noIntenet);
       }
     });
   }
@@ -79,10 +77,7 @@ class AddReferalViewModel extends ChangeNotifier {
 
           if (result['status'] == true) {
             LoggedInUser.login(result['data']);
-            Navigator.pushReplacementNamed(
-              context,
-              PPages.loginSplashUi,
-            );
+            context.replaceNamed(PPages.loginSplashUi);
           } else {
             ErrorMsg.showSnakError(context, result['message']);
           }
@@ -96,8 +91,7 @@ class AddReferalViewModel extends ChangeNotifier {
           // ErrorMsg.showSnakError(context, e.toString());
         }
       } else {
-        Navigator.pushReplacementNamed(
-            navigatorKey.currentContext!, PPages.noIntenet);
+        navigatorKey.currentContext!.replaceNamed(PPages.noIntenet);
       }
     });
   }

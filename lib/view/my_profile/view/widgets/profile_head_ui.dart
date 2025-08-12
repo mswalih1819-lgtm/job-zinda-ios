@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
-import 'package:jora_customer/main.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/profile_image_widget.dart';
+import 'package:jora_customer/Settings/widgets/verified_text.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileHeadUi extends StatelessWidget {
   final Map? map;
@@ -31,23 +32,25 @@ class ProfileHeadUi extends StatelessWidget {
         ),
         Container(
             margin: const EdgeInsets.symmetric(horizontal: 17, vertical: 10),
-            child: contentWidget(profileModel))
+            child: contentWidget(context, profileModel))
       ],
     );
   }
 
-  Widget contentWidget(ProfileModel? profile) {
+  Widget contentWidget(BuildContext context, ProfileModel? profile) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        textWidget(
-            text: profile?.name ?? '',
-            fontsize: 18,
-            fontweight: FontWeight.w500,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            color: PColors.white),
+        VerifiedText(
+          text: profile?.name ?? '',
+          isVerified: profile?.isVerified ?? false,
+          style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              color: PColors.white),
+          maxLines: 1,
+        ),
         textWidget(
             text: profile?.profession ?? '',
             fontsize: 14,
@@ -73,17 +76,17 @@ class ProfileHeadUi extends StatelessWidget {
             InkWell(
               onTap: () {
                 ProfileViewModel profileViewModel =
-                    navigatorKey.currentContext!.read<ProfileViewModel>();
+                    context.read<ProfileViewModel>();
                 profileViewModel.currentPage = 0;
                 profileViewModel.initFollowersPagination(
                     id: profile!.sId ?? "");
 
-                // navigatorKey.currentContext!
+                // context
                 //     .read<ProfileViewModel>()
                 //     .fetchFollowers(userID: profile.sId ?? "");
-                Navigator.pushNamed(
-                    navigatorKey.currentContext!, PPages.followersScreen,
-                    arguments: profile!.sId);
+                context.pushNamed(
+                    PPages.followersScreen,
+                    pathParameters: {'profileId': profile!.sId!});
               },
               child: columnWidget(
                   title: 'Followers',
@@ -94,13 +97,13 @@ class ProfileHeadUi extends StatelessWidget {
             InkWell(
               onTap: () {
                 ProfileViewModel profileViewModel =
-                    navigatorKey.currentContext!.read<ProfileViewModel>();
+                    context.read<ProfileViewModel>();
                 profileViewModel.currentPage = 0;
                 profileViewModel.initFeedbackPagination(id: profile!.sId ?? "");
 
-                Navigator.pushNamed(
-                    navigatorKey.currentContext!, PPages.feedbackScreen,
-                    arguments: profile.sId);
+                context.pushNamed(
+                    PPages.feedbackScreen,
+                    extra: profile!.sId);
               },
               child: columnWidget(
                   title: 'Feedback',

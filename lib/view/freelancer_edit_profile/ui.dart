@@ -2,8 +2,10 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jora_customer/widgets/safe_cached_network_image.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
@@ -46,10 +48,10 @@ class FreeLancerEditProfileUi extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                value.profileModel!.profileImageUrl == null ||value.profileModel!.profileImageUrl!.isEmpty
+                (value.profileModel?.profileImageUrl ?? '').isEmpty
                     ? uploadImage(type: "profile", context: context)
                     : imageWidget(
-                        imageurl: value.profileModel!.profileImageUrl!,
+                        imageurl: value.profileModel?.profileImageUrl ?? '',
                         type: "profile",
                         context: context),
                 const SizedBox(
@@ -59,10 +61,10 @@ class FreeLancerEditProfileUi extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                value.profileModel!.coverImage == null||value.profileModel!.coverImage!.isEmpty
+                (value.profileModel?.coverImage ?? '').isEmpty
                     ? uploadImage(type: "cover", context: context)
                     : imageWidget(
-                        imageurl: value.profileModel!.coverImage!,
+                        imageurl: value.profileModel?.coverImage ?? '',
                         type: "cover",
                         context: context),
                 // Expanded(child: Container()),
@@ -101,7 +103,7 @@ class FreeLancerEditProfileUi extends StatelessWidget {
         }
       },
       child: DottedBorder(
-        borderType: BorderType.Rect,
+
         dashPattern: const [4, 4, 4, 4],
         color: PColors.whiteOff.withOpacity(0.4),
         radius: const Radius.circular(0),
@@ -142,8 +144,8 @@ class FreeLancerEditProfileUi extends StatelessWidget {
           SizedBox(
             height: 200,
             width: 200,
-            child: Image.network(
-              imageurl,
+            child: SafeCachedNetworkImage(
+              imageUrl: imageurl,
               fit: BoxFit.fill,
             ),
           ),
@@ -189,7 +191,7 @@ class FreeLancerEditProfileUi extends StatelessWidget {
           borderRadius: 0,
           bgcolor: PColors.white,
           onPressed: () {
-            Navigator.pushNamed(context, PPages.freelancerBioPageUi);
+            context.pushNamed(PPages.freelancerBioPageUi);
           },
           textColor: PColors.black,
         ),

@@ -14,25 +14,22 @@ class AllChatSection extends StatelessWidget {
     ChatViewModel chatViewModel = context.watch<ChatViewModel>();
     List<ConversationModel> conversationList = chatViewModel.conversationList;
     return Container(
+      height: MediaQuery.of(context).size.height - 200, // Adjust height to leave space for header/filter
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: conversationList.isEmpty
-          ? SizedBox(
-            height: 500,
-            child: Center(
-                child: Text(
-                  "No data!!!",
-                  style: TextStyle(color: PColors.white),
-                ),
+          ? Center(
+              child: Text(
+                "No data!!!",
+                style: TextStyle(color: PColors.white),
               ),
-          )
+            )
           : ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
               itemCount: conversationList.length,
-              shrinkWrap: true,
               itemBuilder: (context, index) => ChatCard(
                 conversationModel: conversationList[index],
               ),
             ),
     );
-    // child: Text("sdbanmsbdnmsbf"));
   }
 }

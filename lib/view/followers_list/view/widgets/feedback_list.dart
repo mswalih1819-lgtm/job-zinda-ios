@@ -38,20 +38,14 @@ class FeedbackListUI extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
-                          onTap: () async {
-                            bool? status = await context
-                                .read<PostViewModel>()
-                                .fetchOtherUserProfileDetails(
-                                    userID: feedBack.rater!.sId ?? "");
-                            if (status!) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const OtherUserProfileScreen(),
-                                ),
-                              );
-                            }
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    OtherUserProfileScreen(userId: feedBack.rater?.sId),
+                              ),
+                            );
                           },
                           child: Container(
                             decoration: BoxDecoration(

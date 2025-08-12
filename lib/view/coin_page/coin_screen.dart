@@ -42,13 +42,9 @@ class CoinScreenUi extends StatelessWidget {
                 "You will receive 100 Job Zinda coins after a successful referral...",
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 20), // Spacing
+              SizedBox(height: 90), // Spacing
             
-              Text(
-                "Now, this feature can only be used by registered Job Zinda promoters...",
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 15),
+              
             
               Text(
                 "To register:",
@@ -56,15 +52,9 @@ class CoinScreenUi extends StatelessWidget {
               ),
               SizedBox(height: 10),
             
-              Text(
-                "• Chat with a current Job Zinda promoter, or\n"
-                "• Chat with the official Job Zinda account...",
-                style: TextStyle(fontSize: 13),
-              ),
-              SizedBox(height: 20),
             
               Text(
-                "100 Job Zinda coins = 20 Rupees",
+                "100 Job Zinda coins = 10 Rupees",
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.green),
               ),
               SizedBox(height: 10),
@@ -76,10 +66,12 @@ class CoinScreenUi extends StatelessWidget {
               SizedBox(height: 20),
             
               Text(
-                "You can withdraw Job Zinda Coins through referrals and earn account  more by chatting with the official Job Zinda account.",
+                "You can convert Job Zinda Coins to Rupees and withdraw through wallet.",
                 style: TextStyle(fontSize: 13),
               ),
               SizedBox(height: 20),
+
+              SizedBox(height: 90), // Spacing
             
               Text(
                 "Any fraudulent activity will result in the removal of your account from the app... without any warning...",

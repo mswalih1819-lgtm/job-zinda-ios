@@ -6,27 +6,49 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 // import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
-import 'package:jora_customer/main.dart';
+import 'package:jora_customer/main.dart' as main_app;
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/myStory_model.dart';
 import 'package:jora_customer/model/story_model.dart';
 import 'package:jora_customer/model/story_views.dart';
 import 'package:jora_customer/utils/api_service.dart';
 import 'package:jora_customer/utils/api_url.dart';
+import 'package:go_router/go_router.dart';
+import 'package:jora_customer/view/home_section/home_pages/view/widgets/storyView_page.dart'; // For StoryViewerArgs
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class StoryViewModel with ChangeNotifier {
+  static const _storyCacheKey = 'story_cache';
   final Dio dio = Dio();
   int? storyCount;
   List<StoryViews> storeyViews = [];
-  late PagingController<int, StoryModel> storyController;
+  PagingController<int, StoryModel>? storyController;
   StoryModel storyModel = StoryModel();
   MyStoryModel myStoryModel = MyStoryModel();
   int currentPage = 0;
-  initStoryPagination() {
-    currentPage = 0;
+  String api = Api.storiesListUrl;
+
+  initStoryPagination() async {
+    if (storyController != null) return;
+
     storyController = PagingController(firstPageKey: 1);
-    storyController.addPageRequestListener((pageKey) {
+    notifyListeners();
+
+    // Load and display cache immediately
+    final cachedStories = await _loadStoriesFromCache();
+    if (cachedStories != null && cachedStories.isNotEmpty) {
+      storyController!.appendLastPage(cachedStories);
+    }
+
+    // Add listener for future pagination (e.g., after a refresh)
+    storyController!.addPageRequestListener((pageKey) {
       fetchStoryWithPagination(pageKey);
+    });
+
+    // Trigger a network refresh in the background after a short delay
+    Future.delayed(const Duration(milliseconds: 500), () {
+      storyController?.refresh();
     });
   }
 
@@ -35,7 +57,8 @@ class StoryViewModel with ChangeNotifier {
   updateStoryModel(StoryModel story, BuildContext context) {
     isMyProfile = false;
     storyModel = story;
-    Navigator.pushNamed(context, PPages.storyViewer);
+    final args = StoryViewerArgs(story: storyModel, isMyProfile: false);
+    context.pushNamed(PPages.storyViewer, extra: args);
     updateStoryView(
         storyId: storyModel.sId.toString(),
         lastViewedMediaId: storyModel.media![0].sId.toString(),
@@ -57,23 +80,25 @@ class StoryViewModel with ChangeNotifier {
       Response response = await ApiService().get('$api&pageNumber=$page');
       if (response.statusCode == 200) {
         Map<String, dynamic> data = response.data;
-        print(response.data.toString());
         if (data['status']) {
           List<StoryModel> temp = (data['data']['stories'] as List)
               .map((e) => StoryModel.fromJson(e))
               .toList();
 
-              print("storyyy------$temp");
+          if (page == 1) {
+            _saveStoriesToCache(temp);
+          }
+
           if (data['data']['hasNext']) {
-            storyController.appendPage(temp, page + 1);
+            storyController!.appendPage(temp, page + 1);
           } else {
-            storyController.appendLastPage(temp);
+            storyController!.appendLastPage(temp);
           }
         } else {
-          storyController.appendLastPage([]);
+          storyController!.appendLastPage([]);
         }
       } else {
-        storyController.appendLastPage([]);
+        storyController!.appendLastPage([]);
       }
     }
   }
@@ -97,7 +122,17 @@ class StoryViewModel with ChangeNotifier {
           }
         }
       }
-      Navigator.pushNamed(navigatorKey.currentContext!, PPages.storyViewer);
+      final args = StoryViewerArgs(myStory: myStoryModel, isMyProfile: true);
+      // Ensure main_app.navigatorKey.currentContext is not null and is mounted if coming from a background operation
+      // However, fetchMyStory takes a BuildContext, so we should prefer using that if available and appropriate.
+      // If this method can be called where 'context' is not the primary navigation context,
+      // main_app.navigatorKey.currentContext might still be necessary. For now, assume 'context' is fine.
+      if (main_app.navigatorKey.currentContext != null && main_app.navigatorKey.currentContext!.mounted) {
+         main_app.navigatorKey.currentContext!.pushNamed(PPages.storyViewer, extra: args);
+      } else {
+        // Fallback or error handling if context is not available/mounted
+        print("StoryViewModel: fetchMyStory - main_app.navigatorKey.currentContext is null or not mounted. Cannot navigate.");
+      }
     }
 
     notifyListeners();
@@ -217,5 +252,22 @@ class StoryViewModel with ChangeNotifier {
     } else {
       EasyLoading.showSuccess("something went wrong");
     }
+  }
+
+  Future<void> _saveStoriesToCache(List<StoryModel> stories) async {
+    final prefs = await SharedPreferences.getInstance();
+    final storyListJson = stories.map((s) => jsonEncode(s.toJson())).toList();
+    await prefs.setStringList(_storyCacheKey, storyListJson);
+  }
+
+  Future<List<StoryModel>?> _loadStoriesFromCache() async {
+    final prefs = await SharedPreferences.getInstance();
+    final storyListJson = prefs.getStringList(_storyCacheKey);
+    if (storyListJson != null) {
+      return storyListJson
+          .map((s) => StoryModel.fromJson(jsonDecode(s)))
+          .toList();
+    }
+    return null;
   }
 }

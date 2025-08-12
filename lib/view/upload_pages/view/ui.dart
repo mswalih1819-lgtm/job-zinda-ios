@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
@@ -46,7 +47,7 @@ class UploadPagesUi extends StatelessWidget {
                 context.read<PostViewModel>().selectedUrl = null;
                 context.read<PostViewModel>().selectedThumbanilFile = null;
 
-                Navigator.pushNamed(context, PPages.addPostUi);
+                context.pushNamed(PPages.addPostUi);
               },
               leading: SvgPicture.asset(PSvgs.share_post),
               title: textWidget(text: 'Share new post', color: PColors.white),
@@ -57,7 +58,7 @@ class UploadPagesUi extends StatelessWidget {
                 context.read<StoryViewModel>().selectedUrl = null;
                 context.read<StoryViewModel>().selectedThumbanilFile = null;
 
-                Navigator.pushNamed(context, AddStoryScreen.route);
+                context.pushNamed(AddStoryScreen.route);
               },
               leading: SvgPicture.asset(
                 PSvgs.share_story,

@@ -10,6 +10,7 @@ import 'package:jora_customer/utils/validator.dart';
 import 'package:jora_customer/view/freelancer_edit_profile/widgets/dropdown_widget.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 class FreelancerBioPageUi extends StatefulWidget {
   const FreelancerBioPageUi({super.key});
@@ -21,14 +22,13 @@ class FreelancerBioPageUi extends StatefulWidget {
 class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
   String? selcetdProfession;
   final _formKey = GlobalKey<FormState>();
-  // @override
-  // void initState() {
-  //   _nameController.text = LoggedInUser.name ?? '';
-  //   _emailController.text = LoggedInUser.email ?? '';
-  //   _numberController.text = LoggedInUser.phoneNumber ?? '';
-  //   LoggedInUser.p
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ProfileViewModel>().fetchProfession();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,7 +238,7 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
       builder: (context, value, child) => CustomTextFeild(
           onTap: () {
             print("sfndf");
-            Navigator.pushNamed(context, PPages.searchLocation,arguments: "bio");
+            context.pushNamed(PPages.searchLocation, extra: "bio");
           },
           readOnly: true,
           controller: value.addressController,

@@ -123,12 +123,9 @@ class CommentsBottomSheet extends StatelessWidget {
             builder: (context, profileViewModel, child) {
               return CircleAvatar(
                 radius: 26,
-                backgroundImage:
-                    profileViewModel.profileModel!.profileImageUrl!.isEmpty
-                        ? AssetImage(PImages.profile)
-                        : NetworkImage(
-                            profileViewModel.profileModel!.profileImageUrl!,
-                          ) as ImageProvider,
+                backgroundImage: (profileViewModel.profileModel?.profileImageUrl ?? '').isEmpty
+                    ? AssetImage(PImages.profile)
+                    : NetworkImage(profileViewModel.profileModel!.profileImageUrl!) as ImageProvider,
               );
             },
           ),

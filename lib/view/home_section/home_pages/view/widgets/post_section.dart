@@ -19,10 +19,12 @@ class PostSection extends StatefulWidget {
 class _PostSectionState extends State<PostSection> {
   @override
   void initState() {
-    PostViewModel postViewModel = context.read<PostViewModel>();
-    postViewModel.currentPage = 0;
-    postViewModel.initPostPagination();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<PostViewModel>().initPostPagination();
+      }
+    });
   }
 
   @override
@@ -41,6 +43,10 @@ class _PostSectionState extends State<PostSection> {
         ),
         itemBuilder: (context, item, index) {
           if (item is Banners) {
+            final bannerUrl = item.bannerImageUrl;
+            if (bannerUrl == null || bannerUrl.isEmpty) {
+              return const SizedBox.shrink(); // Don't render banner if no image
+            }
             // Render a banner
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 10),
@@ -59,7 +65,7 @@ class _PostSectionState extends State<PostSection> {
                 child: GestureDetector(
                   onTap: () {
                     // Handle banner tap action
-                    if (item.bannerOnTapAction!.toLowerCase() ==
+                    if (item.bannerOnTapAction?.toLowerCase() ==
                         "subscription") {
                       navigatorKey.currentContext!
                           .read<WrapperViewModel>()
@@ -72,7 +78,7 @@ class _PostSectionState extends State<PostSection> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(15),
                         child: Image.network(
-                          item.bannerImageUrl ?? '',
+                          bannerUrl,
                           fit: BoxFit.cover,
                           width: double.infinity,
                           height: 170,

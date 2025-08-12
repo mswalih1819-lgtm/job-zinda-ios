@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
+import 'package:jora_customer/widgets/safe_cached_network_image.dart';
 
 import '../../../../model/profile_model.dart';
 
@@ -47,7 +48,10 @@ final  ProfileModel profileModel;
       backgroundColor: PColors.white,
       child: CircleAvatar(
         radius: profileHeight / 2.1,
-        backgroundImage:profileModel.profileImageUrl==null||profileModel.profileImageUrl!.isEmpty||profileModel.profileImageUrl==''?AssetImage(PImages.profile): NetworkImage(profileModel.profileImageUrl??''),
+        backgroundImage: safeImageProvider(
+          profileModel.profileImageUrl,
+          placeholderAsset: PImages.profile,
+        ),
       ),
     );
   }

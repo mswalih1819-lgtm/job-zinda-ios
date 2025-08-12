@@ -22,17 +22,18 @@ class OtpPageUi extends StatelessWidget {
           automaticallyImplyLeading: true,
         ),
         body: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 18),
           height: size.height,
           child: Column(
             // crossAxisAlignment: CrossAxisAlignment.center,
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                   const SizedBox(
                     height: 30,
                   ),
@@ -46,8 +47,11 @@ class OtpPageUi extends StatelessWidget {
                   ),
                   const OtpNumberFeild(),
                 ],
-              )),
-              const OtpButtonsUi(),
+              ),),),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child: const OtpButtonsUi(),
+              ),
               const SizedBox(
                 height: 10,
               ),

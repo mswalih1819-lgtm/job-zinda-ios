@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:jora_customer/main.dart' as main_app;
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:jora_customer/Settings/widgets/errorMsg.dart';
-import 'package:jora_customer/main.dart';
 import 'package:jora_customer/view_model/connect_page_view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
@@ -78,7 +78,7 @@ class LocationViewModel extends ChangeNotifier {
 
           print("page-----$page");
           if (page == 'map') {
-            navigatorKey.currentContext!
+            main_app.navigatorKey.currentContext!
                 .read<ConnectPageViewModel>()
                 .updateLocation(latitude, longitude);
           } else {
@@ -88,24 +88,26 @@ class LocationViewModel extends ChangeNotifier {
             );
             Placemark place = placemarks[0];
 
-            navigatorKey.currentContext!.read<ProfileViewModel>().stateList = [
+            main_app.navigatorKey.currentContext!.read<ProfileViewModel>().stateList = [
               place.administrativeArea!
             ];
-            navigatorKey.currentContext!
+            main_app.navigatorKey.currentContext!
                 .read<ProfileViewModel>()
                 .stateController
                 .text = place.administrativeArea.toString();
             print("object---${place.subAdministrativeArea}");
 
-            navigatorKey.currentContext!
+            main_app.navigatorKey.currentContext!
                 .read<ProfileViewModel>()
                 .updateState(place.administrativeArea!);
 
-            navigatorKey.currentContext!
+            main_app.navigatorKey.currentContext!
                 .read<ProfileViewModel>()
                 .cityController
-                .text = place.locality ?? "";
-            navigatorKey.currentContext!
+                .text = (place.subAdministrativeArea != null && place.subAdministrativeArea!.isNotEmpty)
+                    ? place.subAdministrativeArea!
+                    : (place.locality ?? "");
+            main_app.navigatorKey.currentContext!
                 .read<ProfileViewModel>()
                 .zipCodeController
                 .text = place.postalCode.toString();
@@ -141,23 +143,30 @@ class LocationViewModel extends ChangeNotifier {
   // }
 
   Future<void> checkLocation(BuildContext context) async {
+    EasyLoading.show(status: 'Checking Location...');
     try {
       bool isServiceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!isServiceEnabled) {
         ErrorMsg.showSnakError(context, "Location services are disabled.");
-      }
-      LocationPermission permission = await Geolocator.checkPermission();
-      print("location permmiss----$permission");
-      if (permission == LocationPermission.denied ||
-          permission == LocationPermission.deniedForever) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied ||
-            permission == LocationPermission.deniedForever) {
-          print("Location permissions are denied.");
-          return; // Stop further execution
-        }
+        return;
       }
 
-    } catch (e) {}
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+      }
+
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever) {
+        ErrorMsg.showSnakError(context, "Location permission is required to use the app.");
+        return;
+      }
+
+    } catch (e) {
+      print('Error checking location: $e');
+      ErrorMsg.showSnakError(context, "An error occurred while checking location.");
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 }

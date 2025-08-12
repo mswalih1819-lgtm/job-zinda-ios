@@ -4,6 +4,7 @@ import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/view/search_section/view/widgets/search_button.dart';
 import 'package:jora_customer/view/search_section/view/widgets/search_card.dart';
 import 'package:jora_customer/view_model/search_view_model.dart';
+import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -29,8 +30,11 @@ class _SearchScreenState extends State<SearchScreen> {
     super.initState();
     _scrollController.addListener(_onScroll); // <-- Add this line
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<SearchViewModel>().pageNumber = 1;
-      context.read<SearchViewModel>().fetchSearchList();
+      if (mounted) {
+        context.read<ProfileViewModel>().fetchProfession();
+        context.read<SearchViewModel>().pageNumber = 1;
+        context.read<SearchViewModel>().fetchSearchList();
+      }
     });
   }
  

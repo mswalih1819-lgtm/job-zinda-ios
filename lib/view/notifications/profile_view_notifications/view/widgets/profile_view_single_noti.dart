@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
@@ -32,18 +33,14 @@ class ProfileViewSingleNotiWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             InkWell(
-              onTap: () async {
-                bool? status = await context
-                    .read<PostViewModel>()
-                    .fetchOtherUserProfileDetails(
-                        userID: notificationModel?.sender?.sId ?? '');
-                if (status!) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const OtherUserProfileScreen(),
-                      ));
-                }
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OtherUserProfileScreen(
+                        userId: notificationModel?.sender?.sId),
+                  ),
+                );
               },
               child: CircleAvatar(
                 radius: 30,
@@ -54,42 +51,29 @@ class ProfileViewSingleNotiWidget extends StatelessWidget {
             const SizedBox(width: 13),
             Expanded(
               child: InkWell(
-                onTap: () async {
+                onTap: () {
                   context
                       .read<NotificationViewModel>()
                       .notificationRead(id: notificationModel?.sId ?? '');
                   if (notificationModel?.notificationType == 'profile_view' ||
                       notificationModel?.notificationType == 'follow') {
-                    bool? status = await context
-                        .read<PostViewModel>()
-                        .fetchOtherUserProfileDetails(
-                            userID: notificationModel?.sender?.sId ?? '');
-                    if (status!) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const OtherUserProfileScreen(),
-                          ));
-                    }
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OtherUserProfileScreen(
+                            userId: notificationModel?.sender?.sId),
+                      ),
+                    );
                   } else if (notificationModel?.notificationType == 'like' ||
                       notificationModel?.notificationType == 'comment') {
                     PostViewModel postViewModel = context.read<PostViewModel>();
                     postViewModel.postDetails =
                         PostModel(sId: notificationModel?.connectedPostId?.sId);
-                        EasyLoading.show();
+                    EasyLoading.show();
                     postViewModel.fetchPostDetails();
-                        EasyLoading.dismiss();
+                    EasyLoading.dismiss();
 
-                    Navigator.pushNamed(context, PPages.profilePostDetailsUi);
-                    // Future.delayed(
-                    //   Duration(seconds: 1),
-                    //   () => CircularProgressIndicator(),
-                    // ).then(
-                    //   (value) {
-                    //     Navigator.pushNamed(
-                    //         context, PPages.profilePostDetailsUi);
-                    //   },
-                    // );
+                    context.pushNamed(PPages.profilePostDetailsUi);
                   }
                 },
                 child: Column(

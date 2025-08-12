@@ -11,46 +11,64 @@ import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:jora_customer/view_model/subscription_view_model.dart';
 import 'package:provider/provider.dart';
 
-class WrapperBody extends StatelessWidget {
+class WrapperBody extends StatefulWidget {
   const WrapperBody({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return main();
+  State<WrapperBody> createState() => _WrapperBodyState();
+}
+
+class _WrapperBodyState extends State<WrapperBody>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  final Map<String, Widget> _cachedViews = {};
+
+  Widget _getView(String status) {
+    if (_cachedViews.containsKey(status)) {
+      return _cachedViews[status]!;
+    }
+
+    Widget view;
+    switch (status) {
+      case WrapperViewStatus.home:
+        view = const HomeScreen();
+        break;
+      case WrapperViewStatus.search:
+        view = const SearchScreen();
+        break;
+      case WrapperViewStatus.upload:
+        view = Container();
+        break;
+      case WrapperViewStatus.connect:
+        view = const ConnectPagesUi();
+        break;
+      case WrapperViewStatus.profile:
+        view = const ProfileScreen();
+        break;
+      case WrapperViewStatus.normalProfile:
+        view = const PlanUi();
+        break;
+      case WrapperViewStatus.otherProfile:
+        view = OtherUserProfileScreen(
+          userId: context.watch<WrapperViewModel>().userId,
+        );
+        break;
+      default:
+        view = const HomeScreen();
+    }
+    _cachedViews[status] = view;
+    return view;
   }
 
-  Widget main() {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
     return Selector<WrapperViewModel, String>(
       selector: (p0, p1) => p1.viewStatus,
       builder: (context, value, child) {
-        context.read<LocationViewModel>().checkLocation(context);
-        context.read<ProfileViewModel>().fetchProfession();
-        context.read<ProfileViewModel>().fetchProfile();
-        context.read<SubscriptionViewmodel>().fetchPlans();
-
-        // }
-        switch (value) {
-          case WrapperViewStatus.home:
-            return const HomeScreen();
-          case WrapperViewStatus.search:
-            return const SearchScreen();
-          case WrapperViewStatus.upload:
-            return Container();
-          case WrapperViewStatus.connect:
-            return const ConnectPagesUi();
-          case WrapperViewStatus.profile:
-            return const ProfileScreen();
-          case WrapperViewStatus.normalProfile:
-            return const PlanUi();
-          case WrapperViewStatus.otherProfile:
-            return const OtherUserProfileScreen();
-
-          // case WrapperViewStatus.freelancer_createAccount:
-          //   return FreeLancerEditProfileUi();
-
-          default:
-            return const HomeScreen();
-        }
+        return _getView(value);
       },
     );
   }

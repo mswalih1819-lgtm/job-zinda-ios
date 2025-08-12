@@ -9,10 +9,15 @@ class ChatBodyUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        main(),
-      ],
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      child: Column(
+        children: [
+          Expanded(
+            child: main(),
+          ),
+        ],
+      ),
     );
   }
 
@@ -22,12 +27,17 @@ class ChatBodyUi extends StatelessWidget {
       builder: (context, value, child) {
         switch (value) {
           case ChatViewStatus.primary:
-            return const PrimaryChatWidgetUi();
+            return ListView(
+              children: const [PrimaryChatWidgetUi()],
+            );
           case ChatViewStatus.letsPlan:
-            return const LetsPlanChatWidgetUi();
-
+            return ListView(
+              children: const [LetsPlanChatWidgetUi()],
+            );
           default:
-            return const PrimaryChatWidgetUi();
+            return ListView(
+              children: const [PrimaryChatWidgetUi()],
+            );
         }
       },
     );

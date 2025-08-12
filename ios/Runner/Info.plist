@@ -47,7 +47,7 @@
 			<string>Bundle Id</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.jobZinda.jora-customer</string>
+				<string>com.jobZinda.customers</string>
 			</array>
 		</dict>
 	</array>

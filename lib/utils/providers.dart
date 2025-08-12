@@ -15,6 +15,7 @@ import 'package:jora_customer/view_model/referal_view_model.dart';
 import 'package:jora_customer/view_model/search_view_model.dart';
 import 'package:jora_customer/view_model/story_view_model.dart';
 import 'package:jora_customer/view_model/subscription_view_model.dart';
+import 'package:jora_customer/view_model/course_purchase_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -72,6 +73,9 @@ List<SingleChildWidget> providers = [
 
   ChangeNotifierProvider(
     create: (context) => SubscriptionViewmodel(),
+  ),
+  ChangeNotifierProvider(
+    create: (context) => CoursePurchaseViewModel(),
   ),
   ChangeNotifierProvider(
     create: (context) => LoginPhoneNumberViewModel(),

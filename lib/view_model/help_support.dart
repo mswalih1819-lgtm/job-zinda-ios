@@ -1,39 +1,47 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:jora_customer/main.dart' as main_app;
 import 'package:jora_customer/Settings/until/PPages.dart';
 
-import 'package:jora_customer/main.dart';
 import 'package:jora_customer/utils/api_service.dart';
 import 'package:jora_customer/utils/api_url.dart';
 
 class HelpViewModel extends ChangeNotifier {
   Future<void> sendFeedback(
       {required String rating, required String review}) async {
-        
-     if(rating==''){
+    if (rating.isEmpty) {
       EasyLoading.showError("Please select rating");
-     }
+      return;
+    }
 
-    EasyLoading.show();
-    
-    Map body = {'rating': rating, 'review': review};
-    print("feedback body-----$body");
-    Response response = await ApiService().post(Api.sendFeedback, body);
-    EasyLoading.dismiss();
+    EasyLoading.show(status: 'Sending Feedback...');
+    try {
+      Map body = {'rating': rating, 'review': review};
+      Response response = await ApiService().post(Api.sendFeedback, body);
 
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = response.data;
-      print("feedback -----$data");
-    
-      if (data['status']) {
-        Navigator.pushReplacementNamed(
-            navigatorKey.currentContext!, PPages.wrapperView);
-        EasyLoading.showSuccess("Feedback sent Successfully");
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        print("feedback -----$data");
 
-      }else{
-        EasyLoading.showError(data['message']);
+        if (data['status']) {
+          EasyLoading.showSuccess("Feedback sent Successfully");
+          if (main_app.navigatorKey.currentContext!.mounted) {
+            main_app.navigatorKey.currentContext!.go('/home');
+          }
+        } else {
+          EasyLoading.showError(data['message']);
+        }
+      } else {
+        EasyLoading.showError(
+            'Failed to send feedback. Status: ${response.statusCode}');
       }
+    } catch (e) {
+      print('Error sending feedback: $e');
+      EasyLoading.showError('An error occurred. Please try again.');
+    } finally {
+      EasyLoading.dismiss();
       notifyListeners();
     }
   }

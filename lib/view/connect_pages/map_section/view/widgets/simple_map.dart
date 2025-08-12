@@ -7,6 +7,7 @@ import 'package:jora_customer/view_model/connect_page_view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
+import 'package:jora_customer/widgets/safe_cached_network_image.dart';
 
 class SimpleMap extends StatelessWidget {
   const SimpleMap({super.key});
@@ -23,11 +24,18 @@ class SimpleMap extends StatelessWidget {
     ProfileViewModel profileViewModel = context.read<ProfileViewModel>();
     print("profile:-${profileViewModel.profileModel}");
     return Consumer<ConnectPageViewModel>(
-      builder: (context, value, child) => FlutterMap(
-        mapController: value.mapController,
-        options: MapOptions(
+      builder: (context, value, child) {
+        final double? lat = value.lat;
+        final double? lng = value.lng;
+        if (lat == null || lng == null) {
+          // Location not yet available – show a loader or placeholder.
+          return const Center(child: CircularProgressIndicator());
+        }
+        return FlutterMap(
+          mapController: value.mapController,
+          options: MapOptions(
             onMapReady: value.onMapReady,
-            initialCenter: LatLng(value.lat!, value.lng!), //
+            initialCenter: LatLng(lat, lng), // safe
             // initialCenter: LatLng(
             //     profileViewModel.profileModel!.lat!.toDouble(),
             //     profileViewModel.profileModel!.lng!
@@ -37,8 +45,11 @@ class SimpleMap extends StatelessWidget {
         children: [
           TileLayer(
             urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-            // urlTemplate: "https://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png",
-            userAgentPackageName: "com.example.app",
+            tileProvider: NetworkTileProvider(
+              headers: {
+                'User-Agent': 'jobzinda/1.0 (jobzinda@gmail.com)'
+              }
+            ),
             subdomains: const ['a', 'b', 'c'],
             // attributionBuilder: (_) {
             //   return Text("© OpenStreetMap contributors");
@@ -75,17 +86,15 @@ class SimpleMap extends StatelessWidget {
                               builder: (context) => ResultSheetUi(),
                             );
                           },
-                          child: CircleAvatar(
-                            radius: 25,
-                            backgroundColor:
-                                const Color.fromARGB(255, 153, 220, 229),
-                            child: CircleAvatar(
-                              radius: 26,
-                              backgroundColor: PColors.black,
-                              //  backgroundImage:    AssetImage(PImages.profile)
-                              backgroundImage: e.profileImageUrl!.isEmpty
-                                  ? AssetImage(PImages.profile)
-                                  : NetworkImage(e.profileImageUrl!),
+                          child: ClipOval(
+                            child: SafeCachedNetworkImage(
+                              imageUrl: e.profileImageUrl,
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                              // Resize the image to a thumbnail to save GPU memory.
+                              memCacheWidth: 150,
+                              memCacheHeight: 150,
                             ),
                           ),
                         )),
@@ -129,8 +138,9 @@ class SimpleMap extends StatelessWidget {
                 )),
           ])
         ],
-      ),
-    );
+      ); // closes FlutterMap
+    }, // end builder
+  ); // closes Consumer
   }
 }
 // class SimpleMap extends StatefulWidget {

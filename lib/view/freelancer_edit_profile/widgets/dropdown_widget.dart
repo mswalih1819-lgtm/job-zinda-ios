@@ -71,14 +71,9 @@ class DropdownWidgetUi extends StatelessWidget {
               color: PColors.white, fontSize: 16, fontWeight: FontWeight.w600),
           value: selected,
           onChanged: (val) {
-            String selectedProfessionName = list
-                .firstWhere((profession) => profession.sId == val)
-                .name
-                .toString();
-            context
-                .read<ProfileViewModel>()
-                .updateProfession(selectedProfessionName, val!);
-            // selected = val.toString();
+            if (val != null) {
+              context.read<ProfileViewModel>().updateSelectedProfession(val);
+            }
           },
           // value: widget.selected,
           items: list

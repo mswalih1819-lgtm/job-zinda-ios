@@ -16,16 +16,25 @@ class StorySection extends StatefulWidget {
 class _StorySectionState extends State<StorySection> {
   @override
   void initState() {
-    StoryViewModel storyViewModel = context.read<StoryViewModel>();
-    storyViewModel.currentPage = 0;
-    storyViewModel.initStoryPagination();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<StoryViewModel>().initStoryPagination();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     StoryViewModel storyViewModel = context.watch<StoryViewModel>();
+    if (storyViewModel.storyController == null) {
+      // Show a loading indicator or a placeholder while the controller is being initialized
+      return SizedBox(
+        height: size.height * 0.27,
+        child: const Center(child: CircularProgressIndicator()),
+      );
+    }
     return SizedBox(
       height: size.height * 0.27,
       child: Row(
@@ -36,7 +45,7 @@ class _StorySectionState extends State<StorySection> {
             child: PagedListView(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
-                pagingController: storyViewModel.storyController,
+                pagingController: storyViewModel.storyController!,
                 builderDelegate: PagedChildBuilderDelegate<StoryModel>(
                   noItemsFoundIndicatorBuilder: (context) => const SizedBox(),
                   itemBuilder: (context, item, index) {

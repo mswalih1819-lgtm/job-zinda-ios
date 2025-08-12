@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
-import 'package:jora_customer/main.dart';
 import 'package:jora_customer/view/followers_list/view/widgets/search_btn.dart';
 import 'package:jora_customer/view/other_user_profile/view/other_user_profile_screen.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
@@ -105,20 +104,14 @@ class FollowersScreen extends StatelessWidget {
                     itemBuilder: (context, item, index) {
                       final follower = item;
                       return ListTile(
-                        onTap: () async {
-                          bool? status = await context
-                              .read<PostViewModel>()
-                              .fetchOtherUserProfileDetails(
-                                  userID: follower.followingDetails!.sId ?? "");
-                          if (status!) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const OtherUserProfileScreen(),
-                              ),
-                            );
-                          }
+                          onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OtherUserProfileScreen(
+                                  userId: follower.followingDetails?.sId),
+                            ),
+                          );
                         },
                         leading: CircleAvatar(
                           backgroundImage: follower

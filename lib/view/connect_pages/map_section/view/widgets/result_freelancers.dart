@@ -18,16 +18,14 @@ class ResultFreelancersSingleUi extends StatelessWidget {
     // double profileHeight = 68;
 
     return GestureDetector(
-      onTap: () async {
-        // Navigator.pop(context);
-        await context
-            .read<PostViewModel>()
-            .fetchOtherUserProfileDetails(userID: profileModel.sId ?? '');
+      onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const OtherUserProfileScreen(),
-            ));
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                OtherUserProfileScreen(userId: profileModel.sId),
+          ),
+        );
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 20),

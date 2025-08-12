@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:jora_customer/Settings/until/PImages.dart';
+import 'package:jora_customer/widgets/safe_cached_network_image.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/analytics_model.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
@@ -52,8 +54,9 @@ class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
                 backgroundColor: PColors.white,
                 child: CircleAvatar(
                     radius: 28,
-                    backgroundImage:
-                        NetworkImage(LoggedInUser.profilePic ?? '')),
+                    backgroundImage: (LoggedInUser.profilePic == null || LoggedInUser.profilePic!.isEmpty)
+                         ? AssetImage(PImages.profile)
+                         : safeImageProvider(LoggedInUser.profilePic, placeholderAsset: PImages.profile)),
               ),
               const SizedBox(width: 20),
               Column(

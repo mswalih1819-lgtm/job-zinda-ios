@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:jora_customer/utils/api_service.dart';
 import 'package:jora_customer/utils/api_url.dart';
 
@@ -77,15 +78,23 @@ class BadgeViewModel extends ChangeNotifier {
   }
 
   Future<void> fetchUserMessageMessageCount() async {
-    Response response = await ApiService().get(Api.userMessageUnreadCount);
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = response.data;
-      if (data['status']) {
-        userMessageCount = data['data']['totalUnreadCount'];
-
-        print("userMessageCount----$userMessageCount");
-        notifyListeners();
+    try {
+      Response response = await ApiService().get(Api.userMessageUnreadCount);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = response.data;
+        if (data['status']) {
+          userMessageCount = data['data']['totalUnreadCount'];
+        }
       }
+    } on DioException catch (e, st) {
+      // Network-related exception (e.g., connection reset). Log for Crashlytics but prevent UI crash.
+      debugPrint('Error fetching user message count: \\${e.message}');
+      FirebaseCrashlytics.instance.recordError(e, st, reason: 'fetchUserMessageMessageCount failed');
+    } catch (e, st) {
+      debugPrint('Unexpected error fetching user message count: $e');
+      FirebaseCrashlytics.instance.recordError(e, st);
+    } finally {
+      notifyListeners();
     }
   }
 }

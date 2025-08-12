@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/Settings/widgets/verified_text.dart';
 import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/view/search_section/view/widgets/search_image_widget_section.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
@@ -15,18 +16,14 @@ class SearchCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async {
-        await context
-            .read<PostViewModel>()
-            .fetchOtherUserProfileDetails(userID: profileModel.sId ?? '');
+      onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const OtherUserProfileScreen(),
-            ));
-        // context
-        //     .read<WrapperViewModel>()
-        //     .updatePageView(WrapperViewStatus.otherProfile);
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                OtherUserProfileScreen(userId: profileModel.sId),
+          ),
+        );
       },
       child: Container(
         decoration: BoxDecoration(
@@ -38,12 +35,15 @@ class SearchCard extends StatelessWidget {
             ),
             Column(
               children: [
-                textWidget(
-                    text: profileModel.name ?? '',
-                    fontsize: 14,
-                    fontweight: FontWeight.w500,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1),
+                VerifiedText(
+                  text: profileModel.name ?? '',
+                  isVerified: profileModel.isVerified ?? false,
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: PColors.white),
+                  maxLines: 1,
+                ),
                 textWidget(
                     text: profileModel.profession ?? '',
                     fontsize: 12,

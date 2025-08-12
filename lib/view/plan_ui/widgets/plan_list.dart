@@ -26,17 +26,20 @@ class _PlanListUiState extends State<PlanListUi> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    
+    // Fetch plans when the widget is initialized
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<SubscriptionViewmodel>().fetchPlans();
+    });
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    print("Razor Pay Scusses: ------ ${response.paymentId}");
-    var model = context.read<SubscriptionViewmodel>();
-    EasyLoading.showInfo("Payment Successfull");
-    model.verifyPackagePayment(
-      paymentId: response.paymentId!,
-      orderId: response.orderId!,
-      razorpay_signature: response.signature!,
-    );
+    context.read<SubscriptionViewmodel>().verifyPackagePayment(
+          context: context,
+          paymentId: response.paymentId!,
+          orderId: response.orderId!,
+          razorpay_signature: response.signature!,
+        );
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -58,20 +61,30 @@ class _PlanListUiState extends State<PlanListUi> {
   @override
   Widget build(BuildContext context) {
     return Consumer<SubscriptionViewmodel>(
-      builder: (context, value, child) =>
-          value.planList.isEmpty || value.planList == null
-              ? Center(
-                  child: Text(
-                    "No Data!!!",
-                    style: TextStyle(color: PColors.white),
-                  ),
-                )
-              : ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: value.planList.length,
-                  itemBuilder: (context, index) => plan(value.planList[index]),
-                ),
+      builder: (context, value, child) {
+        if (value.isLoadingPlans) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        
+        if (value.planList.isEmpty) {
+          return Center(
+            child: Text(
+              "No Plans Available",
+              style: TextStyle(color: PColors.white),
+            ),
+          );
+        }
+        
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.6,
+          child: ListView.builder(
+            itemCount: value.planList.length,
+            itemBuilder: (context, index) => plan(value.planList[index]),
+          ),
+        );
+      },
     );
   }
 
@@ -167,28 +180,32 @@ class _PlanListUiState extends State<PlanListUi> {
   }
 
   Widget button(Plans plan) {
+    // Always allow upgrade except for free plan
+    bool isFree = plan.planType?.toLowerCase() == "free";
     return CustomIconElevatedButton(
-        borderRadius: 12,
-        icon: Icon(
-          Icons.arrow_back,
-          color: PColors.black,
-        ),
-        bgcolor: PColors.white,
-        onPressed: () {
-          if (!plan.isSubscribed!) {
-            var model = context.read<SubscriptionViewmodel>();
-            if (plan.planType?.toLowerCase() == "free") {
-              ErrorMsg.showSnakError(context, "Your free plan has expired.!!");
-            } else {
-              model.updateRazorpay(
-                  razorpay: _razorpay,
-                  context: context,
-                  packageId: plan.sId.toString());
+      borderRadius: 12,
+      icon: Icon(
+        plan.isSubscribed ? Icons.workspace_premium : Icons.arrow_back,
+        color: plan.isSubscribed ? PColors.white : PColors.black,
+      ),
+      bgcolor: plan.isSubscribed ? PColors.yellow : PColors.white,
+      onPressed: isFree
+          ? () {
+              ErrorMsg.showSnakError(
+                  context, "Your free plan has expired.!!");
             }
-          }
-        },
-        textColor: PColors.black,
-        text: plan.isSubscribed! ? "Subscribed" : "Upgrade Plan");
+          : () {
+              context.read<SubscriptionViewmodel>().updateRazorpay(
+                    razorpay: _razorpay,
+                    context: context,
+                    packageId: plan.sId.toString(),
+                  );
+            },
+      textColor: plan.isSubscribed ? PColors.white : PColors.black,
+      text: isFree
+          ? "Subscribed"
+          : (plan.isSubscribed ? "Upgrade Plan" : "Upgrade Plan"),
+    );
   }
 
   Widget features(List<String> features) {

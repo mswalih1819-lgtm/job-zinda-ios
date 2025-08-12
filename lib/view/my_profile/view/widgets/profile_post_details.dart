@@ -6,7 +6,6 @@ import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/Settings/widgets/time_function.dart';
-import 'package:jora_customer/main.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/post_model.dart';
 import 'package:jora_customer/view/comment_pages/ui.dart';
@@ -46,10 +45,7 @@ Widget build(BuildContext context) {
                       IconButton(
                         onPressed: () async {
                           await context.read<PostViewModel>().removePost(
-                                context,
-                                id: postDetails.sId.toString(),
-                                page: "detail",
-                              );
+                              context, postDetails.sId.toString());
                           Navigator.pop(context);
                         },
                         icon: Icon(

@@ -5,6 +5,7 @@ import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/errorMsg.dart';
 import 'package:jora_customer/view/login_section/otp_verify/repository/repository.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/view_model/view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class OtpPageViewModel extends ChangeNotifier {
   LoginPhoneNumberViewModel loginModel;
@@ -17,11 +18,11 @@ class OtpPageViewModel extends ChangeNotifier {
 
   Future verifyOtp(BuildContext context) async {
     if (otp == null || otp!.isEmpty) {
-      ErrorMsg.showSnakError(context, 'OTP is empty');
+      ErrorMsg.showSnakError(context, 'Please enter the OTP sent to your phone.');
       return;
     }
     if (otp!.length != 6) {
-      ErrorMsg.showSnakError(context, 'Invalid OTP');
+      ErrorMsg.showSnakError(context, 'The OTP is invalid. Please ensure it is a 6-digit number.');
       return;
     }
     NetConnection.networkConnection(context).then((value) async {
@@ -29,7 +30,7 @@ class OtpPageViewModel extends ChangeNotifier {
         try {
           int.parse(otp!);
         } catch (e) {
-          ErrorMsg.showSnakError(context, 'Invalid OTP');
+          ErrorMsg.showSnakError(context, 'The OTP is invalid. Please ensure it is a 6-digit number.');
           return;
         }
         loading = true;
@@ -39,7 +40,16 @@ class OtpPageViewModel extends ChangeNotifier {
         }).onError((error, stackTrace) {
           loading = false;
           notifyListeners();
-          ErrorMsg.showSnakError(context, "Invalid otp");
+          print('--- OTP Verification Error ---');
+          print('Error Type: ${error.runtimeType}');
+          print('Error: ${error.toString()}');
+          if (error is FirebaseAuthException) {
+            print('Firebase Auth Error Code: ${error.code}');
+            print('Firebase Auth Error Message: ${error.message}');
+          }
+          print('Stack Trace: ${stackTrace.toString()}');
+          print('-----------------------------');
+          ErrorMsg.showSnakError(context, "The OTP could not be verified. Please check the OTP or request a new one.");
         });
       } else {
         Navigator.pushReplacementNamed(context, PPages.noIntenet);

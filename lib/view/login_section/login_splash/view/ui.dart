@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
@@ -42,7 +43,7 @@ class LoginSplashUi extends StatelessWidget {
               borderRadius: 0,
               text: "Great",
               onPressed: () {
-                Navigator.pushNamed(context, PPages.loginSplash2Ui);
+                context.pushNamed(PPages.loginSplash2Ui);
               },
               bgcolor: PColors.white,
               textColor: PColors.black,

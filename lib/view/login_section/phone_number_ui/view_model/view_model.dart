@@ -8,6 +8,7 @@ import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/view/login_section/otp_verify/repository/repository.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/repository/repository.dart';
 import 'package:jora_customer/view/login_section/referal_code/repository/repository.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPhoneNumberViewModel extends ChangeNotifier {
   FirebaseAuthServices services = FirebaseAuthServices();
@@ -56,7 +57,7 @@ class LoginPhoneNumberViewModel extends ChangeNotifier {
               loading = false;
               notifyListeners();
               verfiId = verificationId;
-              Navigator.pushNamed(context, PPages.otpPageUi, arguments: this);
+              context.pushNamed(PPages.otpPageUi, extra: this);
             },
             onAutoVerify: (user) {
               onVerifyOTp(context);
@@ -72,14 +73,14 @@ class LoginPhoneNumberViewModel extends ChangeNotifier {
           ErrorMsg.showSnakError(navigatorKey.currentContext!, e.toString());
         }
       } else {
-        Navigator.pushReplacementNamed(
-            navigatorKey.currentContext!, PPages.noIntenet);
+        navigatorKey.currentContext!.replaceNamed(PPages.noIntenet);
       }
     });
   }
 
   onVerifyOTp(BuildContext context) async {
     signintype = "phone";
+    phoneNumber = numberController.text;
     print("dbnmsdbnmsbdnsdnsndb");
     var result = await otpRepo.checkProfile(
       phoneNumber!,
@@ -99,7 +100,7 @@ class LoginPhoneNumberViewModel extends ChangeNotifier {
       // ignore: use_build_context_synchronously
       // Navigator.pushNamedAndRemoveUntil(
       //     context, PPages.adduserpage, (route) => false);
-      Navigator.pushNamed(context, PPages.adduserpage);
+      context.pushNamed(PPages.adduserpage);
     } else {
       loginUser(context, "");
     }
@@ -134,8 +135,7 @@ class LoginPhoneNumberViewModel extends ChangeNotifier {
           print(result['data']['tokens']['refresh']['token']);
 
           // ignore: use_build_context_synchronously
-          Navigator.pushNamedAndRemoveUntil(navigatorKey.currentContext!,
-              PPages.loginSplashUi, (route) => false);
+          context.goNamed(PPages.loginSplashUi);
         } catch (e) {
           loading = false;
           notifyListeners();
@@ -144,7 +144,7 @@ class LoginPhoneNumberViewModel extends ChangeNotifier {
           ErrorMsg.showSnakError(context, e.toString());
         }
       } else {
-        Navigator.pushReplacementNamed(context, PPages.noIntenet);
+        context.replaceNamed(PPages.noIntenet);
       }
     });
   }
@@ -166,7 +166,7 @@ class LoginPhoneNumberViewModel extends ChangeNotifier {
       // );
       // ignore: use_build_context_synchronously
       notifyListeners();
-      Navigator.pushNamed(context, PPages.adduserpage);
+      context.pushNamed(PPages.adduserpage);
     } else {
       loginUser(context, email);
     }

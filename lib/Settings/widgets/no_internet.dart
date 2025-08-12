@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Data/Network/network_controller.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
+import 'package:go_router/go_router.dart';
 
 class NoInternetWidget extends StatelessWidget {
   const NoInternetWidget({super.key});
@@ -28,8 +29,7 @@ class NoInternetWidget extends StatelessWidget {
                     NetConnection.networkConnection(context)
                         .then((value) async {
                       if (value == true) {
-                        Navigator.pushReplacementNamed(
-                            context, PPages.wrapperView);
+                        context.go('/home');
                       }
                     });
                   },

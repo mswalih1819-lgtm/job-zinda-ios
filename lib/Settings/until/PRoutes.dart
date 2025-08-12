@@ -15,7 +15,7 @@ import 'package:jora_customer/view/login_section/add_newuser/view/ui.dart';
 import 'package:jora_customer/view/login_section/referal_code/view/ui.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/profile_post_details.dart';
 import 'package:jora_customer/view/profile_analytics/view/profile_analytics_screen.dart';
-import 'package:jora_customer/view/profile_view/view/ui.dart';
+
 import 'package:jora_customer/view/help_support/view/ui.dart';
 import 'package:jora_customer/view/help_support/view/widgets/send_feedback_ui.dart';
 import 'package:jora_customer/view/login_section/login_splash/view/ui.dart';
@@ -33,9 +33,10 @@ import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/view/splash/view/splash_screen.dart';
 import 'package:jora_customer/view/welcome/view/widgets/onboarding_screen_ui.dart';
 import 'package:jora_customer/view/wrapper/view/ui.dart';
+import 'package:jora_customer/view/other_user_profile/view/other_user_profile_screen.dart';
 
 class Routes {
-  static Route<dynamic>? genericRoute(RouteSettings settings) {
+  /* static Route<dynamic>? genericRoute(RouteSettings settings) {
     switch (settings.name) {
       case PPages.splash:
         return MaterialPageRoute(
@@ -74,7 +75,7 @@ class Routes {
         );
       case PPages.storyViewer:
         return MaterialPageRoute(
-          builder: (context) => const StoryViewer(),
+          builder: (context) => StoryViewer(args: settings.arguments as StoryViewerArgs),
         );
       case PPages.loginSplash2Ui:
         return MaterialPageRoute(
@@ -123,8 +124,10 @@ class Routes {
           builder: (context) => const EditProfileScreen(),
         );
       case PPages.profileView:
+        final args = settings.arguments as Map<String, dynamic>?;
+        final userId = args?['userId'] as String?;
         return MaterialPageRoute(
-          builder: (context) => const ProfileViewUi(),
+          builder: (context) => OtherUserProfileScreen(userId: userId),
         );
       case PPages.freelancerFilterPageUi:
         return MaterialPageRoute(
@@ -208,5 +211,5 @@ class Routes {
       default:
         return null;
     }
-  }
+  }*/
 }

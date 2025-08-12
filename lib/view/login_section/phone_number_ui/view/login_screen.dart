@@ -29,9 +29,11 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 18),
-        child: Column(
+      body: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 18),
+          height: MediaQuery.of(context).size.height - 50,
+          child: Column(
           children: [
             Expanded(
               child: SingleChildScrollView(
@@ -56,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 10),
           ],
         ),
-      ),
+      ),),
     );
   }
 

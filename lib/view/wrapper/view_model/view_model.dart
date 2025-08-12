@@ -21,8 +21,11 @@ class WrapperViewStatus {
 
 class WrapperViewModel extends ChangeNotifier {
   String viewStatus = WrapperViewStatus.home;
-  updatePageView(String value) {
+  String? userId;
+
+  updatePageView(String value, {String? id}) {
     viewStatus = value;
+    userId = id;
     notifyListeners();
   }
 }

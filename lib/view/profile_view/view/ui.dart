@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
@@ -30,7 +31,7 @@ class ProfileViewUi extends StatelessWidget {
           borderRadius: 0,
           text: "Lets go",
           onPressed: () {
-            Navigator.pushNamed(context, PPages.editProfileUi);
+            context.pushNamed(PPages.editProfileUi);
           },
         ),
         body: SingleChildScrollView(
@@ -100,8 +101,7 @@ class ProfileViewUi extends StatelessWidget {
             children: [
               GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(
-                        context, PPages.editProfileUi);
+                    context.pushNamed(PPages.editProfileUi);
                   },
                   child: SvgPicture.asset(PSvgs.edit_profile)),
               const SizedBox(height: 10),

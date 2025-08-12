@@ -9,7 +9,15 @@ class ApiService {
   ApiService() {
     dio.interceptors.add(InterceptorsWrapper(
     onResponse: (respons, handler) async {
-        if (respons.data['statusCode'] == 401) {
+        final dynamic data = respons.data;
+        bool shouldRefresh = false;
+        if (data is Map<String, dynamic>) {
+          final dynamic statusCodeField = data['statusCode'] ?? data['code'];
+          final bool unauthorized = statusCodeField == 401 || statusCodeField == '401';
+          final bool statusFalse = data['status'] == false;
+          shouldRefresh = unauthorized || (statusFalse && unauthorized);
+        }
+        if (shouldRefresh) {
           var options = respons.requestOptions;
           await _refreshToken();
           // Retry the failed request with the new token
@@ -69,8 +77,8 @@ class ApiService {
     }
   }
   Future<Response> get(String url) async {
-    print("opppp----${options()}");
-    return await dio.get(url, options: await options());
+    final requestOptions = await options();
+    return await dio.get(url, options: requestOptions);
   }
 
   Future<Response> post(String url, Object? data) async {

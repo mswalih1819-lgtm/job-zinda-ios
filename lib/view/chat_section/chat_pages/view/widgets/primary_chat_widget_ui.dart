@@ -10,8 +10,11 @@ class PrimaryChatWidgetUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [const ChatFilterUi(), main()],
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [const ChatFilterUi(), main()],
+      ),
     );
   }
 

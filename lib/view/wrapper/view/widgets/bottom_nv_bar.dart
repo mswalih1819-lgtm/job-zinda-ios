@@ -1,141 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
-import 'package:jora_customer/main.dart';
 import 'package:jora_customer/view/upload_pages/view/ui.dart';
-import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 import 'package:jora_customer/view_model/connect_page_view_model.dart';
-import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavBar extends StatelessWidget {
-  const BottomNavBar({super.key});
-  final int _selectedIndex = 0;
+  final StatefulNavigationShell navigationShell;
+
+  const BottomNavBar({super.key, required this.navigationShell});
+
+  void _onTap(int index) {
+    navigationShell.goBranch(
+      index,
+      initialLocation: index == navigationShell.currentIndex,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Selector<WrapperViewModel, String>(
-      selector: (p0, p1) => p1.viewStatus,
-      builder: (context, value, child) => BottomAppBar(
-        padding: EdgeInsets.zero,
-        height: 110,
-        clipBehavior: Clip.hardEdge,
-        shadowColor: PColors.white,
-        color: PColors.black,
-        child: Container(
-          // height: 96,
-          decoration: BoxDecoration(
-              color: PColors.black,
-              border: Border(
-                  top: BorderSide(color: PColors.white.withOpacity(0.3)))),
-          child: Padding(
-            padding: const EdgeInsets.all(17),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  bottombaritem(
-                      icon: PSvgs.home,
-                      label: "Home",
-                      fun: () {
-                        // PostViewModel model =
-                        //     navigatorKey.currentContext!.read<PostViewModel>();
-                        // model.currentPage = 0;
-                        // model.fetchPostWithPagination(1);
-                        // model.postController.refresh();
-                        navigatorKey.currentContext!
-                            .read<WrapperViewModel>()
-                            .updatePageView(WrapperViewStatus.home);
-                      },
-                      selected: value == WrapperViewStatus.home),
-                  bottombaritem(
-                      icon: PSvgs.search,
-                      label: "Search",
-                      fun: () {
-                        navigatorKey.currentContext!
-                            .read<WrapperViewModel>()
-                            .updatePageView(WrapperViewStatus.search);
-                      },
-                      selected: value == WrapperViewStatus.search),
-                  bottombaritem(
-                      icon: PSvgs.upload,
-                      label: "Upload",
-                      fun: () {
-                        if (navigatorKey.currentContext!
-                                .read<ProfileViewModel>()
-                                .profileModel!
-                                .accountType!
-                                .toLowerCase() ==
-                            "normal") {
-                          print(
-                              "smnnmdfnf----${context.read<ProfileViewModel>().profileModel!.accountType!.toLowerCase()}");
-                          navigatorKey.currentContext!
-                              .read<WrapperViewModel>()
-                              .updatePageView(WrapperViewStatus.normalProfile);
-                        } else {
-                          openBottomseet(context);
-                        }
-                      },
-                      selected: value == WrapperViewStatus.upload),
-                  bottombaritem(
-                      icon: PSvgs.connect,
-                      label: "Connection",
-                      fun: () async {
-                        navigatorKey.currentContext!
-                            .read<ProfileViewModel>()
-                            .fetchProfile();
-                        navigatorKey.currentContext!
-                            .read<ConnectPageViewModel>()
-                            .updateLocation(
-                                context
-                                    .read<ProfileViewModel>()
-                                    .profileModel!
-                                    .lat!,
-                                context
-                                    .read<ProfileViewModel>()
-                                    .profileModel!
-                                    .lng!);
-                        navigatorKey.currentContext!
-                            .read<ConnectPageViewModel>()
-                            .fetchNearestProfiles();
-                        await Future.delayed(const Duration(milliseconds: 300));
-                        navigatorKey.currentContext!
-                            .read<WrapperViewModel>()
-                            .updatePageView(WrapperViewStatus.connect);
-                      },
-                      selected: value == WrapperViewStatus.connect),
-                  bottombaritem(
-                      icon: PSvgs.profile,
-                      label: "Profile",
-                      fun: () {
-                        // PostViewModel model =
-                        //     navigatorKey.currentContext!.read<PostViewModel>();
-                        // model.currentPage = 0;
-                        // model.fetchSelfPostWithPagination(1);
-                        // model.selfPostController.refresh();
-                        if (navigatorKey.currentContext!
-                                .read<ProfileViewModel>()
-                                .profileModel!
-                                .accountType!
-                                .toLowerCase() ==
-                            "normal") {
-                          navigatorKey.currentContext!
-                              .read<WrapperViewModel>()
-                              .updatePageView(WrapperViewStatus.normalProfile);
-                        } else {
-                          navigatorKey.currentContext!
-                              .read<WrapperViewModel>()
-                              .updatePageView(WrapperViewStatus.profile);
-                        }
-                      },
-                      selected: value == WrapperViewStatus.profile_view ||
-                          value == WrapperViewStatus.profile ||
-                          value == WrapperViewStatus.otherProfile ||
-                          value == WrapperViewStatus.normalProfile)
-                ],
-              ),
+    return BottomAppBar(
+      padding: EdgeInsets.zero,
+      height: 110,
+      clipBehavior: Clip.hardEdge,
+      shadowColor: PColors.white,
+      color: PColors.black,
+      child: Container(
+        decoration: BoxDecoration(
+            color: PColors.black,
+            border: Border(
+                top: BorderSide(color: PColors.white.withOpacity(0.3)))),
+        child: Padding(
+          padding: const EdgeInsets.all(17),
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                bottombaritem(
+                    icon: PSvgs.home,
+                    label: "Home",
+                    fun: () => _onTap(0),
+                    selected: navigationShell.currentIndex == 0),
+                bottombaritem(
+                    icon: PSvgs.search,
+                    label: "Search",
+                    fun: () => _onTap(1),
+                    selected: navigationShell.currentIndex == 1),
+                bottombaritem(
+                    icon: PSvgs.upload,
+                    label: "Upload",
+                    fun: () => _handleUpload(context),
+                    selected: false), // Upload is a bottom sheet, not a route
+                bottombaritem(
+                    icon: PSvgs.connect,
+                    label: "Connection",
+                    fun: () => _handleConnection(context),
+                    selected: navigationShell.currentIndex == 2),
+                bottombaritem(
+                    icon: PSvgs.profile,
+                    label: "Profile",
+                    fun: () => _onTap(3),
+                    selected: navigationShell.currentIndex == 3),
+              ],
             ),
           ),
         ),
@@ -143,7 +73,39 @@ class BottomNavBar extends StatelessWidget {
     );
   }
 
-  bottombaritem(
+  void _handleUpload(BuildContext context) {
+    final profileVM = context.read<ProfileViewModel>();
+    final profileTypeRaw = profileVM.profileModel?.accountType ?? '';
+    final profileType = profileTypeRaw.trim().toLowerCase();
+    debugPrint('[BottomNav] Upload tapped. accountType="$profileTypeRaw" (normal=$profileType)');
+    // Block only if accountType is "normal" or empty; allow freelancer and premium.
+    if (profileType.isEmpty || profileType == "normal") {
+      _onTap(3); // Go to profile tab which shows PlanUi for normal users
+    } else {
+      openBottomseet(context);
+    }
+  }
+
+  void _handleConnection(BuildContext context) {
+    // Navigate to the Connect tab immediately for better UX.
+    _onTap(2);
+
+    // Fetch latest profile/location data in the background.
+    // Ignore any errors here; Connect page will display placeholders or retry.
+    () async {
+      final profileVM = context.read<ProfileViewModel>();
+      await profileVM.fetchProfile();
+      if (profileVM.profileModel?.lat != null &&
+          profileVM.profileModel?.lng != null) {
+        final connectVM = context.read<ConnectPageViewModel>();
+        connectVM.updateLocation(
+            profileVM.profileModel!.lat!, profileVM.profileModel!.lng!);
+        connectVM.fetchNearestProfiles();
+      }
+    }();
+  }
+
+  Widget bottombaritem(
       {required String label,
       required String icon,
       required Function()? fun,
@@ -157,7 +119,6 @@ class BottomNavBar extends StatelessWidget {
           children: [
             SvgPicture.asset(
               icon,
-              // color: selected ? PColors.white : null,
               height: label == 'Upload' ? 50 : 24,
             ),
             const SizedBox(
@@ -166,20 +127,17 @@ class BottomNavBar extends StatelessWidget {
             label == 'Upload'
                 ? Container()
                 : Container(
-                    color: selected ? PColors.white : PColors.black,
+                    color: selected ? PColors.white : Colors.transparent,
                     height: 2,
                     width: 40,
                   )
-            // Divider(w
-            //   color: selected ? PColors.white : PColors.black,
-            // )
           ],
         ),
       )),
     );
   }
 
-  openBottomseet(BuildContext context) {
+  void openBottomseet(BuildContext context) {
     showModalBottomSheet(
       shape: const BeveledRectangleBorder(),
       backgroundColor: PColors.black,

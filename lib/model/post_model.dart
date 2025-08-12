@@ -47,6 +47,26 @@ class PostModel {
     createdAt = json['createdAt'];
     isLiked = json.containsKey('isLiked') ? json['isLiked'] : null;
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['bio'] = bio;
+    data['mediaType'] = mediaType;
+    data['mediaUrl'] = mediaUrl;
+    data['thumbnail'] = thumbnail;
+    data['duration'] = duration;
+    data['likesCount'] = likesCount;
+    data['commentsCount'] = commentsCount;
+    data['shareCount'] = shareCount;
+    if (user != null) {
+      data['user'] = user!.toJson();
+    }
+    data['sharedWith'] = sharedWith;
+    data['createdAt'] = createdAt;
+    data['isLiked'] = isLiked;
+    return data;
+  }
 }
 
 class User {
@@ -55,13 +75,15 @@ class User {
   String? userProfilePicture;
   String? professionId;
   String? professionName;
+  bool? isVerified;
 
   User(
       {this.sId,
       this.userName,
       this.userProfilePicture,
       this.professionId,
-      this.professionName});
+      this.professionName,
+      this.isVerified});
 
   User.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -69,5 +91,17 @@ class User {
     userProfilePicture = json['userProfilePicture'];
     professionId = json['professionId'];
     professionName = json['professionName'];
+    isVerified = json['isVerified'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['userName'] = userName;
+    data['userProfilePicture'] = userProfilePicture;
+    data['professionId'] = professionId;
+    data['professionName'] = professionName;
+    data['isVerified'] = isVerified;
+    return data;
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:jora_customer/widgets/safe_cached_network_image.dart';
 import 'package:intl/intl.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
@@ -50,13 +52,13 @@ class ChatCard extends StatelessWidget {
                   conversationModel.lastMessage!.messageId!.sId.toString(),
               context: context);
 
-          Navigator.pushNamed(context, PPages.chatDetailsPageui);
+          context.pushNamed(PPages.chatDetailsPageui);
         } else {
           context
               .read<ChatDetailsViewModel>()
               .updateConversationModel(conversationModel);
           context.read<ChatDetailsViewModel>().fetchAllConversations(1);
-          Navigator.pushNamed(context, PPages.chatDetailsPageui);
+          context.pushNamed(PPages.chatDetailsPageui);
         }
       },
       child: Padding(
@@ -67,9 +69,9 @@ class ChatCard extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 24,
-                  backgroundImage: profileImageUrl!.isEmpty
-                      ? AssetImage(PImages.profile)
-                      : NetworkImage(profileImageUrl ?? ''),
+                  backgroundImage: profileImageUrl == null || profileImageUrl!.isEmpty
+                       ? AssetImage(PImages.profile)
+                       : safeImageProvider(profileImageUrl, placeholderAsset: PImages.profile),
                 )
               ],
             ),

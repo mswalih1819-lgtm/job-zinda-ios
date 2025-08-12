@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
@@ -34,7 +35,7 @@ class ContactUsUi extends StatelessWidget {
             icon: PSvgs.feedback,
             title: 'Send Feedback',
             onTap: () {
-              Navigator.pushNamed(context, PPages.sendFeedbackUi);
+              context.pushNamed(PPages.sendFeedbackUi);
             }),
       ],
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:badges/badges.dart' as badges;
@@ -47,7 +48,7 @@ class HomeAppbar extends StatelessWidget {
 
               // Navigator.pushNamed(context, PPages.subscriptionPageUi);
               context.read<ChatViewModel>().updateView(ChatViewStatus.letsPlan);
-              Navigator.pushNamed(context, PPages.chatPageUi);
+              context.pushNamed(PPages.chatPageUi);
             },
             child: chatBadge.adminMessageCount > 0
                 ? badges.Badge(
@@ -70,7 +71,7 @@ class HomeAppbar extends StatelessWidget {
               context.read<ChatViewModel>().fetchAllConversations();
               context.read<ChatViewModel>().updateView(ChatViewStatus.primary);
 
-              Navigator.pushNamed(context, PPages.chatPageUi);
+              context.pushNamed(PPages.chatPageUi);
             },
             child: chatBadge.userMessageCount > 0
                 ? badges.Badge(
@@ -90,7 +91,7 @@ class HomeAppbar extends StatelessWidget {
           builder: (context, chatBadge, child) => GestureDetector(
             onTap: () {
               context.read<BadgeViewModel>().notificationRead();
-              Navigator.pushNamed(context, PPages.notificationsUi);
+              context.pushNamed(PPages.notificationsUi);
             },
             child: chatBadge.notificationCount > 0
                 ? badges.Badge(

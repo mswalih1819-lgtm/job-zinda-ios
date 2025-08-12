@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:jora_customer/widgets/safe_cached_network_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
@@ -51,20 +53,9 @@ class ProfileImageWidget extends StatelessWidget {
                         ),
                       ),
                     )
-                  : Image.network(
-                      profileModel!.coverImage!,
+                  : SafeCachedNetworkImage(
+                      imageUrl: profileModel?.coverImage,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          color: Colors.black,
-                          child: Center(
-                            child: Text(
-                              "Failed to load image",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        );
-                      },
                     ),
             ),
             if (icon != null)
@@ -103,11 +94,25 @@ class ProfileImageWidget extends StatelessWidget {
           backgroundColor: PColors.white,
           child: CircleAvatar(
             radius: profileHeight / 1.5,
-            backgroundImage: (profileModel?.profileImageUrl?.isNotEmpty ?? false)
-                ? NetworkImage(profileModel!.profileImageUrl!)
-                : AssetImage(PImages.profile) as ImageProvider,
-            onBackgroundImageError: (_, __) {
-              // This gets triggered silently – optionally log it or update state if needed
+            backgroundImage: (() {
+              final imageUrl = profileModel?.profileImageUrl;
+              bool isValidUrl = imageUrl != null && imageUrl.isNotEmpty && (imageUrl.startsWith('http://') || imageUrl.startsWith('https://'));
+              if (isValidUrl) {
+                debugPrint("Attempting to load profile avatar from network: $imageUrl");
+                return safeImageProvider(imageUrl, placeholderAsset: PImages.profile);
+              } else {
+                if (imageUrl != null && imageUrl.isNotEmpty) {
+                  debugPrint("Invalid or non-HTTP/HTTPS profile avatar URL ('$imageUrl'), falling back to asset: ${PImages.profile}");
+                } else {
+                  debugPrint("Profile avatar URL is null or empty, falling back to asset: ${PImages.profile}");
+                }
+                return AssetImage(PImages.profile) as ImageProvider;
+              }
+            })(),
+            onBackgroundImageError: (exception, stackTrace) {
+              // Log the error for debugging if NetworkImage itself fails
+              debugPrint("NetworkImage error loading profile avatar: $exception");
+              debugPrint("Attempted profile avatar URL: ${profileModel?.profileImageUrl}");
             },
           ),
         ),
@@ -125,7 +130,7 @@ class ProfileImageWidget extends StatelessWidget {
                     await context
                         .read<ProfileAnalyticsViewModel>()
                         .fetchProfileAnalytics(filter: '7days');
-                    Navigator.pushNamed(context, PPages.profileAnalyticsPageUi);
+                    context.pushNamed(PPages.profileAnalyticsPageUi);
                   },
                   child: SvgPicture.asset(icon!, height: 30),
                 ),
@@ -133,7 +138,7 @@ class ProfileImageWidget extends StatelessWidget {
               WrapperViewStatus.profile == value
                   ? GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, PPages.helpSupportUi);
+                        context.pushNamed(PPages.helpSupportUi);
                       },
                       child: SvgPicture.asset(PSvgs.help, height: 30),
                     )

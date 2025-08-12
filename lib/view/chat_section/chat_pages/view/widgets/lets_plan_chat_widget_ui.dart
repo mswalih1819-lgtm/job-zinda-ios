@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/view_model/chat_badge_viewmodel.dart';
@@ -23,7 +24,7 @@ class LetsPlanChatWidgetUi extends StatelessWidget {
               .read<BadgeViewModel>()
               .updatemessage(context: context);
         context.read<ChatDetailsViewModel>().fetchAllQueryMessages();
-        Navigator.pushNamed(context, PPages.chatDetailsPageui);
+        context.pushNamed(PPages.chatDetailsPageui);
       },
         title: Text(
           "Job Zinda Admin",

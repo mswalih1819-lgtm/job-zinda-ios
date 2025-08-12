@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
+import 'package:jora_customer/widgets/safe_cached_network_image.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
 import '../../../../model/post_model.dart';
@@ -16,7 +18,7 @@ class SingleGalleryWidget extends StatelessWidget {
           PostViewModel postViewModel = context.read<PostViewModel>();
           postViewModel.postDetails = postModel;
           postViewModel.fetchPostDetails();
-          Navigator.pushNamed(context, PPages.profilePostDetailsUi);
+          context.pushNamed(PPages.profilePostDetailsUi);
         },
         child: postModel?.mediaType == 'image'
             ? Image.network(
@@ -31,9 +33,13 @@ class SingleGalleryWidget extends StatelessWidget {
                 ? Container(
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image:
-                                NetworkImage(postModel!.thumbnail.toString()))),
+                          fit: BoxFit.cover,
+                          image: safeImageProvider(
+                            postModel!.thumbnail,
+                            placeholderAsset: PImages.noImage,
+                          ),
+                        ),
+                      ),
                     alignment: Alignment.center,
                     child: const Icon(
                       Icons.play_circle,

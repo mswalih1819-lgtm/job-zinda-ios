@@ -51,7 +51,25 @@ class StoryModel {
     userProfileImg = json['userProfileImg'];
   }
 
-
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['user'] = user;
+    data['notificationType'] = notificationType;
+    if (media != null) {
+      data['media'] = media!.map((v) => v.toJson()).toList();
+    }
+    data['description'] = description;
+    data['caption'] = caption;
+    data['archived'] = archived;
+    data['isActive'] = isActive;
+    data['createdAt'] = createdAt;
+    data['lastUploadedMedia'] = lastUploadedMedia;
+    data['__v'] = iV;
+    data['userName'] = userName;
+    data['userProfileImg'] = userProfileImg;
+    return data;
+  }
 }
 
 // class Media {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/custom_text_feild.dart';
@@ -203,10 +204,7 @@ class _AddUserPageState extends State<AddUserPage> {
                     // }
                     value.referralCode = "";
 
-                    Navigator.pushNamed(
-                      context,
-                      PPages.referalCodeUi,
-                    );
+                    context.pushNamed(PPages.referalCodeUi);
                   }
                 },
                 bgcolor: PColors.white,

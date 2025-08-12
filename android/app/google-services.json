@@ -7,12 +7,80 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1094867649764:android:b49d5c49820b39ea9818f1",
+        "mobilesdk_app_id": "1:1094867649764:android:8c39701e8a40f4699818f1",
         "android_client_info": {
           "package_name": "com.jobZinda.customers"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "1094867649764-1aqnfphg5kk29u3dqp59t2537qijvcqa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jobZinda.customers",
+            "certificate_hash": "36a2dd13a3694a7bbd0b238b127dd7b3071b73a8"
+          }
+        },
+        {
+          "client_id": "1094867649764-jtvjie7h4mo6f4dkbljf7j8dv3gt5vvu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jobZinda.customers",
+            "certificate_hash": "aef1a3de0f25a6366ed9171def3ec787900197d9"
+          }
+        },
+        {
+          "client_id": "1094867649764-uh7tj167nduomg2u2fboeh2fc4sfsel6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jobZinda.customers",
+            "certificate_hash": "dc49ad682c0c5756a1c0111e33f655aef6a85c41"
+          }
+        },
+        {
+          "client_id": "1094867649764-e08m1q0tk0jmhv39h1m8572c7eg4icl2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCWFV48z4BLIeno4r7RuNTFNhBR9EwvNc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1094867649764-e08m1q0tk0jmhv39h1m8572c7eg4icl2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1094867649764-cdf6aanavjb0ufgsjltjrs5s02ogtiv6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.joraCustomer"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1094867649764:android:b49d5c49820b39ea9818f1",
+        "android_client_info": {
+          "package_name": "com.jora.customers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1094867649764-3j7grspm24vcaksv9ca152k9g9urp5u6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jora.customers",
+            "certificate_hash": "a7041b9a717ecfb57bd45c9669774b990d2c54e2"
+          }
+        },
         {
           "client_id": "1094867649764-e08m1q0tk0jmhv39h1m8572c7eg4icl2.apps.googleusercontent.com",
           "client_type": 3

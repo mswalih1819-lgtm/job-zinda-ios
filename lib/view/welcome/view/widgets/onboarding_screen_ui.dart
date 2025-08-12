@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
+import 'package:jora_customer/Settings/until/PSvgs.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/Pfonts.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
@@ -25,13 +27,11 @@ class _OnboardingScreensUiState extends State<OnboardingScreensUi> {
   }) {
     var size = MediaQuery.sizeOf(context);
     return Column(
-      // mainAxisAlignment: MainAxisAlignment.center,
-      // crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Center(
           child: SizedBox(
             height: size.height * 0.45,
-            // margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
             child: Image(
               image: AssetImage(image),
             ),
@@ -40,24 +40,12 @@ class _OnboardingScreensUiState extends State<OnboardingScreensUi> {
         const SizedBox(
           height: 30,
         ),
-        Expanded(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 30,
-            ),
-            pageIndicator(size),
-            const SizedBox(
-              height: 50,
-            ),
-            columnWidget(title, title2, dis, size),
-            const SizedBox(
-              height: 30,
-            ),
-          ],
-        )),
+        Center(child: pageIndicator(size)),
+        const SizedBox(
+          height: 50,
+        ),
+        columnWidget(title, title2, dis, size),
+        const Spacer(),
         getStartButton(),
       ],
     );
@@ -113,7 +101,6 @@ class _OnboardingScreensUiState extends State<OnboardingScreensUi> {
       ),
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        height: size.height,
         child: PageView(
           controller: controller,
           onPageChanged: (value) {
@@ -160,7 +147,7 @@ class _OnboardingScreensUiState extends State<OnboardingScreensUi> {
     return Row(
       children: [
         Container(
-          width: size.height / 7.2,
+          width: size.width / 5,
           height: 2,
           decoration: BoxDecoration(color:page==0|| page==1||page==2? PColors.white:PColors.white.withOpacity(0.3)),
         ),
@@ -168,7 +155,7 @@ class _OnboardingScreensUiState extends State<OnboardingScreensUi> {
           width: 4,
         ),
         Container(
-          width: size.height / 7.2,
+          width: size.width / 5,
           height: 2,
           decoration: BoxDecoration(color: page==1||page==2? PColors.white:PColors.white.withOpacity(0.3)),
         ),
@@ -176,7 +163,7 @@ class _OnboardingScreensUiState extends State<OnboardingScreensUi> {
           width: 4,
         ),
         Container(
-          width: size.height / 7.2,
+          width: size.width / 5,
           height: 2,
           decoration: BoxDecoration(color:page==2? PColors.white:PColors.white.withOpacity(0.3)),
         ),
@@ -187,9 +174,9 @@ class _OnboardingScreensUiState extends State<OnboardingScreensUi> {
     //   dotsCount: 3,
     //   decorator: DotsDecorator(
     //       spacing: const EdgeInsets.only(right: 4),
-    //       activeSize: Size(size.height / 7.2, 1),
+    //       activeSize: Size(size.width / 5, 1),
     //       shape: RoundedRectangleBorder(),
-    //       size: Size(size.height / 7.2, 1),
+    //       size: Size(size.width / 5, 1),
     //       activeShape: RoundedRectangleBorder(),
     //       // color: PColors.textGrey,
     //       activeColor: PColors.white),
@@ -205,7 +192,7 @@ class _OnboardingScreensUiState extends State<OnboardingScreensUi> {
       text: page == 2 ? "Lets go" : "Next",
       onPressed: () {
         if (page == 2) {
-          Navigator.pushNamed(context, PPages.loginWelcomeScreenUi);
+          context.replaceNamed(PPages.loginWelcomeScreenUi);
         } else {
           controller.nextPage(
               duration: const Duration(milliseconds: 300),
