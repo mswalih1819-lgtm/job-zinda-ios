@@ -29,11 +29,11 @@ import UIKit
     
     // Check if app was launched from a deep link
     if let url = launchOptions?[UIApplication.LaunchOptionsKey.url] as? URL {
-      self.initialLink = url.absoluteString
-    } else if let userActivity = launchOptions?[UIApplication.LaunchOptionsKey.userActivity] as? NSUserActivity {
-      if userActivity.activityType == NSUserActivityTypeBrowsingWeb, let url = userActivity.webpageURL {
         self.initialLink = url.absoluteString
-      }
+    } else if let userActivityDictionary = launchOptions?[UIApplication.LaunchOptionsKey.userActivityDictionary] as? [AnyHashable: Any], let userActivity = userActivityDictionary["UIApplicationLaunchOptionsUserActivityKey"] as? NSUserActivity {
+        if userActivity.activityType == NSUserActivityTypeBrowsingWeb, let url = userActivity.webpageURL {
+            self.initialLink = url.absoluteString
+        }
     }
     
     GeneratedPluginRegistrant.register(with: self)
