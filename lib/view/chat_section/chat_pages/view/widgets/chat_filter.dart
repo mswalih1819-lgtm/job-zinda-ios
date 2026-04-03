@@ -53,8 +53,8 @@ class ChatFilterUi extends StatelessWidget {
                   text: str,
                   fontsize: 13,
                   color: selected
-                      ? PColors.white
-                      : PColors.whiteOff.withOpacity(0.8),
+                      ? Color(0xFF8A4FFF)
+                      : Colors.grey,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1),
               const SizedBox(

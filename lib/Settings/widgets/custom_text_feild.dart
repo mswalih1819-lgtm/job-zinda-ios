@@ -32,6 +32,9 @@ class CustomTextFeild extends StatefulWidget {
   final String? Function(String? val)? validation;
   final TextInputType? keyboardType;
   final bool readOnly;
+  final bool? obscureText;
+  final TextInputAction? textInputAction;
+
   const CustomTextFeild(
       {super.key,
       this.onTap,
@@ -58,7 +61,9 @@ class CustomTextFeild extends StatefulWidget {
       this.inputFormatters,
       this.borderRadius,
       this.borderColor,
-      this.readOnly = false});
+      this.readOnly = false,
+      this.obscureText,
+      this.textInputAction,});
 
   @override
   State<CustomTextFeild> createState() => _CustomTextFeildState();
@@ -69,13 +74,13 @@ class _CustomTextFeildState extends State<CustomTextFeild> {
     return InputDecoration(
       prefixIcon: widget.prefixIcon != null
           ? GestureDetector(
-              onTap: widget.prefixfn!,
+              onTap: widget.prefixfn,
               child: widget.prefixIcon!,
             )
           : null,
       suffixIcon: widget.suffixIcon != null
           ? GestureDetector(
-              onTap: widget.sufixfn!,
+              onTap: widget.sufixfn,
               child: widget.suffixIcon!,
             )
           : null,
@@ -132,10 +137,11 @@ class _CustomTextFeildState extends State<CustomTextFeild> {
           onSaved: widget.onSaved,
           keyboardType: widget.keyboardType,
           cursorColor: Theme.of(context).colorScheme.primary,
+          obscureText: widget.obscureText ?? false,
           maxLines: widget.maxLine ?? 1,
           maxLength: widget.maxLength,
           style: TextStyle(
-            color: widget.textColor ?? PColors.white,
+            color: widget.textColor ?? Color(0xFF8A4FFF),
             fontSize: 16,
             fontFamily: PFonts.inter,
             fontWeight: FontWeight.w600,
@@ -153,9 +159,11 @@ class _CustomTextFeildState extends State<CustomTextFeild> {
     return Text(
       widget.textHead!,
       style: PTextStyles.titleSmall.copyWith(
-          color: PColors.whiteOff.withOpacity(0.6) ?? PColors.darkGrey),
+        color: widget.textColor ?? Color(0xFF8A4FFF),
+      ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

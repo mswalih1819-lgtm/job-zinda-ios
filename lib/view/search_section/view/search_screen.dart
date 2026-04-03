@@ -37,7 +37,7 @@ class _SearchScreenState extends State<SearchScreen> {
       }
     });
   }
- 
+
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   height: 30,
                 ),
                value.searchList.isEmpty?
-               Expanded(child: Center(child: Text("No Data!!!",style: TextStyle(color: Colors.white),)))
+               Expanded(child: Center(child: Text("No Data!!!",style: TextStyle(color: Color(0xFF8A4FFF),),)))
                :  Expanded(
                   child: GridView.builder(
                       controller: _scrollController,

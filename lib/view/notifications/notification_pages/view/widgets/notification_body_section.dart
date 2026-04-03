@@ -15,36 +15,58 @@ class NotificationBodySection extends StatefulWidget {
 }
 
 class _NotificationBodySectionState extends State<NotificationBodySection> {
+
   @override
   void initState() {
-    NotificationViewModel notificationViewModel =
-        context.read<NotificationViewModel>();
+    super.initState();
+
+    final notificationViewModel = context.read<NotificationViewModel>();
     notificationViewModel.currentPage = 0;
     notificationViewModel.initNotificationPagination();
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
     NotificationViewModel notificationViewModel =
-        context.watch<NotificationViewModel>();
+    context.watch<NotificationViewModel>();
+
     return Expanded(
-      child: PagedListView(
-          shrinkWrap: true,
-          padding: const EdgeInsets.symmetric(horizontal: 13),
-          pagingController: notificationViewModel.notificatonController,
-          builderDelegate: PagedChildBuilderDelegate<NotificationModel>(
-            noItemsFoundIndicatorBuilder: (context) => const SizedBox(
-              height: 500,
-              child: Center(child: Text('No data found')),
-            ),
-            itemBuilder: (context, item, index) {
-              return ProfileViewSingleNotiWidget(
-                notificationModel: item,
-              );
-           
-            },
-          )),
+      child: PagedListView<int, NotificationModel>(
+        padding: const EdgeInsets.symmetric(horizontal: 13),
+        pagingController: notificationViewModel.notificatonController,
+
+        builderDelegate: PagedChildBuilderDelegate<NotificationModel>(
+
+          itemBuilder: (context, item, index) {
+
+            /// DEBUG PRINT
+            print("Notification Type : ${item.notificationType}");
+            print("Task ID : ${item.connectedTaskId}");
+
+            return ProfileViewSingleNotiWidget(
+              notificationModel: item,
+            );
+          },
+
+          firstPageProgressIndicatorBuilder: (context) =>
+          const Center(child: CircularProgressIndicator()),
+
+          newPageProgressIndicatorBuilder: (context) =>
+          const Center(child: CircularProgressIndicator()),
+
+          firstPageErrorIndicatorBuilder: (context) =>
+          const Center(child: Text("Error loading notifications")),
+
+          newPageErrorIndicatorBuilder: (context) =>
+          const Center(child: Text("Error loading more notifications")),
+
+          noItemsFoundIndicatorBuilder: (context) => const SizedBox(
+            height: 500,
+            child: Center(child: Text('No data found')),
+          ),
+        ),
+      ),
     );
   }
 }

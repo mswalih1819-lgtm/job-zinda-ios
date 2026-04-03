@@ -32,8 +32,9 @@ class SubscriptionPageUi extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: CustomElavatedTextButton(
         bgcolor: PColors.white,
-        borderRadius: 0,
-        textColor: PColors.black,
+        borderRadius: 18,
+        borderColor: Color(0xFF8A4FFF),
+        textColor:Color(0xFF8A4FFF),
         text: "Lets go",
         onPressed: () {
           context.pushNamed(PPages.planListUi);

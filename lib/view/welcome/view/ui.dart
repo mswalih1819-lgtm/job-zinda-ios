@@ -18,16 +18,21 @@ class WelcomePageUi extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-          leadingWidth: 160,
-          leading: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 19.0),
-            child: Image.asset(
-              PImages.logo,
-              width: 160,
-              fit: BoxFit.cover,
-              height: 150,
-            ),
-          )),
+        backgroundColor: const Color(0xFF8A4FFF), // 👈 Purple
+        surfaceTintColor: const Color(0xFF8A4FFF),
+        elevation: 0, // 👈 shadow remove
+        leadingWidth: 160,
+        leading: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 19.0),
+          child: Image.asset(
+            PImages.logo3,
+            width: 160,
+            height: 150,
+            fit: BoxFit.contain, // 👈 better than cover
+          ),
+        ),
+      ),
+
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
@@ -53,18 +58,18 @@ class WelcomePageUi extends StatelessWidget {
                   children: [
                     RichText(
                       text: const TextSpan(
-                        style: TextStyle(fontSize: 28, letterSpacing: 1.5
+                        style: TextStyle(fontSize: 28, letterSpacing: 1.5,color:  Color(0xFF8A4FFF),
                             // color: Colors.black,
                             ),
                         children: [
-                          TextSpan(text: 'Where'),
+                          TextSpan(text: 'Where',style: TextStyle(color:  Color(0xFF8A4FFF),)),
                           WidgetSpan(
                               child: SizedBox(
                             width: 10,
                           )),
                           TextSpan(
                               text: 'Talent',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
+                              style: TextStyle(fontWeight: FontWeight.bold,color:  Color(0xFF8A4FFF),)),
                           TextSpan(text: '\n'),
                           TextSpan(text: 'Meets'),
                           WidgetSpan(
@@ -73,7 +78,7 @@ class WelcomePageUi extends StatelessWidget {
                           )),
                           TextSpan(
                               text: 'Opportunity',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
+                              style: TextStyle(fontWeight: FontWeight.bold,color:  Color(0xFF8A4FFF),)),
                         ],
                       ),
                     ),
@@ -102,8 +107,9 @@ class WelcomePageUi extends StatelessWidget {
     return CustomElavatedTextButton(
       width: double.infinity,
       bgcolor: PColors.white,
-      borderRadius: 0,
-      textColor: PColors.seed,
+      borderRadius: 18,
+      borderColor:  Color(0xFF8A4FFF),
+      textColor:  Color(0xFF8A4FFF),
       text: "Get Started",
       onPressed: () {
         context.replaceNamed(PPages.onboardingScreensUi);
@@ -118,7 +124,7 @@ class WelcomePageUi extends StatelessWidget {
       style: TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w300,
-        color: PColors.white.withOpacity(1),
+        color:  Color(0xFF8A4FFF),
         fontFamily: PFonts.manrope,
       ),
     );

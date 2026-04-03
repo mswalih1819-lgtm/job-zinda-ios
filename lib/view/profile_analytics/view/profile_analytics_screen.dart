@@ -11,11 +11,11 @@ class ProfileAnalyticsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title:
-            textWidget(text: 'Profile Analytics', fontweight: FontWeight.w400),
-        backgroundColor: Colors.black,
+            textWidget(text: 'Profile Analytics', fontweight: FontWeight.w400,color: Color(0xFF8A4FFF),),
+        backgroundColor: Colors.white,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,11 +25,11 @@ class ProfileAnalyticsScreen extends StatelessWidget {
           ),
           const ProfileAnalyticsHeadUi(),
           Divider(
-            color: PColors.whiteOff.withOpacity(0.4),
+            color: Color(0xFF8A4FFF),
           ),
           const GrowthSectionUi(),
           Divider(
-            color: PColors.whiteOff.withOpacity(0.4),
+            color: Color(0xFF8A4FFF),
           ),
           // const FeedbackSectionUi(),
           // const SizedBox(

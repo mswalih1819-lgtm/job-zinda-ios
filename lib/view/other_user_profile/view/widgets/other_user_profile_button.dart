@@ -119,7 +119,7 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
         ),
         child: Container(
           decoration: BoxDecoration(
-            color: PColors.seed2,
+            color: PColors.white,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
@@ -169,16 +169,25 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
               const SizedBox(
                 width: 6,
               ),
-              button(
-                  btn: 'Send message',
-                  fun: () {
-                    context
-                        .read<ChatDetailsViewModel>()
-                        .fetchAllMessageProfile(
-                            postViewModel.otherUser!.sId.toString());
-                    context.pushNamed(PPages.chatDetailsPageui);
-                  },
-                  selected: false),
+              ElevatedButton(
+                onPressed: () {
+                  context
+                      .read<ChatDetailsViewModel>()
+                      .fetchAllMessageProfile(
+                      postViewModel.otherUser!.sId.toString());
+                  context.pushNamed(PPages.chatDetailsPageui);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white, // white background
+                  foregroundColor: Color(0xFF8A4FFF),// text color
+                  side: BorderSide(color: Color(0xFF8A4FFF),width: 2), // border
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8), // rounded corners
+                  ),
+                  elevation: 0, // remove shadow
+                ),
+                child: Text('Send message'),
+              ),
               const SizedBox(
                 width: 6,
               ),
@@ -187,14 +196,15 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
                 height: 38,
                 width: 45,
                 decoration: BoxDecoration(
-                  color: PColors.black2,
+                  color: PColors.white,
                   borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color:  Color(0xFF8A4FFF))
                 ),
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   icon: Icon(
                     Icons.share,
-                    color: PColors.whiteOff,
+                    color:  Color(0xFF8A4FFF),
                     size: 22,
                   ),
                   onPressed: () {
@@ -216,9 +226,9 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
             decoration: BoxDecoration(
-              color: const Color(0xFFFFD700), // Job Zinda logo yellow
+              color: Colors.purple.shade200, // Job Zinda logo yellow
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: PColors.textFeildBorderColor.withOpacity(0.3)),
+              border: Border.all(color: Color(0xFF8A4FFF)),
             ),
             child: Row(
               children: [
@@ -228,7 +238,7 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      color: PColors.black,
+                      color: PColors.white,
                     ),
                   ),
                 ),
@@ -240,7 +250,7 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: PColors.black,
+                      color:Color(0xFF8A4FFF),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
@@ -262,10 +272,11 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
                   },
                   child: CircleAvatar(
                     radius: 12,
-                    backgroundColor: PColors.textFeildBorderColor.withOpacity(0.3),
+                    backgroundColor: Color(0xFF8A4FFF),
                     child: const Center(
                       child: Icon(
                         Icons.close,
+                        color: Colors.white,
                         size: 12,
                       ),
                     ),

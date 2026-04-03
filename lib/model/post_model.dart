@@ -28,6 +28,27 @@ class PostModel {
       this.thumbnail,
       this.createdAt,
       this.isLiked});
+  factory PostModel.defaultPost() {
+    return PostModel(
+      sId: '0',
+      bio: 'No post available',
+      mediaType: 'video',
+      mediaUrl: null,
+      thumbnail: null,
+      duration: 0,
+      likesCount: 0,
+      commentsCount: 0,
+      shareCount: 0,
+      user: User(
+        sId: '0',
+        userName: 'Unknown',
+        userProfilePicture: null,
+      ),
+      sharedWith: null,
+      createdAt: DateTime.now().toString(),
+      isLiked: false,
+    );
+  }
 
   PostModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];

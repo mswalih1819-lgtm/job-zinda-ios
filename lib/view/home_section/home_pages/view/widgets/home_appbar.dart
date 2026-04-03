@@ -17,9 +17,10 @@ class HomeAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Color(0xFF8A4FFF),
       leadingWidth: 200,
       leading: Padding(
-        padding: const EdgeInsets.only(left: 10),
+        padding: const EdgeInsets.only(left: 20),
         child: Row(
           children: [
             GestureDetector(
@@ -29,12 +30,14 @@ class HomeAppbar extends StatelessWidget {
                 child: const Icon(
                   Icons.menu,
                   weight: 10,
+                  color: Colors.white,
                 )),
+            SizedBox(width: 10,),
             Image.asset(
-              PImages.logo,
-              width: 140,
+              PImages.logo3,
+              width: 120,
               fit: BoxFit.fitWidth,
-              height: 100,
+              height: 80,
             ),
           ],
         ),
@@ -52,15 +55,16 @@ class HomeAppbar extends StatelessWidget {
             },
             child: chatBadge.adminMessageCount > 0
                 ? badges.Badge(
-                    badgeStyle:
-                        badges.BadgeStyle(badgeColor: PColors.badgeColor),
-                    position: badges.BadgePosition.topEnd(top: -12, end: -4),
-                    badgeContent: const Text(''),
-                    child: SvgPicture.asset(PSvgs.lets_plan),
-                  )
+              badgeStyle:
+              badges.BadgeStyle(badgeColor: PColors.badgeColor),
+              position: badges.BadgePosition.topEnd(top: -12, end: -4),
+              badgeContent: const Text(''),
+              child: SvgPicture.asset(PSvgs.lets_plan),
+            )
                 : SvgPicture.asset(PSvgs.lets_plan),
           ),
         ),
+
         const SizedBox(
           width: 16,
         ),

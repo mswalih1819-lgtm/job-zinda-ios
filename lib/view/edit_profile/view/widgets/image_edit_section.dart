@@ -13,6 +13,7 @@ class ImageEditSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final image = LoggedInUser.profilePic;
     ProfileViewModel profileViewModel = context.watch<ProfileViewModel>();
     return Row(
       children: [
@@ -21,10 +22,9 @@ class ImageEditSection extends StatelessWidget {
           backgroundColor: PColors.white,
           child: CircleAvatar(
             radius: 44,
+
             backgroundImage:LoggedInUser.profilePic!.isEmpty?
-             AssetImage(PImages.profile)
-                      :
-             NetworkImage(LoggedInUser.profilePic ?? ''),
+            AssetImage(PImages.profile) : NetworkImage(LoggedInUser.profilePic ?? ''),
           ),
         ),
         const SizedBox(
@@ -48,9 +48,9 @@ class ImageEditSection extends StatelessWidget {
             children: [
               const Icon(
                 Icons.add,
-                color: Colors.white,
+                color: Color(0xFF8A4FFF),
               ),
-              textWidget(text: 'Upload image', color: Colors.white)
+              textWidget(text: 'Upload image', color: Color(0xFF8A4FFF),)
             ],
           ),
         )

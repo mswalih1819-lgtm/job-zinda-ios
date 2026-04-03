@@ -42,7 +42,7 @@ class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
               dropdownWidget(),
               Text(
                 '${dropdownValue == 'Last 7 days' ? beforeOneWeek : beforeOneMonth} - $today',
-                style: const TextStyle(color: Colors.grey),
+                style: const TextStyle(color: Color(0xFF8A4FFF),),
               ),
             ],
           ),
@@ -64,14 +64,14 @@ class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
                 children: [
                   textWidget(
                     text: 'Total followers',
-                    color: PColors.whiteOff.withOpacity(0.9),
+                    color: Color(0xFF8A4FFF),
                   ),
                   Row(
                     children: [
                       Text(
                         '${analyticsModel?.totalFollowers ?? '0'} ',
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: Color(0xFF8A4FFF),
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
                         ),
@@ -107,20 +107,21 @@ class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
     return Container(
       height: 38,
       decoration: BoxDecoration(
-          color: PColors.black2, borderRadius: BorderRadius.circular(5)),
+          color: PColors.white, borderRadius: BorderRadius.circular(5),
+      border: Border.all(color: Color(0xFF8A4FFF),)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: DropdownButton<String>(
           value: dropdownValue,
-          dropdownColor: PColors.seed2,
+          dropdownColor: PColors.white,
           icon: Icon(
             Icons.keyboard_arrow_down,
-            color: PColors.white,
+            color:Color(0xFF8A4FFF),
           ),
           //
           iconSize: 24,
           elevation: 16,
-          style: TextStyle(color: PColors.seed2),
+          style: TextStyle(color: Color(0xFF8A4FFF),),
           underline: Container(),
           onChanged: (String? newValue) {
             if (newValue != null) {
@@ -143,7 +144,7 @@ class _ProfileAnalyticsHeadUiState extends State<ProfileAnalyticsHeadUi> {
               .map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: textWidget(text: value, color: PColors.white),
+              child: textWidget(text: value, color: Color(0xFF8A4FFF),),
             );
           }).toList(),
         ),

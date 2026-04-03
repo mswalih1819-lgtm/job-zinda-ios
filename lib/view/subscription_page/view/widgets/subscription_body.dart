@@ -43,7 +43,7 @@ class SubscriptionBodyUi extends StatelessWidget {
             margin: const EdgeInsets.only(right: 14), child: SvgPicture.asset(icon)),
         Expanded(
             child: textWidget(
-                text: title, color: PColors.whiteOff.withOpacity(0.8)))
+                text: title, color: Color(0xFF8A4FFF),))
       ],
     );
   }

@@ -10,59 +10,55 @@ import '../utils/api_service.dart';
 import '../utils/api_url.dart';
 
 class FileUploadViewModel with ChangeNotifier {
-  Future<String?> getSignInUrl(
-      {required String fileName, required String fieldName}) async {
-    EasyLoading.show(status: 'Getting upload URL...');
+  final Dio _dio = Dio();
+
+  // Map a logical fieldName/type to a backend folder
+  String _folderFor(String fieldName, {String? type}) {
+    final f = fieldName.toLowerCase();
+    if (f.contains('thumbnail')) return 'posts/thumbnails';
+    if (f == 'post') {
+      if ((type ?? '').toLowerCase() == 'video') return 'posts/videos';
+      return 'posts/images';
+    }
+    if (f.contains('profile')) return 'profiles';
+    if (f.contains('cover')) return 'covers';
+    if (f.contains('story')) {
+      if ((type ?? '').toLowerCase() == 'video') return 'stories/videos';
+      return 'stories/images';
+    }
+    if (f.contains('audio')) return 'audio';
+    return 'media';
+  }
+
+  Future<String?> _uploadBytes(Uint8List bytes, String filename, String folder) async {
     try {
-      print("filenamee----$fileName");
-      Response response = await ApiService().post(
-          Api.getSignInUrl, {'fileName': fileName, 'fieldName': fieldName});
-      log(response.data.toString());
-      if (response.statusCode == 200) {
-        Map<String, dynamic> data = response.data;
-        if (data['status']) {
-          return data['data']['signedUrl'];
+      final headers = await Api.getAuthorizationHeader();
+      final formData = FormData.fromMap({
+        'folder': folder,
+        'file': MultipartFile.fromBytes(bytes, filename: filename),
+      });
+      final resp = await _dio.post(
+        '${AppUrl.baseurl}/api/v1/upload/single',
+        data: formData,
+        options: Options(headers: {
+          ...headers,
+          'Content-Type': 'multipart/form-data',
+        }),
+      );
+      if ((resp.statusCode == 200 || resp.statusCode == 201) && resp.data is Map) {
+        final data = resp.data as Map;
+        if (data['status'] == true) {
+          return data['data']?['url'] as String?;
         }
       }
       return null;
     } catch (e) {
-      print('Error getting signed URL: $e');
+      print('Upload error: $e');
       return null;
-    } finally {
-      EasyLoading.dismiss();
     }
   }
 
-  Future<bool> uploadFile(
-      {required String url, required imageBytes, required String type}) async {
-    EasyLoading.show(status: 'Uploading...');
-    try {
-      Dio dio = Dio();
-      Map<String, dynamic> headers = {};
-      if (type == "image") {
-        headers = {'Content-Type': 'image/png'};
-      } else if (type == "video") {
-        headers = {'Content-Type': 'video/mp4'};
-      } else {
-        headers = {'Content-Type': 'application/octet-stream'};
-      }
-      Response response = await dio.put(
-        url,
-        data: imageBytes,
-        options: Options(
-          headers: headers,
-          validateStatus: (status) => true,
-        ),
-      );
-      print("upload file-----${response.statusCode}");
-      return response.statusCode == 200;
-    } catch (e) {
-      print('Error uploading file: $e');
-      return false;
-    } finally {
-      EasyLoading.dismiss();
-    }
-  }
+  // Deprecated: signed-URL based flow removed
 
   Future<String?> pickedImageUpload(
     XFile pickedImage,
@@ -70,26 +66,10 @@ class FileUploadViewModel with ChangeNotifier {
   ) async {
     EasyLoading.show(status: 'Processing image...');
     try {
-      print("picked image-------${pickedImage.path}");
-      String? signInUrl =
-          await getSignInUrl(fileName: pickedImage.name, fieldName: fieldName);
-      if (signInUrl != null) {
-        bool success = await uploadFile(
-            type: "image",
-            url: signInUrl,
-            imageBytes: await pickedImage.readAsBytes());
-        if (success) {
-          Uri uri = Uri.parse(signInUrl);
-          String imageUrl = Uri(
-            scheme: uri.scheme,
-            host: uri.host,
-            path: uri.path,
-          ).toString();
-          print("imag url-----$imageUrl");
-          return imageUrl;
-        }
-      }
-      return null;
+      final bytes = await pickedImage.readAsBytes();
+      final folder = _folderFor(fieldName, type: 'image');
+      final url = await _uploadBytes(bytes, pickedImage.name, folder);
+      return url;
     } catch (e) {
       print('Error in pickedImageUpload: $e');
       return null;
@@ -101,24 +81,9 @@ class FileUploadViewModel with ChangeNotifier {
   Future<String?> pickedVideoUpload(Uint8List imageBytes, String name) async {
     try {
       EasyLoading.show(status: 'Processing video...');
-      String? signInUrl =
-          await getSignInUrl(fileName: name, fieldName: name.split('.').first);
-
-      if (signInUrl != null) {
-        bool success = await uploadFile(
-            type: "video", url: signInUrl, imageBytes: imageBytes);
-
-        if (success) {
-          Uri uri = Uri.parse(signInUrl);
-          String videoUrl = Uri(
-            scheme: uri.scheme,
-            host: uri.host,
-            path: uri.path,
-          ).toString();
-          return videoUrl;
-        }
-      }
-      return null;
+      final folder = _folderFor('Post', type: 'video');
+      final url = await _uploadBytes(imageBytes, name, folder);
+      return url;
     } catch (e) {
       print('Error in pickedVideoUpload: $e');
       return null;
@@ -131,19 +96,9 @@ class FileUploadViewModel with ChangeNotifier {
       dynamic audioBytes, String name, String audioName) async {
     EasyLoading.show(status: 'Processing audio...');
     try {
-      String? signInUrl =
-          await getSignInUrl(fileName: audioName, fieldName: name);
-      if (signInUrl != null) {
-        await uploadFile(type: "audio", url: signInUrl, imageBytes: audioBytes);
-        Uri uri = Uri.parse(signInUrl);
-        String audioUrl = Uri(
-          scheme: uri.scheme,
-          host: uri.host,
-          path: uri.path,
-        ).toString();
-        return audioUrl;
-      }
-      return null;
+      final folder = _folderFor('audio', type: 'audio');
+      final url = await _uploadBytes(audioBytes as Uint8List, audioName, folder);
+      return url;
     } catch (e) {
       print('Error in pickedAudioUpload: $e');
       EasyLoading.showError('Failed to upload audio.');

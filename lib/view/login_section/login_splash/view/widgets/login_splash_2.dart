@@ -64,26 +64,28 @@ class LoginSplash2Ui extends StatelessWidget {
       children: [
         CustomElavatedTextButton(
           width: double.infinity,
-          borderRadius: 0,
+          borderRadius: 18,
           text: "Not now",
           onPressed: () {
              context.go('/home') ;
           },
-          bgcolor: PColors.black2,
-          textColor: PColors.white,
+          bgcolor: Colors.purple.shade50,
+          textColor:   Color(0xFF8A4FFF),
+          borderColor: Color(0xFF8A4FFF),
         ),
         const SizedBox(
           height: 10,
         ),
         CustomElavatedTextButton(
           width: double.infinity,
-          borderRadius: 0,
+          borderRadius: 18,
           text: "Sure",
           onPressed: () {
             context.go('/home') ;
           },
           bgcolor: PColors.white,
-          textColor: PColors.black,
+          textColor: Color(0xFF8A4FFF),
+          borderColor: Color(0xFF8A4FFF),
         ),
         const SizedBox(
           height: 10,

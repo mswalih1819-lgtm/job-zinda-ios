@@ -23,7 +23,7 @@ class UnreadChatSection extends StatelessWidget {
               child: Center(
                 child: Text(
                   "No data!!!",
-                  style: TextStyle(color: PColors.white),
+                  style: TextStyle(color: Color(0xFF8A4FFF),),
                 ),
               ),
             )

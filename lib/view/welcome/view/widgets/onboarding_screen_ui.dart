@@ -187,18 +187,19 @@ class _OnboardingScreensUiState extends State<OnboardingScreensUi> {
     return CustomElavatedTextButton(
       width: double.infinity,
       bgcolor: PColors.white,
-      borderRadius: 0,
-      textColor: PColors.seed,
+      borderColor:  Color(0xFF8A4FFF),
+      borderRadius: 18,
+      textColor: Color(0xFF8A4FFF),
       text: page == 2 ? "Lets go" : "Next",
       onPressed: () {
-        if (page == 2) {
-          context.replaceNamed(PPages.loginWelcomeScreenUi);
-        } else {
-          controller.nextPage(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.linear);
-        }
-      },
+        // if (page == 2) {
+          context.push(PPages.loginWelcomeScreenUi);} // use push instead of replace
+        //  else {
+        //   controller.nextPage(
+        //       duration: const Duration(milliseconds: 300),
+        //       curve: Curves.linear);
+        // }
+      
     );
   }
 }

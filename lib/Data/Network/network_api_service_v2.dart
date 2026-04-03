@@ -14,13 +14,16 @@ class NetworkApiServiceV2 implements BaseApiService {
         connectTimeout: const Duration(minutes: 6),
         receiveTimeout: const Duration(minutes: 60)));
     adapter.interceptors.add(dio.InterceptorsWrapper(
-      onRequest: (options, handler) {
+      onRequest: (options, handler) async {
         options.contentType = 'application/json';
-        if (LoggedInUser.accessToken != null) {
-          options.headers['Authorization'] =
-              'Bearer ${LoggedInUser.accessToken}';
-          return handler.next(options);
+        // Lazily load tokens from storage if not already loaded
+        if (LoggedInUser.accessToken == null) {
+          await LoggedInUser.getUserDetails();
         }
+        if (LoggedInUser.accessToken != null && LoggedInUser.accessToken!.isNotEmpty) {
+          options.headers['Authorization'] = 'Bearer ${LoggedInUser.accessToken}';
+        }
+        return handler.next(options);
       },
       onResponse: (respons, handler) async {
         if (respons.data["statusCode"] == 401) {

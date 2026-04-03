@@ -28,12 +28,12 @@ class LetsPlanChatWidgetUi extends StatelessWidget {
       },
         title: Text(
           "Job Zinda Admin",
-          style: TextStyle(color: PColors.white),
+          style: TextStyle(color:  Color(0xFF8A4FFF),),
         ),
         leading: CircleAvatar(
-          backgroundColor: PColors.black,
+          backgroundColor:  Color(0xFF8A4FFF),
           backgroundImage: AssetImage(
-            PImages.logo,
+            PImages.logo3,
             
           ),
         ));

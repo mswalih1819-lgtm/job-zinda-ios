@@ -27,8 +27,9 @@ class ProfileViewUi extends StatelessWidget {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: CustomElavatedTextButton(
           bgcolor: PColors.white,
-          textColor: PColors.black,
-          borderRadius: 0,
+          textColor: Color(0xFF8A4FFF),
+          borderColor: Color(0xFF8A4FFF),
+          borderRadius: 18,
           text: "Lets go",
           onPressed: () {
             context.pushNamed(PPages.editProfileUi);

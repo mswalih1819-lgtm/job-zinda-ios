@@ -3,6 +3,7 @@ class WalletTransaction {
   final String userId;
   final double amount;
   final String source;
+  final String message;
   final String transactionType;
   final String status;
   final DateTime createdAt;
@@ -12,6 +13,7 @@ class WalletTransaction {
     required this.userId,
     required this.amount,
     required this.source,
+    required this.message,
     required this.transactionType,
     required this.status,
     required this.createdAt,
@@ -25,6 +27,7 @@ class WalletTransaction {
       source: json['source'] ?? '',
       transactionType: json['transactionType'] ?? '',
       status: json['status'] ?? '',
+      message: json['message'] ?? '',
       createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
     );
   }

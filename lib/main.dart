@@ -12,6 +12,12 @@ import 'package:jora_customer/notification_service.dart';
 import 'package:jora_customer/services/app_link_service.dart';
 import 'package:jora_customer/services/app_link_service.dart';
 import 'package:jora_customer/utils/providers.dart';
+import 'package:jora_customer/view/login_section/login_welcome_screen/view/enterEmailUi.dart';
+import 'package:jora_customer/view/my_profile/view/widgets/my_profile_button.dart';
+import 'package:jora_customer/view/notifications/notification_pages/view/widgets/noification_tab_section.dart';
+import 'package:jora_customer/view/notifications/notification_pages/view/widgets/notification_body_section.dart';
+import 'package:jora_customer/view/profile_view/view/ui.dart';
+import 'package:jora_customer/view/upload_pages/view/ui.dart';
 import 'package:jora_customer/view_model/chat_badge_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -57,6 +63,8 @@ import 'package:jora_customer/view/help_support/view/widgets/send_feedback_ui.da
 import 'package:jora_customer/view/login_section/login_splash/view/ui.dart'; // LoginSplashUi
 import 'package:jora_customer/view/login_section/login_splash/view/widgets/login_splash_2.dart'; // LoginSplash2Ui
 import 'package:jora_customer/view/login_section/login_welcome_screen/view/ui.dart'; // LoginWelcomeScreenUi
+import 'package:jora_customer/view/login_section/username_login/view/ui.dart'; // UsernameLoginScreen
+import 'package:jora_customer/view/login_section/username_login/view/change_password_ui.dart'; // ChangePasswordScreen
 import 'package:jora_customer/view/login_section/otp_verify/view/ui.dart'; // OtpPageUi
 import 'package:jora_customer/view/login_section/phone_number_ui/view/login_screen.dart'; // LoginScreen
 import 'package:jora_customer/view/notifications/notification_pages/view/notification_screen.dart'; // NotificationScreen
@@ -70,7 +78,6 @@ import 'package:jora_customer/view/welcome/view/widgets/onboarding_screen_ui.dar
 
 import 'package:jora_customer/view/login_section/phone_number_ui/view_model/view_model.dart'; // For LoginPhoneNumberViewModel
 import 'package:firebase_messaging/firebase_messaging.dart';
-
 // Must be a top-level function (e.g. not a class method)
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -134,13 +141,16 @@ Future<void> main() async {
   };
 
   // All initialization complete – launch the UI
-  debugPrint('HB-INIT | runApp called');
-  runApp(
+    runApp(
       MultiProvider(
+
         providers: providers,
         child: const MyApp(),
+
       ),
     );
+
+
   }, (error, stack) {
     FirebaseCrashlytics.instance.recordError(error, stack);
   });
@@ -265,10 +275,34 @@ final GoRouter mainAppRouter = GoRouter(
       name: PPages.onboardingScreensUi,
       builder: (context, state) => const OnboardingScreensUi(),
     ),
+    // Make username/password the default landing login screen
+    // GoRoute(
+    //   path: PPages.loginWelcomeScreenUi,
+    //   name: PPages.loginWelcomeScreenUi,
+    //   builder: (context, state) => const UsernameLoginScreen(),
+    // ),
     GoRoute(
       path: PPages.loginWelcomeScreenUi,
       name: PPages.loginWelcomeScreenUi,
-      builder: (context, state) => const LoginWelcomeScreenUi(),
+      builder: (context, state) => const LoginWelcomeScreenUi(), // ✅ change here
+    ),
+    // GoRoute(
+    //   path: '/enter-email',               // or whatever path you want
+    //   name: PPages.enterEmailUi,          // <-- This is required for pushNamed
+    //   builder: (context, state) {
+    //     final data = state.extra as Map<String, dynamic>? ?? {};
+    //     return EnterEmailScreen(data: data);
+    //   },
+    // ),
+    GoRoute(
+      path: PPages.usernameLoginUi,
+      name: PPages.usernameLoginUi,
+      builder: (context, state) => const UsernameLoginScreen(),
+    ),
+    GoRoute(
+      path: PPages.changePasswordUi,
+      name: PPages.changePasswordUi,
+      builder: (context, state) => const ChangePasswordScreen(),
     ),
     GoRoute(
       path: PPages.phoneNumberUi,
@@ -392,11 +426,11 @@ final GoRouter mainAppRouter = GoRouter(
       name: PPages.noIntenet,
       builder: (context, state) => const NoInternetWidget(),
     ),
-    GoRoute(
-      path: PPages.adduserpage,
-      name: PPages.adduserpage,
-      builder: (context, state) => const AddUserPage(),
-    ),
+    // GoRoute(
+    //   path: PPages.adduserpage,
+    //   name: PPages.adduserpage,
+    //   builder: (context, state) => const AddUserPage(),
+    // ),
     GoRoute(
       path: PPages.referalCodeUi,
       name: PPages.referalCodeUi,
@@ -472,6 +506,7 @@ class MyApp extends StatefulWidget {
 
   @override
   State<MyApp> createState() => _MyAppState();
+
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
@@ -526,16 +561,17 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           bodyMedium: TextStyle(),
           bodyLarge: TextStyle(),
         ).apply( // Applying to the TextTheme
-          bodyColor: PColors.white,
+          bodyColor: Colors.purple.shade200,
           displayColor: PColors.white,
         ),
-        scaffoldBackgroundColor: PColors.black,
+        scaffoldBackgroundColor: PColors.white,
         colorScheme: ColorScheme.fromSeed(seedColor: PColors.seed),
         iconTheme: IconThemeData(color: PColors.white),
         useMaterial3: true,
+
         appBarTheme: AppBarTheme(
-          backgroundColor: PColors.seed,
-          surfaceTintColor: PColors.seed,
+          backgroundColor: Color(0xFF8A4FFF),
+          surfaceTintColor: Color(0xFF8A4FFF),
           foregroundColor: PColors.white,
           centerTitle: true,
           titleTextStyle: PTextStyles.titleLarge.copyWith(
@@ -544,6 +580,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           ),
         ),
       ),
+
       builder: EasyLoading.init(
         builder: (context, child) {
           // SnackBarMessages().init(context);

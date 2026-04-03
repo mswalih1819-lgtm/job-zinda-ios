@@ -39,14 +39,20 @@ class MyChatWidget extends StatelessWidget {
                 ),
                  decoration: BoxDecoration(
                     color: PColors.white,
+                     border: Border.all(
+                       color: Color(0xFF8A4FFF), // ✅ Purple border
+                       width: 2, // border thickness
+                     ),
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(20),
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
-                    )),
+
+                    )
+                 ),
                 child:  textWidget(
                     text: message.content,
-                    color: PColors.black,
+                    color: Color(0xFF8A4FFF),
                     fontsize: 12,
                     fontweight: FontWeight.w600),
               ),
@@ -116,7 +122,7 @@ class MyChatWidget extends StatelessWidget {
                 // text: formatDateFromString(
                 //     message.createdAt ?? '', 'yyyy-MM-ddThh:mm:ss', 'HH:mm'),
                 fontsize: 10,
-                color: PColors.whiteOff.withOpacity(0.4))
+                color: Colors.purple.shade200),
           ],
         ),
       ],

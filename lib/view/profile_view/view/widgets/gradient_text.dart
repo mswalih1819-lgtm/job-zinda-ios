@@ -24,7 +24,7 @@ class GradientText extends StatelessWidget {
         text,
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400, shadows: [
           BoxShadow(
-              color: PColors.white, spreadRadius: 5, offset: const Offset(1, 1))
+              color: PColors.black, spreadRadius: 5, offset: const Offset(1, 1))
         ]),
       ),
     );

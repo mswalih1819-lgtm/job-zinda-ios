@@ -3,34 +3,46 @@ import '../model/logged_in_user.dart';
 class AppUrl {
   static const String scurity = 'https';
 
-  // static const isProduction = true;
+   static const isProduction = true;
   // For local development, set to false and use your LAN IP below:
-  static const isProduction = false;
+  // static const isProduction = false;
 
   static String get baseurl {
     if (isProduction == false) {
-      return "http://192.168.1.8:4001"; // <-- Local backend for development
+      return "http://192.168.1.12:4001";
+// <-- Local backend for development via adb reverse
     //   return "http://ec2-3-110-26-51.ap-south-1.compute.amazonaws.com:4001";
     } else {
-      return "https://server.jobzinda.com"; // <-- Production backend
+      return "https://server2.jobzinda.com"; // <-- Production backend
     }
   }
 
   static String get httpBaseUrl {
     if (isProduction == false) {
-      return '192.168.1.8:4001'; // <-- Local backend for development
+     return '192.168.1.12:4001'; // <-- Local backend for development via adb reverse
     //   return 'ec2-3-110-26-51.ap-south-1.compute.amazonaws.com:4001';
     } else {
-      return 'server.jobzinda.com'; // <-- Production backend
+      return 'server2.jobzinda.com'; // <-- Production backend
     }
   }
 
   static const String login = 'api/v1/auth/user-auth';
   static const String refreshToken = 'api/v1/auth/refresh-tokens';
-  static const checkUserExist = 'api/v1/auth/check-user-exists';
-  static const loginUrl = 'api/v1/auth/user-auth';
-  static const checkUserExistEmail = 'api/v1/auth/check-user-exists-email';
-  static const loginEmail = 'api/v1/auth/user-auth-email';
+  static const String checkUserExist = 'api/v1/auth/check-user-exists';
+  static const String loginUrl = 'api/v1/auth/user-auth';
+  static const String checkUserExistEmail = 'api/v1/auth/check-user-exists-email';
+  static const String loginEmail = 'api/v1/auth/user-auth-email';
+  // New username/password endpoints
+  static const String loginUsername = 'api/v1/auth/login-username';
+  static const String passwordSetupStatus = 'api/v1/auth/password-setup-status';
+  static const String otpVerifyInitPassword = 'api/v1/auth/otp-verify-init-password';
+  static const String otpVerifyChangePassword = 'api/v1/auth/otp-verify-change-password';
+  static const String registerAfterOtp = 'api/v1/auth/register-after-otp';
+  static const String registerUsername = 'api/v1/auth/register-username';
+  static const String sendEmailOtp = 'api/v1/auth/send-email-otp';
+  static const String verifyEmailOtp = 'api/v1/auth/verify-email-otp';
+  static const String linkEmail = 'api/v1/auth/link-email';
+
 }
 
 class Api {
@@ -38,10 +50,11 @@ class Api {
     return {'Authorization': 'Bearer ${LoggedInUser.accessToken}'};
   }
 
-  // static const baseurl = 'http://3.110.26.51:4001';
-//   static const baseurl = 'https://server.jobzinda.com';
+   // static const baseurl = 'http://3.110.26.51:4001';
+   static const baseurl = 'https://server2.jobzinda.com';
   // For local dev, use:
-  static const baseurl = 'http://192.168.1.8:4001'; // <-- Local backend for development
+  // static const baseurl = 'http://192.168.1.12:4001';
+  // <-- Local backend for development via adb reverse
 //   static const baseurl = 'http://ec2-3-110-26-51.ap-south-1.compute.amazonaws.com:4001'; // <-- Local backend for development
   static const storiesListUrl =
       '$baseurl/api/v1/story/listStories?pageLimit=10';
@@ -67,7 +80,6 @@ class Api {
   static const updateCoverImage = '$baseurl/api/v1/user/update-cover-image';
   static const searchUserListUrl =
       '$baseurl/api/v1/user/get-other-profiles?pageSize=10';
-
   static const conversationListUrl =
       '$baseurl/api/v1/conversation/listConversations?pageSize=10000&&pageNumber=1';
   static const followUrl = '$baseurl/api/v1/follower/followUser';
@@ -133,4 +145,11 @@ class Api {
       '$baseurl/api/v1/conversation/user-message-unread-count';
   static const letsplanUnreadCount =
       '$baseurl/api/v1/conversation/admin-message-unread-count';
+  static const freelancerPlans =
+      '$baseurl/api/v1/freelancer-message/my-freelancer-messages';
+  static const sentOtp =
+      '$baseurl/api/v1/auth/send-email-otp';
+  static const verifyOtp =
+      '$baseurl/api/v1/auth/verify-email-otp';
+  static const linkEmailUrl = '$baseurl/api/v1/auth/link-email';
 }

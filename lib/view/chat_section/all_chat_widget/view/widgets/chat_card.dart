@@ -96,7 +96,7 @@ class ChatCard extends StatelessWidget {
                                   .lastMessage!.messageId!.createdAt
                                   .toString())
                               : "",
-                          color: PColors.whiteOff.withOpacity(0.5),
+                          color: Color(0xFF8A4FFF),
                           fontsize: 11)
                     ],
                   ),
@@ -106,7 +106,7 @@ class ChatCard extends StatelessWidget {
                           child: textWidget(
                               text:
                                   conversationModel.lastMessage?.content ?? '',
-                              color: PColors.whiteOff.withOpacity(0.5),
+                              color: Color(0xFF8A4FFF),
                               fontsize: 12,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2)),
@@ -139,7 +139,7 @@ class ChatCard extends StatelessWidget {
                     height: 5,
                   ),
                   Divider(
-                    color: PColors.whiteOff.withOpacity(0.3),
+                    color: Color(0xFF8A4FFF),
                   )
                 ],
               ),

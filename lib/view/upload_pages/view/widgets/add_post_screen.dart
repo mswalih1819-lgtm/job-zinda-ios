@@ -54,13 +54,13 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     alignedDropdown: true,
                     child: DropdownButton<String>(
                       isDense: true,
-                      dropdownColor: PColors.black2,
+                      dropdownColor: Colors.white,
                       value: value,
                       // isExpanded: true,
                       style: TextStyle(color: PColors.whiteOff),
                       icon: Icon(
                         Icons.keyboard_arrow_down,
-                        color: PColors.whiteOff,
+                        color: Color(0xFF8A4FFF),
                       ),
                       underline: const SizedBox(),
                       items:
@@ -69,7 +69,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                           value: value,
                           child: Text(
                             value,
-                            style: TextStyle(color: PColors.whiteOff),
+                            style: TextStyle(color: Color(0xFF8A4FFF),),
                           ),
                         );
                       }).toList(),
@@ -108,7 +108,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                           horizontal: 30.0, vertical: 6),
                       child: textWidget(
                           text: 'Post',
-                          color: PColors.black,
+                          color: Color(0xFF8A4FFF),
                           fontweight: FontWeight.w500,
                           fontsize: 14),
                     ),
@@ -121,10 +121,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     controller: _descriptionController,
                     maxLine: 4,
                     keyboardType: TextInputType.multiline,
-                    borderColor: PColors.black,
+                    borderColor: Color(0xFF8A4FFF),
                     hintText: 'Share your thoughts',
                     validation: Validator.text,
-                    filColor: PColors.black),
+                    filColor: PColors.white),
               ),
               const SizedBox(height: 10),
               if (postViewModel.selectedUrl != null &&

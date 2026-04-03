@@ -50,7 +50,7 @@ class ChatAppbarUi extends StatelessWidget {
         Consumer<PostViewModel>(
           builder: (context, value, child) => textWidget(
             text: value.otherUser?.name ?? "Unknown",
-            color: PColors.white,
+            color:Color(0xFF8A4FFF),
           ),
         ),
       ],
@@ -67,12 +67,12 @@ class ChatAppbarUi extends StatelessWidget {
         const SizedBox(width: 10),
         CircleAvatar(
           backgroundColor: Colors.black,
-          child: Image.asset(PImages.logo),
+          child: Image.asset(PImages.logo3),
         ),
         const SizedBox(width: 10),
         textWidget(
           text: "Job Zinda Admin",
-          color: PColors.white,
+          color: Color(0xFF8A4FFF),
         ),
       ],
     );
@@ -108,7 +108,7 @@ class ChatAppbarUi extends StatelessWidget {
         const SizedBox(width: 10),
         textWidget(
           text: name,
-          color: PColors.white,
+          color: Color(0xFF8A4FFF),
         ),
       ],
     );

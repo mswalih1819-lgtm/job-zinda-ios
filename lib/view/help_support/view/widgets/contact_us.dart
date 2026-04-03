@@ -18,7 +18,7 @@ class ContactUsUi extends StatelessWidget {
       children: [
         Container(
             margin: const EdgeInsets.only(left: 17, bottom: 10, top: 20),
-            child: textWidget(text: 'Contact us', color: PColors.whiteOff)),
+            child: textWidget(text: 'Contact us', color:  Color(0xFF8A4FFF),)),
         contentWidget(
             icon: PSvgs.call,
             title: 'Call',
@@ -47,8 +47,8 @@ class ContactUsUi extends StatelessWidget {
       required Function()? onTap}) {
     return ListTile(
       onTap: onTap,
-      leading: SvgPicture.asset(icon),
-      title: textWidget(text: title, color: PColors.white),
+      leading: SvgPicture.asset(icon,color: Color(0xFF8A4FFF), ),
+      title: textWidget(text: title, color:  Color(0xFF8A4FFF),),
     );
   }
 }

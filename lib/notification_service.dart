@@ -33,7 +33,7 @@ class FCMService {
   );
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin();
 
   factory FCMService() {
     return _instance;
@@ -45,7 +45,7 @@ class FCMService {
     // Local notifications channel
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+        AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
     await _requestPermissions();
@@ -102,7 +102,7 @@ class FCMService {
 
     // Handle notification that launched the app (from terminated)
     RemoteMessage? initialMessage =
-        await _firebaseMessaging.getInitialMessage();
+    await _firebaseMessaging.getInitialMessage();
     if (initialMessage != null) {
       _handleNavigation(initialMessage.data);
     }
@@ -117,7 +117,7 @@ class FCMService {
       _isRequestingPermission = true;
 
       NotificationSettings settings =
-          await _firebaseMessaging.requestPermission(
+      await _firebaseMessaging.requestPermission(
         alert: true,
         badge: true,
         sound: true,
@@ -198,7 +198,7 @@ class FCMService {
         EasyLoading.show(status: "Loading profile...");
         try {
           bool? status =
-              await postViewModel.fetchOtherUserProfileDetails(userID: actionId);
+          await postViewModel.fetchOtherUserProfileDetails(userID: actionId);
           context.read<BadgeViewModel>().notificationRead();
           if (status == true && context.mounted) {
             context.pushNamed(PPages.profileView, pathParameters: {'userId': actionId});
@@ -260,7 +260,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
   // Since this is a background isolate, we need to setup notifications separately.
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin();
 
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel',
@@ -271,7 +271,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
+      AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
   RemoteNotification? notification = message.notification;

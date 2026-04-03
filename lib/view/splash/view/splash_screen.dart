@@ -18,35 +18,47 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    checkLogin();
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        checkLogin();
+      }
+    });
   }
 
+
+
+
   checkLogin() async {
-    // It's crucial to handle permissions before any other async operations that might conflict.
     if (mounted) {
-      await Provider.of<LocationViewModel>(context, listen: false).checkLocation(context);
+      await Provider.of<LocationViewModel>(context, listen: false)
+          .checkLocation(context);
     }
     if (!mounted) return;
 
-    // First, ensure user details are loaded.
     await LoggedInUser.getUserDetails();
     if (!mounted) return;
 
-    // Signal to the AppLinkService that initialization is complete and get any pending deep link path.
     final appLinkService = AppLinkService();
-    final String? deepLinkPath = await appLinkService.completeInitializationAndGetPath();
-
+    final String? deepLinkPath =
+    await appLinkService.completeInitializationAndGetPath();
     if (!mounted) return;
 
-    // Determine navigation target
+    // -------------------------------
+    // NEW: Show Email OTP page first if last login was via OTP
+    // -------------------------------
     if (LoggedInUser.refreshToken == null) {
-      context.replace(PPages.welcomePageUi);
-    } else if (LoggedInUser.accessToken != '') {
-      // If logged in, go to WrapperView. Pass the deep link path if it exists.
-      debugPrint("SplashScreen: Navigating to WrapperView with deep link path: $deepLinkPath");
+      // New user → show login options page
+      context.replace(PPages.loginWelcomeScreenUi);
+    } else if (LoggedInUser.lastLoginWasEmailOtp) {
+      // Last login via Email OTP → force Email OTP screen first
+      context.replace(PPages.enterEmailUi); // your email OTP page route
+    } else if (LoggedInUser.accessToken != null && LoggedInUser.accessToken != '') {
+      // Logged-in → go to Home / WrapperView
       context.replace('/', extra: deepLinkPath);
     } else {
+      // Has refresh token but no access → Add user page
       context.replace(PPages.adduserpage);
     }
   }
@@ -54,13 +66,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xFF8A4FFF),
       body: Center(
         child: Image.asset(
-          PImages.logo,
+          PImages.logo3,scale: 4,
           fit: BoxFit.cover,
-          height: 150,
-          width: 150,
+          // height: 150,
+          // width: 150,
         ),
       ),
     );

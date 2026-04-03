@@ -18,7 +18,6 @@ class MyProfileButtonUi extends StatelessWidget {
   Future<void> _shareUserProfile(BuildContext context, String userId, String userName) async {
     // [REMOVED] Create an instance of FirebaseDynamicLinkService
     // [REMOVED] final FirebaseDynamicLinkService dynamicLinkService = FirebaseDynamicLinkService();
-    
     // Show loading indicator
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Generating shareable link...'))
@@ -69,6 +68,7 @@ class MyProfileButtonUi extends StatelessWidget {
             flex: 10,
             child: CustomElavatedTextButton(
               height: 38,
+                borderColor: const Color(0xFF8A4FFF),
               borderRadius: 8,
               fontSize: 13,
               text: "Edit profile",
@@ -76,8 +76,8 @@ class MyProfileButtonUi extends StatelessWidget {
                 context.read<ProfileViewModel>().fetchProfile();
                 context.pushNamed(PPages.freeLancerEditProfileUi);
               },
-              bgcolor: PColors.black2,
-              textColor: PColors.whiteOff.withOpacity(0.7),
+              bgcolor: PColors.white,
+              textColor: Color(0xFF8A4FFF)
             ),
           ),
           // Show Plans button when the user does NOT have an active premium subscription.
@@ -93,17 +93,17 @@ class MyProfileButtonUi extends StatelessWidget {
               child: CustomElavatedTextButton(
                 height: 38,
                 borderRadius: 8,
+                borderColor: const Color(0xFF8A4FFF),
                 fontSize: 13,
                 text: "Plans",
                 onPressed: () {
                   context.pushNamed(PPages.subscriptionPageUi);
                 },
-                bgcolor: PColors.black2,
-                textColor: PColors.whiteOff.withOpacity(0.7),
-              ),
+                bgcolor: PColors.white,
+                textColor:Color(0xFF8A4FFF),
             ),
 
-          ],
+            ) ],
           const SizedBox(
             width: 6,
           ),
@@ -112,14 +112,15 @@ class MyProfileButtonUi extends StatelessWidget {
             height: 38,
             width: 45, // Increased width
             decoration: BoxDecoration(
-              color: PColors.black2,
+              color: PColors.white,
               borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Color(0xFF8A4FFF),)
             ),
             child: IconButton(
               padding: EdgeInsets.zero,
               icon: Icon(
                 Icons.share,
-                color: PColors.whiteOff, // Removed opacity for better visibility
+                color:  Color(0xFF8A4FFF), // Removed opacity for better visibility
                 size: 22, // Slightly larger icon
               ),
               onPressed: () async {
@@ -153,7 +154,14 @@ class MyProfileButtonUi extends StatelessWidget {
       text: btn,
       onPressed: fun,
       bgcolor: selected ? PColors.whiteOff : PColors.black2,
-      textColor: selected ? PColors.black : PColors.whiteOff.withOpacity(0.7),
+      textColor: selected
+          ? PColors.black
+          : Colors.white,
+      borderColor: selected
+          ? const Color(0xFF8A4FFF)
+          : Colors.transparent,
     );
+
+
   }
 }

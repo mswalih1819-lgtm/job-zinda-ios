@@ -66,13 +66,13 @@ class _PostCardState extends State<PostCard> {
                   text: widget.post?.user?.userName ?? '',
                   isVerified: widget.post?.user?.isVerified ?? false,
                   style: TextStyle(
-                      color: PColors.white,
+                      color: Color(0xFF8A4FFF),
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                 ),
           subtitle: textWidget(
               text: widget.post?.user?.professionName ?? '',
-              color: PColors.whiteOff.withOpacity(0.5)),
+              color: Colors.purple.shade200),
           leading: CircleAvatar(
             radius: 20,
             backgroundImage: safeImageProvider(profileUrl, placeholderAsset: PImages.profile),
@@ -89,7 +89,7 @@ class _PostCardState extends State<PostCard> {
                       },
                       icon: Icon(
                         Icons.delete,
-                        color: PColors.white,
+                        color: Color(0xFF8A4FFF),
                         size: 18,
                       ))
                   : IconButton(
@@ -111,7 +111,7 @@ class _PostCardState extends State<PostCard> {
                       },
                       icon: Icon(
                         Icons.more_horiz,
-                        color: PColors.white,
+                        color: Color(0xFF8A4FFF),
                       )),
         ),
         if (widget.post?.mediaType == "text")
@@ -162,7 +162,7 @@ class _PostCardState extends State<PostCard> {
                 alignment: Alignment.center,
                 child: const Icon(
                   Icons.play_circle,
-                  color: Colors.white,
+                  color:Color(0xFF8A4FFF),
                   size: 50,
                 ),
               )),
@@ -198,6 +198,7 @@ class _PostCardState extends State<PostCard> {
                     )
                   : SvgPicture.asset(
                       PSvgs.heart,
+               color:  Color(0xFF8A4FFF),
                       height: 24,
                     ),
             ),
@@ -223,6 +224,7 @@ print("dfdjfdjf----${post!.sId}");
               },
               icon: SvgPicture.asset(
                 PSvgs.chat,
+                color: Color(0xFF8A4FFF),
                 height: 24,
               ),
             ),
@@ -239,12 +241,12 @@ print("dfdjfdjf----${post!.sId}");
           children: [
             textWidget(
                 text: '$likesCount  like',
-                color: PColors.whiteOff.withOpacity(0.6),
+                color: Color(0xFF8A4FFF),
                 fontsize: 12),
             const SizedBox(width: 6),
             textWidget(
                 text: '${post?.commentsCount ?? ''} comments',
-                color: PColors.whiteOff.withOpacity(0.6),
+                color: Color(0xFF8A4FFF),
                 fontsize: 12),
           ],
         )
@@ -262,17 +264,17 @@ print("dfdjfdjf----${post!.sId}");
           ReadMoreText(
             post?.bio ?? '',
             trimMode: TrimMode.Line,
-            style: TextStyle(color: PColors.whiteOff),
+            style: TextStyle(color: Color(0xFF8A4FFF),),
             // delimiterStyle: TextStyle(color: PColors.seed,fontWeight: FontWeight.bold,),
             trimLines: 1,
-            colorClickableText: PColors.whiteOff.withOpacity(0.5),
+            colorClickableText: Color(0xFF8A4FFF),
             trimCollapsedText: 'view more',
             trimExpandedText: 'show less',
 
             moreStyle: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: PColors.whiteOff.withOpacity(0.5),
+                color: Color(0xFF8A4FFF),
                 height: 2),
           ),
           textWidget(
@@ -281,7 +283,7 @@ print("dfdjfdjf----${post!.sId}");
               //         date: post?.createdAt ?? '',
               //         format: 'yyyy-MM-ddThh:mm:ss') ??
               //     DateTime.now()),
-              color: PColors.whiteOff.withOpacity(0.5),
+              color: Color(0xFF8A4FFF),
               fontsize: 11)
         ],
       ),

@@ -123,7 +123,7 @@ class FollowersScreen extends StatelessWidget {
                         ),
                         title: Text(
                           follower.followingDetails!.name ?? "",
-                          style: TextStyle(color: PColors.white),
+                          style: TextStyle(color: Color(0xFF8A4FFF),),
                         ),
                         //  subtitle: Text(
                         //   follower.followingDetails!.pr ?? "",

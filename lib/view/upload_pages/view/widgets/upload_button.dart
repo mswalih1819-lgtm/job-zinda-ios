@@ -30,21 +30,22 @@ class _UploadButtonUiState extends State<UploadButtonUi> {
     return Container(
       margin: const EdgeInsets.only(bottom: 10, left: 12, right: 12),
       child: CustomIconElevatedButton(
-          bgcolor: PColors.black2.withOpacity(0.9),
-          textColor: PColors.whiteOff.withOpacity(0.6),
+          bgcolor:Colors.purple.shade50,
+          textColor: Color(0xFF8A4FFF),
           text: 'Upload media',
+          borderColor:  Color(0xFF8A4FFF),
           borderRadius: 1,
           onPressed: () {
             showBottomSheet(
               shape: const BeveledRectangleBorder(),
-              backgroundColor: PColors.seed2,
+              backgroundColor: Colors.purple.shade50,
               context: context,
               builder: (context) => sheet(),
             );
           },
           icon: Image.asset(
             PImages.photo,
-            color: PColors.whiteOff.withOpacity(0.9),
+            color:  Color(0xFF8A4FFF),
           )),
     );
   }
@@ -66,7 +67,7 @@ class _UploadButtonUiState extends State<UploadButtonUi> {
                     },
                     child: Icon(
                       Icons.close,
-                      color: PColors.white,
+                      color: Color(0xFF8A4FFF),
                     )),
               ],
             ),
@@ -74,15 +75,21 @@ class _UploadButtonUiState extends State<UploadButtonUi> {
               onTap: () {
                 getImage(ImageSource.camera);
               },
-              leading: Icon(Icons.camera, color: PColors.white),
-              title: textWidget(text: 'Camera', color: PColors.white),
+              leading: Icon(
+                Icons.camera,
+                color: Color(0xFF8A4FFF),
+              ),
+              title: textWidget(
+                text: 'Camera',
+                color: Color(0xFF8A4FFF),
+              ),
             ),
             ListTile(
               onTap: () {
                 getImage(ImageSource.gallery);
               },
-              leading: Icon(Icons.photo, color: PColors.white),
-              title: textWidget(text: 'Gallery', color: PColors.white),
+              leading: Icon(Icons.photo, color:  Color(0xFF8A4FFF),),
+              title: textWidget(text: 'Gallery', color:  Color(0xFF8A4FFF),),
             ),
             ListTile(
               onTap: () {
@@ -90,8 +97,8 @@ class _UploadButtonUiState extends State<UploadButtonUi> {
 
                 _pickVideo(context);
               },
-              leading: Icon(Icons.videocam_rounded, color: PColors.white),
-              title: textWidget(text: 'Video', color: PColors.white),
+              leading: Icon(Icons.videocam_rounded, color:  Color(0xFF8A4FFF),),
+              title: textWidget(text: 'Video', color:  Color(0xFF8A4FFF),),
             ),
           ],
         ),

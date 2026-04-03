@@ -13,6 +13,7 @@ class AddNewUserRepository {
     required String countryCode,
     required String referralCode,
     String? name,
+    List<String>? skills,
   }) async {
     try {
       print("refeee-----$phone----$countryCode---${FCMService().fcmToken}--$name");
@@ -25,7 +26,8 @@ class AddNewUserRepository {
           'countryCode': countryCode,
           'mobileNumber': phone,
           'name': name,
-          'referralCode': referralCode
+          'referralCode': referralCode,
+          'skills': skills ?? [],
         },
       );
       var json = jsonDecode(result);
@@ -47,6 +49,7 @@ class AddNewUserRepository {
     required String email,
     required String referralCode,
     String? name,
+    List<String>? skills,
   }) async {
     try {
       print(
@@ -61,7 +64,8 @@ class AddNewUserRepository {
           'mobileNumber': phone,
           'name': name,
           'email': email,
-          'referralCode': referralCode
+          'referralCode': referralCode,
+          'skills': skills ?? [],
         },
       );
       var json = jsonDecode(result);

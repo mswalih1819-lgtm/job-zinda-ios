@@ -35,15 +35,15 @@ class CustomElavatedTextButton extends StatelessWidget {
     var size = MediaQuery.sizeOf(context);
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: bgcolor ?? PColors.seed,
-        foregroundColor: PColors.white,
+        backgroundColor: Colors.purple.shade50,
+        foregroundColor: Color(0xFF8A4FFF),
         padding: EdgeInsets.symmetric(
             vertical: padverticle ?? 8, horizontal: padhorizondal ?? 16),
         fixedSize: Size(width ?? size.width - 40, height ?? 56),
         maximumSize: Size(width ?? size.width - 40, height ?? 56),
         minimumSize: Size(width ?? size.width - 40, height ?? 56),
         shape: RoundedRectangleBorder(
-          side: BorderSide(color: borderColor ?? PColors.seed),
+          side: BorderSide(color: Color(0xFF8A4FFF),),
           borderRadius: BorderRadius.circular(borderRadius ?? 12),
         ),
       ),

@@ -81,7 +81,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                 return const SizedBox.shrink();
               }
               return PopupMenuButton<String>(
-                color: PColors.black,
+                color: PColors.white,
                 onSelected: (val) {
                   if (val == "rating") {
                     showModalBottomSheet(
@@ -125,21 +125,21 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                         isBlocked
                             ? 'Unblock User'
                             : 'Block User',
-                        style: TextStyle(color: PColors.white),
+                        style: TextStyle(color: Color(0xFF8A4FFF),),
                       ),
                     ),
                     PopupMenuItem(
                       value: 'rating',
                       child: Text(
                         "Rate Profile",
-                        style: TextStyle(color: PColors.white),
+                        style: TextStyle(color: Color(0xFF8A4FFF),),
                       ),
                     ),
                     PopupMenuItem(
                       value: 'share',
                       child: Text(
                         "Share Profile",
-                        style: TextStyle(color: PColors.white),
+                        style: TextStyle(color: Color(0xFF8A4FFF),),
                       ),
                     ),
                   ];
@@ -190,7 +190,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                 child: Consumer<PostViewModel>(
                   builder: (context, value, child) {
                     if (value.otherUser == null) {
-                      return Center(child: Text('Profile data not available.', style: TextStyle(color: PColors.white)));
+                      return Center(child: Text('Profile data not available.', style: TextStyle(color: Color(0xFF8A4FFF),)));
                     }
                     final bool isBlocked = value.otherUser?.isBlocked ?? false;
                     
@@ -212,7 +212,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
               ),
             );
           } else {
-            return Center(child: Text('Something went wrong.', style: TextStyle(color: PColors.white)));
+            return Center(child: Text('Something went wrong.', style: TextStyle(color: Color(0xFF8A4FFF),)));
           }
         },
       ),

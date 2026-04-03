@@ -29,28 +29,28 @@ class DropdownWidgetUi extends StatelessWidget {
             }
             return null;
           },
-          dropdownColor: PColors.black,
+          dropdownColor: PColors.white,
           decoration: InputDecoration(
             iconColor: PColors.seed,
-            fillColor: PColors.black,
+            fillColor: Colors.purple.shade50,
             filled: true,
             contentPadding: const EdgeInsets.symmetric(horizontal: 15),
             hintStyle: TextStyle(
                 fontSize: 15,
-                color: PColors.whiteOff,
+                color: Color(0xFF8A4FFF),
                 // fontFamily: PFonts.plusJakartaSans,
                 fontWeight: FontWeight.w500),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(0),
-              borderSide: BorderSide(color: PColors.whiteOff, width: 0),
+              borderSide: BorderSide(color: Color(0xFF8A4FFF), width: 0),
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(0),
-              borderSide: BorderSide(color: PColors.whiteOff, width: 0),
+              borderSide: BorderSide(color: Color(0xFF8A4FFF), width: 0),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(0),
-              borderSide: BorderSide(color: PColors.whiteOff, width: 1),
+              borderSide: BorderSide(color: Color(0xFF8A4FFF), width: 1),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(0),
@@ -62,13 +62,13 @@ class DropdownWidgetUi extends StatelessWidget {
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w500,
-              color: PColors.white,
+              color: Color(0xFF8A4FFF),
             ),
           ),
           isDense: true,
           isExpanded: true,
           style: TextStyle(
-              color: PColors.white, fontSize: 16, fontWeight: FontWeight.w600),
+              color: Color(0xFF8A4FFF), fontSize: 16, fontWeight: FontWeight.w600),
           value: selected,
           onChanged: (val) {
             if (val != null) {

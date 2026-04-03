@@ -1,10 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/view/notifications/notification_pages/view/widgets/noification_tab_section.dart';
 import 'package:jora_customer/view/notifications/notification_pages/view/widgets/notification_body_section.dart';
+import 'package:jora_customer/view_model/notification_view_model.dart';
 
-class NotificationScreen extends StatelessWidget {
+class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
+
+  @override
+  State<NotificationScreen> createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() {
+      final vm = context.read<NotificationViewModel>();
+
+      vm.currentPage = 0;
+
+      vm.notificatonController.refresh();
+      vm.initNotificationPagination();
+
+      vm.fetchNotificationCount();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +41,8 @@ class NotificationScreen extends StatelessWidget {
         child: const Column(
           children: [
             NotificationTabSection(),
-            SizedBox(
-              height: 30,
-            ),
-            NotificationBodySection()
+            SizedBox(height: 30),
+            NotificationBodySection(),
           ],
         ),
       ),

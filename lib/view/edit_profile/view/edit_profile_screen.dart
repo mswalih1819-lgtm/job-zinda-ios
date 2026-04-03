@@ -24,36 +24,42 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _emailController = TextEditingController();
 
   final TextEditingController _numberController = TextEditingController();
+  final TextEditingController _skillController = TextEditingController();
+  List<String> _skills = [];
+
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     _nameController.text = LoggedInUser.name ?? '';
     _emailController.text = LoggedInUser.email ?? '';
     _numberController.text = LoggedInUser.phoneNumber ?? '';
+    _skills = List<String>.from(LoggedInUser.skills ?? []);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: PColors.black,
+      backgroundColor: PColors.white,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: CustomElavatedTextButton(
         text: 'Save',
-        textColor: PColors.black,
+        textColor: Color(0xFF8A4FFF),
         bgcolor: PColors.white,
         borderRadius: 0,
+        borderColor: Color(0xFF8A4FFF),
         onPressed: () {
           if (_formKey.currentState?.validate() ?? false) {
             context.read<ProfileViewModel>().updateNormalProfile(
                 name: _nameController.text,
                 email: _emailController.text,
+                skills: _skills,
                 context: context);
           }
         },
       ),
       appBar: AppBar(
-        title: textWidget(text: 'Edit Profile', fontweight: FontWeight.w400),
+        title: textWidget(text: 'Edit Profile',color: Color(0xFF8A4FFF), fontweight: FontWeight.w400),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -77,7 +83,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 // SizedBox(
                 //   height: 14,
                 // ),
-                mobileTextField()
+                mobileTextField(),
+                const SizedBox(height: 14),
+                skillField(),
               ],
             ),
           ),
@@ -89,22 +97,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget emailTextField() {
     return CustomTextFeild(
         controller: _emailController,
-        borderColor: PColors.whiteOff.withOpacity(0.6),
+        borderColor: Color(0xFF8A4FFF),
         borderRadius: 0,
-        filColor: PColors.black,
-        textHead: 'Email ID',
+        filColor: PColors.white,
+        textHead: 'Email ID',textColor:Color(0xFF8A4FFF) ,
         readOnly: true,
         validation: Validator.email,
-        hintText: 'Email ID');
+        hintText: 'Email ID',);
   }
 
   Widget nameTextField() {
     return CustomTextFeild(
         controller: _nameController,
         borderRadius: 0,
-        borderColor: PColors.whiteOff.withOpacity(0.6),
-        filColor: PColors.black,
-        textHead: 'Name',
+        borderColor: Color(0xFF8A4FFF),
+        filColor: PColors.white,
+        textHead: 'Name',textColor:Color(0xFF8A4FFF) ,
         validation: Validator.text,
         hintText: 'Name');
   }
@@ -112,10 +120,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget mobileTextField() {
     return CustomTextFeild(
       controller: _numberController,
-      borderColor: PColors.whiteOff.withOpacity(0.6),
+      borderColor: Color(0xFF8A4FFF),
       borderRadius: 0,
-      filColor: PColors.black,
-      textHead: 'Mobile number',
+      filColor: PColors.white,
+      textHead: 'Mobile number',textColor:Color(0xFF8A4FFF) ,
       validation: Validator.mobile,
       hintText: 'Mobile number',
       maxLength: 10,
@@ -125,4 +133,62 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ],
     );
   }
+  Widget skillField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomTextFeild(
+          controller: _skillController,
+          borderColor: const Color(0xFF8A4FFF),
+          borderRadius: 0,
+          filColor: PColors.white,
+          textHead: 'Skills',textColor:Color(0xFF8A4FFF) ,
+          hintText: 'Type skills',
+          onSubmitted: (val) {
+            final skill = val?.trim();
+            if (skill != null &&
+                skill.isNotEmpty &&
+                !_skills.contains(skill)) {
+              setState(() {
+                _skills.add(skill);
+              });
+              _skillController.clear();
+            }
+          },
+        ),
+        const SizedBox(height: 10),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: _skills.map((skill) {
+            return Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 14,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.purple.shade50,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: const Color(0xFF8A4FFF),
+                ),
+              ),
+              child: Text(
+                skill,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF8A4FFF),
+                ),
+              ),
+            );
+          }).toList(),
+        )
+
+
+      ],
+    );
+  }
+
 }

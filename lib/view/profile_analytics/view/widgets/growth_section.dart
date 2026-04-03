@@ -23,7 +23,7 @@ class GrowthSectionUi extends StatelessWidget {
 
           textWidget(
             text:'Growth',
-            color: PColors.white,fontsize: 18,fontweight: FontWeight.w600
+            color: Color(0xFF8A4FFF),fontsize: 18,fontweight: FontWeight.w600
           ),
           const SizedBox(height: 10),
           itemWidget(title: 'Total new followers', value: '${analyticsModel?.filteredFollowers??'0'}'),
@@ -48,7 +48,7 @@ class GrowthSectionUi extends StatelessWidget {
         ),
         Text(
           value,
-          style: const TextStyle(color: Colors.white,fontSize: 16),
+          style: const TextStyle(color: Color(0xFF8A4FFF),fontSize: 16),
         ),
       ],
     );

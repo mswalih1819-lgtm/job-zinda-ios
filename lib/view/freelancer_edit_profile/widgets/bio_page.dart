@@ -33,7 +33,7 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: PColors.black,
+      backgroundColor: PColors.white,
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       // floatingActionButton: CustomElavatedTextButton(
       //   text: 'Finish',
@@ -61,6 +61,7 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
               children: [
                 textWidget(
                     text: "Create your account",
+                    color: Color(0xFF8A4FFF),
                     fontsize: 18,
                     fontweight: FontWeight.bold),
                 const SizedBox(
@@ -71,6 +72,10 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
                   height: 14,
                 ),
                 professionTextField(),
+                const SizedBox(
+                  height: 14,
+                ),
+                skillsTextField(),
                 const SizedBox(
                   height: 14,
                 ),
@@ -106,9 +111,10 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
                 CustomElavatedTextButton(
                   width: double.infinity,
                   text: 'Finish',
-                  textColor: PColors.black,
-                  bgcolor: PColors.white,
+                  textColor: Color(0xFF8A4FFF),
+                  bgcolor: Colors.purple.shade50,
                   borderRadius: 0,
+                  borderColor: Color(0xFF8A4FFF),
                   onPressed: () {
                     if (_formKey.currentState?.validate() ?? false) {
                       context
@@ -129,10 +135,10 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
     return Consumer<ProfileViewModel>(
       builder: (context, value, child) => CustomTextFeild(
           controller: value.bioController,
-          borderColor: PColors.whiteOff.withOpacity(0.6),
+          borderColor: Color(0xFF8A4FFF),
           borderRadius: 0,
-          filColor: PColors.black,
-          textHead: 'Bio *',
+          filColor: PColors.white,
+          textHead: 'Bio *',textColor: Color(0xFF8A4FFF),
           validation: Validator.text,
           hintText: 'Bio'),
     );
@@ -142,10 +148,10 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
     return Consumer<ProfileViewModel>(
       builder: (context, value, child) => CustomTextFeild(
           controller: value.cityController,
-          borderColor: PColors.whiteOff.withOpacity(0.6),
+          borderColor: Color(0xFF8A4FFF),
           borderRadius: 0,
-          filColor: PColors.black,
-          textHead: 'District ',
+          filColor: PColors.white,
+          textHead: 'District ',textColor: Color(0xFF8A4FFF),
           validation: Validator.text,
           hintText: 'District'),
     );
@@ -160,7 +166,7 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
                 Text(
                   "Profession",
                   style: PTextStyles.titleSmall
-                      .copyWith(color: PColors.whiteOff.withOpacity(0.6)),
+                      .copyWith(color: Color(0xFF8A4FFF),),
                 ),
                 const SizedBox(
                   height: 10,
@@ -209,11 +215,11 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
     return Consumer<ProfileViewModel>(
       builder: (context, value, child) => CustomTextFeild(
           controller: value.stateController,
-          borderColor: PColors.whiteOff.withOpacity(0.6),
+          borderColor: Color(0xFF8A4FFF),
           borderRadius: 0,
-          filColor: PColors.black,
+          filColor: PColors.white,
           readOnly: true,
-          textHead: 'State',
+          textHead: 'State',textColor: Color(0xFF8A4FFF),
           // validation: Validator.email,
           hintText: 'select state'),
     );
@@ -223,11 +229,11 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
     return Consumer<ProfileViewModel>(
       builder: (context, value, child) => CustomTextFeild(
           controller: value.emailController,
-          borderColor: PColors.whiteOff.withOpacity(0.6),
+          borderColor: Color(0xFF8A4FFF),
           borderRadius: 0,
-          filColor: PColors.black,
+          filColor: PColors.white,
           readOnly: true,
-          textHead: 'Email ID *',
+          textHead: 'Email ID *',textColor: Color(0xFF8A4FFF),
           // validation: Validator.email,
           hintText: 'Email ID'),
     );
@@ -242,10 +248,10 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
           },
           readOnly: true,
           controller: value.addressController,
-          borderColor: PColors.whiteOff.withOpacity(0.6),
+          borderColor: Color(0xFF8A4FFF),
           borderRadius: 0,
-          filColor: PColors.black,
-          textHead: 'Location *',
+          filColor: PColors.white,
+          textHead: 'Location *',textColor: Color(0xFF8A4FFF),
           validation: Validator.text,
           hintText: 'Location'),
     );
@@ -256,9 +262,9 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
       builder: (context, value, child) => CustomTextFeild(
           controller: value.nameController,
           borderRadius: 0,
-          borderColor: PColors.whiteOff.withOpacity(0.6),
-          filColor: PColors.black,
-          textHead: 'Name *',
+          borderColor: Color(0xFF8A4FFF),
+          filColor: PColors.white,
+          textHead: 'Name *',textColor: Color(0xFF8A4FFF),
           validation: Validator.text,
           hintText: 'Name'),
     );
@@ -268,10 +274,10 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
     return Consumer<ProfileViewModel>(
       builder: (context, value, child) => CustomTextFeild(
         controller: value.phoneController,
-        borderColor: PColors.whiteOff.withOpacity(0.6),
+        borderColor: Color(0xFF8A4FFF),
         borderRadius: 0,
-        filColor: PColors.black,
-        textHead: 'Mobile number',
+        filColor: PColors.white,
+        textHead: 'Mobile number',textColor: Color(0xFF8A4FFF),
         validation: Validator.mobile,
         hintText: 'Mobile number',
         maxLength: 10,
@@ -292,7 +298,7 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
           Text(
             "Gender",
             style: PTextStyles.titleSmall
-                .copyWith(color: PColors.whiteOff.withOpacity(0.6)),
+                .copyWith(color: Color(0xFF8A4FFF),),
           ),
           const SizedBox(
             height: 10,
@@ -326,4 +332,56 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
       ),
     );
   }
+  Widget skillsTextField() {
+    return Consumer<ProfileViewModel>(
+      builder: (context, value, child) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Skills *',
+            style: PTextStyles.titleSmall.copyWith(
+              color: const Color(0xFF8A4FFF),
+            ),
+          ),
+          const SizedBox(height: 8),
+
+          CustomTextFeild(
+            controller: value.skillController,
+            borderColor: const Color(0xFF8A4FFF),
+            borderRadius: 0,
+            filColor: PColors.white,
+            hintText: 'Skills',
+            textInputAction: TextInputAction.done,
+
+
+            onSubmitted: (text) {
+              if (text != null && text.trim().isNotEmpty) {
+                value.addSkillFromText(text);
+              }
+            },
+
+          ),
+
+
+
+
+          const SizedBox(height: 10),
+
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: value.skills.map((skill) {
+              return Chip(
+                label: Text(skill),
+                backgroundColor: Colors.purple.shade50,
+                deleteIconColor: const Color(0xFF8A4FFF),
+                onDeleted: () => value.removeSkill(skill),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
 }

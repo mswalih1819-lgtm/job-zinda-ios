@@ -19,9 +19,11 @@ class ChatBottomBarUi extends StatelessWidget {
       padding: const EdgeInsets.all(0),
       // EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
+
         height: 50,
         margin: const EdgeInsets.only(bottom: 14),
         width: MediaQuery.of(context).size.width,
+
         // color:PColors.seed2,
         child: Row(
           children: [
@@ -36,7 +38,7 @@ class ChatBottomBarUi extends StatelessWidget {
                 size: Size(MediaQuery.of(context).size.width - 120, 50),
                 recorderController: chatDetailsViewModel.recorderController,
                 waveStyle: WaveStyle(
-                  waveColor: PColors.white,
+                  waveColor: PColors.black,
                   waveThickness: 8.0,
                   waveCap: StrokeCap.round,
                   spacing: 24.0,
@@ -62,7 +64,7 @@ class ChatBottomBarUi extends StatelessWidget {
                     }
                   }
                 },
-                child: const Icon(Icons.send_outlined),
+                child: const Icon(Icons.send_outlined,color: Color(0xFF8A4FFF),),
               ),
             if (chatDetailsViewModel.pageType == "lets plan")
               Container()
@@ -90,6 +92,7 @@ class ChatBottomBarUi extends StatelessWidget {
                 child: SvgPicture.asset(
                   PSvgs.audio,
                   height: 24,
+                  color: Color(0xFF8A4FFF),
                 ),
               ),
             if (chatDetailsViewModel.isrecord)
@@ -98,7 +101,7 @@ class ChatBottomBarUi extends StatelessWidget {
                   chatDetailsViewModel.updateISRecord(false);
                   chatDetailsViewModel.stop(context, isRecorderReady: true);
                 },
-                child: const Icon(Icons.send_outlined),
+                child: const Icon(Icons.send_outlined,color: Color(0xFF8A4FFF),),
               ),
             const SizedBox(width: 20)
           ],

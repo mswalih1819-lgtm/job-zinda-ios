@@ -47,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         elevation: 0,
         actions: [
           PopupMenuButton<String>(
-            icon: const Icon(Icons.more_vert, color: Colors.white),
+            icon: const Icon(Icons.more_vert,  color: Color(0xFF8A4FFF),),
             onSelected: (value) {
               if (value == 'upgrade') {
                 context.push(PPages.planListUi);
@@ -56,13 +56,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               }
             },
             itemBuilder: (context) => [
-              const PopupMenuItem<String>(
+            const  PopupMenuItem<String>(
                 value: 'upgrade',
-                child: Text('Upgrade'),
+                child: Text('Upgrade',style: TextStyle(color: Color(0xFF8A4FFF),)),
               ),
               const PopupMenuItem<String>(
                 value: 'courses',
-                child: Text('Courses'),
+                child: Text('Courses',style: TextStyle(color: Color(0xFF8A4FFF),)),
               ),
             ],
           ),

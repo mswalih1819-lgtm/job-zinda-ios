@@ -15,8 +15,8 @@ class FaqUi extends StatelessWidget {
       children: [
           
         CustomElavatedTextButton(
-          bgcolor: PColors.yellow,
-          textColor: PColors.black,
+          bgcolor: Colors.purple.shade50,
+          textColor: Color(0xFF8A4FFF),
           text: "Faq's",onPressed: (){
 
            launchUrl(

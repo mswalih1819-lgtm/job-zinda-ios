@@ -70,8 +70,8 @@ class _LoginScreenState extends State<LoginScreen> {
           controller: value.numberController,
           focusNode: _focusNode,
           keyboardType: TextInputType.phone,
-          borderColor: PColors.textFeildBorderColor,
-          borderRadius: 0,
+          borderColor: Color(0xFF8A4FFF),
+          borderRadius: 18,
           hintText: 'Phone number',
           prefixIcon: const Padding(
             padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
             FilteringTextInputFormatter.digitsOnly,
             LengthLimitingTextInputFormatter(10),
           ],
-          filColor: PColors.seed,
+           filColor:PColors.white,
         ),
       ),
     );
@@ -128,8 +128,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   }
                 },
                 bgcolor: PColors.white,
-                borderRadius: 0,
-                textColor: PColors.black,
+                borderRadius: 18,
+          borderColor: Color(0xFF8A4FFF),
+                textColor: Color(0xFF8A4FFF),
               );
       },
     );

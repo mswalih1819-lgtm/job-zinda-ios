@@ -34,6 +34,7 @@ class UploadPagesUi extends StatelessWidget {
                     },
                     child: const Icon(
                       Icons.close,
+                      color: Color(0xFF8A4FFF),
                       size: 20,
                     )),
                 const SizedBox(
@@ -49,8 +50,8 @@ class UploadPagesUi extends StatelessWidget {
 
                 context.pushNamed(PPages.addPostUi);
               },
-              leading: SvgPicture.asset(PSvgs.share_post),
-              title: textWidget(text: 'Share new post', color: PColors.white),
+              leading: SvgPicture.asset(PSvgs.share_post,color: Color(0xFF8A4FFF),),
+              title: textWidget(text: 'Share new post', color: Color(0xFF8A4FFF),),
             ),
             ListTile(
               onTap: () {
@@ -62,10 +63,11 @@ class UploadPagesUi extends StatelessWidget {
               },
               leading: SvgPicture.asset(
                 PSvgs.share_story,
+                color: Color(0xFF8A4FFF),
               ),
               title: textWidget(
                 text: 'Share story',
-                color: PColors.white,
+                color:Color(0xFF8A4FFF),
               ),
             )
           ],

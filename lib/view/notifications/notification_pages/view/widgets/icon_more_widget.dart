@@ -14,14 +14,14 @@ class IconMoreWidget extends StatelessWidget {  final NotificationModel? notific
           showBottomSheet(
             shape: const BeveledRectangleBorder(),
             clipBehavior: Clip.hardEdge,
-            backgroundColor: PColors.black,
+            backgroundColor: PColors.white,
             context: context,
             builder: (context) => DeleteBottomSheet(notificationModel: notificationModel),
           );
         },
         child: Icon(
           Icons.more_vert,
-          color: PColors.white,
+          color: PColors.black,
         ));
   }
 }

@@ -73,8 +73,8 @@ class ReferalCodeUi extends StatelessWidget {
           builder: (context, value, child) => CustomTextFeild(
               // controller: value.referalController,
               // keyboardType: TextInputType.,
-              borderColor: PColors.textFeildBorderColor,
-              borderRadius: 0,
+              borderColor: Color(0xFF8A4FFF),
+              borderRadius: 18,
               hintText: 'Referral ID',
               // validation: Validator.mobile,
 
@@ -85,7 +85,7 @@ class ReferalCodeUi extends StatelessWidget {
                 model.referralCode = val;
               },
               maxLength: 10,
-              filColor: PColors.seed),
+              filColor: PColors.white),
         ));
   }
 
@@ -108,8 +108,9 @@ class ReferalCodeUi extends StatelessWidget {
           }
         },
         bgcolor: PColors.white,
-        borderRadius: 0,
-        textColor: PColors.black,
+        borderRadius: 18,
+        borderColor: Color(0xFF8A4FFF),
+        textColor: Color(0xFF8A4FFF),
       ),
     );
   }

@@ -53,56 +53,69 @@ class SearchViewModel with ChangeNotifier {
   // }
 
   int _pageNumber = 1;
-bool _isFetching = false; // Prevent multiple parallel fetches
+  bool _isFetching = false; // Prevent multiple parallel fetches
 
-int get pageNumber => _pageNumber;
+  int get pageNumber => _pageNumber;
 
-set pageNumber(int value) {
-  _pageNumber = value;
-  notifyListeners();
-}
-
-List<ProfileModel> searchList = [];
-
-Future<void> fetchSearchList() async {
-  if (_isFetching) return;
-  _isFetching = true;
-
-  if (_pageNumber == 1) {
-    searchList.clear();
-  }
-
-  try {
-    final String api = Api.searchUserListUrl;
-    final response = await ApiService().get(
-      '$api&pageNumber=$_pageNumber&searchTag=$searchTag',
-    );
-
-    Map<String, dynamic> data = response.data;
-    print("Fetched Data: $data");
-
-    if (data['status']) {
-      List<ProfileModel> fetchedList = (data['data']['profiles'] as List)
-          .map((e) => ProfileModel.fromJson(e))
-          .toList();
-
-      // ✅ Append without duplicates
-      final existingIds = searchList.map((e) => e.sId).toSet();
-      final newItems =
-          fetchedList.where((e) => !existingIds.contains(e.sId)).toList();
-
-      if (newItems.isNotEmpty) {
-        searchList.addAll(newItems);
-        _pageNumber++;
-      }
-    }
+  set pageNumber(int value) {
+    _pageNumber = value;
     notifyListeners();
-  } catch (e) {
-    print("Error fetching search list: $e");
-  } finally {
-    _isFetching = false;
   }
-}
+
+  List<ProfileModel> searchList = [];
+
+  Future<void> fetchSearchList({bool isNewSearch = false}) async {
+    if (_isFetching) return;
+
+    _isFetching = true;
+
+    if (isNewSearch) {
+      _pageNumber = 1;
+      searchList.clear();
+    }
+
+    try {
+      final response = await ApiService().get(
+        '${Api.searchUserListUrl}&pageNumber=$_pageNumber&searchTag=${_searchTag.trim()}',
+      );
+
+      final data = response.data;
+
+      print("URL => ${Api.searchUserListUrl}&pageNumber=$_pageNumber&searchTag=$_searchTag");
+      print("Fetched Data: $data");
+
+      if (data != null && data['status'] == true) {
+
+        final profiles = data['data']?['profiles'];
+
+        if (profiles != null && profiles is List) {
+
+          List<ProfileModel> fetchedList =
+          profiles.map((e) => ProfileModel.fromJson(e)).toList();
+
+          if (_pageNumber == 1) {
+            searchList = fetchedList;
+          } else {
+            searchList.addAll(fetchedList);
+          }
+
+          _pageNumber++;
+        } else {
+          // If profiles null
+          if (_pageNumber == 1) {
+            searchList = [];
+          }
+        }
+      }
+
+      notifyListeners();
+
+    } catch (e) {
+      print("Error fetching search list: $e");
+    } finally {
+      _isFetching = false;
+    }
+  }
 
 
 }

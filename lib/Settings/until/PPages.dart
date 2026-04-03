@@ -4,10 +4,13 @@ class PPages {
   static const String welcomePageUi = "/welcomePageUi";
   static const String onboardingScreensUi = "/onboardingScreensUi";
   static const String loginWelcomeScreenUi = "/loginWelcomeScreenUi";
+  static const String usernameLoginUi = "/usernameLoginUi";
   static const String phoneNumberUi = "/phoneNumberUi";
   static const String otpPageUi = "/otpPageUi";
   static const String loginSplashUi = "/loginSplashUi";
   static const String loginSplash2Ui = "/loginSplash2Ui";
+  static const String changePasswordUi = "/changePasswordUi";
+  static const String registerAfterOtpUi = "/registerAfterOtpUi";
 
   static const String helpSupportUi = "/helpSupportUi";
   static const String sendFeedbackUi = "/sendFeedbackUi";
@@ -37,5 +40,7 @@ class PPages {
   static const String planListUi = '/planListUi';
   static const String wallet = '/wallet';
   static const String coursePurchaseUi = '/course-purchase';
+  static const String enterEmailUi = '/enterEmailUi';
+
 
 }

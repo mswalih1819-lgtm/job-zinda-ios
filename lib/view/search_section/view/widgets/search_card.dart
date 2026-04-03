@@ -27,7 +27,14 @@ class SearchCard extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: PColors.seed2),
+
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: const Color(0xFF8A4FFF), // purple border
+              width: 1.5,
+            ),
+            color: Colors.purple.shade50),
+
         child: Column(
           children: [
             SearchImageWidgetSectionUi(
@@ -41,13 +48,13 @@ class SearchCard extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      color: PColors.white),
+                      color: Color(0xFF8A4FFF),),
                   maxLines: 1,
                 ),
                 textWidget(
                     text: profileModel.profession ?? '',
                     fontsize: 12,
-                    color: PColors.whiteOff.withOpacity(0.6),
+                    color: Color(0xFF8A4FFF).withOpacity(0.6),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1),
                 const SizedBox(
@@ -79,7 +86,7 @@ class SearchCard extends StatelessWidget {
                     SizedBox(
                         height: 30,
                         child: VerticalDivider(
-                          color: PColors.whiteOff.withOpacity(0.2),
+                          color: Color(0xFF8A4FFF).withOpacity(0.2),
                         )),
                     columnWidget(
                         title: 'Feedback',
@@ -105,7 +112,7 @@ class SearchCard extends StatelessWidget {
           textWidget(
               text: title,
               fontsize: 8,
-              color: PColors.whiteOff.withOpacity(0.7),
+              color:Color(0xFF8A4FFF).withOpacity(0.7),
               overflow: TextOverflow.ellipsis,
               maxLines: 1),
         ],

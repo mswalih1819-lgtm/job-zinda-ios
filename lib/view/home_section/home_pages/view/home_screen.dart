@@ -7,22 +7,24 @@ import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/view/home_section/home_pages/view/widgets/banners_veiw_model.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/home_appbar.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/post_section.dart';
-
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/story_section.dart';
 import 'package:jora_customer/view_model/chat_badge_viewmodel.dart';
 import 'package:jora_customer/view_model/notification_view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:jora_customer/view_model/referal_view_model.dart';
-
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'dart:async';
 import 'package:flutter/rendering.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/home_floating_action.dart';
+import '../../../../Terms_and_conditions/TermsAndConditionUi.dart';
+import '../../../plansforyou/plansforyouUI.dart';
+import 'HomeVideo.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,17 +42,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     _postViewModel = context.read<PostViewModel>();
     _postViewModel.addListener(_onPostsUpdated);
 
-    // Initial load after frame is built
-        WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _initializeData();
+
+      /// 🔥 banner fetch
+      context.read<BannerViewModel>().getBanners();
     });
 
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
-
-
   }
-
   Future<void> _initializeData() async {
     if (!mounted) return;
     final postViewModel = context.read<PostViewModel>();
@@ -66,6 +67,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   void _onPostsUpdated() {
     // Currently not used, kept for future enhancements.
+  }
+  Future<void> openWhatsAppGroup() async {
+
+    final Uri url = Uri.parse(
+        "https://chat.whatsapp.com/CziCbs0nTjYHXU9kMXhMrW"
+    );
+
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw "Could not open WhatsApp group";
+    }
   }
 
   @override
@@ -117,17 +131,18 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final bannerVM = Provider.of<BannerViewModel>(context);
     return Consumer<ProfileViewModel>(
       builder: (context, value, child) => Scaffold(
 
         key: scaffoldKey,
         drawer: Drawer(
-          backgroundColor: PColors.black,
+          backgroundColor: PColors.white,
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
-                decoration: BoxDecoration(color: PColors.seed2),
+                decoration: BoxDecoration(color: Color(0xFF8A4FFF),),
                 child: value.profileModel == null
                     ? Row(
                         children: [
@@ -162,20 +177,68 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         ],
                       ),
               ),
+              // if (context.read<ProfileViewModel>().profileModel != null &&
+              //     (context.read<ProfileViewModel>().profileModel!.profession ?? '')
+              //         .toLowerCase()
+              //         .trim() ==
+              //         'zinda promoter')
+              //   drawerWidget(
+              //     title: "Plans For You",
+              //     icon: const Icon(Icons.workspace_premium, color: Color(0xFF8A4FFF)),
+              //     fun: () {
+              //       Navigator.of(context, rootNavigator: true).push(
+              //         MaterialPageRoute(
+              //           builder: (context) => const FreelancerMessagesScreen(),
+              //         ),
+              //       );
+              //
+              //
+              //
+              //     },
+              //   )
+              // else
+              //   drawerWidget(
+              //     title: "Task Corner",
+              //     icon: const Icon(Icons.task_outlined, color: Color(0xFF8A4FFF)),
+              //     fun: () {
+              //       Navigator.pop(context);
+              //       context.pushNamed(PPages.taskCornerAssignments);
+              //     },
+              //   ),
+              drawerWidget(
+                title: "Plans For You",
+                icon: const Icon(Icons.workspace_premium, color: Color(0xFF8A4FFF)),
+                fun: () {
+                  Navigator.of(context, rootNavigator: true).push(
+                    MaterialPageRoute(
+                      builder: (context) => const FreelancerMessagesScreen(),
+                    ),
+                  );
+                },
+              ),
+
+
+
               context.read<ProfileViewModel>().profileModel == null
                   ? Container()
-                  : drawerWidget(
-                      title: "Task Corner",
-                      icon: Icon(Icons.task_outlined, color: PColors.whiteOff),
-                      fun: () {
-                        Navigator.pop(context);
-                        context.pushNamed(PPages.taskCornerAssignments);
-                      }),
+                  : ((context.read<ProfileViewModel>().profileModel!.profession ?? '')
+                              .toLowerCase()
+                              .trim() ==
+                          'zinda promoter')
+
+                  ? drawerWidget(
+                          title: "Task Corner",
+                          icon: Icon(Icons.task_outlined, color: Color(0xFF8A4FFF),),
+                          fun: () {
+                            Navigator.pop(context);
+                            context.pushNamed(PPages.taskCornerAssignments);
+                          })
+                      : const SizedBox.shrink(),
               context.read<ProfileViewModel>().profileModel == null
                   ? Container()
                   : drawerWidget(
                       title: "Wallet",
-                      icon: Icon(Icons.account_balance_wallet_outlined, color: PColors.whiteOff),
+                      icon: Icon(Icons.account_balance_wallet_outlined, color:  Color(0xFF8A4FFF),),
                       fun: () {
                         Navigator.pop(context);
                         context.push(PPages.wallet);
@@ -191,7 +254,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       ? Container()
                       : drawerWidget(
                           title: "Referrals",
-                          icon: SvgPicture.asset(PSvgs.referals),
+                          icon: SvgPicture.asset(PSvgs.referals,color: Color(0xFF8A4FFF),),
                           fun: () {
                             context
                                 .read<ReferalViewModel>()
@@ -199,45 +262,52 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             Navigator.pop(context);
                             context.pushNamed(PPages.referalPageUi);
                           }),
-              context.read<ProfileViewModel>().profileModel == null
-                  ? Container()
-                  : context
-                              .read<ProfileViewModel>()
-                              .profileModel!
-                              .accountType!
-                              .toLowerCase() ==
-                          "normal"
-                      ? Container()
-                      : drawerWidget(
-                          title: "Coins",
-                          icon: SvgPicture.asset(PSvgs.coins),
-                          fun: () {
-                            Navigator.pop(context);
-                            context.pushNamed(PPages.coinScreenUi);
-                          }),
+              // context.read<ProfileViewModel>().profileModel == null
+              //     ? Container()
+              //     : context
+              //                 .read<ProfileViewModel>()
+              //                 .profileModel!
+              //                 .accountType!
+              //                 .toLowerCase() ==
+              //             "normal"
+              //         ? Container()
+              //         : drawerWidget(
+              //             title: "Coins",
+              //             icon: SvgPicture.asset(PSvgs.coins,color: Color(0xFF8A4FFF),),
+              //             fun: () {
+              //               Navigator.pop(context);
+              //               context.pushNamed(PPages.coinScreenUi);
+              //             }),
               drawerWidget(
                   title: "Contact",
                   icon: Icon(
                     Icons.call,
-                    color: PColors.whiteOff,
+                    color: Color(0xFF8A4FFF),
                     size: 18,
                   ),
                   fun: () {
                     _makePhoneCall('+919847561998');
                   }),
               drawerWidget(
-                  title: "Terms and Conditions",
-                  icon: SvgPicture.asset(PSvgs.terms),
-                  fun: () {
-                    launchUrl(
-                      Uri.parse(
-                          'https://www.joraappfreelancers.com/terms-and-conditions'),
-                    );
-                  }),
+                title: "Terms and Conditions",
+                icon: SvgPicture.asset(
+                  PSvgs.terms,
+                  color: Color(0xFF8A4FFF),
+                ),
+                fun: () {
+                  Navigator.pop(context); // Drawer close
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>  TermsConditionsPage(),
+                    ),
+                  );
+                },
+              ),
               drawerWidget(
                   title: "Privacy Policy",
                   icon: SvgPicture.asset(PSvgs.privacy_policy,
-                      color: PColors.white),
+                      color: Color(0xFF8A4FFF),),
                   fun: () {
                     launchUrl(
                       Uri.parse(
@@ -246,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   }),
               drawerWidget(
                   title: "Help and Support",
-                  icon: SvgPicture.asset(PSvgs.support),
+                  icon: SvgPicture.asset(PSvgs.support,color: Color(0xFF8A4FFF),),
                   fun: () {
                     Navigator.pop(context);
                     context.pushNamed(PPages.helpSupportUi);
@@ -255,7 +325,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   title: "Delete account",
                   icon: Icon(
                     Icons.delete,
-                    color: PColors.whiteOff,
+                    color: Color(0xFF8A4FFF),
                     size: 18,
                   ),
                   fun: () {
@@ -285,7 +355,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           context: context,
                           title: "Do you want to logout?",
                           onTap: () {
-                            context
+                              context
                                 .read<ProfileViewModel>()
                                 .userLogout(context);
                           }),
@@ -300,128 +370,188 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             scaffoldKey: scaffoldKey,
           ),
         ),
-        body: Stack(
-          children: [
-            // SingleChildScrollView(
-            //   child: Container(
-            //     margin: const EdgeInsets.symmetric(horizontal: 10),
-            //     child: Column(
-            //       children: [
-            //         const StorySection(),
-            //         Divider(
-            //           color: PColors.whiteOff.withOpacity(0.3),
-            //         ),
-            //         const PostSection(),
-            //         const SizedBox(height: 100),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-            RefreshIndicator(
-              onRefresh: () async {
-                await context.read<PostViewModel>().refreshPosts();
-              },
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
+        body: Padding(
+          padding: const EdgeInsets.only(left: 15.0,right: 15),
+          child: Stack(
+            children: [
+              // SingleChildScrollView(
+              //   child: Container(
+              //     margin: const EdgeInsets.symmetric(horizontal: 10),
+              //     child: Column(
+              //       children: [
+              //         const StorySection(),
+              //         Divider(
+              //           color: PColors.whiteOff.withOpacity(0.3),
+              //         ),
+              //         const PostSection(),
+              //         const SizedBox(height: 100),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              RefreshIndicator(
+                onRefresh: () async {
+                  await context.read<PostViewModel>().refreshPosts();
+                },
+                // child: SingleChildScrollView(
+                //   controller: _scrollController,
+                //   physics: const AlwaysScrollableScrollPhysics(),
+                //   child: Container(
+                //     margin: const EdgeInsets.symmetric(horizontal: 10),
+                //     child: Column(
+                //       children: [
+                //         Container(
+                //           margin: const EdgeInsets.symmetric(vertical: 10),
+                //           child: SizedBox(
+                //             height: 200, // 🔥 IMPORTANT
+                //             width: double.infinity,
+                //             child: HomeVideoBanner(),
+                //           ),
+                //         ),
+                //
+                //         const PostSection(),
+                //         const SizedBox(height: 100),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                 child: SingleChildScrollView(
+          controller: _scrollController,
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              children: [
+
+                /// 🔥 TOP SECTION
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  child: SizedBox(
+                    height: 200,
+                    width: double.infinity,
+                    child: bannerVM.topBanners.isNotEmpty
+                        ? PageView.builder(
+                      itemCount: bannerVM.topBanners.length,
+                      itemBuilder: (context, index) {
+                        final banner = bannerVM.topBanners[index];
+                        return Image.network(
+                          banner.mediaUrl ?? "",
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    )
+                        : HomeVideoBanner(), // 👈 no banner → show video
+                  ),
+                ),
+
+                const PostSection(),
+
+                const SizedBox(height: 100),
+              ],
+            ),
+          ),
+        ),
+              ),
+
+              // Assistant hint bubble
+              if (_assistantHintVisible)
+                Positioned(
+                  bottom: 140,
+                  right: 80,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      const StorySection(),
-                      Divider(color: PColors.whiteOff.withOpacity(0.3)),
-                      const PostSection(),
-                      const SizedBox(height: 100),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.green.shade700,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Text(
+                          // 'For technical assistance, chat with us',
+                          // "Join our updates group ",
+                               "stay connected with every opportunity",
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                      ),
+                      // Triangle pointer
+                      Transform.translate(
+                        offset: const Offset(8, -1),
+                        child: Transform.rotate(
+                          angle: 3.14 / 4,
+                          child: Container(
+                            width: 10,
+                            height: 10,
+                            color: Colors.green.shade700,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ),
-            ),
 
-            // Assistant hint bubble
-            if (_assistantHintVisible)
-              Positioned(
-                bottom: 140,
-                right: 80,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.green.shade700,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Text(
-                        'For technical assistance, chat with us',
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ),
-                    // Triangle pointer
-                    Transform.translate(
-                      offset: const Offset(8, -1),
-                      child: Transform.rotate(
-                        angle: 3.14 / 4,
-                        child: Container(
-                          width: 10,
-                          height: 10,
-                          color: Colors.green.shade700,
+                          AnimatedSlide(
+                duration: const Duration(milliseconds: 300),
+                offset: _isFabVisible ? Offset.zero : const Offset(0, 2),
+                child: Consumer<PostViewModel>(
+                  builder: (context, value, child) => value.isBottomshetopen
+                      ? const SizedBox()
+                      : Stack(
+                          children: [
+                            // Main FAB for creating posts
+                            // Positioned(
+                            //   bottom: 10,
+                            //   right: 0,
+                            //   // child: FloatingActionButton(
+                            //   //   shape: const CircleBorder(),
+                            //   //   heroTag: 'createPost',
+                            //   //   backgroundColor:Color(0xFF8A4FFF),
+                            //   //   onPressed: () {
+                            //   //     final profile = context.read<ProfileViewModel>().profileModel;
+                            //   //     final accountType = profile?.accountType?.toLowerCase().trim() ?? 'normal';
+                            //   //     if (accountType == 'freelancer' || accountType == 'premium') {
+                            //   //                                       showModalBottomSheet(
+                            //   //       context: context,
+                            //   //       isScrollControlled: true,
+                            //   //       builder: (context) => const HomeFloatingActionButtonUi(),
+                            //   //     );
+                            //   //     } else {
+                            //   //       context.pushNamed(PPages.planListUi);
+                            //   //     }
+                            //   //   },
+                            //   //   child: const Icon(Icons.add, color: Colors.white),
+                            //   // ),
+                            // ),
+                            // Assistant WhatsApp FAB
+                            // Positioned(
+                            //   bottom: 80,
+                            //   right: 0,
+                            //   child: FloatingActionButton(
+                            //     shape: const CircleBorder(),
+                            //     heroTag: 'whatsappAssistant',
+                            //     backgroundColor: const Color(0xFF8A4FFF),
+                            //     // onPressed: () => _openWhatsApp('+919847561998'),
+                            //     onPressed: () => _openWhatsApp('https://chat.whatsapp.com/CziCbs0nTjYHXU9kMXhMrW?mode=gi_t'),
+                            //     child: const Icon(Icons.chat, color: Colors.white),
+                            //   ),
+                            // ),
+                            Positioned(
+                              bottom: 30,
+                              right: 0,
+                              child: FloatingActionButton(
+                                shape: const CircleBorder(),
+                                heroTag: 'whatsappAssistant',
+                                backgroundColor: const Color(0xFF8A4FFF),
+                                onPressed: openWhatsAppGroup,
+                                child: const Icon(Icons.chat, color: Colors.white),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-                  ],
                 ),
               ),
-
-                        AnimatedSlide(
-              duration: const Duration(milliseconds: 300),
-              offset: _isFabVisible ? Offset.zero : const Offset(0, 2),
-              child: Consumer<PostViewModel>(
-                builder: (context, value, child) => value.isBottomshetopen
-                    ? const SizedBox()
-                    : Stack(
-                        children: [
-                          // Main FAB for creating posts
-                          Positioned(
-                            bottom: 10,
-                            right: 0,
-                            child: FloatingActionButton(
-                              shape: const CircleBorder(),
-                              heroTag: 'createPost',
-                              backgroundColor: PColors.yellow,
-                              onPressed: () {
-                                final profile = context.read<ProfileViewModel>().profileModel;
-                                final accountType = profile?.accountType?.toLowerCase().trim() ?? 'normal';
-                                if (accountType == 'freelancer' || accountType == 'premium') {
-                                                                  showModalBottomSheet(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  builder: (context) => const HomeFloatingActionButtonUi(),
-                                );
-                                } else {
-                                  context.pushNamed(PPages.planListUi);
-                                }
-                              },
-                              child: const Icon(Icons.add, color: Colors.black),
-                            ),
-                          ),
-                          // Assistant WhatsApp FAB
-                          Positioned(
-                            bottom: 80,
-                            right: 0,
-                            child: FloatingActionButton(
-                              shape: const CircleBorder(),
-                              heroTag: 'whatsappAssistant',
-                              backgroundColor: const Color(0xFFFFD700),
-                              onPressed: () => _openWhatsApp('+919847561998'),
-                              child: const Icon(Icons.chat, color: Colors.black),
-                            ),
-                          ),
-                        ],
-                      ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -433,7 +563,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         leading: icon,
         title: textWidget(
             text: title,
-            color: title == "Logout" ? PColors.red : PColors.white),
+            color: title == "Logout" ? PColors.red :  Color(0xFF8A4FFF),),
         onTap: fun);
   }
 
@@ -468,7 +598,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           CustomElavatedTextButton(
               text: "Yes",
               borderRadius: 24,
-              bgcolor: PColors.seed,
+              bgcolor: Color(0xFF8A4FFF),
               onPressed: onTap),
           const SizedBox(
             height: 10,
@@ -480,7 +610,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               child: textWidget(
                   text: "Cancel",
                   fontweight: FontWeight.w600,
-                  color: PColors.black,
+                  color: Color(0xFF8A4FFF),
                   fontsize: 16)),
         ],
       ),

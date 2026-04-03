@@ -32,7 +32,7 @@ class CustomOutlineButton extends StatelessWidget {
     return ElevatedButton(
       style: OutlinedButton.styleFrom(
         backgroundColor: PColors.white,
-        foregroundColor: forgcolor ?? PColors.seed,
+        foregroundColor: forgcolor ??  Color(0xFF8A4FFF),
         // padding: EdgeInsets.symmetric(
         //     vertical: padverticle ?? 8, horizontal: padhorizondal ?? 16),
         fixedSize: Size(width ?? size.width - 32, heigth ?? 45),
@@ -40,7 +40,7 @@ class CustomOutlineButton extends StatelessWidget {
         maximumSize: Size(width ?? size.width - 32, heigth ?? 45),
         side: BorderSide(
           width: 1,
-          color: bordercolor ?? PColors.seed,
+          color: bordercolor ??  Color(0xFF8A4FFF)
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRaduis ?? 24),

@@ -141,37 +141,38 @@ class PostViewModel with ChangeNotifier {
 
   List<dynamic> _mergePostsAndBanners(
       List<PostModel> posts, List<Banners> banners) {
-    List<dynamic> combinedList = [];
-    int postIndex = 0;
 
-    // If there are no posts, return an empty list, no need to display banners
-    if (posts.isEmpty) {
-      return combinedList;
-    }
+    List<dynamic> combined = [];
 
-    // Sort banners by their index to ensure correct order
-    banners.sort((a, b) => (a.indexNumber ?? 0).compareTo(b.indexNumber ?? 0));
+    Banners? middleBanner;
+    Banners? bottomBanner;
 
-    for (var banner in banners) {
-      int bannerPosition = banner.indexNumber ?? 0;
-
-      // Add posts up to the banner position
-      while (postIndex < posts.length && combinedList.length < bannerPosition) {
-        combinedList.add(posts[postIndex]);
-        postIndex++;
+    for (var b in banners) {
+      if (b.position == "middle") {
+        middleBanner = b;
       }
 
-      // Add the banner at the specified position
-      combinedList.add(banner);
+      if (b.position == "bottom") {
+        bottomBanner = b;
+      }
     }
 
-    // Add any remaining posts after banners
-    while (postIndex < posts.length) {
-      combinedList.add(posts[postIndex]);
-      postIndex++;
+    for (int i = 0; i < posts.length; i++) {
+
+      combined.add(posts[i]);
+
+      /// 🔹 2 posts kazhinju middle banner
+      if (i == 1 && middleBanner != null) {
+        combined.add(middleBanner);
+      }
     }
 
-    return combinedList;
+    /// 🔻 bottom banner last
+    if (bottomBanner != null) {
+      combined.add(bottomBanner);
+    }
+
+    return combined;
   }
 
   // Future<void> fetchPostWithPagination(int page) async {

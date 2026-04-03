@@ -101,7 +101,7 @@ class _CoursePurchaseUiState extends State<CoursePurchaseUi> {
           ),
           const SizedBox(height: 30),
           Text(
-            'Price: ₹200',
+            'Price: ₹300',
             style: TextStyle(fontSize: 20, color: PColors.yellow, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 20),
@@ -137,7 +137,7 @@ class _CoursePurchaseUiState extends State<CoursePurchaseUi> {
     return '''Hi Zinda, here is my receipt:\n\n
       *Course Purchase Receipt*\n
       Course: Zinda Promoter\n
-      Amount Paid: ₹200\n
+      Amount Paid: ₹300\n
       Payment ID: ${purchase.paymentId ?? ''}\n
       Status: ${purchase.paymentStatus ?? ''}\n
       Thank you!''';  
@@ -167,7 +167,7 @@ class _CoursePurchaseUiState extends State<CoursePurchaseUi> {
                 ),
                 const Divider(height: 30, thickness: 1),
                 _receiptRow('Course', 'Zinda Promoter'),
-                _receiptRow('Amount Paid', '₹200'),
+                _receiptRow('Amount Paid', '₹300'),
                 _receiptRow('Payment ID', purchase.paymentId ?? ''),
                 _receiptRow('Status', purchase.paymentStatus ?? ''),
                 const Divider(height: 30, thickness: 1),

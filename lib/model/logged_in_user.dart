@@ -12,6 +12,12 @@ class LoggedInUser {
   static String? refreshToken;
   static double? lat;
   static double? long;
+  static List<String>? skills;
+  static String? referralCode;
+  static Map<String, dynamic>? userData;
+  static bool lastLoginWasEmailOtp = false;
+
+
 
   LoggedInUser.login(Map<String, dynamic> json) {
     id = json['user']['_id'];
@@ -22,8 +28,9 @@ class LoggedInUser {
     phoneNumber = json['user']['phoneNumber'];
     profilePic = json['user']['profileImageUrl'];
     coverImage = json['user']['coverImage'];
+    skills = List<String>.from(json['user']['skills'] ?? []);
     print("ha122");
-
+    referralCode = json['user']['referralCode'] ?? '';
     accessToken = json['tokens']['access']['token'];
     refreshToken = json['tokens']['refresh']['token'];
     print("ha14441");
@@ -34,6 +41,30 @@ class LoggedInUser {
 
     storeUserLocally();
   }
+  static void fromJson(Map<String, dynamic> json) {
+    if (json['user'] != null) {
+      id = json['user']['_id'];
+      name = json['user']['name'];
+      email = json['user']['email'];
+      countryCode = json['user']['countryCode'];
+      phoneNumber = json['user']['mobileNumber'];
+      profilePic = json['user']['profileImageUrl'];
+      coverImage = json['user']['coverImage'];
+      skills = List<String>.from(json['user']['skills'] ?? []);
+      referralCode = json['user']['referralCode'];
+      accessToken = json['tokens']['access']?['token'];
+      refreshToken = json['tokens']['refresh']?['token'];
+
+      if (json['user']['location']?['coordinates'] != null) {
+        lat = double.tryParse(
+            json['user']['location']['coordinates'][0].toString());
+        long = double.tryParse(
+            json['user']['location']['coordinates'][1].toString());
+      }
+
+      storeUserLocally();
+    }
+  }
   LoggedInUser.profile(Map<String, dynamic> json) {
     id = json['_id'];
     name = json['name'];
@@ -41,6 +72,7 @@ class LoggedInUser {
     countryCode = json['countryCode'];
     phoneNumber = json['mobileNumber'];
     profilePic = json['profileImageUrl'];
+    skills = List<String>.from(json['skills'] ?? []);
     print("pro pic------$profilePic");
     lat = double.parse(json['location']["coordinates"][0].toString());
     long = double.parse(json['location']["coordinates"][1].toString());
@@ -63,6 +95,7 @@ class LoggedInUser {
 
     prefs.setString('accessToken', accessToken ?? '');
     prefs.setString('refreshToken', refreshToken ?? '');
+    prefs.setBool('lastLoginWasEmailOtp', lastLoginWasEmailOtp);
   }
 
   static Future<void> getUserDetails() async {
@@ -76,6 +109,7 @@ class LoggedInUser {
 
     accessToken = prefs.getString('accessToken');
     refreshToken = prefs.getString('refreshToken');
+    lastLoginWasEmailOtp = prefs.getBool('lastLoginWasEmailOtp') ?? false;
   }
 
   static Future<void> clearUserData() async {
@@ -83,6 +117,7 @@ class LoggedInUser {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       refreshToken = null;
       accessToken = null;
+      lastLoginWasEmailOtp = false;
       var result = prefs.clear();
       if (result == false) throw 'Unable to logout';
     } catch (e) {
@@ -90,3 +125,4 @@ class LoggedInUser {
     }
   }
 }
+

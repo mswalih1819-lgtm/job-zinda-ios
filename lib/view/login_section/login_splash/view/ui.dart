@@ -33,8 +33,10 @@ class LoginSplashUi extends StatelessWidget {
             LoginHeadingUi(
               title: "You’re all set up !",
               description:
-                  "Your profile is ready, and you're just one step away from exploring and connecting with talented freelancers or hiring members.",
+              "Your profile is ready, and you're just one step away from exploring and connecting with talented freelancers or hiring members.",
+              // <-- add this
             ),
+
             const SizedBox(
               height: 40,
             ),
@@ -46,7 +48,8 @@ class LoginSplashUi extends StatelessWidget {
                 context.pushNamed(PPages.loginSplash2Ui);
               },
               bgcolor: PColors.white,
-              textColor: PColors.black,
+              textColor:Color(0xFF8A4FFF),
+              borderColor: Color(0xFF8A4FFF),
             ),
             const SizedBox(
               height: 10,

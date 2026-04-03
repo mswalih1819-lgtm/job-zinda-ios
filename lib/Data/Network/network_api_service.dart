@@ -44,7 +44,6 @@ class NetworkApiService implements BaseApiService {
     String? token,
     String? appned,
   }) async {
-    print("hrade-----$headers");
     try {
       bool isHttps = AppUrl.isProduction;
       var newEndPoint = appned == null ? endPoint : "$endPoint/$appned";

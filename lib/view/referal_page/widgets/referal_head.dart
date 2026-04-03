@@ -15,7 +15,7 @@ class ReferalHeadUi extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        textWidget(text: "Your Referral ID", color: PColors.whiteOff),
+        textWidget(text: "Your Referral ID", color: Color(0xFF8A4FFF),),
         const SizedBox(
           height: 10,
         ),
@@ -24,7 +24,7 @@ class ReferalHeadUi extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(0),
-              border: Border.all(color: PColors.whiteOff)),
+              border: Border.all(color: Color(0xFF8A4FFF),)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -51,7 +51,7 @@ class ReferalHeadUi extends StatelessWidget {
                         );
                       }
                     },
-                    child: const Icon(Icons.copy)),
+                    child: const Icon(Icons.copy,color: Color(0xFF8A4FFF),)),
                 const SizedBox(
                   width: 8,
                 ),
@@ -60,7 +60,7 @@ class ReferalHeadUi extends StatelessWidget {
                       Share.share(
                           "download the app with my referral link https://play.google.com/store/apps/details?id=com.jobZinda.customers&pcampaignid=web_share and referral ID ${profileViewModel.profileModel!.referralCode.toString()}");
                     },
-                    child: const Icon(Icons.share))
+                    child: const Icon(Icons.share,color: Color(0xFF8A4FFF),))
               ],
             ),
           ),

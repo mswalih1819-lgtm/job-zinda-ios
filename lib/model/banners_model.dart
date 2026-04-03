@@ -11,6 +11,8 @@ class Banners {
   bool? archived;
   int? indexNumber;
   int? iV;
+  String? position;
+  String? mediaUrl;
 
   Banners(
       {this.sId,
@@ -24,13 +26,17 @@ class Banners {
       this.createdAt,
       this.archived,
       this.indexNumber,
-      this.iV});
+      this.iV,
+        this.position,
+        this.mediaUrl
+        });
 
   Banners.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     documentStatus = json['documentStatus'];
     title = json['title'];
-    bannerImageUrl = json['bannerImageUrl'];
+    bannerImageUrl = json['bannerImageUrl'] ?? json['mediaUrl'];
+    mediaUrl = json['mediaUrl'];
     bannerOnTapAction = json['bannerOnTapAction'];
     subscriptionType = json['subscriptionType'];
     subscriptionPlanId = json['subscriptionPlanId'];
@@ -39,6 +45,8 @@ class Banners {
     archived = json['archived'];
     indexNumber = json['indexNumber'];
     iV = json['__v'];
+    position = json['position'];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -55,6 +63,8 @@ class Banners {
     data['archived'] = this.archived;
     data['indexNumber'] = this.indexNumber;
     data['__v'] = this.iV;
+    data['position'] = position;
+
     return data;
   }
 }

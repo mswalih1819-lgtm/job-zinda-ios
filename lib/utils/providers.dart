@@ -18,15 +18,22 @@ import 'package:jora_customer/view_model/subscription_view_model.dart';
 import 'package:jora_customer/view_model/course_purchase_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:jora_customer/view_model/username_login_view_model.dart';
+import 'package:jora_customer/view_model/password_setup_view_model.dart';
 
+import '../view/home_section/home_pages/view/widgets/banners_veiw_model.dart';
 import '../view_model/chat_view_model.dart';
 import '../view_model/notification_view_model.dart';
 import '../view/wrapper/view_model/view_model.dart';
+
 
 List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (context) => LoginPhoneNumberViewModel()),
   ChangeNotifierProvider(create: (context) => AddReferalViewModel()),
   ChangeNotifierProvider(create: (context) => BadgeViewModel()),
+  ChangeNotifierProvider(
+    create: (context) => BannerViewModel(),   // ✅ ADD THIS
+  ),
 
 
 
@@ -89,4 +96,7 @@ List<SingleChildWidget> providers = [
    ChangeNotifierProvider(
     create: (context) => ReferalViewModel(),
   ),
+  // New username/password auth providers
+  ChangeNotifierProvider(create: (context) => UsernameLoginViewModel()),
+  ChangeNotifierProvider(create: (context) => PasswordSetupViewModel()),
 ];

@@ -10,10 +10,11 @@ class NotificationModel {
   bool? documentStatus;
   ConnectedProfileId? connectedProfileId;
   ConnectedPostId? connectedPostId;
-  Null connectedCommentId;
-  Null connectedReplyId;
   bool? viewStatus;
   int? iV;
+  String? connectedTaskId;
+  String? connectedTransactionId;
+
 
   NotificationModel(
       {this.sId,
@@ -26,10 +27,10 @@ class NotificationModel {
       this.documentStatus,
       this.connectedProfileId,
       this.connectedPostId,
-      this.connectedCommentId,
-      this.connectedReplyId,
-      this.viewStatus,
-      this.iV});
+           this.viewStatus,
+      this.iV,
+      this.connectedTaskId,
+        this.connectedTransactionId,});
 
   NotificationModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -52,6 +53,9 @@ class NotificationModel {
     // connectedReplyId = json['connectedReplyId'];
     // viewStatus = json['viewStatus'];
     iV = json['__v'];
+    connectedTaskId = json['connectedTaskId'];
+    connectedTransactionId = json['connectedTransactionId'];
+    viewStatus = json['viewStatus'];
   }
 }
 class Sender {

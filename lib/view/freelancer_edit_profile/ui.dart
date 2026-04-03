@@ -19,7 +19,7 @@ class FreeLancerEditProfileUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: PColors.black,
+      backgroundColor: PColors.white,
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       // floatingActionButton: button(),
       appBar: AppBar(
@@ -27,7 +27,7 @@ class FreeLancerEditProfileUi extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: const Icon(Icons.arrow_back)),
+            icon: const Icon(Icons.arrow_back,color: Color(0xFF8A4FFF),)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -39,12 +39,13 @@ class FreeLancerEditProfileUi extends StatelessWidget {
               children: [
                 textWidget(
                     text: "Create your account",
+                    color: Color(0xFF8A4FFF),
                     fontsize: 18,
                     fontweight: FontWeight.bold),
                 const SizedBox(
                   height: 10,
                 ),
-                textWidget(text: "Profile Photo"),
+                textWidget(text: "Profile Photo",color: Color(0xFF8A4FFF),),
                 const SizedBox(
                   height: 10,
                 ),
@@ -57,7 +58,7 @@ class FreeLancerEditProfileUi extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                textWidget(text: "Cover Photo"),
+                textWidget(text: "Cover Photo",color: Color(0xFF8A4FFF),),
                 const SizedBox(
                   height: 10,
                 ),
@@ -105,7 +106,7 @@ class FreeLancerEditProfileUi extends StatelessWidget {
       child: DottedBorder(
 
         dashPattern: const [4, 4, 4, 4],
-        color: PColors.whiteOff.withOpacity(0.4),
+        color: Colors.purple.shade200,
         radius: const Radius.circular(0),
         padding: const EdgeInsets.all(25),
         child: ClipRRect(
@@ -118,14 +119,14 @@ class FreeLancerEditProfileUi extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                textWidget(text: "Upload Image"),
+                textWidget(text: "Upload Image",color: Color(0xFF8A4FFF),),
                 const SizedBox(
                   height: 10,
                 ),
                 textWidget(
                     text:
                         "Support PNG, JPEG, WEBP files, maximum size 10MB Maximum Resolution 2048 * 2048",
-                    color: PColors.whiteOff.withOpacity(0.4),
+                    color: Colors.purple.shade200,
                     textAlign: TextAlign.center)
               ],
             )),
@@ -189,25 +190,27 @@ class FreeLancerEditProfileUi extends StatelessWidget {
           width: double.infinity,
           text: "Next",
           borderRadius: 0,
+          borderColor: Color(0xFF8A4FFF),
           bgcolor: PColors.white,
           onPressed: () {
             context.pushNamed(PPages.freelancerBioPageUi);
           },
-          textColor: PColors.black,
+          textColor:Color(0xFF8A4FFF),
         ),
         const SizedBox(
           height: 10,
         ),
         CustomElavatedTextButton(
           text: "Skip for now",
+          borderColor: Color(0xFF8A4FFF),
           onPressed: () {
             Navigator.pop(context);
             // Navigator.pushNamed(context, PPages.freelancerBioPageUi);
           },
           borderRadius: 0,
           width: double.infinity,
-          textColor: PColors.white,
-          bgcolor: PColors.seed2,
+          textColor: Color(0xFF8A4FFF),
+          bgcolor: Colors.purple.shade50,
         )
       ],
     );

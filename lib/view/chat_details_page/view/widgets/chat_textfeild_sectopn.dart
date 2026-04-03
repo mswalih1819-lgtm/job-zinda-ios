@@ -32,17 +32,17 @@ class ChatBottomTextfeildSectopn extends StatelessWidget {
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(24),
         borderSide:
-            BorderSide(color: PColors.whiteOff.withOpacity(0.4), width: 0.0),
+            BorderSide(color: Color(0xFF8A4FFF), width: 0.0),
       ),
       disabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(24),
         borderSide:
-            BorderSide(color: PColors.whiteOff.withOpacity(0.4), width: 0.0),
+            BorderSide(color: Color(0xFF8A4FFF), width: 0.0),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(24),
         borderSide:
-            BorderSide(color: PColors.whiteOff.withOpacity(0.4), width: 0.0),
+            BorderSide(color:Color(0xFF8A4FFF), width: 0.0),
       ),
 
       hintText: "",
@@ -51,7 +51,7 @@ class ChatBottomTextfeildSectopn extends StatelessWidget {
       // hintStyle: TextStyle(color: Colors.blue),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(24),
-        borderSide: BorderSide(color: PColors.whiteOff.withOpacity(0.4)),
+        borderSide: BorderSide(color: Color(0xFF8A4FFF),),
       ),
     );
   }
@@ -63,6 +63,7 @@ class ChatBottomTextfeildSectopn extends StatelessWidget {
         child: SvgPicture.asset(
           PSvgs.emoji,
           height: 27,
+          color: Color(0xFF8A4FFF),
         ),
       ),
     );
@@ -83,6 +84,7 @@ class ChatBottomTextfeildSectopn extends StatelessWidget {
               child: SvgPicture.asset(
                 PSvgs.plus,
                 height: 24,
+              color:   Color(0xFF8A4FFF),
               ),
             ),
             const SizedBox(width: 16),
@@ -94,6 +96,7 @@ class ChatBottomTextfeildSectopn extends StatelessWidget {
                 PSvgs.camera,
                 height: 21,
                 width: 7,
+              color:   Color(0xFF8A4FFF),
               ),
             ),
             const SizedBox(width: 20),

@@ -19,6 +19,8 @@ import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 
+import '../view/login_section/login_welcome_screen/view/ui.dart';
+
 class ProfileViewModel with ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -31,6 +33,10 @@ class ProfileViewModel with ChangeNotifier {
   final TextEditingController cityController = TextEditingController();
 
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController skillController = TextEditingController();
+  List<String> skills = [];
+
+
   String? selectedProfession;
   String? selectedProfessionId;
   String selectedGender = "Male";
@@ -51,7 +57,11 @@ class ProfileViewModel with ChangeNotifier {
         if (data['status']) {
           profileModel = ProfileModel.fromJson(data['data']['profileDetails']);
           LoggedInUser.profile(data['data']['profileDetails']);
-          
+          skills = profileModel!.skills ?? [];
+          print(profileModel!.skills);
+
+
+
           // Update controllers after successfully fetching data
           nameController.text = profileModel!.name ?? '';
           selectedProfession = profileModel!.profession ?? "";
@@ -167,12 +177,15 @@ class ProfileViewModel with ChangeNotifier {
   Future<void> updateNormalProfile(
       {required String name,
       required String email,
+        required List<String> skills,
+
       required BuildContext context}) async {
     EasyLoading.show(status: 'Updating Profile...');
     try {
       Map body = {
         'name': name,
         'email': email,
+        'skills': skills,
       };
       Response response = await ApiService().put(Api.updateProfile, body);
       if (response.statusCode == 200) {
@@ -181,6 +194,8 @@ class ProfileViewModel with ChangeNotifier {
           if (data.containsKey('message')) {
             EasyLoading.showSuccess(data['message']);
             LoggedInUser.profile(data['data']['profileDetails']);
+            LoggedInUser.skills = skills;
+            LoggedInUser.storeUserLocally();
             await fetchProfile(); // This calls notifyListeners
             if (context.mounted) Navigator.pop(context);
           }
@@ -221,7 +236,8 @@ class ProfileViewModel with ChangeNotifier {
         "zipcode": zipCodeController.text,
         "professionId": selectedProfessionId,
         'state': stateController.text,
-        'district': cityController.text
+        'district': cityController.text,
+        'skills': skills,
       };
       Response response = await ApiService().put(Api.updateProfile, body);
       if (response.statusCode == 200) {
@@ -229,6 +245,8 @@ class ProfileViewModel with ChangeNotifier {
         if (data['status']) {
           if (data.containsKey('message')) {
             LoggedInUser.profile(data['data']['profileDetails']);
+            LoggedInUser.skills = skills; // ✅ SYNC SKILLS
+            LoggedInUser.storeUserLocally();
             EasyLoading.showSuccess(data['message']);
 
             if (context.mounted) {
@@ -253,6 +271,22 @@ class ProfileViewModel with ChangeNotifier {
       EasyLoading.dismiss();
     }
   }
+  void addSkillFromText(String? text) {
+    if (text == null) return;
+
+    final skill = text.replaceAll(',', '').trim();
+    if (skill.isEmpty) return;
+
+    skills.add(skill);
+    skillController.clear();
+    notifyListeners();
+  }
+
+  void removeSkill(String skill) {
+    skills.remove(skill);
+    notifyListeners();
+  }
+
 
   Future<void> updateCoverImage({required String url}) async {
     EasyLoading.show(status: 'Updating Cover Image...');
@@ -281,18 +315,43 @@ class ProfileViewModel with ChangeNotifier {
       EasyLoading.dismiss();
     }
   }
-
   userLogout(BuildContext context) async {
-    Map body = {"refreshToken": LoggedInUser.refreshToken};
 
-    Response response = await ApiService().post(Api.userLogout, body);
-    print("logout----${response.data}");
+    /// 🔥 DEBUG TOKEN
+    print("REFRESH TOKEN: ${LoggedInUser.refreshToken}");
 
-    if (response.data['status']) {
-      LoggedInUser.clearUserData();
-      context.goNamed(PPages.loginWelcomeScreenUi);
+    try {
+      Map body = {"refreshToken": LoggedInUser.refreshToken};
+
+      final response = await ApiService().post(Api.userLogout, body);
+      print("logout----${response.data}");
+    } catch (e) {
+      print("Logout API error: $e");
     }
+
+    /// ✅ ALWAYS CLEAR
+    LoggedInUser.clearUserData();
+
+    /// ✅ FORCE NAVIGATION
+    Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (_) => LoginWelcomeScreenUi(),
+      ),
+          (route) => false,
+    );
   }
+
+  // userLogout(BuildContext context) async {
+  //   Map body = {"refreshToken": LoggedInUser.refreshToken};
+  //
+  //   Response response = await ApiService().post(Api.userLogout, body);
+  //   print("logout----${response.data}");
+  //
+  //   if (response.data['status']) {
+  //     LoggedInUser.clearUserData();
+  //     context.goNamed(PPages.loginWelcomeScreenUi);
+  //   }
+  // }
 
   deleteProfile(BuildContext context) async {
     EasyLoading.show(status: 'Deleting Profile...');

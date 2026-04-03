@@ -31,6 +31,8 @@ class ProfileModel {
 
   bool? isFollowing;
   bool? isBlocked;
+  List<String>? skills;
+
 
   ProfileModel(
       {this.location,
@@ -98,6 +100,8 @@ class ProfileModel {
     referralCode = json['referralCode'];
     referredBy = json['referredBy'];
     coinBalance = json['coinBalance'];
+    skills = json['skills'] != null ? List<String>.from(json['skills']) : [];
+
   }
 }
 

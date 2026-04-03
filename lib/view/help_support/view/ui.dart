@@ -34,7 +34,7 @@ class HelpSupportUi extends StatelessWidget {
           children: [
             const ContactUsUi(),
             Divider(
-              color: PColors.white.withOpacity(0.3),
+              color:  Color(0xFF8A4FFF),
             ),
             const FaqUi()
           ],

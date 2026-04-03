@@ -34,7 +34,7 @@ class HomeBottomsheetUi extends StatelessWidget {
                           .updateBottomsheetoen(false);
                       Navigator.pop(context);
                     },
-                    child: const Icon(Icons.close)),
+                    child: const Icon(Icons.close,color: Color(0xFF8A4FFF),)),
                 const SizedBox(
                   width: 10,
                 )

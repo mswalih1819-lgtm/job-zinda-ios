@@ -5,42 +5,55 @@ import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 class FollowerSearchButtonUi extends StatefulWidget {
-  String? profileId;
-  FollowerSearchButtonUi({super.key, required this.profileId});
+  final String? profileId;
+
+  const FollowerSearchButtonUi({
+    super.key,
+    required this.profileId,
+  });
 
   @override
-  State<FollowerSearchButtonUi> createState() => _FollowerSearchButtonUiState();
+  State<FollowerSearchButtonUi> createState() =>
+      _FollowerSearchButtonUiState();
 }
 
-class _FollowerSearchButtonUiState extends State<FollowerSearchButtonUi> {
-  final TextEditingController _searchController = TextEditingController();
+class _FollowerSearchButtonUiState
+    extends State<FollowerSearchButtonUi> {
+
+  final TextEditingController _searchController =
+  TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Consumer<ProfileViewModel>(
-      builder: (context, value, child) => CustomTextFeild(
-        controller: _searchController,
-        sufixfn: () {
-          setState(() {
+      builder: (context, profileViewModel, child) {
+        return CustomTextFeild(
+          controller: _searchController,
+          borderColor: const Color(0xFF8A4FFF),
+          borderRadius: 18,
+          hintText: "Search here...",
+          filColor: PColors.white,
+          suffixIcon: const Icon(Icons.close),
+
+          // 🔥 CLEAR BUTTON
+          sufixfn: () {
             _searchController.clear();
-          });
-          ProfileViewModel profileViewModel = context.read<ProfileViewModel>();
-          profileViewModel.searchKeyword = '';
-          profileViewModel.currentPage = 0;
-          profileViewModel.followersController.refresh();
-        },
-        suffixIcon: const Icon(Icons.close),
-        borderColor: PColors.seed2,
-        onChanged: (val) {
-          ProfileViewModel profileViewModel = context.read<ProfileViewModel>();
-          profileViewModel.searchKeyword = val ?? '';
-          profileViewModel.currentPage = 0;
-          profileViewModel.followersController.refresh();
-        },
-        borderRadius: 0,
-        hintText: "Search here...",
-        filColor: PColors.seed,
-      ),
+
+            profileViewModel.searchKeyword = '';
+            profileViewModel.currentPage = 1;
+
+            profileViewModel.followersController.refresh();
+          },
+
+          // 🔥 SEARCH TYPING
+          onChanged: (val) {
+            profileViewModel.searchKeyword = val ?? '';
+            profileViewModel.currentPage = 1;
+
+            profileViewModel.followersController.refresh();
+          },
+        );
+      },
     );
   }
 }

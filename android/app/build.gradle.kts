@@ -45,10 +45,10 @@ android {
 
     defaultConfig {
         applicationId = "com.jobZinda.customers"
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        minSdkVersion 21
+        targetSdkVersion 33
+        versionCode 60
+        versionName "1.0.6"
     }
 
     signingConfigs {

@@ -48,7 +48,7 @@ class HomeFloatingActionButtonUi extends StatelessWidget {
       bgcolor: selected ? PColors.white : PColors.black2,
       text: title,
       onPressed: fun,
-      textColor: selected ? PColors.black : PColors.white,
+      textColor: selected ? Color(0xFF8A4FFF): PColors.greyColor,
       borderColor: Colors.transparent,
     );
   }

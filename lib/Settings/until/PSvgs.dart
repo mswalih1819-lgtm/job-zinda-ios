@@ -2,6 +2,7 @@ class PSvgs {
   /// Example
   static String get svExample => "assets/svgs/svExampleSvg.svg";
   static String get google => "assets/svgs/google.svg";
+  static String get planforyou =>"Icons.calendar_today";
 
   static String get help => "assets/svgs/help.svg";
   static String get notification => "assets/svgs/notification.svg";
@@ -65,6 +66,7 @@ class PSvgs {
   static String get referals => "assets/svgs/referals.svg";
   static String get contact_page => "assets/svgs/contact_page.svg";
   static String get terms => "assets/svgs/terms.svg";
+
 
   // static String get sv => "assets/svgs/.svg";
 }

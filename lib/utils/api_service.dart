@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import '../model/logged_in_user.dart';
@@ -5,6 +6,7 @@ import 'api_url.dart';
 
 class ApiService {
   final Dio dio = Dio();
+  static Completer<bool>? _refreshCompleter; // single in-flight refresh
 
   ApiService() {
     dio.interceptors.add(InterceptorsWrapper(
@@ -18,8 +20,18 @@ class ApiService {
           shouldRefresh = unauthorized || (statusFalse && unauthorized);
         }
         if (shouldRefresh) {
+          // Do not attempt refresh before login
+          if (LoggedInUser.accessToken == null || LoggedInUser.refreshToken == null) {
+            return handler.next(respons);
+          }
+
           var options = respons.requestOptions;
-          await _refreshToken();
+          final ok = await _ensureRefreshed();
+          if (!ok) {
+            // Refresh failed -> logout and propagate original response
+            LoggedInUser.clearUserData();
+            return handler.next(respons);
+          }
           // Retry the failed request with the new token
           options.headers['Authorization'] =
               'Bearer ${LoggedInUser.accessToken}';
@@ -39,8 +51,18 @@ class ApiService {
       },
       onError: (DioException e, handler) async {
         if (e.response?.statusCode == 401) {
+          // Do not attempt refresh before login
+          if (LoggedInUser.accessToken == null || LoggedInUser.refreshToken == null) {
+            return handler.next(e);
+          }
+
           var options = e.response!.requestOptions;
-          await _refreshToken();
+          final ok = await _ensureRefreshed();
+          if (!ok) {
+            // Refresh failed -> logout and stop retries
+            LoggedInUser.clearUserData();
+            return handler.next(e);
+          }
           // Retry the failed request with the new token
           options.headers['Authorization'] =
               'Bearer ${LoggedInUser.accessToken}';
@@ -61,18 +83,50 @@ class ApiService {
         ));
         
   }
-  Future<bool> _refreshToken() async {
-    log('---------------token expired------------------');
-    final response = await post(Api.refreshTokenUrl, {'refreshToken': LoggedInUser.refreshToken});
-       log('---------------${response.data}------------------');
-    if (response.statusCode == 200 ) {
-      Map<String,dynamic>data = response.data;
-      if(data['status']){
-        LoggedInUser.tokenUpdate(data['data']['tokens']);
+  Future<bool> _ensureRefreshed() async {
+    // Single in-flight refresh using a completer
+    if (_refreshCompleter != null) {
+      try {
+        return await _refreshCompleter!.future;
+      } catch (_) {
+        return false;
       }
-      return true;
-    } else {
-      LoggedInUser.clearUserData();
+    }
+    _refreshCompleter = Completer<bool>();
+    try {
+      final ok = await _refreshToken();
+      _refreshCompleter!.complete(ok);
+      return ok;
+    } catch (e) {
+      _refreshCompleter!.complete(false);
+      return false;
+    } finally {
+      // allow subsequent refreshes later
+      _refreshCompleter = null;
+    }
+  }
+
+  Future<bool> _refreshToken() async {
+    try {
+      log('---------------token expired------------------');
+      final response = await post(Api.refreshTokenUrl, {'refreshToken': LoggedInUser.refreshToken});
+      log('---------------${response.statusCode} ${response.data}------------------');
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = response.data is Map<String, dynamic>
+            ? response.data
+            : <String, dynamic>{};
+        // Backend global error handler returns {status:false, message, ...} with proper codes now
+        final bool status = (data['status'] == true);
+        if (status && data['data'] != null && data['data']['tokens'] != null) {
+          LoggedInUser.tokenUpdate(data['data']['tokens']);
+          return true;
+        }
+        // If backend responded with status false, treat as failure
+        return false;
+      }
+      // 404 Token Not found or any other -> logout by caller
+      return false;
+    } catch (e) {
       return false;
     }
   }
