@@ -26,6 +26,8 @@ class OtpScreen extends StatefulWidget {
 
 class _OtpScreenState extends State<OtpScreen> {
   final TextEditingController otpController = TextEditingController();
+  bool isVerifying = false;
+
 
   /// ✅ SEND OTP
   Future<void> sendOtp() async {
@@ -64,10 +66,14 @@ class _OtpScreenState extends State<OtpScreen> {
   }
 
   Future<void> verifyOtp() async {
+    if (isVerifying) return; // 🚫 prevent multiple clicks
+
     if (otpController.text.isEmpty) {
       EasyLoading.showError("Enter OTP");
       return;
     }
+
+    isVerifying = true;
 
     EasyLoading.show(status: "Verifying...");
 
@@ -75,36 +81,22 @@ class _OtpScreenState extends State<OtpScreen> {
       final response = await Dio().post(
         "${AppUrl.baseurl}/${AppUrl.verifyEmailOtp}",
         data: {
-          "email": widget.email,
+          "email": widget.email.trim(),
           "otp": otpController.text.trim(),
         },
       );
+
+      print("VERIFY RESPONSE: ${response.data}");
 
       EasyLoading.dismiss();
 
       if (response.data["status"] == true) {
         final data = response.data["data"];
-
-        // 🔥 EXTRACT TOKENS
-        final accessToken = data["tokens"]["access"]["token"];
-        final refreshToken = data["tokens"]["refresh"]["token"];
-
-        // 🔥 EXTRACT USER
-        final user = data["user"];
-
-        // 🔥 BACKEND FLAG
         final bool isNewUser = data["isNewUser"];
 
-        // 🔥 SAVE LOCALLY
-        final prefs = await SharedPreferences.getInstance();
+        EasyLoading.showSuccess(response.data["message"]);
 
-        await prefs.setString("accessToken", accessToken);
-        await prefs.setString("refreshToken", refreshToken);
-        await prefs.setString("userData", jsonEncode(user));
-
-        EasyLoading.showSuccess("Login Successful");
-
-        // 🔥 NAVIGATION BASED ON BACKEND
+        /// 🆕 NEW USER
         if (isNewUser == true) {
           Navigator.pushReplacement(
             context,
@@ -116,6 +108,17 @@ class _OtpScreenState extends State<OtpScreen> {
             ),
           );
         } else {
+          /// ✅ EXISTING USER (only here tokens undaavum)
+          final accessToken = data["tokens"]["access"]["token"];
+          final refreshToken = data["tokens"]["refresh"]["token"];
+          final user = data["user"];
+
+          final prefs = await SharedPreferences.getInstance();
+
+          await prefs.setString("accessToken", accessToken);
+          await prefs.setString("refreshToken", refreshToken);
+          await prefs.setString("userData", jsonEncode(user));
+
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -131,10 +134,15 @@ class _OtpScreenState extends State<OtpScreen> {
 
       if (e is DioException) {
         print("❌ ERROR: ${e.response?.data}");
+        EasyLoading.showError(
+          e.response?.data["message"] ?? "Verification failed",
+        );
+      } else {
+        EasyLoading.showError("Something went wrong");
       }
-
-      EasyLoading.showError("Verification failed");
     }
+
+    isVerifying = false;
   }
 
   @override

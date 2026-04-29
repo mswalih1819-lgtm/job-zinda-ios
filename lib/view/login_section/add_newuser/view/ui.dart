@@ -40,10 +40,10 @@ class _AddUserPageState extends State<AddUserPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  final _skillController = TextEditingController();
-  final _professionController = TextEditingController();
+  // final _skillController = TextEditingController();
+  // final _professionController = TextEditingController();
 
-  List<String> _skills = [];
+  // List<String> _skills = [];
   double? _lat;
   double? _lng;
   final GlobalKey<FormState> form_key = GlobalKey<FormState>();
@@ -61,8 +61,8 @@ class _AddUserPageState extends State<AddUserPage> {
         "countryCode": "+91",
       "mobileNumber": vm.numberController.text,
         "email": widget.email,
-        "profession": _professionController.text,
-        "skills": _skills,
+        // "profession": _professionController.text,
+        // "skills": _skills,
         "lat": _lat ?? 0.0,
          "lng": _lng ?? 0.0,
        "getNotifications": true,
@@ -172,16 +172,16 @@ class _AddUserPageState extends State<AddUserPage> {
                       confirmPasswordField(),
                       const SizedBox(height: 12),
 
-                      professionField(),
-                      const SizedBox(height: 12),
+                      // professionField(),
+                      // const SizedBox(height: 12),
 
                       referralField(),
                       const SizedBox(height: 12),
 
                       phoneField(),
-                      const SizedBox(height: 12),
-
-                      skillField(),
+                      // const SizedBox(height: 12),
+                      //
+                      // skillField(),
                     ],
                   ),
                 ),
@@ -194,65 +194,128 @@ class _AddUserPageState extends State<AddUserPage> {
               onPressed: () async {
                 if (!(form_key.currentState?.validate() ?? false)) return;
 
-                if (_skills.isEmpty) {
-                  EasyLoading.showError("Add at least one skill");
-                  return;
-                }
-
                 EasyLoading.show(status: "Creating account...");
 
                 try {
-                  final loginVm =
-                  context.read<LoginPhoneNumberViewModel>();
+                  final loginVm = context.read<LoginPhoneNumberViewModel>();
+                  final referralVm = context.read<AddReferalViewModel>();
 
                   String deviceId = await getDeviceId();
 
-                  print("DEVICE ID: $deviceId");
-                  print("REFERRAL: ${referralVm.referralCode}");
+                  // ✅ CLEAN referral
+                  final rc = referralVm.referralCode?.trim();
 
-                  final auth =
-                  AuthUsernameService(NetworkApiService());
+                  print("DEVICE ID: $deviceId");
+                  print("FINAL REFERRAL SENT: $rc");
+
+                  final auth = AuthUsernameService(NetworkApiService());
 
                   final resp = await auth.registerWithUsername(
                     name: _nameController.text.trim(),
-                    countryCode: loginVm.countryCode ?? "+91",
-                    mobileNumber:
-                    loginVm.numberController.text.trim(),
+
+                    // ✅ FIX IMPORTANT (remove +)
+                    countryCode: (loginVm.countryCode ?? "+91").replaceAll("+", ""),
+
+                    mobileNumber: loginVm.numberController.text.trim(),
                     username: _usernameController.text.trim(),
                     password: _passwordController.text.trim(),
                     email: widget.email,
-                    profession: _professionController.text.trim(),
-                    skills: _skills,
                     deviceId: deviceId,
 
-                    // ✅ SAFE REFERRAL
-                    referralCode: (referralVm.referralCode != null &&
-                        referralVm.referralCode!.isNotEmpty)
-                        ? referralVm.referralCode
-                        : null,
+                    // ✅ SAFE referral send
+                    referralCode: (rc == null || rc.isEmpty) ? null : rc,
                   );
+
+                  print("FULL RESPONSE: $resp");
 
                   final data = resp['data'];
                   LoggedInUser.login(data);
 
-                  // ✅ OPTIONAL: Referral reward message
-                  if (resp['referralReward'] != null) {
-                    EasyLoading.showSuccess(
-                        "🎉 ₹${resp['referralReward']} credited!");
+                  // ✅ FLEXIBLE reward check (backend variation handle cheyyum)
+                  final reward =
+                      resp['referralReward'] ??
+                          resp['reward'] ??
+                          resp['referral_reward'];
+
+                  if (reward != null) {
+                    EasyLoading.showSuccess("🎉 ₹$reward credited!");
                   } else {
-                    EasyLoading.showSuccess(
-                        "Account created successfully");
+                    EasyLoading.showSuccess("Account created successfully");
                   }
 
                   if (!mounted) return;
                   context.goNamed(PPages.loginSplashUi);
+
                 } catch (e) {
                   EasyLoading.showError(
-                      e.toString().replaceFirst('Exception: ', ''));
+                    e.toString().replaceFirst('Exception: ', ''),
+                  );
                 } finally {
                   EasyLoading.dismiss();
                 }
               },
+              // onPressed: () async {
+              //   if (!(form_key.currentState?.validate() ?? false)) return;
+              //
+              //   // if (_skills.isEmpty) {
+              //   //   EasyLoading.showError("Add at least one skill");
+              //   //   return;
+              //   // }
+              //
+              //   EasyLoading.show(status: "Creating account...");
+              //
+              //   try {
+              //     final loginVm =
+              //     context.read<LoginPhoneNumberViewModel>();
+              //
+              //     String deviceId = await getDeviceId();
+              //
+              //     print("DEVICE ID: $deviceId");
+              //     print("REFERRAL: ${referralVm.referralCode}");
+              //
+              //     final auth =
+              //     AuthUsernameService(NetworkApiService());
+              //
+              //     final resp = await auth.registerWithUsername(
+              //       name: _nameController.text.trim(),
+              //       countryCode: loginVm.countryCode ?? "+91",
+              //       mobileNumber:
+              //       loginVm.numberController.text.trim(),
+              //       username: _usernameController.text.trim(),
+              //       password: _passwordController.text.trim(),
+              //       email: widget.email,
+              //       // profession: _professionController.text.trim(),
+              //       // skills: _skills,
+              //       deviceId: deviceId,
+              //
+              //       // ✅ SAFE REFERRAL
+              //       referralCode: (referralVm.referralCode != null &&
+              //           referralVm.referralCode!.isNotEmpty)
+              //           ? referralVm.referralCode
+              //           : null,
+              //     );
+              //
+              //     final data = resp['data'];
+              //     LoggedInUser.login(data);
+              //
+              //     // ✅ OPTIONAL: Referral reward message
+              //     if (resp['referralReward'] != null) {
+              //       EasyLoading.showSuccess(
+              //           "🎉 ₹${resp['referralReward']} credited!");
+              //     } else {
+              //       EasyLoading.showSuccess(
+              //           "Account created successfully");
+              //     }
+              //
+              //     if (!mounted) return;
+              //     context.goNamed(PPages.loginSplashUi);
+              //   } catch (e) {
+              //     EasyLoading.showError(
+              //         e.toString().replaceFirst('Exception: ', ''));
+              //   } finally {
+              //     EasyLoading.dismiss();
+              //   }
+              // },
               bgcolor: Colors.purple.shade50,
               borderRadius: 18,
               borderColor: const Color(0xFF8A4FFF),
@@ -324,15 +387,15 @@ class _AddUserPageState extends State<AddUserPage> {
     );
   }
 
-  Widget professionField() {
-    return CustomTextFeild(
-      controller: _professionController,
-      hintText: "Profession",
-      validation: (val) =>
-      val == null || val.isEmpty ? "Enter profession" : null,
-      filColor: PColors.white,
-    );
-  }
+  // Widget professionField() {
+  //   return CustomTextFeild(
+  //     controller: _professionController,
+  //     hintText: "Profession",
+  //     validation: (val) =>
+  //     val == null || val.isEmpty ? "Enter profession" : null,
+  //     filColor: PColors.white,
+  //   );
+  // }
 
   Widget referralField() {
     return Consumer<AddReferalViewModel>(
@@ -368,35 +431,35 @@ class _AddUserPageState extends State<AddUserPage> {
     );
   }
 
-  Widget skillField() {
-    return Column(
-      children: [
-        CustomTextFeild(
-          controller: _skillController,
-          hintText: "Add skills",
-          onSubmitted: (val) {
-            final skill = val?.trim();
-            if (skill != null &&
-                skill.isNotEmpty &&
-                !_skills.contains(skill)) {
-              setState(() => _skills.add(skill));
-              _skillController.clear();
-            }
-          },
-          filColor: PColors.white,
-        ),
-        Wrap(
-          children: _skills
-              .map((e) => Chip(
-            label: Text(e),
-            onDeleted: () =>
-                setState(() => _skills.remove(e)),
-          ))
-              .toList(),
-        )
-      ],
-    );
-  }
+  // Widget skillField() {
+  //   return Column(
+  //     children: [
+  //       CustomTextFeild(
+  //         controller: _skillController,
+  //         hintText: "Add skills",
+  //         onSubmitted: (val) {
+  //           final skill = val?.trim();
+  //           if (skill != null &&
+  //               skill.isNotEmpty &&
+  //               !_skills.contains(skill)) {
+  //             setState(() => _skills.add(skill));
+  //             _skillController.clear();
+  //           }
+  //         },
+  //         filColor: PColors.white,
+  //       ),
+  //       Wrap(
+  //         children: _skills
+  //             .map((e) => Chip(
+  //           label: Text(e),
+  //           onDeleted: () =>
+  //               setState(() => _skills.remove(e)),
+  //         ))
+  //             .toList(),
+  //       )
+  //     ],
+  //   );
+  // }
 }
 // // import 'package:dio/dio.dart';
 // // import 'package:flutter/material.dart';

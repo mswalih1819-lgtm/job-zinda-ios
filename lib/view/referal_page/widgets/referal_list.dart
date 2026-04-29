@@ -97,16 +97,24 @@ class ReferredList extends StatelessWidget {
   }
 
   Widget singleItem({required Referrals referal}) {
+    print("NAME: ${referal.referredUser!.name}");
+    print("CODE: ${referal.referredUser!.referralCode}");
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
+          // CircleAvatar(
+          //   radius: 25,
+          //   // backgroundImage: AssetImage(PImages.profile),
+          //   backgroundImage: referal.referredUser!.profileImageUrl!.isEmpty
+          //       ? AssetImage(PImages.profile)
+          //       : NetworkImage(referal.referredUser!.profileImageUrl!),
+          // ),
           CircleAvatar(
             radius: 25,
-            // backgroundImage: AssetImage(PImages.profile),
-            backgroundImage: referal.referredUser!.profileImageUrl!.isEmpty
-                ? AssetImage(PImages.profile)
-                : NetworkImage(referal.referredUser!.profileImageUrl!),
+            backgroundImage: referal.referredUser?.profileImageUrl?.isNotEmpty == true
+                ? NetworkImage(referal.referredUser!.profileImageUrl!)
+                : AssetImage(PImages.profile) as ImageProvider,
           ),
           const SizedBox(
             width: 8,
