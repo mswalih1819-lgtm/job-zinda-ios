@@ -207,6 +207,7 @@ class _AddUserPageState extends State<AddUserPage> {
 
                   print("DEVICE ID: $deviceId");
                   print("FINAL REFERRAL SENT: $rc");
+                  print("REFERRAL SENT: $rc");
 
                   final auth = AuthUsernameService(NetworkApiService());
 

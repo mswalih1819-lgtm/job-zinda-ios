@@ -40,13 +40,24 @@ class _TaskCornerAssignmentsPageState extends State<TaskCornerAssignmentsPage> {
           '${AppUrl.baseurl}/api/v1/assigned-task/user?userId=$userId');
       final headers = await Api.getAuthorizationHeader();
       final resp = await http.get(url, headers: headers);
+      // if (resp.statusCode == 200) {
+      //   final data = json.decode(resp.body);
+      //   setState(() {
+      //     assignments = data;
+      //     loading = false;
+      //   });
+      // }
       if (resp.statusCode == 200) {
         final data = json.decode(resp.body);
+
         setState(() {
-          assignments = data;
+          assignments = (data as List)
+              .where((a) => a['task'] != null)
+              .toList();
           loading = false;
         });
-      } else {
+      }
+       else {
         setState(() {
           error = 'Failed to fetch assignments.';
           loading = false;
@@ -119,6 +130,9 @@ class _TaskCornerAssignmentsPageState extends State<TaskCornerAssignmentsPage> {
         separatorBuilder: (_, __) => const SizedBox(height: 16),
         itemBuilder: (context, i) {
           final a = assignments[i];
+          if (a['task'] == null) {
+            return const SizedBox(); // fully hide deleted task
+          }
           return Card(
             color: Colors.deepPurple.shade50, // light purple background
             shadowColor: Color(0xFF8A4FFF), // purple shadow

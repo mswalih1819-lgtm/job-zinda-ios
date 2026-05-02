@@ -86,17 +86,55 @@ class _OtherUserProfileHeadUiState
 
             Row(
               children: [
-                columnWidget(
-                  title: 'Followers',
-                  value:
-                  '${profile?.followersCount ?? '0'}',
+                InkWell(
+                  onTap: () {
+                    ProfileViewModel profileViewModel =
+                    context.read<ProfileViewModel>();
+
+                    profileViewModel.currentPage = 0;
+                    profileViewModel.initFollowersPagination(
+                        id: profile!.sId ?? "");
+
+                    context.pushNamed(
+                      PPages.followersScreen,
+                      pathParameters: {'profileId': profile.sId!},
+                    );
+                  },
+                  child: columnWidget(
+                    title: 'Followers',
+                    value: '${profile?.followersCount ?? '0'}',
+                  ),
                 ),
+                // columnWidget(
+                //   title: 'Followers',
+                //   value:
+                //   '${profile?.followersCount ?? '0'}',
+                // ),
                 const SizedBox(width: 20),
-                columnWidget(
-                  title: 'Feedback',
-                  value: profile?.rating
-                      ?.toStringAsFixed(1) ??
-                      '0',
+                // columnWidget(
+                //   title: 'Feedback',
+                //   value: profile?.rating
+                //       ?.toStringAsFixed(1) ??
+                //       '0',
+                // ),
+                InkWell(
+                  onTap: () {
+                    ProfileViewModel profileViewModel =
+                    context.read<ProfileViewModel>();
+
+                    profileViewModel.currentPage = 0;
+                    profileViewModel.initFeedbackPagination(
+                        id: profile!.sId ?? "");
+
+                    context.pushNamed(
+                      PPages.feedbackScreen,
+                      pathParameters: {'profileId': profile.sId!},
+                    );
+                  },
+                  child: columnWidget(
+                    title: 'Feedback',
+                    value: profile?.rating?.toStringAsFixed(1) ?? '0',
+                  ),
                 ),
               ],
             ),

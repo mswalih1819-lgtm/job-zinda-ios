@@ -460,17 +460,26 @@ final GoRouter mainAppRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: PPages.feedbackScreen,
+      path: '${PPages.feedbackScreen}/:profileId', // ✅ ADD THIS
       name: PPages.feedbackScreen,
       builder: (context, state) {
-        final profileId = state.extra as String?;
-        if (profileId == null) {
-          // Optionally return an error widget or handle missing profileId
-          return const Scaffold(body: Center(child: Text("Error: Profile ID is required for Feedback Screen.")));
-        }
+        final profileId = state.pathParameters['profileId']!;
         return FeedbackListUI(profileId: profileId);
       },
     ),
+
+    // GoRoute(
+    //   path: PPages.feedbackScreen,
+    //   name: PPages.feedbackScreen,
+    //   builder: (context, state) {
+    //     final profileId = state.extra as String?;
+    //     if (profileId == null) {
+    //       // Optionally return an error widget or handle missing profileId
+    //       return const Scaffold(body: Center(child: Text("Error: Profile ID is required for Feedback Screen.")));
+    //     }
+    //     return FeedbackListUI(profileId: profileId);
+    //   },
+    // ),
     GoRoute(
       path: PPages.storyDisplayPageUi,
       name: PPages.storyDisplayPageUi,

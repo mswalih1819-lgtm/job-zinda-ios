@@ -128,7 +128,7 @@ class ReferredList extends StatelessWidget {
                     // text:"Anusha djjs msdjzsdnsd nzsd nzs dnzs dnz sdz sdb zsd zs",
                     fontsize: 15,
                     fontweight: FontWeight.bold,
-                    color: PColors.white),
+                    color: Color(0xFF8A4FFF)),
                 const SizedBox(
                   height: 6,
                 ),
@@ -145,7 +145,7 @@ class ReferredList extends StatelessWidget {
                             text: referal.referredUser!.referralCode ?? '',
                             // text:"F4f5gtyhu",
                             fontsize: 10,
-                            color: PColors.black)),
+                            color: Colors.purple.shade400)),
                   ),
                 )
               ],
