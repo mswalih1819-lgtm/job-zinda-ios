@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
+import 'package:jora_customer/utils/guest_helper.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/add_story_screen.dart';
 import 'package:jora_customer/view/wrapper/view_model/view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
@@ -38,6 +39,7 @@ class AddstorywidgetUi extends StatelessWidget {
                   ),
                   child: InkWell(
                     onTap: () {
+                       if (isGuestUser(context)) return;
 
                        final profileVM = context.read<ProfileViewModel>();
                        final profileType = profileVM.profileModel?.accountType?.toLowerCase();

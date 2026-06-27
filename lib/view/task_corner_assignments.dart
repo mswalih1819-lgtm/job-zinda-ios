@@ -168,6 +168,7 @@ class _TaskCornerAssignmentsPageState extends State<TaskCornerAssignmentsPage> {
                         height: 180,
                         width: double.infinity,
                         caption: a['task']?['caption'],
+                        offerId: a['task']['offerId']?.toString(),
                         allowDownload: (a['task']?['allowDownload'] is bool)
                             ? a['task']['allowDownload'] as bool
                             : (a['task']?['allowDownload']?.toString().toLowerCase() ==
@@ -190,6 +191,7 @@ class _TaskCornerAssignmentsPageState extends State<TaskCornerAssignmentsPage> {
                               controller: TextEditingController(text: a['task']['taskLink']),
                               readOnly: true,
                               enableInteractiveSelection: true,
+
                               onTap: () async {
                                 final link = a['task']['taskLink'].toString();
                                 final uri = Uri.tryParse(link);

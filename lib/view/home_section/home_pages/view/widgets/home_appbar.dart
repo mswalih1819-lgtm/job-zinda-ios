@@ -5,6 +5,8 @@ import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
+import 'package:jora_customer/model/logged_in_user.dart';
+import 'package:jora_customer/utils/guest_helper.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:jora_customer/view_model/chat_badge_viewmodel.dart';
 import 'package:jora_customer/view_model/chat_view_model.dart';
@@ -43,13 +45,11 @@ class HomeAppbar extends StatelessWidget {
         ),
       ),
       actions: [
+        if (!LoggedInUser.isGuest) ...[
         Consumer<BadgeViewModel>(
           builder: (context, chatBadge, child) => GestureDetector(
             onTap: () {
-              // context.read<BadgeViewModel>().clearLetsPlanBadge();
               context.read<ChatViewModel>().fetchAllConversations();
-
-              // Navigator.pushNamed(context, PPages.subscriptionPageUi);
               context.read<ChatViewModel>().updateView(ChatViewStatus.letsPlan);
               context.pushNamed(PPages.chatPageUi);
             },
@@ -71,10 +71,8 @@ class HomeAppbar extends StatelessWidget {
         Consumer<BadgeViewModel>(
           builder: (context, chatBadge, child) => GestureDetector(
             onTap: () {
-              // context.read<BadgeViewModel>().clearMessageBadge();
               context.read<ChatViewModel>().fetchAllConversations();
               context.read<ChatViewModel>().updateView(ChatViewStatus.primary);
-
               context.pushNamed(PPages.chatPageUi);
             },
             child: chatBadge.userMessageCount > 0
@@ -108,6 +106,12 @@ class HomeAppbar extends StatelessWidget {
                 : SvgPicture.asset(PSvgs.notification),
           ),
         ),
+        ],
+        if (LoggedInUser.isGuest)
+          GestureDetector(
+            onTap: () => isGuestUser(context),
+            child: SvgPicture.asset(PSvgs.notification),
+          ),
         SizedBox(
           width: 20,
         ),

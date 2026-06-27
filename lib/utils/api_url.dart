@@ -9,7 +9,7 @@ class AppUrl {
 
   static String get baseurl {
     if (isProduction == false) {
-      return "http://192.168.1.12:4001";
+      return "http://localhost:4001";
 // <-- Local backend for development via adb reverse
     //   return "http://ec2-3-110-26-51.ap-south-1.compute.amazonaws.com:4001";
     } else {
@@ -19,7 +19,7 @@ class AppUrl {
 
   static String get httpBaseUrl {
     if (isProduction == false) {
-     return '192.168.1.12:4001'; // <-- Local backend for development via adb reverse
+     return 'localhost:4001'; // <-- Local backend for development via adb reverse
     //   return 'ec2-3-110-26-51.ap-south-1.compute.amazonaws.com:4001';
     } else {
       return 'server2.jobzinda.com'; // <-- Production backend
@@ -53,7 +53,7 @@ class Api {
    // static const baseurl = 'http://3.110.26.51:4001';
    static const baseurl = 'https://server2.jobzinda.com';
   // For local dev, use:
-  // static const baseurl = 'http://192.168.1.12:4001';
+  // static const baseurl = 'http://localhost:4001';
   // <-- Local backend for development via adb reverse
 //   static const baseurl = 'http://ec2-3-110-26-51.ap-south-1.compute.amazonaws.com:4001'; // <-- Local backend for development
   static const storiesListUrl =
@@ -152,4 +152,14 @@ class Api {
   static const verifyOtp =
       '$baseurl/api/v1/auth/verify-email-otp';
   static const linkEmailUrl = '$baseurl/api/v1/auth/link-email';
+
+  // Public endpoints for guest mode (no auth required)
+  static const publicFeedUrl =
+      '$baseurl/api/v1/post/public-feed?pageSize=10';
+  static const publicSearchUserListUrl =
+      '$baseurl/api/v1/user/public-profiles?pageSize=10';
+  static const publicNearestProfiles =
+      '$baseurl/api/v1/user/public-nearest-profiles';
+  static const publicListBanners =
+      '$baseurl/api/v1/banner/public-banners';
 }

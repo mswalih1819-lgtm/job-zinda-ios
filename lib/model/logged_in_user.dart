@@ -16,10 +16,22 @@ class LoggedInUser {
   static String? referralCode;
   static Map<String, dynamic>? userData;
   static bool lastLoginWasEmailOtp = false;
+  static bool isGuest = false;
+
+  static Future<void> guestLogin() async {
+    isGuest = true;
+    accessToken = null;
+    refreshToken = null;
+    id = null;
+    name = 'Guest';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isGuest', true);
+  }
 
 
 
   LoggedInUser.login(Map<String, dynamic> json) {
+    isGuest = false;
     id = json['user']['_id'];
     name = json['user']['name'];
     email = json['user']['email'];
@@ -43,6 +55,7 @@ class LoggedInUser {
   }
   static void fromJson(Map<String, dynamic> json) {
     if (json['user'] != null) {
+      isGuest = false;
       id = json['user']['_id'];
       name = json['user']['name'];
       email = json['user']['email'];
@@ -96,6 +109,7 @@ class LoggedInUser {
     prefs.setString('accessToken', accessToken ?? '');
     prefs.setString('refreshToken', refreshToken ?? '');
     prefs.setBool('lastLoginWasEmailOtp', lastLoginWasEmailOtp);
+    prefs.setBool('isGuest', isGuest);
   }
 
   static Future<void> getUserDetails() async {
@@ -110,6 +124,7 @@ class LoggedInUser {
     accessToken = prefs.getString('accessToken');
     refreshToken = prefs.getString('refreshToken');
     lastLoginWasEmailOtp = prefs.getBool('lastLoginWasEmailOtp') ?? false;
+    isGuest = prefs.getBool('isGuest') ?? false;
   }
 
   static Future<void> clearUserData() async {
@@ -118,6 +133,7 @@ class LoggedInUser {
       refreshToken = null;
       accessToken = null;
       lastLoginWasEmailOtp = false;
+      isGuest = false;
       var result = prefs.clear();
       if (result == false) throw 'Unable to logout';
     } catch (e) {

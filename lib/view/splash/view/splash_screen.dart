@@ -45,20 +45,19 @@ class _SplashScreenState extends State<SplashScreen> {
     await appLinkService.completeInitializationAndGetPath();
     if (!mounted) return;
 
-    // -------------------------------
-    // NEW: Show Email OTP page first if last login was via OTP
-    // -------------------------------
+    // Guest user -> go straight to home
+    if (LoggedInUser.isGuest) {
+      context.replace('/');
+      return;
+    }
+
     if (LoggedInUser.refreshToken == null) {
-      // New user → show login options page
       context.replace(PPages.loginWelcomeScreenUi);
     } else if (LoggedInUser.lastLoginWasEmailOtp) {
-      // Last login via Email OTP → force Email OTP screen first
-      context.replace(PPages.enterEmailUi); // your email OTP page route
+      context.replace(PPages.enterEmailUi);
     } else if (LoggedInUser.accessToken != null && LoggedInUser.accessToken != '') {
-      // Logged-in → go to Home / WrapperView
       context.replace('/', extra: deepLinkPath);
     } else {
-      // Has refresh token but no access → Add user page
       context.replace(PPages.adduserpage);
     }
   }

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/profile_model.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -100,7 +101,7 @@ class ConnectPageViewModel extends ChangeNotifier {
   List<ProfileModel> nearestProfiles = [];
   Future<void> fetchNearestProfiles() async {
     EasyLoading.show();
-    String api = Api.getNearestProfiles;
+    String api = LoggedInUser.isGuest ? Api.publicNearestProfiles : Api.getNearestProfiles;
     Response response = await ApiService().get(
         '$api?pageNumber=1&pageSize=1000&searchTag=$searchTag&distanceInKm=$distanceInKm&gender=$gender&handledProjectsCountFrom=$handledProjectsCountFrom&handledProjectsCountTo=1000&rating=$rating&lat=$lat&lng=$lng');
     if (response.statusCode == 200) {

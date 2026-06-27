@@ -9,6 +9,7 @@ import 'package:jora_customer/Settings/widgets/time_function.dart';
 import 'package:jora_customer/model/comment_model.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/post_model.dart';
+import 'package:jora_customer/utils/guest_helper.dart';
 import 'package:jora_customer/view/comment_pages/ui.dart';
 import 'package:jora_customer/view_model/comment_view_model.dart';
 import 'package:provider/provider.dart';
@@ -181,6 +182,7 @@ class _PostCardState extends State<PostCard> {
           children: [
             IconButton(
               onPressed: () {
+                if (isGuestUser(context)) return;
                 context.read<PostViewModel>().postLike(postID: post?.sId ?? '');
                 setState(() {
                   if (isLiked) {
@@ -204,10 +206,7 @@ class _PostCardState extends State<PostCard> {
             ),
             IconButton(
               onPressed: () {
-                // CommentViewModel commentViewModel =
-                //     context.read<CommentViewModel>();
-                // commentViewModel.currentPage = 0;
-                // commentViewModel.initCommentPagination(post!.sId.toString());
+                if (isGuestUser(context)) return;
 print("dfdjfdjf----${post!.sId}");
                 context
                     .read<CommentViewModel>()

@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
+import 'package:jora_customer/utils/guest_helper.dart';
 import 'package:jora_customer/view/upload_pages/view/ui.dart';
 import 'package:jora_customer/view_model/connect_page_view_model.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
@@ -233,7 +234,10 @@ class BottomNavBar extends StatelessWidget {
           _item(
             icon: Icons.person,
             selected: navigationShell.currentIndex == 3,
-            onTap: () => _onTap(3),
+            onTap: () {
+              if (isGuestUser(context)) return;
+              _onTap(3);
+            },
           ),
         ],
       ),
@@ -266,6 +270,8 @@ class BottomNavBar extends StatelessWidget {
   }
 
   void _handleUpload(BuildContext context) {
+    if (isGuestUser(context)) return;
+
     final profileVM = context.read<ProfileViewModel>();
     final profileType =
     (profileVM.profileModel?.accountType ?? '').trim().toLowerCase();

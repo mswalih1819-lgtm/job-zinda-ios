@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PImages.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/view/login_section/phone_number_ui/view_model/view_model.dart';
 import 'package:provider/provider.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'Email_screen.dart';
 import 'otpScreen.dart';
 
@@ -21,6 +23,18 @@ class LoginWelcomeScreenUi extends StatefulWidget {
 
 class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
   final TextEditingController emailController = TextEditingController();
+  Future<void> openWhatsApp() async {
+    final Uri whatsappUrl = Uri.parse(
+      "https://wa.me/message/RYCPJ3DL5JQGO1",
+    );
+
+    if (await canLaunchUrl(whatsappUrl)) {
+      await launchUrl(
+        whatsappUrl,
+        mode: LaunchMode.externalApplication,
+      );
+    }
+  }
 
 
 
@@ -30,6 +44,83 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      floatingActionButton: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 8,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.12),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: const Color(0xFF5C1FFF),
+            width: 1.5,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF5C1FFF).withOpacity(0.15),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // const Icon(
+            //   Icons.work_outline_rounded,
+            //   color: Colors.white,
+            //   size: 24,
+            // ),
+
+            const SizedBox(width: 10),
+
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  "Looking for a Job or Hiring an Employee?",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  "Chat with us",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.greenAccent,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(width: 8),
+
+            const Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 14,
+              color: Colors.white,
+            ),
+
+            const SizedBox(width: 10),
+
+            FloatingActionButton(
+              mini: true,
+              backgroundColor: Colors.green,
+              onPressed: openWhatsApp,
+              child: const FaIcon(
+                FontAwesomeIcons.whatsapp,
+                color: Colors.white,
+                size: 28,
+              ),
+            ),
+          ],
+        ),
+      ),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -52,11 +143,25 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: size.height / 2.1,
-                  child: Image.asset(
-                    PImages.logo3,
-                    height: 100,
-                    width: size.width / 1.4,
+                  height: size.height * 0.55, // 0.42 -> 0.55
+                  child: Column(
+                    children: [
+                      SizedBox(height: size.height * 0.09), // logo thazhekk
+
+                      Image.asset(
+                        PImages.logo3,
+                        height: size.height * 0.10, // 0.12 -> 0.10
+                        width: size.width * 0.60,
+                      ),
+
+                      SizedBox(height: size.height * 0.01),
+
+                      Image.asset(
+                        "assets/images/job_banner.png",
+                        width: size.width * 1.2,
+                        fit: BoxFit.contain,
+                      )
+                    ],
                   ),
                 ),
                 Column(
@@ -121,7 +226,6 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              /// 🔹 Title
                               const Text(
                                 "Enter your email",
                                 style: TextStyle(
@@ -132,7 +236,6 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
 
                               const SizedBox(height: 15),
 
-                              /// 🔹 Email Field
                               Container(
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade100,
@@ -163,8 +266,7 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
 
                               const SizedBox(height: 20),
 
-                              /// 🔹 Button
-                              SizedBox(
+                               SizedBox(
                                 width: double.infinity,
                                 height: 50,
                                 child: ElevatedButton(
@@ -178,7 +280,7 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
                                   onPressed: () {
                                     final email = emailController.text.trim();
 
-                                    /// ✅ Validation
+
                                     if (email.isEmpty || !email.contains("@")) {
                                       EasyLoading.showError("Enter valid email");
                                       return;
@@ -186,7 +288,7 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
 
                                     Navigator.pop(context); // close sheet
 
-                                    /// 👉 Go to OTP screen
+
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -206,7 +308,25 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
                   },
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
+                TextButton(
+                  onPressed: () async {
+                    await LoggedInUser.guestLogin();
+                    if (context.mounted) {
+                      context.go('/');
+                    }
+                  },
+                  child: const Text(
+                    'Continue as Guest',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline,
+                      decorationColor: Colors.white70,
+                    ),
+                  ),
+                ),
                 // CustomElavatedTextButton(
                 //   text: 'New Account',
                 //   onPressed: () {

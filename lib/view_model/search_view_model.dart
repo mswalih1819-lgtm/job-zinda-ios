@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/profile_model.dart';
 import '../utils/api_service.dart';
 import '../utils/api_url.dart';
@@ -75,8 +76,11 @@ class SearchViewModel with ChangeNotifier {
     }
 
     try {
+      final searchUrl = LoggedInUser.isGuest
+          ? Api.publicSearchUserListUrl
+          : Api.searchUserListUrl;
       final response = await ApiService().get(
-        '${Api.searchUserListUrl}&pageNumber=$_pageNumber&searchTag=${_searchTag.trim()}',
+        '$searchUrl&pageNumber=$_pageNumber&searchTag=${_searchTag.trim()}',
       );
 
       final data = response.data;

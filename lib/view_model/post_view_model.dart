@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jora_customer/model/banners_model.dart';
+import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/profile_model.dart';
 import 'package:jora_customer/utils/api_url.dart';
 import 'dart:convert';
@@ -62,8 +63,13 @@ class PostViewModel with ChangeNotifier {
   Future<void> fetchPostWithPagination(int page) async {
     if (currentPage != page) {
       currentPage = page;
-      String api =
-          isForYou ? Api.suggestedPostsListUrl : Api.followingsPostsListUrl;
+
+      String api;
+      if (LoggedInUser.isGuest) {
+        api = Api.publicFeedUrl;
+      } else {
+        api = isForYou ? Api.suggestedPostsListUrl : Api.followingsPostsListUrl;
+      }
 
       Response response = await ApiService().get('$api&pageNumber=$page');
 
@@ -85,7 +91,8 @@ class PostViewModel with ChangeNotifier {
           // rendering time on low-end devices or slow networks.
           List<Banners> banners = [];
           if (page == 1) {
-            final bannerRes = await ApiService().get(Api.listBanners);
+            final bannerUrl = LoggedInUser.isGuest ? Api.publicListBanners : Api.listBanners;
+            final bannerRes = await ApiService().get(bannerUrl);
             banners = (bannerRes.data['data']['banners'] as List?)
                     ?.map((e) => Banners.fromJson(e))
                     .toList() ??

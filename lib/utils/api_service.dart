@@ -151,8 +151,13 @@ class ApiService {
     return await dio.patch(url, options: await options());
   }
 
-  Future<Options> options() async => Options(
-        headers: await Api.getAuthorizationHeader(),
-        validateStatus: (status) => true,
-      );
+  Future<Options> options() async {
+    if (LoggedInUser.isGuest) {
+      return Options(validateStatus: (status) => true);
+    }
+    return Options(
+      headers: await Api.getAuthorizationHeader(),
+      validateStatus: (status) => true,
+    );
+  }
 }

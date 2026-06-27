@@ -14,9 +14,10 @@ class AdminDocWidget extends StatefulWidget {
   final double? height;
   final double? width;
   final String? caption;
+  final String? offerId;
   final bool allowDownload;
   final bool allowShare;
-  const AdminDocWidget({Key? key, required this.url, this.height, this.width, this.caption, this.allowDownload = true, this.allowShare = true}) : super(key: key);
+  const AdminDocWidget({Key? key, required this.url, this.height, this.width, this.caption,   this.offerId,this.allowDownload = true, this.allowShare = true}) : super(key: key);
 
   @override
   State<AdminDocWidget> createState() => _AdminDocWidgetState();
@@ -140,25 +141,82 @@ class _AdminDocWidgetState extends State<AdminDocWidget> {
               label: const Text('Share'),
               onPressed: () async {
                 try {
+
+                  final String deepLink =
+                      "https://server2.jobzinda.com/offering/${widget.offerId}";
                   final uri = Uri.parse(widget.url);
-                  // Download the file to a temp directory for sharing
+
+                  // Download the file to temp directory
                   final resp = await http.get(uri);
+
                   if (resp.statusCode == 200) {
+
                     final dir = await getTemporaryDirectory();
-                    final fileName = uri.pathSegments.isNotEmpty ? uri.pathSegments.last : 'shared_file';
+
+                    final fileName = uri.pathSegments.isNotEmpty
+                        ? uri.pathSegments.last
+                        : 'shared_file';
+
                     final filePath = '${dir.path}/$fileName';
+
                     final file = File(filePath);
+
                     await file.writeAsBytes(resp.bodyBytes);
-                    await Share.shareXFiles([XFile(filePath)], text: widget.caption ?? '');
+
+                    // ✅ Share file + deep link
+                    await Share.shareXFiles(
+                      [XFile(filePath)],
+                      text:
+                      '${widget.caption ?? ''}\n\n'
+                          '🔥 Open in Job Zinda:\n'
+                          '$deepLink',
+                    );
+
                   } else {
-                    // Fallback to sharing the URL with caption if download fails
-                    await Share.share('${widget.caption != null && widget.caption!.isNotEmpty ? widget.caption! + '\n' : ''}${widget.url}');
+
+                    // fallback
+                    await Share.share(
+                      '${widget.caption ?? ''}\n\n'
+                          '${widget.url}\n\n'
+                          '🔥 Open in Biz Zinda:\n'
+                          '$deepLink',
+                    );
                   }
+
                 } catch (e) {
-                  // Fallback to sharing the URL with caption on any error
-                  await Share.share('${widget.caption != null && widget.caption!.isNotEmpty ? widget.caption! + '\n' : ''}${widget.url}');
+
+                  final String deepLink =
+                      "https://server2.jobzinda.com/offering/${widget.offerId}";
+
+                  await Share.share(
+                    '${widget.caption ?? ''}\n\n'
+                        '${widget.url}\n\n'
+                        '🔥 Open in Biz Zinda:\n'
+                        '$deepLink',
+                  );
                 }
               },
+              // onPressed: () async {
+              //   try {
+              //     final uri = Uri.parse(widget.url);
+              //     // Download the file to a temp directory for sharing
+              //     final resp = await http.get(uri);
+              //     if (resp.statusCode == 200) {
+              //       final dir = await getTemporaryDirectory();
+              //       final fileName = uri.pathSegments.isNotEmpty ? uri.pathSegments.last : 'shared_file';
+              //       final filePath = '${dir.path}/$fileName';
+              //       final file = File(filePath);
+              //       await file.writeAsBytes(resp.bodyBytes);
+              //       await Share.shareXFiles([XFile(filePath)], text: widget.caption ?? '');
+              //     } else {
+              //       // Fallback to sharing the URL with caption if download fails
+              //       await Share.share('${widget.caption != null && widget.caption!.isNotEmpty ? widget.caption! + '\n' : ''}${widget.url}');
+              //     }
+              //   } catch (e) {
+              //     // Fallback to sharing the URL with caption on any error
+              //     await Share.share('${widget.caption != null && widget.caption!.isNotEmpty ? widget.caption! + '\n' : ''}${widget.url}');
+              //   }
+              // },
             ),
         ],
       ),

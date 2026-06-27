@@ -7,6 +7,7 @@ import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
+import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/banners_veiw_model.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/home_appbar.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/post_section.dart';
@@ -58,10 +59,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     postViewModel.currentPage = 0;
     await postViewModel.refreshPosts();
 
-    // Fetch profile data when the screen loads, mirroring the profile screen's behavior.
-    context.read<ProfileViewModel>().fetchProfile();
+    if (!LoggedInUser.isGuest) {
+      context.read<ProfileViewModel>().fetchProfile();
+    }
 
-    // Show hint after posts have loaded
     _showAssistantHint();
   }
 
@@ -143,10 +144,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             children: [
               DrawerHeader(
                 decoration: BoxDecoration(color: Color(0xFF8A4FFF),),
-                child: value.profileModel == null
+                child: LoggedInUser.isGuest
                     ? Row(
                         children: [
-                          // Skeleton avatar
+                          CircleAvatar(
+                            backgroundColor: Colors.white24,
+                            child: Icon(Icons.person, color: Colors.white),
+                          ),
+                          const SizedBox(width: 10),
+                          textWidget(text: 'Guest User', color: Colors.white),
+                        ],
+                      )
+                    : value.profileModel == null
+                    ? Row(
+                        children: [
                           Container(
                             width: 40,
                             height: 40,
@@ -156,7 +167,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             ),
                           ),
                           const SizedBox(width: 10),
-                          // Skeleton text
                           Container(
                             width: 100,
                             height: 16,
@@ -205,6 +215,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               //       context.pushNamed(PPages.taskCornerAssignments);
               //     },
               //   ),
+              if (!LoggedInUser.isGuest)
               drawerWidget(
                 title: "Plans For You",
                 icon: const Icon(Icons.workspace_premium, color: Color(0xFF8A4FFF)),
@@ -219,6 +230,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
 
 
+              if (!LoggedInUser.isGuest) ...[
               context.read<ProfileViewModel>().profileModel == null
                   ? Container()
                   : ((context.read<ProfileViewModel>().profileModel!.profession ?? '')
@@ -262,6 +274,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             Navigator.pop(context);
                             context.pushNamed(PPages.referalPageUi);
                           }),
+              ],
               // context.read<ProfileViewModel>().profileModel == null
               //     ? Container()
               //     : context
@@ -321,6 +334,23 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     Navigator.pop(context);
                     context.pushNamed(PPages.helpSupportUi);
                   }),
+              if (LoggedInUser.isGuest)
+                drawerWidget(
+                  title: "Login / Sign Up",
+                  icon: Icon(
+                    Icons.login,
+                    color: Color(0xFF8A4FFF),
+                    size: 18,
+                  ),
+                  fun: () async {
+                    Navigator.pop(context);
+                    await LoggedInUser.clearUserData();
+                    if (context.mounted) {
+                      context.go(PPages.loginWelcomeScreenUi);
+                    }
+                  },
+                ),
+              if (!LoggedInUser.isGuest) ...[
               drawerWidget(
                   title: "Delete account",
                   icon: Icon(
@@ -361,6 +391,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           }),
                     );
                   }),
+              ],
             ],
           ),
         ),
