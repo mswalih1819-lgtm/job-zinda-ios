@@ -183,6 +183,23 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
                   ],
                 ),
                 const SizedBox(height: 25),
+                // Continue as Guest Button
+                CustomElavatedTextButton(
+                  width: double.infinity,
+                  borderRadius: 18,
+                  borderColor: PColors.white,
+                  bgcolor: PColors.white,
+                  textColor: const Color(0xFF8A4FFF),
+                  text: 'Continue as Guest',
+                  onPressed: () async {
+                    await LoggedInUser.guestLogin();
+                    if (context.mounted) {
+                      context.go('/');
+                    }
+                  },
+                ),
+                const SizedBox(height: 20),
+
                 // Username & Password Button
                 CustomElavatedTextButton(
                   width: double.infinity,
@@ -308,25 +325,6 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
                   },
                 ),
 
-                const SizedBox(height: 10),
-                TextButton(
-                  onPressed: () async {
-                    await LoggedInUser.guestLogin();
-                    if (context.mounted) {
-                      context.go('/');
-                    }
-                  },
-                  child: const Text(
-                    'Continue as Guest',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      decoration: TextDecoration.underline,
-                      decorationColor: Colors.white70,
-                    ),
-                  ),
-                ),
                 // CustomElavatedTextButton(
                 //   text: 'New Account',
                 //   onPressed: () {
@@ -354,6 +352,7 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
                 //     Navigator.pushNamed(context, PPages.phoneNumberUi);
                 //   },
                 // ),
+                const SizedBox(height: 80),
               ],
             ),
           ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
+import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/utils/guest_helper.dart';
 import 'package:jora_customer/view/upload_pages/view/ui.dart';
 import 'package:jora_customer/view_model/connect_page_view_model.dart';
@@ -287,14 +289,53 @@ class BottomNavBar extends StatelessWidget {
     _onTap(2);
 
     () async {
+      final connectVM = context.read<ConnectPageViewModel>();
+
+      if (LoggedInUser.isGuest) {
+        double? lat;
+        double? lng;
+        try {
+          final bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+          if (!serviceEnabled) {
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Please turn on location services to see nearby profiles.')),
+              );
+            }
+          } else {
+            LocationPermission permission = await Geolocator.checkPermission();
+            if (permission == LocationPermission.denied) {
+              permission = await Geolocator.requestPermission();
+            }
+            if (permission != LocationPermission.denied &&
+                permission != LocationPermission.deniedForever) {
+              final position = await Geolocator.getCurrentPosition(
+                forceAndroidLocationManager: true,
+                desiredAccuracy: LocationAccuracy.medium,
+              );
+              lat = position.latitude;
+              lng = position.longitude;
+            } else if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Location permission is required to see nearby profiles.')),
+              );
+            }
+          }
+        } catch (e) {
+          debugPrint('[_handleConnection] Error getting guest location: $e');
+        }
+
+        // Always set a coordinate (fallback to a default if unavailable) so the
+        // map doesn't spin forever waiting for connectVM.lat/lng to be non-null.
+        connectVM.updateLocation(lat ?? 20.5937, lng ?? 78.9629);
+        return;
+      }
+
       final profileVM = context.read<ProfileViewModel>();
       await profileVM.fetchProfile();
 
       if (profileVM.profileModel?.lat != null &&
           profileVM.profileModel?.lng != null) {
-
-        final connectVM = context.read<ConnectPageViewModel>();
-
         connectVM.updateLocation(
             profileVM.profileModel!.lat!,
             profileVM.profileModel!.lng!);

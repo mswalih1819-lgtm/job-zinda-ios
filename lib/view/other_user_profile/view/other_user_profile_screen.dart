@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PColors.dart';
+import 'package:jora_customer/utils/guest_helper.dart';
 
 import 'package:jora_customer/view/my_profile/view/widgets/gallery_section.dart';
 import 'package:jora_customer/view/other_user_profile/view/widgets/other_user_profile_button.dart';
@@ -84,6 +85,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                 color: PColors.white,
                 onSelected: (val) {
                   if (val == "rating") {
+                    if (isGuestUser(context)) return;
                     showModalBottomSheet(
                       isScrollControlled: true,
                       isDismissible: false,
@@ -93,8 +95,10 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                       ),
                     );
                   } else if (val == 'block') {
+                    if (isGuestUser(context)) return;
                     value.blockUser(context, id: value.otherUser?.sId?.toString() ?? '');
                   } else if (val == "unblock") {
+                    if (isGuestUser(context)) return;
                     value.unblockUser(context, id: value.otherUser?.sId?.toString() ?? '');
                   } else if (val == "share") {
                     final userId = value.otherUser?.sId?.toString() ?? '';

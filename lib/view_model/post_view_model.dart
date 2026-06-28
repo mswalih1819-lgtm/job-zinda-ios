@@ -406,7 +406,9 @@ class PostViewModel with ChangeNotifier {
     EasyLoading.show(status: 'Loading profile...');
   otherUserProfileError = null;
     try {
-      final String url = '${Api.otherUserProfileDetailsUrl}/$userID';
+      final String url = LoggedInUser.isGuest
+          ? '${Api.publicProfileDetailsUrl}/$userID'
+          : '${Api.otherUserProfileDetailsUrl}/$userID';
       print('[fetchOtherUserProfileDetails] Request URL: $url');
       Response response = await ApiService().get(url);
       print('[fetchOtherUserProfileDetails] HTTP ${response.statusCode}, response.data: ' + response.data.toString());
@@ -462,7 +464,9 @@ class PostViewModel with ChangeNotifier {
     try {
       if (currentPageOtherUserPost != page) {
         currentPageOtherUserPost = page;
-        String api = Api.otherUserPostsListUrl;
+        String api = LoggedInUser.isGuest
+            ? Api.publicOtherUserPostsListUrl
+            : Api.otherUserPostsListUrl;
         Response response = await ApiService()
             .get('$api&pageNumber=$page&&profileId=${otherUser?.sId}');
         if (response.statusCode == 200) {

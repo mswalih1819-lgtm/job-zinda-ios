@@ -3,7 +3,7 @@ import '../model/logged_in_user.dart';
 class AppUrl {
   static const String scurity = 'https';
 
-   static const isProduction = true;
+   static const isProduction = false;
   // For local development, set to false and use your LAN IP below:
   // static const isProduction = false;
 
@@ -51,7 +51,8 @@ class Api {
   }
 
    // static const baseurl = 'http://3.110.26.51:4001';
-   static const baseurl = 'https://server2.jobzinda.com';
+  //  static const baseurl = 'https://server2.jobzinda.com';
+   static const baseurl = 'http://localhost:4001';
   // For local dev, use:
   // static const baseurl = 'http://localhost:4001';
   // <-- Local backend for development via adb reverse
@@ -66,6 +67,8 @@ class Api {
       '$baseurl/api/v1/post/listMyPosts?pageSize=10';
   static const otherUserPostsListUrl =
       '$baseurl/api/v1/post/getOtherProfilePosts?pageSize=10';
+  static const publicOtherUserPostsListUrl =
+      '$baseurl/api/v1/post/public-profile-posts?pageSize=10';
   static const fetchPostDetails = '$baseurl/api/v1/post/getPostDetails';
   static const createStoryUrl = '$baseurl/api/v1/story/createStory';
   static const getSignInUrl = '$baseurl/api/v1/signed-url/get-signed-url';
@@ -73,6 +76,8 @@ class Api {
   static const profileDetailsUrl = '$baseurl/api/v1/user/get-profile-details';
   static const otherUserProfileDetailsUrl =
       '$baseurl/api/v1/user/get-other-profile';
+  static const publicProfileDetailsUrl =
+      '$baseurl/api/v1/user/public-profile';
   static const updateProfileImage = '$baseurl/api/v1/user/update-profile-image';
   static const updateProfile = '$baseurl/api/v1/user/update-profile';
   static const fetchProfileAnalyticsUrl =
@@ -140,6 +145,7 @@ class Api {
   static const profileRating = '$baseurl/api/v1/user/add-profile-rating';
   static const listAllFollowers = '$baseurl/api/v1/follower/listAllFollowers';
   static const listAllFeedbacks = '$baseurl/api/v1/user/list-profile-feedBacks';
+  static const publicProfileRatings = '$baseurl/api/v1/user/public-profile-ratings';
 
   static const userMessageUnreadCount =
       '$baseurl/api/v1/conversation/user-message-unread-count';

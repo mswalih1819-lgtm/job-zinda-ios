@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
+import 'package:jora_customer/utils/guest_helper.dart';
 
 import 'package:jora_customer/view_model/chat_details_view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
@@ -158,6 +159,7 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
               button(
                   btn: postViewModel.isFollowed ? 'Unfollow' : 'Follow',
                   fun: () {
+                    if (isGuestUser(context)) return;
                     if (postViewModel.isFollowed) {
                       postViewModel.unFollowUser();
                     } else {
@@ -171,6 +173,7 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
               ),
               ElevatedButton(
                 onPressed: () {
+                  if (isGuestUser(context)) return;
                   context
                       .read<ChatDetailsViewModel>()
                       .fetchAllMessageProfile(
@@ -245,6 +248,7 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
                 const SizedBox(width: 10),
                 InkWell(
                   onTap: () {
+                    if (isGuestUser(context)) return;
                     _showRatingDialog(context, postViewModel.otherUser!.sId!);
                   },
                   child: Container(
@@ -322,6 +326,7 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
                 ),
                 InkWell(
                   onTap: () {
+                    if (isGuestUser(context)) return;
                     _showRatingDialog(context, postViewModel.otherUser!.sId!);
                   },
                   child: Container(

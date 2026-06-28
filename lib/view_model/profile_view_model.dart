@@ -474,8 +474,10 @@ class ProfileViewModel with ChangeNotifier {
     if (currentPage != page) {
       currentPage = page;
 
+      final String base =
+          LoggedInUser.isGuest ? Api.publicProfileRatings : Api.listAllFeedbacks;
       String url =
-          "${Api.listAllFeedbacks}?profileId=$userID&pageNumber=$currentPage&pageSize=$pageSize";
+          "$base?profileId=$userID&pageNumber=$currentPage&pageSize=$pageSize";
 
       Response response = await ApiService().get(url);
 
