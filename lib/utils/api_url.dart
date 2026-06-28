@@ -3,7 +3,7 @@ import '../model/logged_in_user.dart';
 class AppUrl {
   static const String scurity = 'https';
 
-   static const isProduction = false;
+   static const isProduction = true;
   // For local development, set to false and use your LAN IP below:
   // static const isProduction = false;
 
@@ -51,8 +51,8 @@ class Api {
   }
 
    // static const baseurl = 'http://3.110.26.51:4001';
-  //  static const baseurl = 'https://server2.jobzinda.com';
-   static const baseurl = 'http://localhost:4001';
+   static const baseurl = 'https://server2.jobzinda.com';
+  //  static const baseurl = 'http://localhost:4001';
   // For local dev, use:
   // static const baseurl = 'http://localhost:4001';
   // <-- Local backend for development via adb reverse
