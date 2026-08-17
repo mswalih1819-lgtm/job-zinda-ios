@@ -110,8 +110,27 @@ class ProfileModel {
     referredBy = json['referredBy'];
     coinBalance = json['coinBalance'];
     skills = json['skills'] != null ? List<String>.from(json['skills']) : [];
-    contactNumber = json['contactNumber'];
-    whatsappNumber = json['whatsappNumber'];
+
+    // Read raw values first
+    final String? rawContact = json['contactNumber'];
+    final String? rawWhatsapp = json['whatsappNumber'];
+
+    // Filter out contactNumber / whatsappNumber when they are the same as
+    // the registration mobileNumber – the backend sometimes returns the
+    // user's mobileNumber in these fields even when they were never
+    // explicitly configured.
+    final String mobile = (mobileNumber ?? '').trim();
+    contactNumber = (rawContact != null &&
+            rawContact.trim().isNotEmpty &&
+            rawContact.trim() != mobile)
+        ? rawContact
+        : null;
+    whatsappNumber = (rawWhatsapp != null &&
+            rawWhatsapp.trim().isNotEmpty &&
+            rawWhatsapp.trim() != mobile)
+        ? rawWhatsapp
+        : null;
+
     whatsappLink = json['whatsappLink'];
     directCallLink = json['directCallLink'];
 
