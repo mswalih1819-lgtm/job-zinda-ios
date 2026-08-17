@@ -315,37 +315,42 @@ class PostViewModel with ChangeNotifier {
       Response response = await ApiService().post(Api.createPostUrl, body);
       EasyLoading.dismiss();
 
-      if (response.statusCode == 200) {
-        Map<String, dynamic> data = response.data;
-        print("create post response---$data");
+      Map<String, dynamic> data =
+          response.data is Map<String, dynamic> ? response.data : {};
+      print("create post response---$data");
 
-        if (data['status']) {
-          if (data.containsKey('message')) {
-            EasyLoading.showSuccess(data['message']);
-
-            PostModel newPost = PostModel.fromJson(data['data']['post']);
-
-            // Avoid adding duplicate posts
-            if (!_posts.any((post) => post.sId == newPost.sId)) {
-              _posts.add(newPost); // Add new post to the list
-              notifyListeners(); // Notify listeners for UI update
-            }
-
-            // Append the new post to pagination
-            selfPostController
-                .appendPage([newPost], currentPageForSelfPost + 1);
-
-            // Reset pagination to the first page
-            currentPageForSelfPost = 0;
-            selfPostController.refresh();
-
-            isForYou = true;
-            currentPage = 0;
-            postController.refresh(); // Refresh the main feed
-            notifyListeners();
-          }
-        }
+      /// ApiService sets `validateStatus: (status) => true`, so a rejection such
+      /// as the daily post limit (429) arrives here as an ordinary response
+      /// instead of a thrown DioException. Without this branch it would fall
+      /// through to the pop below and close the screen with no message at all.
+      if (response.statusCode != 200 || data['status'] != true) {
+        EasyLoading.showError(data['message'] ?? 'Failed to create post');
+        // Leave the compose screen open so the user does not lose what they wrote
+        return;
       }
+
+      EasyLoading.showSuccess(data['message'] ?? 'Post created');
+
+      PostModel newPost = PostModel.fromJson(data['data']['post']);
+
+      // Avoid adding duplicate posts
+      if (!_posts.any((post) => post.sId == newPost.sId)) {
+        _posts.add(newPost); // Add new post to the list
+        notifyListeners(); // Notify listeners for UI update
+      }
+
+      // Append the new post to pagination
+      selfPostController.appendPage([newPost], currentPageForSelfPost + 1);
+
+      // Reset pagination to the first page
+      currentPageForSelfPost = 0;
+      selfPostController.refresh();
+
+      isForYou = true;
+      currentPage = 0;
+      postController.refresh(); // Refresh the main feed
+      notifyListeners();
+
       Navigator.pop(context);
     } catch (e) {
       EasyLoading.dismiss();
@@ -416,6 +421,12 @@ class PostViewModel with ChangeNotifier {
       if (response.statusCode == 200) {
         Map<String, dynamic> data = response.data;
         if (data['status']) {
+          print("Profile ID: ${data['data']['profileDetails']['_id']}");
+          print("WhatsApp Number from API: ${data['data']['profileDetails']['whatsappNumber']}");
+          print("Parsed WhatsApp: ${otherUser?.whatsappNumber}");
+          print("Parsed WhatsApp Link: ${otherUser?.whatsappLink}");
+          print("Parsed Contact: ${otherUser?.contactNumber}");
+          print("Parsed Call Link: ${otherUser?.directCallLink}");
           otherUser = ProfileModel.fromJson(data['data']['profileDetails']);
           isFollowed = otherUser?.isFollowing ?? false;
           visitProfile(userID: userID);

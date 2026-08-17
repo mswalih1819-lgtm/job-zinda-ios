@@ -121,27 +121,19 @@ class MessageDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       onPressed: () async {
-                        final whatsappUrl = message?.whatsappLink;
+                        final uri = Uri.parse(
+                          'https://chat.whatsapp.com/DqZv1PMh5kE1DOwYkDwsEV?s=cl&p=a&ilr=1',
+                        );
 
-                        if (whatsappUrl != null && whatsappUrl.isNotEmpty) {
-                          final uri = Uri.parse(whatsappUrl);
-
-                          if (await canLaunchUrl(uri)) {
-                            await launchUrl(
-                              uri,
-                              mode: LaunchMode.externalApplication,
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Could not open WhatsApp"),
-                              ),
-                            );
-                          }
+                        if (await canLaunchUrl(uri)) {
+                          await launchUrl(
+                            uri,
+                            mode: LaunchMode.externalApplication,
+                          );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text("No WhatsApp link provided"),
+                              content: Text("Could not open WhatsApp group"),
                             ),
                           );
                         }

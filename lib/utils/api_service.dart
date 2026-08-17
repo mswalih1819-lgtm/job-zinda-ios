@@ -5,7 +5,26 @@ import '../model/logged_in_user.dart';
 import 'api_url.dart';
 
 class ApiService {
-  final Dio dio = Dio();
+  static const Duration _timeout = Duration(seconds: 30);
+
+  final Dio dio = Dio(BaseOptions(
+    connectTimeout: _timeout,
+    receiveTimeout: _timeout,
+    sendTimeout: _timeout,
+  ));
+
+  /// Bare client used only for the token refresh call. It deliberately carries
+  /// no interceptor: routing the refresh through [dio] meant that a failing
+  /// refresh re-entered the 401 handler, which then awaited the very
+  /// [_refreshCompleter] it was trying to complete — deadlocking the request
+  /// forever, since neither client had a timeout.
+  final Dio _refreshDio = Dio(BaseOptions(
+    connectTimeout: _timeout,
+    receiveTimeout: _timeout,
+    sendTimeout: _timeout,
+    validateStatus: (status) => true,
+  ));
+
   static Completer<bool>? _refreshCompleter; // single in-flight refresh
 
   ApiService() {
@@ -109,7 +128,11 @@ class ApiService {
   Future<bool> _refreshToken() async {
     try {
       log('---------------token expired------------------');
-      final response = await post(Api.refreshTokenUrl, {'refreshToken': LoggedInUser.refreshToken});
+      // Must go through _refreshDio, not post(): see the field doc above.
+      final response = await _refreshDio.post(
+        Api.refreshTokenUrl,
+        data: {'refreshToken': LoggedInUser.refreshToken},
+      );
       log('---------------${response.statusCode} ${response.data}------------------');
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = response.data is Map<String, dynamic>

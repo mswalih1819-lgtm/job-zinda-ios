@@ -63,68 +63,111 @@ class SubscriptionViewmodel extends ChangeNotifier {
 
   createPackagePayment(BuildContext context, String packageId) async {
     NetConnection.networkConnection(context).then((value) async {
-      if (value == true) {
-        try {
-          LoadingShow.load(context);
-          Map body = {
-            'planId': packageId,
-          };
-          Response response =
-              await ApiService().post(Api.createSubscriptionPayment, body);
-          print("subscription resposne--$body----${response.data}");
-          if (response.statusCode == 200) {
-            Map<String, dynamic> data = response.data;
-            if (data['status']) {
-              paymentOrderModel = SubscriptionPaymentModel.fromJson(
-                  data['data']['subscription']);
-                  print("sdhhsd----${paymentOrderModel.keyId}");
-          if (paymentOrderModel.keyId != null) {
-            openRazorPay();
-          }
-            } else {
-              ErrorMsg.showSnakError(context, data['message']);
-            }
-          }
+      if (!context.mounted) return;
 
-          
+      if (value != true) {
+        context.replaceNamed(PPages.noIntenet);
+        return;
+      }
 
-          // ignore: use_build_context_synchronously
+      LoadingShow.load(context);
+      // The loader is a pushed route, so it must be popped exactly once no
+      // matter which branch we exit through.
+      bool loaderVisible = true;
+      void hideLoader() {
+        if (loaderVisible && context.mounted) {
+          loaderVisible = false;
           LoadingShow.stopLoad(context);
-        } catch (e, stack) {
-          print(stack);
-          print(
-              "Issue Razerpay:--------------------------- ----  ${e.toString()} ------");
-          LoadingShow.stopLoad(context);
-          // ignore: use_build_context_synchronously
+        }
+      }
+
+      try {
+        Map body = {
+          'planId': packageId,
+        };
+        Response response =
+            await ApiService().post(Api.createSubscriptionPayment, body);
+        print("subscription resposne--$body----${response.data}");
+
+        final Map<String, dynamic> data = response.data is Map<String, dynamic>
+            ? response.data as Map<String, dynamic>
+            : <String, dynamic>{};
+        final String? serverMessage = data['message']?.toString();
+
+        // Dismiss before surfacing anything, otherwise the snackbar is attached
+        // to the loader route that is about to be popped and never appears.
+        hideLoader();
+        if (!context.mounted) return;
+
+        // ApiService sets validateStatus: (status) => true, so non-2xx responses
+        // arrive here instead of throwing. Previously there was no else branch,
+        // so a server error silently dropped the user back on the plan list.
+        if (response.statusCode != 200) {
+          ErrorMsg.showSnakError(
+            context,
+            serverMessage ??
+                "Couldn't start the payment (error ${response.statusCode}). Please try again.",
+          );
+          return;
+        }
+
+        if (data['status'] != true) {
+          ErrorMsg.showSnakError(context,
+              serverMessage ?? "Couldn't start the payment. Please try again.");
+          return;
+        }
+
+        final subscription = data['data']?['subscription'];
+        if (subscription is! Map<String, dynamic>) {
+          ErrorMsg.showSnakError(
+              context, "Unexpected response from the server. Please try again.");
+          return;
+        }
+
+        paymentOrderModel = SubscriptionPaymentModel.fromJson(subscription);
+        print("sdhhsd----${paymentOrderModel.keyId}");
+
+        if (paymentOrderModel.keyId == null || paymentOrderModel.id == null) {
+          ErrorMsg.showSnakError(
+              context, "Payment could not be initialised. Please try again.");
+          return;
+        }
+
+        openRazorPay(context);
+      } catch (e, stack) {
+        print(stack);
+        print(
+            "Issue Razerpay:--------------------------- ----  ${e.toString()} ------");
+        hideLoader();
+        if (context.mounted) {
           ErrorMsg.showSnakError(context, e.toString());
         }
-      } else {
-        context.replaceNamed(PPages.noIntenet);
       }
     });
   }
 
-  void openRazorPay(
-      // {required int amount, required Razorpay razorpay}
-      ) async {
-    double payAmount = paymentOrderModel.amount! * 100;
+  void openRazorPay(BuildContext context) {
+    double payAmount = (paymentOrderModel.amount ?? 0) * 100;
 
     print("payamount---${payAmount}");
     var options = {
       'key': paymentOrderModel.keyId!,
       'amount': payAmount,
       'order_id': paymentOrderModel.id!,
-      'name': paymentOrderModel.notes!.fullName,
+      'name': paymentOrderModel.notes?.fullName ?? '',
       'description': 'Subscription Payment',
       'prefill': {
-        'contact': paymentOrderModel.notes!.phone!,
-        'email': paymentOrderModel.notes!.email!,
+        'contact': paymentOrderModel.notes?.phone ?? '',
+        'email': paymentOrderModel.notes?.email ?? '',
       },
     };
     try {
       _razorpay.open(options);
     } catch (e) {
       print("Razor Pay Issue: ----------------- $e ---=");
+      if (context.mounted) {
+        ErrorMsg.showSnakError(context, "Unable to open the payment screen.");
+      }
     }
   }
 

@@ -32,6 +32,11 @@ class ProfileModel {
   bool? isFollowing;
   bool? isBlocked;
   List<String>? skills;
+  //18_07_2026
+  String? contactNumber;
+  String? whatsappNumber;
+  String? whatsappLink;
+  String? directCallLink;
 
 
   ProfileModel(
@@ -65,7 +70,11 @@ class ProfileModel {
       this.isBlocked,
       this.referralCode,
       this.coinBalance,
-      this.referredBy});
+      this.referredBy,
+      this.contactNumber,
+        this.whatsappNumber,
+        this.whatsappLink,
+        this.directCallLink,});
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     location =
@@ -101,8 +110,13 @@ class ProfileModel {
     referredBy = json['referredBy'];
     coinBalance = json['coinBalance'];
     skills = json['skills'] != null ? List<String>.from(json['skills']) : [];
+    contactNumber = json['contactNumber'];
+    whatsappNumber = json['whatsappNumber'];
+    whatsappLink = json['whatsappLink'];
+    directCallLink = json['directCallLink'];
 
   }
+
 }
 
 class Location {

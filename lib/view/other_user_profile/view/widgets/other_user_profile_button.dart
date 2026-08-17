@@ -4,7 +4,9 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/custom_elevated_button.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
+import 'package:jora_customer/utils/contact_launcher.dart';
 import 'package:jora_customer/utils/guest_helper.dart';
 
 import 'package:jora_customer/view_model/chat_details_view_model.dart';
@@ -173,6 +175,19 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
               ),
               ElevatedButton(
                 onPressed: () {
+                  if (LoggedInUser.isGuest) {
+                    final String? wa = postViewModel.otherUser?.whatsappNumber ?? postViewModel.otherUser?.contactNumber;
+                    if (wa != null && wa.trim().isNotEmpty) {
+                      launchWhatsAppChat(
+                        wa,
+                        postViewModel.otherUser?.countryCode,
+                        message: 'Hi , I found your profile in Jobzinda ',
+                      );
+                    } else {
+                      isGuestUser(context);
+                    }
+                    return;
+                  }
                   if (isGuestUser(context)) return;
                   context
                       .read<ChatDetailsViewModel>()
@@ -223,6 +238,72 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
               ),
             ],
           ),
+        ),
+
+        /// Call / WhatsApp profile options (rendered optionally based on configured numbers)
+        Builder(
+          builder: (context) {
+            final String? contactNo = postViewModel.otherUser?.contactNumber;
+            final String? whatsappNo = postViewModel.otherUser?.whatsappNumber;
+            final bool showCall = contactNo != null && contactNo.trim().isNotEmpty;
+            final bool showWhatsapp = whatsappNo != null && whatsappNo.trim().isNotEmpty;
+
+            if (!showCall && !showWhatsapp) return const SizedBox.shrink();
+
+            return Container(
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Row(
+                children: [
+                  if (showCall)
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: const Color(0xFF8A4FFF),
+                          side: const BorderSide(color: Color(0xFF8A4FFF), width: 2),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                        ),
+                        icon: const Icon(Icons.phone_outlined, size: 20),
+                        label: const Text(
+                          'Call Now',
+                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+                        ),
+                        onPressed: () => launchPhoneCall(
+                          contactNo,
+                          postViewModel.otherUser?.countryCode,
+                        ),
+                      ),
+                    ),
+                  if (showCall && showWhatsapp) const SizedBox(width: 6),
+                  if (showWhatsapp)
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF8A4FFF),
+                          foregroundColor: PColors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                        ),
+                        icon: const FaIcon(FontAwesomeIcons.whatsapp, size: 20),
+                        label: const Text(
+                          'WhatsApp',
+                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+                        ),
+                        onPressed: () => launchWhatsAppChat(
+                          whatsappNo,
+                          postViewModel.otherUser?.countryCode,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            );
+          },
         ),
         if (showRatingSection && !hasRated && postViewModel.otherUser?.sId != null)
           Container(

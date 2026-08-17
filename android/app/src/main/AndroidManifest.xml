@@ -80,6 +80,11 @@
          <action android:name="android.intent.action.VIEW" />
          <data android:scheme="tel" />
         </intent>
+        <!-- Needed to open wa.me chat links -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
         <intent>
             <action android:name="android.intent.action.VIEW"/>
         </intent>

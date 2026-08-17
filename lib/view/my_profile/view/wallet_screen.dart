@@ -199,10 +199,14 @@ https://play.google.com/store/apps/details?id=com.jobZinda.customers
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Enter your UPI ID to receive payment:'),
+            // const Text('Enter your UPI ID to receive payment:'),
+            const Text('Enter your GPay / PhonePe / Paytm number to receive payment:'),
             TextField(
               controller: upiController,
-              decoration: const InputDecoration(labelText: 'UPI ID'),
+              // decoration: const InputDecoration(labelText: 'UPI ID'),
+              decoration: const InputDecoration(
+                labelText: 'GPay / PhonePe / Paytm Number',
+              ),
             ),
             const SizedBox(height: 12),
             Text('Amount: ₹${amount.toStringAsFixed(2)}'),

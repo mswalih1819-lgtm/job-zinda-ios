@@ -146,7 +146,7 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
                   height: size.height * 0.55, // 0.42 -> 0.55
                   child: Column(
                     children: [
-                      SizedBox(height: size.height * 0.09), // logo thazhekk
+                      SizedBox(height: size.height * 0.09), //
 
                       Image.asset(
                         PImages.logo3,
@@ -191,10 +191,23 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
                   bgcolor: PColors.white,
                   textColor: const Color(0xFF8A4FFF),
                   text: 'Continue as Guest',
+                  // onPressed: () async {
+                  //   await LoggedInUser.guestLogin();
+                  //   if (context.mounted) {
+                  //     context.go('/');
+                  //   }
+                  // },
                   onPressed: () async {
+                    // 1. Loader kanikkanam enkil (Optionally)
+                    EasyLoading.show(status: 'Logging in as Guest...');
+
                     await LoggedInUser.guestLogin();
+
+                    EasyLoading.dismiss();
+
                     if (context.mounted) {
-                      context.go('/');
+                      // 2. Root '/' nu pakaram ningalude Home Screen path/name enthanenna vechal athu kodukkuka
+                      context.go('/home'); // OR context.goNamed(PPages.homePage);
                     }
                   },
                 ),
