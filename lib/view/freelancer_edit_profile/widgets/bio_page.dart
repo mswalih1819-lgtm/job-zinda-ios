@@ -348,7 +348,7 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Skills *',
+            'Skills (optional)',
             style: PTextStyles.titleSmall.copyWith(
               color: const Color(0xFF8A4FFF),
             ),
