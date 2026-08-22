@@ -25,7 +25,6 @@ import 'package:flutter/rendering.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/home_floating_action.dart';
 import '../../../../Terms_and_conditions/TermsAndConditionUi.dart';
 import '../../../plansforyou/plansforyouUI.dart';
-import 'HomeVideo.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -460,18 +459,41 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   child: SizedBox(
                     height: 200,
                     width: double.infinity,
-                    child: bannerVM.topBanners.isNotEmpty
-                        ? PageView.builder(
-                      itemCount: bannerVM.topBanners.length,
-                      itemBuilder: (context, index) {
-                        final banner = bannerVM.topBanners[index];
-                        return Image.network(
-                          banner.mediaUrl ?? "",
-                          fit: BoxFit.cover,
+                    child: Consumer<BannerViewModel>(
+                      builder: (context, bVM, _) {
+                        // Show loading indicator while banners are being fetched
+                        if (bVM.isLoading) {
+                          return const Center(child: CircularProgressIndicator());
+                        }
+                        // No banners available — show nothing
+                        if (bVM.topBanners.isEmpty) {
+                          return const SizedBox.shrink();
+                        }
+                        return PageView.builder(
+                          itemCount: bVM.topBanners.length,
+                          itemBuilder: (context, index) {
+                            final banner = bVM.topBanners[index];
+                            final imageUrl = banner.mediaUrl ?? banner.bannerImageUrl ?? "";
+                            if (imageUrl.isEmpty) {
+                              return const SizedBox.shrink();
+                            }
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                imageUrl,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  print("[BannerImage] Error loading network image ($imageUrl): $error");
+                                  return Center(
+                                    child: Icon(Icons.broken_image, color: Colors.grey.shade400, size: 48),
+                                  );
+                                },
+                              ),
+                            );
+                          },
                         );
                       },
                     )
-                        : HomeVideoBanner(), // 👈 no banner → show video
                   ),
                 ),
 
