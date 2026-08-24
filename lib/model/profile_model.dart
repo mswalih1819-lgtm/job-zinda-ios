@@ -111,23 +111,16 @@ class ProfileModel {
     coinBalance = json['coinBalance'];
     skills = json['skills'] != null ? List<String>.from(json['skills']) : [];
 
-    // Read raw values first
+    // Read contactNumber / whatsappNumber as-is from the API response.
+    // If the user explicitly set them (even to the same value as mobileNumber),
+    // honour the value so the call/WhatsApp icons appear on the profile.
     final String? rawContact = json['contactNumber'];
     final String? rawWhatsapp = json['whatsappNumber'];
 
-    // Filter out contactNumber / whatsappNumber when they are the same as
-    // the registration mobileNumber – the backend sometimes returns the
-    // user's mobileNumber in these fields even when they were never
-    // explicitly configured.
-    final String mobile = (mobileNumber ?? '').trim();
-    contactNumber = (rawContact != null &&
-            rawContact.trim().isNotEmpty &&
-            rawContact.trim() != mobile)
+    contactNumber = (rawContact != null && rawContact.trim().isNotEmpty)
         ? rawContact
         : null;
-    whatsappNumber = (rawWhatsapp != null &&
-            rawWhatsapp.trim().isNotEmpty &&
-            rawWhatsapp.trim() != mobile)
+    whatsappNumber = (rawWhatsapp != null && rawWhatsapp.trim().isNotEmpty)
         ? rawWhatsapp
         : null;
 
