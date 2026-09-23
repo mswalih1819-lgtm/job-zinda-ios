@@ -4,6 +4,7 @@ class PPages {
   static const String welcomePageUi = "/welcomePageUi";
   static const String onboardingScreensUi = "/onboardingScreensUi";
   static const String loginWelcomeScreenUi = "/loginWelcomeScreenUi";
+  static const String authOptionsScreenUi = "/authOptionsScreenUi";
   static const String usernameLoginUi = "/usernameLoginUi";
   static const String phoneNumberUi = "/phoneNumberUi";
   static const String otpPageUi = "/otpPageUi";
@@ -31,16 +32,14 @@ class PPages {
   static const String noIntenet = "/noIntenet";
   static const String adduserpage = "/adduserpage";
   static const String storyViewer = "/storyViewer";
-  static const String referalCodeUi= "/referalcode";
-  static const String referalPageUi= "/referalPageUi";
-  static const String coinScreenUi= "/coinScreenUi";
+  static const String referalCodeUi = "/referalcode";
+  static const String referalPageUi = "/referalPageUi";
+  static const String coinScreenUi = "/coinScreenUi";
   static const String addStoryScreenUi = "/add-story-screen";
-  static const String followersScreen= "/followersScreen";
-  static const String feedbackScreen= "/feedbackScreen";
+  static const String followersScreen = "/followersScreen";
+  static const String feedbackScreen = "/feedbackScreen";
   static const String planListUi = '/planListUi';
   static const String wallet = '/wallet';
   static const String coursePurchaseUi = '/course-purchase';
   static const String enterEmailUi = '/enterEmailUi';
-
-
 }

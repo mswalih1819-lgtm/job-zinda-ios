@@ -18,23 +18,32 @@ import 'package:flutter_rating/flutter_rating.dart';
 import 'package:share_plus/share_plus.dart';
 
 class OtherUserProfileButtonUi extends StatefulWidget {
-  const OtherUserProfileButtonUi({super.key});
+  final bool showContactActions;
+
+  const OtherUserProfileButtonUi({
+    super.key,
+    this.showContactActions = true,
+  });
 
   @override
-  State<OtherUserProfileButtonUi> createState() => _OtherUserProfileButtonUiState();
+  State<OtherUserProfileButtonUi> createState() =>
+      _OtherUserProfileButtonUiState();
 }
 
 class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
   bool showRatingSection = true;
-  
-  Future<void> _shareUserProfile(BuildContext context, String userId, String userName) async {
+
+  Future<void> _shareUserProfile(
+      BuildContext context, String userId, String userName) async {
     // Construct the direct app link
     final String appLink = 'https://jobzinda.com/profile/$userId';
 
     // App store links
-    const String playStoreUrl = 'https://play.google.com/store/apps/details?id=com.jobZinda.customers';
+    const String playStoreUrl =
+        'https://play.google.com/store/apps/details?id=com.jobZinda.customers';
     // TODO: Verify this iOS App Store URL and ID. 'id123456789' is likely a placeholder.
-    const String appStoreUrl = 'https://apps.apple.com/app/job-zinda/id123456789'; 
+    const String appStoreUrl =
+        'https://apps.apple.com/app/job-zinda/id123456789';
 
     // Create the shareable message
     final String shareText = "🔍 Discover $userName on Job Zinda!\n\n"
@@ -47,7 +56,8 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
 
     try {
       // Show the share dialog
-      await Share.share(shareText, subject: 'Check out this profile on Job Zinda!');
+      await Share.share(shareText,
+          subject: 'Check out this profile on Job Zinda!');
       // Optional: Show success message if desired
       // ScaffoldMessenger.of(context).showSnackBar(
       //   const SnackBar(content: Text('Profile link shared!'))
@@ -56,10 +66,10 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
       // Handle potential errors from the Share.share() method itself
       print('Error sharing profile: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error sharing profile: ${e.toString()}'))
-      );
+          SnackBar(content: Text('Error sharing profile: ${e.toString()}')));
     }
   }
+
   bool hasRated = false;
   double? userRating;
   String? userFeedback;
@@ -73,12 +83,13 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
   }
 
   Future<void> _checkIfProfileRated() async {
-    final PostViewModel postViewModel = Provider.of<PostViewModel>(context, listen: false);
+    final PostViewModel postViewModel =
+        Provider.of<PostViewModel>(context, listen: false);
     if (postViewModel.otherUser?.sId == null) return;
-    
+
     final prefs = await SharedPreferences.getInstance();
     final String key = 'rated_${postViewModel.otherUser!.sId}';
-    
+
     if (prefs.containsKey(key)) {
       final String? ratingData = prefs.getString(key);
       if (ratingData != null) {
@@ -95,21 +106,22 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
   }
 
   Future<void> _saveRating(double rating, String feedback) async {
-    final PostViewModel postViewModel = Provider.of<PostViewModel>(context, listen: false);
+    final PostViewModel postViewModel =
+        Provider.of<PostViewModel>(context, listen: false);
     if (postViewModel.otherUser?.sId == null) return;
-    
+
     final prefs = await SharedPreferences.getInstance();
     final String key = 'rated_${postViewModel.otherUser!.sId}';
-    
+
     await prefs.setString(key, '$rating|$feedback');
-    
+
     setState(() {
       hasRated = true;
       userRating = rating;
       userFeedback = feedback;
     });
   }
-  
+
   void _showRatingDialog(BuildContext context, String profileId) {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -151,7 +163,7 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
     if (postViewModel.otherUser?.sId == LoggedInUser.id) {
       return const SizedBox();
     }
-    
+
     return Column(
       children: [
         Container(
@@ -176,7 +188,9 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
               ElevatedButton(
                 onPressed: () {
                   if (LoggedInUser.isGuest) {
-                    final String? wa = postViewModel.otherUser?.whatsappNumber ?? postViewModel.otherUser?.contactNumber;
+                    final String? wa =
+                        postViewModel.otherUser?.whatsappNumber ??
+                            postViewModel.otherUser?.contactNumber;
                     if (wa != null && wa.trim().isNotEmpty) {
                       launchWhatsAppChat(
                         wa,
@@ -189,16 +203,15 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
                     return;
                   }
                   if (isGuestUser(context)) return;
-                  context
-                      .read<ChatDetailsViewModel>()
-                      .fetchAllMessageProfile(
+                  context.read<ChatDetailsViewModel>().fetchAllMessageProfile(
                       postViewModel.otherUser!.sId.toString());
                   context.pushNamed(PPages.chatDetailsPageui);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white, // white background
-                  foregroundColor: Color(0xFF8A4FFF),// text color
-                  side: BorderSide(color: Color(0xFF8A4FFF),width: 2), // border
+                  foregroundColor: Color(0xFF8A4FFF), // text color
+                  side:
+                      BorderSide(color: Color(0xFF8A4FFF), width: 2), // border
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8), // rounded corners
                   ),
@@ -214,15 +227,14 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
                 height: 38,
                 width: 45,
                 decoration: BoxDecoration(
-                  color: PColors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color:  Color(0xFF8A4FFF))
-                ),
+                    color: PColors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Color(0xFF8A4FFF))),
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   icon: Icon(
                     Icons.share,
-                    color:  Color(0xFF8A4FFF),
+                    color: Color(0xFF8A4FFF),
                     size: 22,
                   ),
                   onPressed: () {
@@ -241,71 +253,82 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
         ),
 
         /// Call / WhatsApp profile options (rendered optionally based on configured numbers)
-        Builder(
-          builder: (context) {
-            final String? contactNo = postViewModel.otherUser?.contactNumber;
-            final String? whatsappNo = postViewModel.otherUser?.whatsappNumber;
-            final bool showCall = contactNo != null && contactNo.trim().isNotEmpty;
-            final bool showWhatsapp = whatsappNo != null && whatsappNo.trim().isNotEmpty;
+        if (widget.showContactActions)
+          Builder(
+            builder: (context) {
+              final String? contactNo = postViewModel.otherUser?.contactNumber;
+              final String? whatsappNo =
+                  postViewModel.otherUser?.whatsappNumber;
+              final bool showCall =
+                  contactNo != null && contactNo.trim().isNotEmpty;
+              final bool showWhatsapp =
+                  whatsappNo != null && whatsappNo.trim().isNotEmpty;
 
-            if (!showCall && !showWhatsapp) return const SizedBox.shrink();
+              if (!showCall && !showWhatsapp) return const SizedBox.shrink();
 
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: Row(
-                children: [
-                  if (showCall)
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: const Color(0xFF8A4FFF),
-                          side: const BorderSide(color: Color(0xFF8A4FFF), width: 2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+              return Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: Row(
+                  children: [
+                    if (showCall)
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: const Color(0xFF8A4FFF),
+                            side: const BorderSide(
+                                color: Color(0xFF8A4FFF), width: 2),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 10),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                        ),
-                        icon: const Icon(Icons.phone_outlined, size: 20),
-                        label: const Text(
-                          'Call Now',
-                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
-                        ),
-                        onPressed: () => launchPhoneCall(
-                          contactNo,
-                          postViewModel.otherUser?.countryCode,
+                          icon: const Icon(Icons.phone_outlined, size: 20),
+                          label: const Text(
+                            'Call Now',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 13),
+                          ),
+                          onPressed: () => launchPhoneCall(
+                            contactNo,
+                            postViewModel.otherUser?.countryCode,
+                          ),
                         ),
                       ),
-                    ),
-                  if (showCall && showWhatsapp) const SizedBox(width: 6),
-                  if (showWhatsapp)
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF8A4FFF),
-                          foregroundColor: PColors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                    if (showCall && showWhatsapp) const SizedBox(width: 6),
+                    if (showWhatsapp)
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF8A4FFF),
+                            foregroundColor: PColors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            elevation: 0,
+                            padding: const EdgeInsets.symmetric(vertical: 10),
                           ),
-                          elevation: 0,
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                        ),
-                        icon: const FaIcon(FontAwesomeIcons.whatsapp, size: 20),
-                        label: const Text(
-                          'WhatsApp',
-                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
-                        ),
-                        onPressed: () => launchWhatsAppChat(
-                          whatsappNo,
-                          postViewModel.otherUser?.countryCode,
+                          icon:
+                              const FaIcon(FontAwesomeIcons.whatsapp, size: 20),
+                          label: const Text(
+                            'WhatsApp',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 13),
+                          ),
+                          onPressed: () => launchWhatsAppChat(
+                            whatsappNo,
+                            postViewModel.otherUser?.countryCode,
+                          ),
                         ),
                       ),
-                    ),
-                ],
-              ),
-            );
-          },
-        ),
-        if (showRatingSection && !hasRated && postViewModel.otherUser?.sId != null)
+                  ],
+                ),
+              );
+            },
+          ),
+        if (showRatingSection &&
+            !hasRated &&
+            postViewModel.otherUser?.sId != null)
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
@@ -333,9 +356,10 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
                     _showRatingDialog(context, postViewModel.otherUser!.sId!);
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color:Color(0xFF8A4FFF),
+                      color: Color(0xFF8A4FFF),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
@@ -370,14 +394,17 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
               ],
             ),
           ),
-        if (hasRated && postViewModel.otherUser?.sId != null && showRatingSection)
+        if (hasRated &&
+            postViewModel.otherUser?.sId != null &&
+            showRatingSection)
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
             decoration: BoxDecoration(
               color: const Color(0xFFFFD700), // Job Zinda logo yellow
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: PColors.textFeildBorderColor.withOpacity(0.3)),
+              border: Border.all(
+                  color: PColors.textFeildBorderColor.withOpacity(0.3)),
             ),
             child: Row(
               children: [
@@ -411,7 +438,8 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
                     _showRatingDialog(context, postViewModel.otherUser!.sId!);
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
                       color: PColors.black,
                       borderRadius: BorderRadius.circular(20),
@@ -435,7 +463,8 @@ class _OtherUserProfileButtonUiState extends State<OtherUserProfileButtonUi> {
                   },
                   child: CircleAvatar(
                     radius: 12,
-                    backgroundColor: PColors.textFeildBorderColor.withOpacity(0.3),
+                    backgroundColor:
+                        PColors.textFeildBorderColor.withOpacity(0.3),
                     child: const Center(
                       child: Icon(
                         Icons.close,

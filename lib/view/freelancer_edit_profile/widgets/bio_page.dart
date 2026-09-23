@@ -9,6 +9,7 @@ import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/utils/validator.dart';
 import 'package:jora_customer/view/freelancer_edit_profile/widgets/dropdown_widget.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
+import 'package:jora_customer/view/widgets/profile_experience_editor.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,12 +31,13 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
       final profileVm = context.read<ProfileViewModel>();
       profileVm.fetchProfession();
 
-
       if (profileVm.profileModel?.contactNumber != null) {
-        profileVm.contactNumberController.text = profileVm.profileModel!.contactNumber!;
+        profileVm.contactNumberController.text =
+            profileVm.profileModel!.contactNumber!;
       }
       if (profileVm.profileModel?.whatsappNumber != null) {
-        profileVm.whatsappController.text = profileVm.profileModel!.whatsappNumber!;
+        profileVm.whatsappController.text =
+            profileVm.profileModel!.whatsappNumber!;
       }
     });
   }
@@ -90,6 +92,18 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
                 const SizedBox(
                   height: 14,
                 ),
+                instagramTextField(),
+                const SizedBox(
+                  height: 14,
+                ),
+                linkedinTextField(),
+                const SizedBox(
+                  height: 14,
+                ),
+                const ProfileExperienceEditor(),
+                const SizedBox(
+                  height: 14,
+                ),
                 genderWidget(),
                 const SizedBox(
                   height: 14,
@@ -137,7 +151,8 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
           borderColor: const Color(0xFF8A4FFF),
           borderRadius: 0,
           filColor: PColors.white,
-          textHead: 'Bio *',textColor: const Color(0xFF8A4FFF),
+          textHead: 'Bio *',
+          textColor: const Color(0xFF8A4FFF),
           validation: Validator.text,
           hintText: 'Bio'),
     );
@@ -150,7 +165,8 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
           borderColor: const Color(0xFF8A4FFF),
           borderRadius: 0,
           filColor: PColors.white,
-          textHead: 'District ',textColor: const Color(0xFF8A4FFF),
+          textHead: 'District ',
+          textColor: const Color(0xFF8A4FFF),
           validation: Validator.text,
           hintText: 'District'),
     );
@@ -159,28 +175,29 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
   Widget professionTextField() {
     return Consumer<ProfileViewModel>(
         builder: (context, value, child) => Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Profession",
-              style: PTextStyles.titleSmall
-                  .copyWith(color: const Color(0xFF8A4FFF),),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            DropdownWidgetUi(
-              selected: value.professionList.any((profession) =>
-              profession.sId == value.selectedProfessionId)
-                  ? value.selectedProfessionId
-                  : null,
-              hinttext: "Select Profession",
-              list: value.professionList,
-              type: "profession",
-            ),
-          ],
-        ));
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Profession",
+                  style: PTextStyles.titleSmall.copyWith(
+                    color: const Color(0xFF8A4FFF),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                DropdownWidgetUi(
+                  selected: value.professionList.any((profession) =>
+                          profession.sId == value.selectedProfessionId)
+                      ? value.selectedProfessionId
+                      : null,
+                  hinttext: "Select Profession",
+                  list: value.professionList,
+                  type: "profession",
+                ),
+              ],
+            ));
   }
 
   Widget stateTextField() {
@@ -191,7 +208,8 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
           borderRadius: 0,
           filColor: PColors.white,
           readOnly: true,
-          textHead: 'State',textColor: const Color(0xFF8A4FFF),
+          textHead: 'State',
+          textColor: const Color(0xFF8A4FFF),
           hintText: 'select state'),
     );
   }
@@ -204,7 +222,8 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
           borderRadius: 0,
           filColor: PColors.white,
           readOnly: true,
-          textHead: 'Email ID *',textColor: const Color(0xFF8A4FFF),
+          textHead: 'Email ID *',
+          textColor: const Color(0xFF8A4FFF),
           hintText: 'Email ID'),
     );
   }
@@ -221,7 +240,8 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
           borderColor: const Color(0xFF8A4FFF),
           borderRadius: 0,
           filColor: PColors.white,
-          textHead: 'Location *',textColor: const Color(0xFF8A4FFF),
+          textHead: 'Location *',
+          textColor: const Color(0xFF8A4FFF),
           validation: Validator.text,
           hintText: 'Location'),
     );
@@ -234,7 +254,8 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
           borderRadius: 0,
           borderColor: const Color(0xFF8A4FFF),
           filColor: PColors.white,
-          textHead: 'Name *',textColor: const Color(0xFF8A4FFF),
+          textHead: 'Name *',
+          textColor: const Color(0xFF8A4FFF),
           validation: Validator.text,
           hintText: 'Name'),
     );
@@ -247,7 +268,8 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
         borderColor: const Color(0xFF8A4FFF),
         borderRadius: 0,
         filColor: PColors.white,
-        textHead: 'Mobile number',textColor: const Color(0xFF8A4FFF),
+        textHead: 'Mobile number',
+        textColor: const Color(0xFF8A4FFF),
         validation: Validator.mobile,
         hintText: 'Mobile number',
         maxLength: 10,
@@ -282,7 +304,8 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
   Widget whatsappTextField() {
     return Consumer<ProfileViewModel>(
       builder: (context, value, child) => CustomTextFeild(
-        controller: value.whatsappController, // Requires text controller in ProfileViewModel
+        controller: value
+            .whatsappController, // Requires text controller in ProfileViewModel
         borderColor: const Color(0xFF8A4FFF),
         borderRadius: 0,
         filColor: PColors.white,
@@ -298,6 +321,36 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
     );
   }
 
+  Widget instagramTextField() {
+    return Consumer<ProfileViewModel>(
+      builder: (context, value, child) => CustomTextFeild(
+        controller: value.instagramController,
+        borderColor: const Color(0xFF8A4FFF),
+        borderRadius: 0,
+        filColor: PColors.white,
+        textHead: 'Instagram link (optional)',
+        textColor: const Color(0xFF8A4FFF),
+        hintText: 'https://instagram.com/your_profile',
+        keyboardType: TextInputType.url,
+      ),
+    );
+  }
+
+  Widget linkedinTextField() {
+    return Consumer<ProfileViewModel>(
+      builder: (context, value, child) => CustomTextFeild(
+        controller: value.linkedinController,
+        borderColor: const Color(0xFF8A4FFF),
+        borderRadius: 0,
+        filColor: PColors.white,
+        textHead: 'LinkedIn link (optional)',
+        textColor: const Color(0xFF8A4FFF),
+        hintText: 'https://linkedin.com/in/your_profile',
+        keyboardType: TextInputType.url,
+      ),
+    );
+  }
+
   genderWidget() {
     return Consumer<ProfileViewModel>(
       builder: (context, value, child) => Column(
@@ -306,8 +359,9 @@ class _FreelancerBioPageUiState extends State<FreelancerBioPageUi> {
         children: [
           Text(
             "Gender",
-            style: PTextStyles.titleSmall
-                .copyWith(color: const Color(0xFF8A4FFF),),
+            style: PTextStyles.titleSmall.copyWith(
+              color: const Color(0xFF8A4FFF),
+            ),
           ),
           const SizedBox(
             height: 10,

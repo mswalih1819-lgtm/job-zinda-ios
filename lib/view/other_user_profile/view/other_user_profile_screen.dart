@@ -5,6 +5,7 @@ import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/utils/guest_helper.dart';
 
 import 'package:jora_customer/view/my_profile/view/widgets/gallery_section.dart';
+import 'package:jora_customer/view/my_profile/view/widgets/profile_experience_section.dart';
 import 'package:jora_customer/view/other_user_profile/view/widgets/other_user_profile_button.dart';
 import 'package:jora_customer/view/other_user_profile/view/widgets/review_widget.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
@@ -45,7 +46,8 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
       // If userId is invalid, return a future that resolves to false.
       return Future.value(false);
     }
-    debugPrint('OtherUserProfileScreen: Loading profile for userId: ${widget.userId}');
+    debugPrint(
+        'OtherUserProfileScreen: Loading profile for userId: ${widget.userId}');
     final postViewModel = Provider.of<PostViewModel>(context, listen: false);
     return postViewModel.fetchOtherUserProfileDetails(userID: widget.userId!);
   }
@@ -96,54 +98,64 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                     );
                   } else if (val == 'block') {
                     if (isGuestUser(context)) return;
-                    value.blockUser(context, id: value.otherUser?.sId?.toString() ?? '');
+                    value.blockUser(context,
+                        id: value.otherUser?.sId?.toString() ?? '');
                   } else if (val == "unblock") {
                     if (isGuestUser(context)) return;
-                    value.unblockUser(context, id: value.otherUser?.sId?.toString() ?? '');
+                    value.unblockUser(context,
+                        id: value.otherUser?.sId?.toString() ?? '');
                   } else if (val == "share") {
                     final userId = value.otherUser?.sId?.toString() ?? '';
                     final userName = value.otherUser?.name ?? 'User';
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Generating shareable link...'))
-                    );
-                    final String webUrl = 'https://jobzinda.com/profile/$userId';
-                    const String playStoreUrl = 'https://play.google.com/store/apps/details?id=com.jobZinda.customers';
-                    const String appStoreUrl = 'https://apps.apple.com/app/job-zinda/id123456789';
-                    final String fallbackShareText = "🔍 Discover $userName on Job Zinda!\n\n"
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Generating shareable link...')));
+                    final String webUrl =
+                        'https://jobzinda.com/profile/$userId';
+                    const String playStoreUrl =
+                        'https://play.google.com/store/apps/details?id=com.jobZinda.customers';
+                    const String appStoreUrl =
+                        'https://apps.apple.com/app/job-zinda/id123456789';
+                    final String fallbackShareText =
+                        "🔍 Discover $userName on Job Zinda!\n\n"
                         "👉 Tap the link to view their profile and connect:\n"
                         "$webUrl\n\n"
                         "💼 Find your next opportunity with Job Zinda!\n\n"
                         "📱 Get the app:\n"
                         "Android: $playStoreUrl\n"
                         "iOS: $appStoreUrl";
-                    Share.share(fallbackShareText, subject: 'Check out this profile on Job Zinda!');
+                    Share.share(fallbackShareText,
+                        subject: 'Check out this profile on Job Zinda!');
                   }
                 },
                 itemBuilder: (BuildContext context) {
                   final bool isBlocked = value.otherUser?.isBlocked ?? false;
-                  
+
                   return [
                     PopupMenuItem(
                       value: isBlocked ? 'unblock' : 'block',
                       child: Text(
-                        isBlocked
-                            ? 'Unblock User'
-                            : 'Block User',
-                        style: TextStyle(color: Color(0xFF8A4FFF),),
+                        isBlocked ? 'Unblock User' : 'Block User',
+                        style: TextStyle(
+                          color: Color(0xFF8A4FFF),
+                        ),
                       ),
                     ),
                     PopupMenuItem(
                       value: 'rating',
                       child: Text(
                         "Rate Profile",
-                        style: TextStyle(color: Color(0xFF8A4FFF),),
+                        style: TextStyle(
+                          color: Color(0xFF8A4FFF),
+                        ),
                       ),
                     ),
                     PopupMenuItem(
                       value: 'share',
                       child: Text(
                         "Share Profile",
-                        style: TextStyle(color: Color(0xFF8A4FFF),),
+                        style: TextStyle(
+                          color: Color(0xFF8A4FFF),
+                        ),
                       ),
                     ),
                   ];
@@ -168,13 +180,19 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Failed to load other profile.', style: TextStyle(color: PColors.white)),
-                      if ((snapshot.hasError && snapshot.error != null) || errorMsg != null)
+                      Text('Failed to load other profile.',
+                          style: TextStyle(color: PColors.white)),
+                      if ((snapshot.hasError && snapshot.error != null) ||
+                          errorMsg != null)
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 24),
                           child: Text(
-                            errorMsg != null ? 'Error: $errorMsg' : 'Error: ${snapshot.error}',
-                            style: TextStyle(color: Colors.redAccent, fontSize: 13),
+                            errorMsg != null
+                                ? 'Error: $errorMsg'
+                                : 'Error: ${snapshot.error}',
+                            style: TextStyle(
+                                color: Colors.redAccent, fontSize: 13),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -194,21 +212,43 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                 child: Consumer<PostViewModel>(
                   builder: (context, value, child) {
                     if (value.otherUser == null) {
-                      return Center(child: Text('Profile data not available.', style: TextStyle(color: Color(0xFF8A4FFF),)));
+                      return Center(
+                          child: Text('Profile data not available.',
+                              style: TextStyle(
+                                color: Color(0xFF8A4FFF),
+                              )));
                     }
                     final bool isBlocked = value.otherUser?.isBlocked ?? false;
-                    
+
                     return Column(
                       children: [
                         const OtherUserProfileHeadUi(),
                         const SizedBox(height: 5),
                         isBlocked
                             ? Container()
-                            : const OtherUserProfileButtonUi(),
+                            : const OtherUserProfileButtonUi(
+                                showContactActions: false,
+                              ),
                         const SizedBox(height: 5),
                         isBlocked
                             ? Container()
-                            : const GallerySection()
+                            : ProfileExperienceSection(
+                                phoneNumber:
+                                    value.otherUser?.contactNumber ?? '',
+                                whatsappNumber:
+                                    value.otherUser?.whatsappNumber ?? '',
+                                whatsappLink:
+                                    value.otherUser?.whatsappLink ?? '',
+                                directCallLink:
+                                    value.otherUser?.directCallLink ?? '',
+                                instagramUrl:
+                                    value.otherUser?.instagramLink ?? '',
+                                linkedinUrl:
+                                    value.otherUser?.linkedinLink ?? '',
+                                experiences: value.otherUser?.experiences,
+                              ),
+                        const SizedBox(height: 5),
+                        isBlocked ? Container() : const GallerySection()
                       ],
                     );
                   },
@@ -216,7 +256,11 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
               ),
             );
           } else {
-            return Center(child: Text('Something went wrong.', style: TextStyle(color: Color(0xFF8A4FFF),)));
+            return Center(
+                child: Text('Something went wrong.',
+                    style: TextStyle(
+                      color: Color(0xFF8A4FFF),
+                    )));
           }
         },
       ),

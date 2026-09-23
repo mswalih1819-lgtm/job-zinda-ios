@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:jora_customer/Settings/until/PSvgs.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/my_profile_button.dart';
 import 'package:jora_customer/view/my_profile/view/widgets/profile_head_ui.dart';
-import 'package:jora_customer/view/plan_ui/ui.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
@@ -10,6 +9,7 @@ import 'package:jora_customer/view_model/subscription_view_model.dart';
 import 'package:provider/provider.dart';
 
 import 'widgets/self_gallery_section.dart';
+import 'widgets/profile_experience_section.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -30,6 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     ProfileViewModel profileViewModel = context.watch<ProfileViewModel>();
@@ -47,7 +48,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         elevation: 0,
         actions: [
           PopupMenuButton<String>(
-            icon: const Icon(Icons.more_vert,  color: Color(0xFF8A4FFF),),
+            icon: const Icon(
+              Icons.more_vert,
+              color: Color(0xFF8A4FFF),
+            ),
             onSelected: (value) {
               if (value == 'upgrade') {
                 context.push(PPages.planListUi);
@@ -56,13 +60,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
               }
             },
             itemBuilder: (context) => [
-            const  PopupMenuItem<String>(
+              const PopupMenuItem<String>(
                 value: 'upgrade',
-                child: Text('Upgrade',style: TextStyle(color: Color(0xFF8A4FFF),)),
+                child: Text('Upgrade',
+                    style: TextStyle(
+                      color: Color(0xFF8A4FFF),
+                    )),
               ),
               const PopupMenuItem<String>(
                 value: 'courses',
-                child: Text('Courses',style: TextStyle(color: Color(0xFF8A4FFF),)),
+                child: Text('Courses',
+                    style: TextStyle(
+                      color: Color(0xFF8A4FFF),
+                    )),
               ),
             ],
           ),
@@ -76,10 +86,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 icon: PSvgs.myProfileAnalytics,
                 profileModel: profileViewModel.profileModel,
               ),
-              const SizedBox(height: 5),
-              const MyProfileButtonUi(),
-              const SizedBox(height: 5),
 
+              const SizedBox(height: 8),
+
+              const MyProfileButtonUi(),
+
+              const SizedBox(height: 20),
+
+              // My Experience section
+              ProfileExperienceSection(
+                phoneNumber: profileViewModel.profileModel?.contactNumber ??
+                    profileViewModel.profileModel?.mobileNumber ??
+                    '',
+                whatsappNumber: profileViewModel.profileModel?.whatsappNumber ??
+                    profileViewModel.profileModel?.mobileNumber ??
+                    '',
+                whatsappLink: profileViewModel.profileModel?.whatsappLink ?? '',
+                directCallLink:
+                    profileViewModel.profileModel?.directCallLink ?? '',
+                instagramUrl:
+                    profileViewModel.profileModel?.instagramLink ?? '',
+                linkedinUrl: profileViewModel.profileModel?.linkedinLink ?? '',
+                experiences: profileViewModel.profileModel?.experiences,
+              ),
+
+              const SizedBox(height: 10),
+
+              // Existing Gallery
               const SelfGallerySection(),
             ],
           ),

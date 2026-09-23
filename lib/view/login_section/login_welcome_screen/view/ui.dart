@@ -22,7 +22,6 @@ class LoginWelcomeScreenUi extends StatefulWidget {
 }
 
 class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
-  final TextEditingController emailController = TextEditingController();
   Future<void> openWhatsApp() async {
     final Uri whatsappUrl = Uri.parse(
       "https://wa.me/message/RYCPJ3DL5JQGO1",
@@ -36,11 +35,8 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    final TextEditingController emailController = TextEditingController();
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -67,14 +63,7 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // const Icon(
-            //   Icons.work_outline_rounded,
-            //   color: Colors.white,
-            //   size: 24,
-            // ),
-
             const SizedBox(width: 10),
-
             Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,17 +86,13 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
                 ),
               ],
             ),
-
             const SizedBox(width: 8),
-
             const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 14,
               color: Colors.white,
             ),
-
             const SizedBox(width: 10),
-
             FloatingActionButton(
               mini: true,
               backgroundColor: Colors.green,
@@ -129,13 +114,11 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF5C1FFF), // Dark top
-              Color(0xFFA76FFF), // Light middle-top
-              // Light middle-bottom
-              // Bottom Dark Purple
+              Color(0xFF5C1FFF),
+              Color(0xFFA76FFF),
             ],
           ),
-        ),// 80% opacity
+        ),
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 17),
           child: SingleChildScrollView(
@@ -143,19 +126,16 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: size.height * 0.55, // 0.42 -> 0.55
+                  height: size.height * 0.55,
                   child: Column(
                     children: [
-                      SizedBox(height: size.height * 0.09), //
-
+                      SizedBox(height: size.height * 0.09),
                       Image.asset(
                         PImages.logo3,
-                        height: size.height * 0.10, // 0.12 -> 0.10
+                        height: size.height * 0.10,
                         width: size.width * 0.60,
                       ),
-
                       SizedBox(height: size.height * 0.01),
-
                       Image.asset(
                         "assets/images/job_banner.png",
                         width: size.width * 1.2,
@@ -173,198 +153,327 @@ class _LoginWelcomeScreenUiState extends State<LoginWelcomeScreenUi> {
                       fontweight: FontWeight.bold,
                       color: Colors.white,
                     ),
-                    SizedBox(height: 8), // thazhakku space
+                    SizedBox(height: 8),
                     textWidget(
                       text: "Explore Thousands Of Opportunities Near You",
                       fontsize: 16,
                       fontweight: FontWeight.normal,
-                      color: Colors.white70, // light color for subtitle
+                      color: Colors.white70,
                     ),
                   ],
                 ),
                 const SizedBox(height: 25),
-                // Continue as Guest Button
                 CustomElavatedTextButton(
                   width: double.infinity,
                   borderRadius: 18,
                   borderColor: PColors.white,
                   bgcolor: PColors.white,
                   textColor: const Color(0xFF8A4FFF),
-                  text: 'Continue as Guest',
-                  // onPressed: () async {
-                  //   await LoggedInUser.guestLogin();
-                  //   if (context.mounted) {
-                  //     context.go('/');
-                  //   }
-                  // },
+                  text: "Let's Start",
                   onPressed: () async {
-                    // 1. Loader kanikkanam enkil (Optionally)
                     EasyLoading.show(status: 'Logging in as Guest...');
-
                     await LoggedInUser.guestLogin();
-
                     EasyLoading.dismiss();
 
                     if (context.mounted) {
-                      // 2. Root '/' nu pakaram ningalude Home Screen path/name enthanenna vechal athu kodukkuka
-                      context.go('/home'); // OR context.goNamed(PPages.homePage);
+                      context.go('/home');
                     }
                   },
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 80),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
-                // Username & Password Button
-                CustomElavatedTextButton(
-                  width: double.infinity,
-                  borderRadius: 18,
-                  borderColor: PColors.white,
-                  bgcolor: PColors.white,
-                  textColor: const Color(0xFF8A4FFF),
-                  text: 'Continue with username & password',
-                  onPressed: () {
-                    context.pushNamed(PPages.usernameLoginUi);
-                  },
+class AuthOptionsScreenUi extends StatefulWidget {
+  const AuthOptionsScreenUi({super.key});
+
+  @override
+  State<AuthOptionsScreenUi> createState() => _AuthOptionsScreenUiState();
+}
+
+class _AuthOptionsScreenUiState extends State<AuthOptionsScreenUi> {
+  final TextEditingController emailController = TextEditingController();
+
+  Future<void> openWhatsApp() async {
+    final Uri whatsappUrl = Uri.parse(
+      "https://wa.me/message/RYCPJ3DL5JQGO1",
+    );
+
+    if (await canLaunchUrl(whatsappUrl)) {
+      await launchUrl(
+        whatsappUrl,
+        mode: LaunchMode.externalApplication,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
+    return Scaffold(
+      floatingActionButton: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.12),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: const Color(0xFF5C1FFF), width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF5C1FFF).withOpacity(0.15),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(width: 10),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  "Looking for a Job or Hiring an Employee?",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
                 ),
-                const SizedBox(height: 20),
-
-                // 🔹 Email Field
-                CustomElavatedTextButton(
-                  width: double.infinity,
-                  borderRadius: 18,
-                  bgcolor: PColors.white,
-                  borderColor: PColors.white,
-                  textColor: const Color(0xFF8A4FFF),
-                  text: 'Signup or Login  with Email',
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                Text(
+                  "Chat with us",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.greenAccent,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(width: 8),
+            const Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 14,
+              color: Colors.white,
+            ),
+            const SizedBox(width: 10),
+            FloatingActionButton(
+              mini: true,
+              backgroundColor: Colors.green,
+              onPressed: openWhatsApp,
+              child: const FaIcon(
+                FontAwesomeIcons.whatsapp,
+                color: Colors.white,
+                size: 28,
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF5C1FFF),
+              Color(0xFFA76FFF),
+            ],
+          ),
+        ),
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 17),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: MediaQuery.of(context).padding.top + 10),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: InkWell(
+                    onTap: () async {
+                      await LoggedInUser.guestLogin();
+                      if (context.mounted) {
+                        context.go('/home');
+                      }
+                    },
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.12),
+                        shape: BoxShape.circle,
                       ),
-                      builder: (context) {
-                        final TextEditingController emailController =
-                        TextEditingController();
-
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            left: 20,
-                            right: 20,
-                            top: 20,
-                            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Text(
-                                "Enter your email",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      child: const Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                textWidget(
+                  text: "Login / Sign Up",
+                  fontsize: 28,
+                  fontweight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+                const SizedBox(height: 8),
+                textWidget(
+                  text: "Choose how you want to continue",
+                  fontsize: 16,
+                  fontweight: FontWeight.normal,
+                  color: Colors.white70,
+                ),
+                const SizedBox(height: 25),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.08),
+                    borderRadius: BorderRadius.circular(22),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.15),
+                      width: 1,
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      CustomElavatedTextButton(
+                        width: double.infinity,
+                        borderRadius: 18,
+                        borderColor: PColors.white,
+                        bgcolor: PColors.white,
+                        textColor: const Color(0xFF8A4FFF),
+                        text: 'Continue with username & password',
+                        onPressed: () {
+                          context.pushNamed(PPages.usernameLoginUi);
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      CustomElavatedTextButton(
+                        width: double.infinity,
+                        borderRadius: 18,
+                        borderColor: PColors.white,
+                        bgcolor: PColors.white,
+                        textColor: const Color(0xFF8A4FFF),
+                        text: 'Signup or Login with Email',
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20),
                               ),
-
-                              const SizedBox(height: 15),
-
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(12),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black12, // shadow color
-                                      blurRadius: 6,          // softness
-                                      offset: Offset(0, 3),   // x,y offset
+                            ),
+                            builder: (context) {
+                              final TextEditingController emailController =
+                                  TextEditingController();
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  left: 20,
+                                  right: 20,
+                                  top: 20,
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom +
+                                          20,
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Text(
+                                      "Enter your email",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 15),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.shade100,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: TextField(
+                                        controller: emailController,
+                                        keyboardType:
+                                            TextInputType.emailAddress,
+                                        decoration: InputDecoration(
+                                          hintText: "Enter email",
+                                          filled: true,
+                                          fillColor: Colors.transparent,
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            borderSide: BorderSide.none,
+                                          ),
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                            horizontal: 16,
+                                            vertical: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      height: 50,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              const Color(0xFF8A4FFF),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          final email =
+                                              emailController.text.trim();
+                                          if (email.isEmpty ||
+                                              !email.contains('@')) {
+                                            EasyLoading.showError(
+                                                'Enter valid email');
+                                            return;
+                                          }
+                                          Navigator.pop(context);
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  OtpScreen(email: email),
+                                            ),
+                                          );
+                                        },
+                                        child: const Text(
+                                          'Send OTP',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
-                                child: TextField(
-                                  controller: emailController,
-                                  keyboardType: TextInputType.emailAddress,
-                                  decoration: InputDecoration(
-                                    hintText: "Enter email",
-                                    filled: true,
-                                    fillColor: Colors.transparent, // container already has color
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                                  ),
-                                ),
-                              ),
-
-                              const SizedBox(height: 20),
-
-                               SizedBox(
-                                width: double.infinity,
-                                height: 50,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF8A4FFF),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                  child: const Text("Send OTP",style: TextStyle(color: Colors.white),),
-                                  onPressed: () {
-                                    final email = emailController.text.trim();
-
-
-                                    if (email.isEmpty || !email.contains("@")) {
-                                      EasyLoading.showError("Enter valid email");
-                                      return;
-                                    }
-
-                                    Navigator.pop(context); // close sheet
-
-
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => OtpScreen(
-                                          email: email,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  },
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-
-                // CustomElavatedTextButton(
-                //   text: 'New Account',
-                //   onPressed: () {
-                //     // Temporarily bypass OTP flow; keep for future reuse
-                //     // context.pushNamed(PPages.phoneNumberUi);
-                //     context.pushNamed(PPages.adduserpage);
-                //   },
-                //   bgcolor: Colors.purple.shade50,
-                //   textColor: Color(0xFF8A4FFF),
-                //   borderColor: Color(0xFF8A4FFF),
-                //   borderRadius: 18,
-                //   width: MediaQuery.sizeOf(context).width - 32,
-                // ),
-
-                // Mobile Number Button
-                // CustomElavatedTextButton(
-                //   width: double.infinity,
-                //   borderRadius: 18,
-                //   bgcolor: PColors.white,
-                //   borderColor: PColors.white,
-                //   textColor: const Color(0xFF8A4FFF),
-                //   text: 'Continue with mobile number',
-                //   onPressed: () {
-                //     context.read<LoginPhoneNumberViewModel>().numberController.clear();
-                //     Navigator.pushNamed(context, PPages.phoneNumberUi);
-                //   },
-                // ),
                 const SizedBox(height: 80),
               ],
             ),

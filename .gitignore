@@ -49,3 +49,5 @@ app.*.map.json
 /android/build/
 /android/app/build/
 
+
+android/key.properties

@@ -20,6 +20,7 @@ import 'package:jora_customer/view_model/referal_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:async';
 import 'package:flutter/rendering.dart';
 import 'package:jora_customer/view/home_section/home_pages/view/widgets/home_floating_action.dart';
@@ -52,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
   }
+
   Future<void> _initializeData() async {
     if (!mounted) return;
     final postViewModel = context.read<PostViewModel>();
@@ -69,10 +71,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     // Currently not used, kept for future enhancements.
   }
   Future<void> openWhatsAppGroup() async {
-
-    final Uri url = Uri.parse(
-        "https://chat.whatsapp.com/CziCbs0nTjYHXU9kMXhMrW"
-    );
+    final Uri url =
+        Uri.parse("https://chat.whatsapp.com/CziCbs0nTjYHXU9kMXhMrW");
 
     if (!await launchUrl(
       url,
@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-        _postViewModel.removeListener(_onPostsUpdated);
+    _postViewModel.removeListener(_onPostsUpdated);
     _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
     super.dispose();
@@ -134,7 +134,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final bannerVM = Provider.of<BannerViewModel>(context);
     return Consumer<ProfileViewModel>(
       builder: (context, value, child) => Scaffold(
-
         key: scaffoldKey,
         drawer: Drawer(
           backgroundColor: PColors.white,
@@ -142,7 +141,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
-                decoration: BoxDecoration(color: Color(0xFF8A4FFF),),
+                decoration: BoxDecoration(
+                  color: Color(0xFF8A4FFF),
+                ),
                 child: LoggedInUser.isGuest
                     ? Row(
                         children: [
@@ -155,36 +156,40 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         ],
                       )
                     : value.profileModel == null
-                    ? Row(
-                        children: [
-                          Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              shape: BoxShape.circle,
-                            ),
+                        ? Row(
+                            children: [
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Container(
+                                width: 100,
+                                height: 16,
+                                color: Colors.grey.shade300,
+                              ),
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              CircleAvatar(
+                                backgroundImage:
+                                    (value.profileModel?.profileImageUrl ?? '')
+                                            .isEmpty
+                                        ? AssetImage(PImages.profile)
+                                        : NetworkImage(value.profileModel!
+                                            .profileImageUrl!) as ImageProvider,
+                              ),
+                              const SizedBox(width: 10),
+                              textWidget(
+                                  text:
+                                      value.profileModel!.name ?? 'Guest User'),
+                            ],
                           ),
-                          const SizedBox(width: 10),
-                          Container(
-                            width: 100,
-                            height: 16,
-                            color: Colors.grey.shade300,
-                          ),
-                        ],
-                      )
-                    : Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundImage: (value.profileModel?.profileImageUrl ?? '')
-                                    .isEmpty
-                                ? AssetImage(PImages.profile)
-                                : NetworkImage(value.profileModel!.profileImageUrl!) as ImageProvider,
-                          ),
-                          const SizedBox(width: 10),
-                          textWidget(text: value.profileModel!.name ?? 'Guest User'),
-                        ],
-                      ),
               ),
               // if (context.read<ProfileViewModel>().profileModel != null &&
               //     (context.read<ProfileViewModel>().profileModel!.profession ?? '')
@@ -215,64 +220,75 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               //     },
               //   ),
               if (!LoggedInUser.isGuest)
-              drawerWidget(
-                title: "Plans For You",
-                icon: const Icon(Icons.workspace_premium, color: Color(0xFF8A4FFF)),
-                fun: () {
-                  Navigator.of(context, rootNavigator: true).push(
-                    MaterialPageRoute(
-                      builder: (context) => const FreelancerMessagesScreen(),
-                    ),
-                  );
-                },
-              ),
-
-
+                drawerWidget(
+                  title: "Plans For You",
+                  icon: const Icon(Icons.workspace_premium,
+                      color: Color(0xFF8A4FFF)),
+                  fun: () {
+                    Navigator.of(context, rootNavigator: true).push(
+                      MaterialPageRoute(
+                        builder: (context) => const FreelancerMessagesScreen(),
+                      ),
+                    );
+                  },
+                ),
 
               if (!LoggedInUser.isGuest) ...[
-              context.read<ProfileViewModel>().profileModel == null
-                  ? Container()
-                  : ((context.read<ProfileViewModel>().profileModel!.profession ?? '')
-                              .toLowerCase()
-                              .trim() ==
-                          'zinda promoter')
-
-                  ? drawerWidget(
-                          title: "Task Corner",
-                          icon: Icon(Icons.task_outlined, color: Color(0xFF8A4FFF),),
-                          fun: () {
-                            Navigator.pop(context);
-                            context.pushNamed(PPages.taskCornerAssignments);
-                          })
-                      : const SizedBox.shrink(),
-              context.read<ProfileViewModel>().profileModel == null
-                  ? Container()
-                  : drawerWidget(
-                      title: "Wallet",
-                      icon: Icon(Icons.account_balance_wallet_outlined, color:  Color(0xFF8A4FFF),),
-                      fun: () {
-                        Navigator.pop(context);
-                        context.push(PPages.wallet);
-                      }),
-              context.read<ProfileViewModel>().profileModel == null
-                  ? Container()
-                  : context
-                              .read<ProfileViewModel>()
-                              .profileModel!
-                              .accountType!
-                              .toLowerCase() ==
-                          "normal"
-                      ? Container()
-                      : drawerWidget(
-                          title: "Referrals",
-                          icon: SvgPicture.asset(PSvgs.referals,color: Color(0xFF8A4FFF),),
-                          fun: () {
-                            context
-                                .read<ReferalViewModel>()
-                                .fetchReferlaList(context);
-                            Navigator.pop(context);
-                            context.pushNamed(PPages.referalPageUi);
-                          }),
+                context.read<ProfileViewModel>().profileModel == null
+                    ? Container()
+                    : ((context
+                                        .read<ProfileViewModel>()
+                                        .profileModel!
+                                        .profession ??
+                                    '')
+                                .toLowerCase()
+                                .trim() ==
+                            'zinda promoter')
+                        ? drawerWidget(
+                            title: "Task Corner",
+                            icon: Icon(
+                              Icons.task_outlined,
+                              color: Color(0xFF8A4FFF),
+                            ),
+                            fun: () {
+                              Navigator.pop(context);
+                              context.pushNamed(PPages.taskCornerAssignments);
+                            })
+                        : const SizedBox.shrink(),
+                context.read<ProfileViewModel>().profileModel == null
+                    ? Container()
+                    : drawerWidget(
+                        title: "Wallet",
+                        icon: Icon(
+                          Icons.account_balance_wallet_outlined,
+                          color: Color(0xFF8A4FFF),
+                        ),
+                        fun: () {
+                          Navigator.pop(context);
+                          context.push(PPages.wallet);
+                        }),
+                context.read<ProfileViewModel>().profileModel == null
+                    ? Container()
+                    : context
+                                .read<ProfileViewModel>()
+                                .profileModel!
+                                .accountType!
+                                .toLowerCase() ==
+                            "normal"
+                        ? Container()
+                        : drawerWidget(
+                            title: "Referrals",
+                            icon: SvgPicture.asset(
+                              PSvgs.referals,
+                              color: Color(0xFF8A4FFF),
+                            ),
+                            fun: () {
+                              context
+                                  .read<ReferalViewModel>()
+                                  .fetchReferlaList(context);
+                              Navigator.pop(context);
+                              context.pushNamed(PPages.referalPageUi);
+                            }),
               ],
               // context.read<ProfileViewModel>().profileModel == null
               //     ? Container()
@@ -311,15 +327,17 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>  TermsConditionsPage(),
+                      builder: (context) => TermsConditionsPage(),
                     ),
                   );
                 },
               ),
               drawerWidget(
                   title: "Privacy Policy",
-                  icon: SvgPicture.asset(PSvgs.privacy_policy,
-                      color: Color(0xFF8A4FFF),),
+                  icon: SvgPicture.asset(
+                    PSvgs.privacy_policy,
+                    color: Color(0xFF8A4FFF),
+                  ),
                   fun: () {
                     launchUrl(
                       Uri.parse(
@@ -328,7 +346,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   }),
               drawerWidget(
                   title: "Help and Support",
-                  icon: SvgPicture.asset(PSvgs.support,color: Color(0xFF8A4FFF),),
+                  icon: SvgPicture.asset(
+                    PSvgs.support,
+                    color: Color(0xFF8A4FFF),
+                  ),
                   fun: () {
                     Navigator.pop(context);
                     context.pushNamed(PPages.helpSupportUi);
@@ -341,55 +362,52 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     color: Color(0xFF8A4FFF),
                     size: 18,
                   ),
-                  fun: () async {
+                  fun: () {
                     Navigator.pop(context);
-                    await LoggedInUser.clearUserData();
-                    if (context.mounted) {
-                      context.go(PPages.loginWelcomeScreenUi);
-                    }
+                    context.pushNamed(PPages.authOptionsScreenUi);
                   },
                 ),
               if (!LoggedInUser.isGuest) ...[
-              drawerWidget(
-                  title: "Delete account",
-                  icon: Icon(
-                    Icons.delete,
-                    color: Color(0xFF8A4FFF),
-                    size: 18,
-                  ),
-                  fun: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => logoutBox(
-                          context: context,
-                          title: "Do you want to delete your account?",
-                          onTap: () {
-                            context
-                                .read<ProfileViewModel>()
-                                .deleteProfile(context);
-                          }),
-                    );
-                  }),
-              drawerWidget(
-                  title: "Logout",
-                  icon: Icon(
-                    Icons.logout,
-                    color: PColors.red,
-                    size: 18,
-                  ),
-                  fun: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => logoutBox(
-                          context: context,
-                          title: "Do you want to logout?",
-                          onTap: () {
+                drawerWidget(
+                    title: "Delete account",
+                    icon: Icon(
+                      Icons.delete,
+                      color: Color(0xFF8A4FFF),
+                      size: 18,
+                    ),
+                    fun: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => logoutBox(
+                            context: context,
+                            title: "Do you want to delete your account?",
+                            onTap: () {
                               context
-                                .read<ProfileViewModel>()
-                                .userLogout(context);
-                          }),
-                    );
-                  }),
+                                  .read<ProfileViewModel>()
+                                  .deleteProfile(context);
+                            }),
+                      );
+                    }),
+                drawerWidget(
+                    title: "Logout",
+                    icon: Icon(
+                      Icons.logout,
+                      color: PColors.red,
+                      size: 18,
+                    ),
+                    fun: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => logoutBox(
+                            context: context,
+                            title: "Do you want to logout?",
+                            onTap: () {
+                              context
+                                  .read<ProfileViewModel>()
+                                  .userLogout(context);
+                            }),
+                      );
+                    }),
               ],
             ],
           ),
@@ -401,7 +419,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.only(left: 15.0,right: 15),
+          padding: const EdgeInsets.only(left: 15.0, right: 15),
           child: Stack(
             children: [
               // SingleChildScrollView(
@@ -445,65 +463,70 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 //     ),
                 //   ),
                 // ),
-                 child: SingleChildScrollView(
-          controller: _scrollController,
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              children: [
-
-                /// 🔥 TOP SECTION
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: SizedBox(
-                    height: 200,
-                    width: double.infinity,
-                    child: Consumer<BannerViewModel>(
-                      builder: (context, bVM, _) {
-                        // Show loading indicator while banners are being fetched
-                        if (bVM.isLoading) {
-                          return const Center(child: CircularProgressIndicator());
-                        }
-                        // No banners available — show nothing
-                        if (bVM.topBanners.isEmpty) {
-                          return const SizedBox.shrink();
-                        }
-                        return PageView.builder(
-                          itemCount: bVM.topBanners.length,
-                          itemBuilder: (context, index) {
-                            final banner = bVM.topBanners[index];
-                            final imageUrl = banner.mediaUrl ?? banner.bannerImageUrl ?? "";
-                            if (imageUrl.isEmpty) {
-                              return const SizedBox.shrink();
-                            }
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.network(
-                                imageUrl,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  print("[BannerImage] Error loading network image ($imageUrl): $error");
-                                  return Center(
-                                    child: Icon(Icons.broken_image, color: Colors.grey.shade400, size: 48),
+                child: SingleChildScrollView(
+                  controller: _scrollController,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      children: [
+                        /// 🔥 TOP SECTION
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          child: SizedBox(
+                              height: 200,
+                              width: double.infinity,
+                              child: Consumer<BannerViewModel>(
+                                builder: (context, bVM, _) {
+                                  // Show loading indicator while banners are being fetched
+                                  if (bVM.isLoading) {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                  // No banners available — show nothing
+                                  if (bVM.topBanners.isEmpty) {
+                                    return const SizedBox.shrink();
+                                  }
+                                  return PageView.builder(
+                                    itemCount: bVM.topBanners.length,
+                                    itemBuilder: (context, index) {
+                                      final banner = bVM.topBanners[index];
+                                      final imageUrl = banner.mediaUrl ??
+                                          banner.bannerImageUrl ??
+                                          "";
+                                      if (imageUrl.isEmpty) {
+                                        return const SizedBox.shrink();
+                                      }
+                                      return ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Image.network(
+                                          imageUrl,
+                                          fit: BoxFit.cover,
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            print(
+                                                "[BannerImage] Error loading network image ($imageUrl): $error");
+                                            return Center(
+                                              child: Icon(Icons.broken_image,
+                                                  color: Colors.grey.shade400,
+                                                  size: 48),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
                                   );
                                 },
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    )
+                              )),
+                        ),
+
+                        const PostSection(),
+
+                        const SizedBox(height: 100),
+                      ],
+                    ),
                   ),
                 ),
-
-                const PostSection(),
-
-                const SizedBox(height: 100),
-              ],
-            ),
-          ),
-        ),
               ),
 
               // Assistant hint bubble
@@ -515,7 +538,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
                         decoration: BoxDecoration(
                           color: Colors.green.shade700,
                           borderRadius: BorderRadius.circular(12),
@@ -523,7 +547,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         child: const Text(
                           // 'For technical assistance, chat with us',
                           // "Join our updates group ",
-                               "stay connected with every opportunity",
+                          "stay connected with every opportunity",
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                       ),
@@ -543,7 +567,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ),
                 ),
 
-                          AnimatedSlide(
+              AnimatedSlide(
                 duration: const Duration(milliseconds: 300),
                 offset: _isFabVisible ? Offset.zero : const Offset(0, 2),
                 child: Consumer<PostViewModel>(
@@ -596,7 +620,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 heroTag: 'whatsappAssistant',
                                 backgroundColor: const Color(0xFF8A4FFF),
                                 onPressed: openWhatsAppGroup,
-                                child: const Icon(Icons.chat, color: Colors.white),
+                                child: const FaIcon(
+                                  FontAwesomeIcons.whatsapp,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ],
@@ -615,8 +642,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return ListTile(
         leading: icon,
         title: textWidget(
-            text: title,
-            color: title == "Logout" ? PColors.red :  Color(0xFF8A4FFF),),
+          text: title,
+          color: title == "Logout" ? PColors.red : Color(0xFF8A4FFF),
+        ),
         onTap: fun);
   }
 

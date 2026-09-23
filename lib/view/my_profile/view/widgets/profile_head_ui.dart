@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:jora_customer/Settings/until/PColors.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
@@ -34,18 +33,9 @@ class _ProfileHeadUiState extends State<ProfileHeadUi> {
   Widget build(BuildContext context) {
     log(LoggedInUser.accessToken.toString());
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ProfileImageWidget(
-          profileModel: widget.profileModel,
-          icon: widget.icon,
-        ),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 17, vertical: 10),
-          child: contentWidget(context, widget.profileModel),
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+      child: contentWidget(context, widget.profileModel),
     );
   }
 
@@ -53,14 +43,14 @@ class _ProfileHeadUiState extends State<ProfileHeadUi> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
-        /// 🔹 NAME + PROFESSION + FOLLOWERS/FEEDBACK
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-
-            /// LEFT SIDE
+            ProfileImageWidget(
+              profileModel: profile,
+              icon: widget.icon,
+            ),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,201 +59,127 @@ class _ProfileHeadUiState extends State<ProfileHeadUi> {
                     text: profile?.name ?? '',
                     isVerified: profile?.isVerified ?? false,
                     style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
                       color: Color(0xFF8A4FFF),
                     ),
-                    maxLines: 1,
+                    maxLines: 2,
                   ),
-                  const SizedBox(height: 4),
-                  textWidget(
-                    text: profile?.profession ?? '',
-                    fontsize: 14,
-                    fontweight: FontWeight.w300,
-                    color: const Color(0xFF8A4FFF),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          final profileViewModel =
+                              context.read<ProfileViewModel>();
+                          profileViewModel.currentPage = 0;
+                          profileViewModel.initFollowersPagination(
+                              id: profile?.sId ?? '');
+                          context.pushNamed(
+                            PPages.followersScreen,
+                            pathParameters: {'profileId': profile?.sId ?? ''},
+                          );
+                        },
+                        child: columnWidget(
+                          title: 'Followers',
+                          value: '${profile?.followersCount ?? '0'}',
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          final profileViewModel =
+                              context.read<ProfileViewModel>();
+                          profileViewModel.currentPage = 0;
+                          profileViewModel.initFeedbackPagination(
+                              id: profile?.sId ?? '');
+                          context.pushNamed(
+                            PPages.feedbackScreen,
+                            extra: profile?.sId,
+                          );
+                        },
+                        child: columnWidget(
+                          title: 'Feedback',
+                          value: profile?.rating?.toStringAsFixed(1) ?? '0',
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-
-            /// RIGHT SIDE
-            Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    ProfileViewModel profileViewModel =
-                    context.read<ProfileViewModel>();
-                    profileViewModel.currentPage = 0;
-                    profileViewModel.initFollowersPagination(
-                        id: profile!.sId ?? "");
-
-                    context.pushNamed(
-                      PPages.followersScreen,
-                      pathParameters: {'profileId': profile.sId!},
-                    );
-                  },
-                  child: columnWidget(
-                    title: 'Followers',
-                    value: '${profile?.followersCount ?? '0'}',
-                  ),
-                ),
-                const SizedBox(width: 20),
-                InkWell(
-                  onTap: () {
-                    ProfileViewModel profileViewModel =
-                    context.read<ProfileViewModel>();
-                    profileViewModel.currentPage = 0;
-                    profileViewModel.initFeedbackPagination(
-                        id: profile!.sId ?? "");
-
-                    context.pushNamed(
-                      PPages.feedbackScreen,
-                      extra: profile.sId,
-                    );
-                  },
-                  child: columnWidget(
-                    title: 'Feedback',
-                    value:
-                    profile?.rating?.toStringAsFixed(1) ?? '0',
-                  ),
-                ),
-              ],
-            ),
           ],
         ),
-
-        const SizedBox(height: 18),
-
-        /// 🔹 BIO
+        const SizedBox(height: 10),
         textWidget(
+          text: profile?.profession ?? '',
+          fontsize: 14,
+          fontweight: FontWeight.w400,
           color: const Color(0xFF8A4FFF),
-          textAlign: TextAlign.left,
-          fontweight: FontWeight.w300,
-          text: profile?.bio ?? '',
-          fontsize: 13,
         ),
-
-        const SizedBox(height: 18),
-
-        /// 🔹 SKILLS SECTION
-        if (profile?.skills?.isNotEmpty == true)
-    /// 🔹 SKILLS SECTION
-    if (profile?.skills?.isNotEmpty == true)
-    Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-
-    const Text(
-    "My Skills",
-    style: TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w600,
-    color: Color(0xFF8A4FFF),
-    ),
-    ),
-
-    const SizedBox(height: 10),
-
-    /// 👇 SKILLS + BUTTON IN SAME COLUMN
-    Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-
-    /// Skills List
-    ...((showAllSkills
-    ? profile!.skills!
-        : profile!.skills!.take(2))
-        .map((skill) {
-    return Padding(
-    padding: const EdgeInsets.only(bottom: 10),
-    child: Container(
-    padding: const EdgeInsets.symmetric(
-    horizontal: 14,
-    vertical: 8,
-    ),
-    decoration: BoxDecoration(
-    gradient: LinearGradient(
-    colors: [
-    const Color(0xFF8A4FFF).withOpacity(0.15),
-    const Color(0xFF8A4FFF).withOpacity(0.05),
-    ],
-    ),
-    borderRadius: BorderRadius.circular(25),
-    border: Border.all(
-    color: const Color(0xFF8A4FFF).withOpacity(0.15),
-    ),
-    ),
-    child: Row(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-    const Icon(
-    Icons.star,
-    size: 14,
-    color: Color(0xFF8A4FFF),
-    ),
-    const SizedBox(width: 6),
-    Text(
-    skill,
-    style: const TextStyle(
-    fontSize: 13,
-    color: Color(0xFF8A4FFF),
-    fontWeight: FontWeight.w500,
-    ),
-    ),
-    ],
-    ),
-    ),
+        if ((profile?.bio ?? '').isNotEmpty) ...[
+          const SizedBox(height: 8),
+          textWidget(
+            color: const Color(0xFF8A4FFF),
+            textAlign: TextAlign.left,
+            fontweight: FontWeight.w300,
+            text: profile?.bio ?? '',
+            fontsize: 13,
+          ),
+        ],
+        if (profile?.skills?.isNotEmpty == true) ...[
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              ...((showAllSkills ? profile!.skills! : profile!.skills!.take(2))
+                  .map((skill) => _skillChip(skill))),
+              if (profile!.skills!.length > 2)
+                ActionChip(
+                  label: Text(
+                    showAllSkills
+                        ? 'Show less'
+                        : '+${profile.skills!.length - 2} more',
+                    style: const TextStyle(
+                      color: Color(0xFF8A4FFF),
+                      fontSize: 12,
+                    ),
+                  ),
+                  onPressed: () => setState(() {
+                    showAllSkills = !showAllSkills;
+                  }),
+                  backgroundColor: Colors.transparent,
+                  side: BorderSide(
+                    color: const Color(0xFF8A4FFF).withOpacity(0.25),
+                  ),
+                ),
+            ],
+          ),
+        ],
+      ],
     );
-    })),
+  }
 
-    /// More Button
-    if (profile.skills!.length > 2)
-      TextButton.icon(
-    onPressed: () {
-    setState(() {
-    showAllSkills = !showAllSkills;
-    });
-    },
-    style: TextButton.styleFrom(
-    padding: const EdgeInsets.symmetric(
-    horizontal: 16,
-    vertical: 8,
-    ),
-    shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(20),
-    ),
-    side:  BorderSide( // 👈 Purple Border
-    color:  Color(0xFF8A4FFF).withOpacity(0.15),
-    width: 1.2,
-    ),
-    ),
-    icon: Icon(
-    showAllSkills
-    ? Icons.keyboard_arrow_up
-        : Icons.keyboard_arrow_down,
-    color: const Color(0xFF8A4FFF),
-    ),
-    label: Text(
-    showAllSkills
-    ? "Show Less"
-        : "+ ${profile.skills!.length - 2} More",
-    style: const TextStyle(
-    color: Color(0xFF8A4FFF),
-    fontWeight: FontWeight.w600,
-    fontSize: 13,
-    ),
-    ),
-    ),
-
-    ],
-    ),
-    ],
-    )
-    ]
+  Widget _skillChip(String skill) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 7),
+      decoration: BoxDecoration(
+        color: const Color(0xFF8A4FFF).withOpacity(0.08),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: const Color(0xFF8A4FFF).withOpacity(0.18),
+        ),
+      ),
+      child: Text(
+        skill,
+        style: const TextStyle(
+          fontSize: 12,
+          color: Color(0xFF8A4FFF),
+          fontWeight: FontWeight.w500,
+        ),
+      ),
     );
-
   }
 
   Widget columnWidget({

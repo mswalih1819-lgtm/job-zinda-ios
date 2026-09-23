@@ -6,6 +6,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jora_customer/Settings/until/PPages.dart';
 import 'package:jora_customer/main.dart' as main_app;
 import 'package:jora_customer/model/feedback_model.dart';
+import 'package:jora_customer/model/experience_model.dart';
 import 'package:jora_customer/model/followers_model.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/model/notification_model.dart';
@@ -18,6 +19,7 @@ import 'package:jora_customer/view_model/location_view_model.dart';
 import 'package:jora_customer/view_model/post_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../view/login_section/login_welcome_screen/view/ui.dart';
 
@@ -36,8 +38,19 @@ class ProfileViewModel with ChangeNotifier {
 
   final TextEditingController contactNumberController = TextEditingController();
   final TextEditingController whatsappController = TextEditingController();
+  final TextEditingController instagramController = TextEditingController();
+  final TextEditingController linkedinController = TextEditingController();
+  final TextEditingController experienceTitleController =
+      TextEditingController();
+  final TextEditingController experienceCompanyController =
+      TextEditingController();
+  final TextEditingController experienceDurationController =
+      TextEditingController();
+  final TextEditingController experienceDescriptionController =
+      TextEditingController();
 
   List<String> skills = [];
+  List<ExperienceModel> experiences = [];
 
   String? selectedProfession;
   String? selectedProfessionId;
@@ -73,6 +86,11 @@ class ProfileViewModel with ChangeNotifier {
           cityController.text = profileModel!.district ?? '';
           contactNumberController.text = profileModel!.contactNumber ?? '';
           whatsappController.text = profileModel!.whatsappNumber ?? '';
+          instagramController.text = profileModel!.instagramLink ?? '';
+          linkedinController.text = profileModel!.linkedinLink ?? '';
+          experiences = List<ExperienceModel>.from(
+            profileModel!.experiences ?? [],
+          );
 
           EasyLoading.dismiss();
           stateController.text = profileModel!.state ?? "";
@@ -80,14 +98,16 @@ class ProfileViewModel with ChangeNotifier {
           if (profileModel!.lat == 0 && profileModel!.lng == 0) {
             Position? position;
             try {
-              LocationPermission permission = await Geolocator.checkPermission();
+              LocationPermission permission =
+                  await Geolocator.checkPermission();
               if (permission == LocationPermission.denied) {
                 permission = await Geolocator.requestPermission();
               }
 
               if (permission == LocationPermission.denied ||
                   permission == LocationPermission.deniedForever) {
-                debugPrint('[fetchProfile] Location permission denied. Using fallback coordinates.');
+                debugPrint(
+                    '[fetchProfile] Location permission denied. Using fallback coordinates.');
               } else {
                 position = await Geolocator.getCurrentPosition(
                   forceAndroidLocationManager: true,
@@ -118,6 +138,35 @@ class ProfileViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void addExperience() {
+    final title = experienceTitleController.text.trim();
+    final company = experienceCompanyController.text.trim();
+    final duration = experienceDurationController.text.trim();
+    final description = experienceDescriptionController.text.trim();
+
+    if (title.isEmpty || company.isEmpty || duration.isEmpty) return;
+
+    experiences.add(
+      ExperienceModel(
+        title: title,
+        company: company,
+        duration: duration,
+        description: description,
+        isCurrent: duration.toLowerCase().contains('present'),
+      ),
+    );
+    experienceTitleController.clear();
+    experienceCompanyController.clear();
+    experienceDurationController.clear();
+    experienceDescriptionController.clear();
+    notifyListeners();
+  }
+
+  void removeExperience(int index) {
+    experiences.removeAt(index);
+    notifyListeners();
+  }
+
   Future<void> fetchProfession() async {
     EasyLoading.show(status: 'Loading Professions...');
     try {
@@ -129,7 +178,7 @@ class ProfileViewModel with ChangeNotifier {
           professionList = (data['data']['categories'] as List)
               .map(
                 (e) => ProfessionModel.fromJson(e),
-          )
+              )
               .toList();
         }
       }
@@ -145,8 +194,8 @@ class ProfileViewModel with ChangeNotifier {
   Future<void> updateProfileImage({required String url}) async {
     EasyLoading.show(status: 'Updating...');
     try {
-      Response response =
-      await ApiService().put(Api.updateProfileImage, {'profileImageUrl': url});
+      Response response = await ApiService()
+          .put(Api.updateProfileImage, {'profileImageUrl': url});
 
       if (response.statusCode == 200) {
         Map<String, dynamic> data = response.data;
@@ -172,15 +221,22 @@ class ProfileViewModel with ChangeNotifier {
 
   Future<void> updateNormalProfile(
       {required String name,
-        required String email,
-        required List<String> skills,
-        required BuildContext context}) async {
+      required String email,
+      required List<String> skills,
+      required String instagramLink,
+      required String linkedinLink,
+      required List<ExperienceModel> experiences,
+      required BuildContext context}) async {
     EasyLoading.show(status: 'Updating Profile...');
     try {
       Map body = {
         'name': name,
         'email': email,
         'skills': skills,
+        'instagramLink': instagramLink,
+        'linkedinLink': linkedinLink,
+        'experiences':
+            experiences.map((experience) => experience.toJson()).toList(),
       };
       Response response = await ApiService().put(Api.updateProfile, body);
       if (response.statusCode == 200) {
@@ -211,7 +267,8 @@ class ProfileViewModel with ChangeNotifier {
   updateSelectedProfession(String professionId) {
     selectedProfessionId = professionId;
     if (professionList.any((p) => p.sId == professionId)) {
-      selectedProfession = professionList.firstWhere((p) => p.sId == professionId).name;
+      selectedProfession =
+          professionList.firstWhere((p) => p.sId == professionId).name;
     }
     notifyListeners();
   }
@@ -239,6 +296,14 @@ class ProfileViewModel with ChangeNotifier {
         // 🔹 Added the fields to your API Body mapping
         'contactNumber': cn.isEmpty ? null : cn,
         'whatsappNumber': wa.isEmpty ? null : wa,
+        'instagramLink': instagramController.text.trim().isEmpty
+            ? null
+            : instagramController.text.trim(),
+        'linkedinLink': linkedinController.text.trim().isEmpty
+            ? null
+            : linkedinController.text.trim(),
+        'experiences':
+            experiences.map((experience) => experience.toJson()).toList(),
       };
       Response response = await ApiService().put(Api.updateProfile, body);
       if (response.statusCode == 200) {
@@ -293,7 +358,7 @@ class ProfileViewModel with ChangeNotifier {
     EasyLoading.show(status: 'Updating Cover Image...');
     try {
       Response response =
-      await ApiService().put(Api.updateCoverImage, {'coverImage': url});
+          await ApiService().put(Api.updateCoverImage, {'coverImage': url});
 
       if (response.statusCode == 200) {
         Map<String, dynamic> data = response.data;
@@ -320,20 +385,30 @@ class ProfileViewModel with ChangeNotifier {
   userLogout(BuildContext context) async {
     print("REFRESH TOKEN: ${LoggedInUser.refreshToken}");
     try {
-      Map body = {"refreshToken": LoggedInUser.refreshToken};
-      final response = await ApiService().post(Api.userLogout, body);
-      print("logout----${response.data}");
+      if (LoggedInUser.refreshToken != null) {
+        Map body = {"refreshToken": LoggedInUser.refreshToken};
+        final response = await ApiService().post(Api.userLogout, body);
+        print("logout----${response.data}");
+      }
     } catch (e) {
       print("Logout API error: $e");
     }
 
-    LoggedInUser.clearUserData();
-    Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (_) => LoginWelcomeScreenUi(),
-      ),
-          (route) => false,
-    );
+    LoggedInUser.isGuest = true;
+    LoggedInUser.name = 'Guest';
+    LoggedInUser.accessToken = null;
+    LoggedInUser.refreshToken = null;
+
+    await LoggedInUser.clearUserData();
+    await SharedPreferences.getInstance()
+        .then((prefs) => prefs.setBool('isGuest', true));
+
+    if (context.mounted) {
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
+      context.go('/home');
+    }
   }
 
   deleteProfile(BuildContext context) async {
@@ -349,7 +424,8 @@ class ProfileViewModel with ChangeNotifier {
           context.goNamed(PPages.loginWelcomeScreenUi);
         }
       } else {
-        EasyLoading.showError(response.data['message'] ?? 'Failed to delete profile.');
+        EasyLoading.showError(
+            response.data['message'] ?? 'Failed to delete profile.');
       }
     } catch (e) {
       print('Error deleting profile: $e');
@@ -361,9 +437,9 @@ class ProfileViewModel with ChangeNotifier {
 
   Future<void> addProfileRating(
       {required String rating,
-        required String review,
-        required String profileId,
-        required BuildContext context}) async {
+      required String review,
+      required String profileId,
+      required BuildContext context}) async {
     EasyLoading.show(status: 'Submitting Rating...');
     try {
       Map body = {'rating': rating, 'review': review, 'profileId': profileId};
@@ -452,8 +528,9 @@ class ProfileViewModel with ChangeNotifier {
     if (currentPage != page) {
       currentPage = page;
 
-      final String base =
-      LoggedInUser.isGuest ? Api.publicProfileRatings : Api.listAllFeedbacks;
+      final String base = LoggedInUser.isGuest
+          ? Api.publicProfileRatings
+          : Api.listAllFeedbacks;
       String url =
           "$base?profileId=$userID&pageNumber=$currentPage&pageSize=$pageSize";
 

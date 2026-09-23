@@ -1,3 +1,5 @@
+import 'package:jora_customer/model/experience_model.dart';
+
 class ProfileModel {
   Location? location;
   String? sId;
@@ -37,44 +39,50 @@ class ProfileModel {
   String? whatsappNumber;
   String? whatsappLink;
   String? directCallLink;
+  String? instagramLink;
+  String? linkedinLink;
+  List<ExperienceModel>? experiences;
 
-
-  ProfileModel(
-      {this.location,
-      this.sId,
-      this.getNotifications,
-      this.name,
-      this.email,
-      this.countryCode,
-      this.mobileNumber,
-      this.profileImageUrl,
-      this.gender,
-      this.professionId,
-      this.profession,
-      this.bio,
-      this.followersCount,
-      this.projectsCount,
-      this.rating,
-      this.lat,
-      this.lng,
-      this.address,
-      this.zipcode,
-      this.isVerified,
-      this.accountType,
-      this.fcmTokens,
-      this.createdAt,
-      this.coverImage,
-      this.isFollowing,
-      this.district,
-      this.state,
-      this.isBlocked,
-      this.referralCode,
-      this.coinBalance,
-      this.referredBy,
-      this.contactNumber,
-        this.whatsappNumber,
-        this.whatsappLink,
-        this.directCallLink,});
+  ProfileModel({
+    this.location,
+    this.sId,
+    this.getNotifications,
+    this.name,
+    this.email,
+    this.countryCode,
+    this.mobileNumber,
+    this.profileImageUrl,
+    this.gender,
+    this.professionId,
+    this.profession,
+    this.bio,
+    this.followersCount,
+    this.projectsCount,
+    this.rating,
+    this.lat,
+    this.lng,
+    this.address,
+    this.zipcode,
+    this.isVerified,
+    this.accountType,
+    this.fcmTokens,
+    this.createdAt,
+    this.coverImage,
+    this.isFollowing,
+    this.district,
+    this.state,
+    this.isBlocked,
+    this.referralCode,
+    this.coinBalance,
+    this.referredBy,
+    this.contactNumber,
+    this.whatsappNumber,
+    this.whatsappLink,
+    this.directCallLink,
+    this.instagramLink,
+    this.linkedinLink,
+    this.experiences,
+  });
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     location =
@@ -126,9 +134,15 @@ class ProfileModel {
 
     whatsappLink = json['whatsappLink'];
     directCallLink = json['directCallLink'];
-
+    instagramLink = json['instagramLink'];
+    linkedinLink = json['linkedinLink'];
+    experiences = json['experiences'] is List
+        ? (json['experiences'] as List)
+            .whereType<Map<String, dynamic>>()
+            .map(ExperienceModel.fromJson)
+            .toList()
+        : [];
   }
-
 }
 
 class Location {

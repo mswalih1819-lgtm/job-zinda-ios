@@ -9,6 +9,7 @@ import 'package:jora_customer/Settings/widgets/text_widget.dart';
 import 'package:jora_customer/model/logged_in_user.dart';
 import 'package:jora_customer/utils/validator.dart';
 import 'package:jora_customer/view/edit_profile/view/widgets/image_edit_section.dart';
+import 'package:jora_customer/view/widgets/profile_experience_editor.dart';
 import 'package:jora_customer/view_model/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +25,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _emailController = TextEditingController();
 
   final TextEditingController _numberController = TextEditingController();
+  final TextEditingController _instagramController = TextEditingController();
+  final TextEditingController _linkedinController = TextEditingController();
   final TextEditingController _skillController = TextEditingController();
   List<String> _skills = [];
 
@@ -35,6 +38,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _numberController.text = LoggedInUser.phoneNumber ?? '';
     _skills = List<String>.from(LoggedInUser.skills ?? []);
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final profile = context.read<ProfileViewModel>().profileModel;
+      _instagramController.text = profile?.instagramLink ?? '';
+      _linkedinController.text = profile?.linkedinLink ?? '';
+    });
   }
 
   @override
@@ -54,12 +63,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 name: _nameController.text,
                 email: _emailController.text,
                 skills: _skills,
+                instagramLink: _instagramController.text,
+                linkedinLink: _linkedinController.text,
+                experiences: context.read<ProfileViewModel>().experiences,
                 context: context);
           }
         },
       ),
       appBar: AppBar(
-        title: textWidget(text: 'Edit Profile',color: Color(0xFF8A4FFF), fontweight: FontWeight.w400),
+        title: textWidget(
+            text: 'Edit Profile',
+            color: Color(0xFF8A4FFF),
+            fontweight: FontWeight.w400),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -85,6 +100,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 // ),
                 mobileTextField(),
                 const SizedBox(height: 14),
+                socialLinkField(
+                  controller: _instagramController,
+                  label: 'Instagram link',
+                  hint: 'https://instagram.com/your_profile',
+                ),
+                const SizedBox(height: 14),
+                socialLinkField(
+                  controller: _linkedinController,
+                  label: 'LinkedIn link',
+                  hint: 'https://linkedin.com/in/your_profile',
+                ),
+                const SizedBox(height: 14),
+                const ProfileExperienceEditor(),
+                const SizedBox(height: 14),
                 skillField(),
               ],
             ),
@@ -96,14 +125,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Widget emailTextField() {
     return CustomTextFeild(
-        controller: _emailController,
-        borderColor: Color(0xFF8A4FFF),
-        borderRadius: 0,
-        filColor: PColors.white,
-        textHead: 'Email ID',textColor:Color(0xFF8A4FFF) ,
-        readOnly: true,
-        validation: Validator.email,
-        hintText: 'Email ID',);
+      controller: _emailController,
+      borderColor: Color(0xFF8A4FFF),
+      borderRadius: 0,
+      filColor: PColors.white,
+      textHead: 'Email ID',
+      textColor: Color(0xFF8A4FFF),
+      readOnly: true,
+      validation: Validator.email,
+      hintText: 'Email ID',
+    );
   }
 
   Widget nameTextField() {
@@ -112,7 +143,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         borderRadius: 0,
         borderColor: Color(0xFF8A4FFF),
         filColor: PColors.white,
-        textHead: 'Name',textColor:Color(0xFF8A4FFF) ,
+        textHead: 'Name',
+        textColor: Color(0xFF8A4FFF),
         validation: Validator.text,
         hintText: 'Name');
   }
@@ -123,7 +155,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       borderColor: Color(0xFF8A4FFF),
       borderRadius: 0,
       filColor: PColors.white,
-      textHead: 'Mobile number',textColor:Color(0xFF8A4FFF) ,
+      textHead: 'Mobile number',
+      textColor: Color(0xFF8A4FFF),
       validation: Validator.mobile,
       hintText: 'Mobile number',
       maxLength: 10,
@@ -133,6 +166,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ],
     );
   }
+
+  Widget socialLinkField({
+    required TextEditingController controller,
+    required String label,
+    required String hint,
+  }) {
+    return CustomTextFeild(
+      controller: controller,
+      borderColor: const Color(0xFF8A4FFF),
+      borderRadius: 0,
+      filColor: PColors.white,
+      textHead: label,
+      textColor: const Color(0xFF8A4FFF),
+      hintText: hint,
+      keyboardType: TextInputType.url,
+    );
+  }
+
   Widget skillField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,13 +193,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           borderColor: const Color(0xFF8A4FFF),
           borderRadius: 0,
           filColor: PColors.white,
-          textHead: 'Skills',textColor:Color(0xFF8A4FFF) ,
+          textHead: 'Skills',
+          textColor: Color(0xFF8A4FFF),
           hintText: 'Type skills',
           onSubmitted: (val) {
             final skill = val?.trim();
-            if (skill != null &&
-                skill.isNotEmpty &&
-                !_skills.contains(skill)) {
+            if (skill != null && skill.isNotEmpty && !_skills.contains(skill)) {
               setState(() {
                 _skills.add(skill);
               });
@@ -185,10 +235,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             );
           }).toList(),
         )
-
-
       ],
     );
   }
-
 }

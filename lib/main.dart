@@ -78,6 +78,7 @@ import 'package:jora_customer/view/welcome/view/widgets/onboarding_screen_ui.dar
 
 import 'package:jora_customer/view/login_section/phone_number_ui/view_model/view_model.dart'; // For LoginPhoneNumberViewModel
 import 'package:firebase_messaging/firebase_messaging.dart';
+
 // Must be a top-level function (e.g. not a class method)
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -95,73 +96,72 @@ Future<void> main() async {
   // Wrap entire app initialization in the same zone to avoid zone-mismatch errors.
   await runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
-  try {
-    // Initialize Firebase first
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    debugPrint('HB-INIT | Firebase initialized');
+    try {
+      // Initialize Firebase first
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+      debugPrint('HB-INIT | Firebase initialized');
 
-    // Set up background messaging handler
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+      // Set up background messaging handler
+      FirebaseMessaging.onBackgroundMessage(
+          _firebaseMessagingBackgroundHandler);
 
-    // Initialize other services
-    await FCMService().initialize();
-    debugPrint('HB-INIT | FCM service initialized');
-    unawaited(AppLinkService().init());
-    debugPrint('HB-INIT | AppLinkService initialized');
+      // Initialize other services
+      await FCMService().initialize();
+      debugPrint('HB-INIT | FCM service initialized');
+      unawaited(AppLinkService().init());
+      debugPrint('HB-INIT | AppLinkService initialized');
 
-    // Configure loading indicator
-    configLoading();
-    debugPrint('HB-INIT | configLoading complete');
+      // Configure loading indicator
+      configLoading();
+      debugPrint('HB-INIT | configLoading complete');
 
-    // Limit Flutter image cache to avoid excessive RAM
-    PaintingBinding.instance.imageCache
-      ..maximumSize = 100
-      ..maximumSizeBytes = 50 * 1024 * 1024;
-
-  } catch (e) {
-    debugPrint('Initialization error: $e');
-  }
-
-  // Configure global error handlers for Crashlytics
-  FlutterError.onError = (FlutterErrorDetails details) {
-    final exceptionStr = details.exception.toString();
-    // Downgrade common NetworkImage URI mistakes to non-fatal so the app doesn’t crash.
-    if (exceptionStr.contains('No host specified') ||
-        exceptionStr.contains('Connection closed') ||
-        exceptionStr.contains('Handshake error') ||
-        exceptionStr.contains('tile.openstreetmap.org') ||
-        exceptionStr.contains('ClientException')) {
-      FirebaseCrashlytics.instance
-          .recordError(details.exception, details.stack, fatal: false);
-      return;
+      // Limit Flutter image cache to avoid excessive RAM
+      PaintingBinding.instance.imageCache
+        ..maximumSize = 100
+        ..maximumSizeBytes = 50 * 1024 * 1024;
+    } catch (e) {
+      debugPrint('Initialization error: $e');
     }
-    FirebaseCrashlytics.instance.recordFlutterFatalError(details);
-  };
 
-  // All initialization complete – launch the UI
+    // Configure global error handlers for Crashlytics
+    FlutterError.onError = (FlutterErrorDetails details) {
+      final exceptionStr = details.exception.toString();
+      // Downgrade common NetworkImage URI mistakes to non-fatal so the app doesn’t crash.
+      if (exceptionStr.contains('No host specified') ||
+          exceptionStr.contains('Connection closed') ||
+          exceptionStr.contains('Handshake error') ||
+          exceptionStr.contains('tile.openstreetmap.org') ||
+          exceptionStr.contains('ClientException')) {
+        FirebaseCrashlytics.instance
+            .recordError(details.exception, details.stack, fatal: false);
+        return;
+      }
+      FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+    };
+
+    // All initialization complete – launch the UI
     runApp(
       MultiProvider(
-
         providers: providers,
         child: const MyApp(),
-
       ),
     );
-
-
   }, (error, stack) {
     FirebaseCrashlytics.instance.recordError(error, stack);
   });
 }
 
-
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-final _shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'shellHome');
-final _shellNavigatorSearchKey = GlobalKey<NavigatorState>(debugLabel: 'shellSearch');
-final _shellNavigatorConnectKey = GlobalKey<NavigatorState>(debugLabel: 'shellConnect');
-final _shellNavigatorProfileKey = GlobalKey<NavigatorState>(debugLabel: 'shellProfile');
+final _shellNavigatorHomeKey =
+    GlobalKey<NavigatorState>(debugLabel: 'shellHome');
+final _shellNavigatorSearchKey =
+    GlobalKey<NavigatorState>(debugLabel: 'shellSearch');
+final _shellNavigatorConnectKey =
+    GlobalKey<NavigatorState>(debugLabel: 'shellConnect');
+final _shellNavigatorProfileKey =
+    GlobalKey<NavigatorState>(debugLabel: 'shellProfile');
 
 // Define the GoRouter instance
 // This router will handle deep links for profiles and can be expanded for other routes.
@@ -284,7 +284,12 @@ final GoRouter mainAppRouter = GoRouter(
     GoRoute(
       path: PPages.loginWelcomeScreenUi,
       name: PPages.loginWelcomeScreenUi,
-      builder: (context, state) => const LoginWelcomeScreenUi(), // ✅ change here
+      builder: (context, state) => const LoginWelcomeScreenUi(),
+    ),
+    GoRoute(
+      path: PPages.authOptionsScreenUi,
+      name: PPages.authOptionsScreenUi,
+      builder: (context, state) => const AuthOptionsScreenUi(),
     ),
     // GoRoute(
     //   path: '/enter-email',               // or whatever path you want
@@ -492,7 +497,8 @@ final GoRouter mainAppRouter = GoRouter(
     ),
   ],
   onException: (context, state, router) {
-    debugPrint("### GoRouter.onException Triggered ### URI: ${state.uri}, Error: ${state.error}");
+    debugPrint(
+        "### GoRouter.onException Triggered ### URI: ${state.uri}, Error: ${state.error}");
 
     // If the exception is from our custom deep link scheme, we ignore it.
     if (state.uri.toString().startsWith('com.jobzinda.customers://')) {
@@ -505,7 +511,8 @@ final GoRouter mainAppRouter = GoRouter(
       debugPrint("  Redirecting to splash screen as a fallback.");
       router.go(PPages.splash);
     } else {
-      debugPrint("  Exception occurred on splash screen. Halting redirection to prevent loop.");
+      debugPrint(
+          "  Exception occurred on splash screen. Halting redirection to prevent loop.");
     }
   },
 );
@@ -515,11 +522,9 @@ class MyApp extends StatefulWidget {
 
   @override
   State<MyApp> createState() => _MyAppState();
-
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-
   @override
   void initState() {
     super.initState();
@@ -546,7 +551,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      if (mounted) { // Check if the widget is still in the tree
+      if (mounted) {
+        // Check if the widget is still in the tree
         context.read<BadgeViewModel>().fetchNotificationCount();
         context.read<BadgeViewModel>().fetchAdminMessageCount();
         context.read<BadgeViewModel>().fetchUserMessageMessageCount();
@@ -564,12 +570,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         highlightColor: Colors.transparent, // Kept from original simple version
-        splashColor: Colors.transparent,   // Kept from original simple version
+        splashColor: Colors.transparent, // Kept from original simple version
         textTheme: const TextTheme(
           bodySmall: TextStyle(),
           bodyMedium: TextStyle(),
           bodyLarge: TextStyle(),
-        ).apply( // Applying to the TextTheme
+        ).apply(
+          // Applying to the TextTheme
           bodyColor: Colors.purple.shade200,
           displayColor: PColors.white,
         ),
@@ -589,7 +596,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           ),
         ),
       ),
-
       builder: EasyLoading.init(
         builder: (context, child) {
           // SnackBarMessages().init(context);

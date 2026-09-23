@@ -30,6 +30,7 @@ class LoggedInUser {
     name = 'Guest';
     whatsappNumber = null;
     contactNumber = null;
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('isGuest', true);
   }
@@ -157,15 +158,29 @@ class LoggedInUser {
 
   static Future<void> clearUserData() async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPreferences.getInstance();
+      final keepGuestMode = isGuest;
+
+      id = null;
+      name = null;
+      email = null;
+      countryCode = null;
+      phoneNumber = null;
+      profilePic = null;
+      coverImage = null;
       refreshToken = null;
       accessToken = null;
       lastLoginWasEmailOtp = false;
       isGuest = false;
-      whatsappNumber = null; // Clear local state variable
+      whatsappNumber = null;
       contactNumber = null;
-      var result = prefs.clear();
-      if (result == false) throw 'Unable to logout';
+
+      await prefs.clear();
+
+      if (keepGuestMode) {
+        await prefs.setBool('isGuest', true);
+        isGuest = true;
+      }
     } catch (e) {
       rethrow;
     }

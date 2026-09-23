@@ -20,29 +20,31 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    // Show the Zinda front page for 2.5 seconds
+    Future.delayed(const Duration(milliseconds: 2500), () {
       if (mounted) {
         checkLogin();
       }
     });
   }
 
-
-
-
   checkLogin() async {
     if (mounted) {
       await Provider.of<LocationViewModel>(context, listen: false)
           .checkLocation(context);
     }
+
     if (!mounted) return;
 
     await LoggedInUser.getUserDetails();
+
     if (!mounted) return;
 
     final appLinkService = AppLinkService();
+
     final String? deepLinkPath =
-    await appLinkService.completeInitializationAndGetPath();
+        await appLinkService.completeInitializationAndGetPath();
+
     if (!mounted) return;
 
     // Guest user -> go straight to home
@@ -51,11 +53,25 @@ class _SplashScreenState extends State<SplashScreen> {
       return;
     }
 
+    // Start users without a saved session directly in guest mode.
+    if ((LoggedInUser.refreshToken == null ||
+            LoggedInUser.refreshToken!.isEmpty) &&
+        !LoggedInUser.lastLoginWasEmailOtp) {
+      await LoggedInUser.guestLogin();
+
+      if (!mounted) return;
+
+      context.replace('/home');
+      return;
+    }
+
+    // Existing login flow
     if (LoggedInUser.refreshToken == null) {
       context.replace(PPages.loginWelcomeScreenUi);
     } else if (LoggedInUser.lastLoginWasEmailOtp) {
       context.replace(PPages.enterEmailUi);
-    } else if (LoggedInUser.accessToken != null && LoggedInUser.accessToken != '') {
+    } else if (LoggedInUser.accessToken != null &&
+        LoggedInUser.accessToken != '') {
       context.replace('/', extra: deepLinkPath);
     } else {
       context.replace(PPages.adduserpage);
@@ -65,13 +81,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF8A4FFF),
+      backgroundColor: const Color(0xFF8A4FFF),
       body: Center(
         child: Image.asset(
-          PImages.logo3,scale: 4,
-          fit: BoxFit.cover,
-          // height: 150,
-          // width: 150,
+          PImages.logo3,
+          scale: 4,
+          fit: BoxFit.contain,
         ),
       ),
     );

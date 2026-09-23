@@ -62,7 +62,7 @@ void showLoginRequiredDialog(BuildContext context) {
                   Navigator.pop(ctx);
                   await LoggedInUser.clearUserData();
                   if (context.mounted) {
-                    context.go(PPages.loginWelcomeScreenUi);
+                    context.go(PPages.authOptionsScreenUi);
                   }
                 },
                 child: const Text(
